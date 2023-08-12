@@ -1,0 +1,579 @@
+:root {
+    --text: #f8f7f1;
+    --background: #0d0e12;
+    --background2: #1C1E25;
+    --background3: #1B1C20;
+    --background4: #353844;
+    --primary: #643a42;
+    --primary2: #a25d6a;
+    --secondary: #1d4e85;
+    --secondary2: #173d69;
+    --accent: #b3a161;
+}
+
+/* Overlay styles */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Adjust opacity as needed */
+    z-index: 1000;
+    display: none;
+}
+
+
+/* body */
+.body {
+    background-color: var(--background);
+}
+
+/* scroll bar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: var(--background3);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--background4);
+}
+
+/* navbar styling */
+.navbarScroll {
+    /*background-color: #1c1e258e;*/
+}
+.active-nav .nav-link {
+    color: var(--primary2) !important;
+}
+.navbarScroll .navbar-brand {
+    font-weight: bold;
+    font-size: 2rem;
+}
+.gradient-text {
+    background: linear-gradient(67deg, var(--primary), var(--primary2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    transition: background .5s ease, font-size .5s ease, font-weight .5s ease;
+}
+.gradient-text:hover {
+    /*background: linear-gradient(-67deg, var(--primary), var(--primary2));*/
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 1000;
+}
+.navbar-nav .nav-link {
+    color: var(--text);
+}
+.navbarScroll .nav-link:hover {
+    color: var(--primary2);
+}
+.navbar-nav .nav-link:hover {
+    color: var(--primary2);
+}
+/* display background color black on navbar scroll */
+.navbarScroll.navbarDark {
+    background-color: var(--background2);
+}
+.navbarShrink {
+    height:55px;
+}
+.navbarShrink .navbar-brand {
+    font-size: 1.4rem;
+}
+
+/* hero background image */
+.bgimage {
+    height: 100vh;
+    background: url('images/georgia-tech-campus-center.webp');
+    background-size:cover;
+    background-attachment: fixed;
+    background-position: center center;
+    position:relative;
+}
+.bgimage::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(30, 32, 39, 1) 5%, rgba(30, 32, 39, 0.5) 50%, rgba(30, 32, 39, 0) 100%);    
+    /*background-color: #1e20278e;*/
+}
+/* text css above hero image */
+.hero_title {
+    font-size: 6rem;
+    font-weight: bold;
+}
+.hero_desc {
+    font-size: 2rem;
+    font-style: italic;
+    font-weight: bold;
+}
+.hero-text {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--text);
+}
+/* Style the "Enter Portfolio" button */
+.btn.btn-enter-portfolio {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: var(--background3);
+    color: var(--text);
+    border: 3px solid var(--background4);
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.3s;
+}
+.btn.btn-enter-portfolio:hover {
+    background-color: var(--accent);
+    transform: scale(1.05);
+}
+
+/* about section image css */
+.square-image-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    overflow: hidden;
+    border-radius: 100%;
+    border: var(--secondary2) 8px solid;
+}
+.zoomed-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;    
+    transform: scale(2) translate(-2%, 6%);
+}
+.about-name {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+.about-title {
+    font-size: 1.1rem;
+}
+
+/* skills section css */
+.card-body {
+    background-color: var(--background2);
+}
+.skillsText.card {
+    background-color: var(--background2);
+    color: var(--text);
+    height: 280px;
+    cursor: pointer;
+}
+.card.skillsText {
+    background-color: var(--background2);
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 100%; /* Make the cards take full height of the container */
+    justify-content: space-between; /* Vertically align the content and progress bar */
+    border: 1px solid transparent; /* Remove the default border */
+    border-radius: 8px;
+    transition: border-color 0.3s ease; /* Add a smooth transition effect for border color */
+}
+.skillsIcon {
+    color: var(--primary);
+    font-size: 36px;
+    text-align: center;
+    width: 100%;
+}
+.card-title {
+    text-align: center;
+}
+.card:hover .skillsIcon {
+    color: var(--accent);
+}
+.skillsText:hover {
+    border: 1px solid var(--accent);
+}
+.skills-desc {
+    text-align: center;
+}
+.progress-bar-container {
+    width: 92%;
+    height: 8px;
+    background-color: var(--background);
+    position: relative;
+    margin-top: 10 px;
+    overflow: hidden;
+    /*visibility: hidden;
+    transition: visibility 0.5s ease, opacity 0.5s ease;*/
+    border-radius: 4px;
+}
+.progress-bar {
+    width: 0;
+    height: 100%;
+    background-color: var(--primary);
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: width 0.5s ease-in-out;
+    border-radius: 4px;
+}
+.skillsText:hover .progress-bar-container {
+    visibility: visible;
+    opacity: 1;
+}
+.card {
+    padding-bottom: 1rem;
+}
+
+/* Portfolio card styles 
+.portfolio-card {
+    background-color: var(--secondary2);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.portfolioContent {
+    background-color: var(--secondary2);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.portfolioContent:hover {
+    transform: scale(0.95);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.7);
+}
+.portfolio-card-img-top {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    width:100%;
+    height:200px;
+    object-fit: cover;
+}
+.portfolio-card-body {
+    background-color: var(--secondary2);
+    padding: 20px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+.portfolio-card-title {
+    font-size: 1.5rem;
+    color: var(--accent);
+    font-weight: bold;
+}
+.portfolio-card-text {
+    font-size: 1rem;
+    color: var(--text);
+} */
+/* Adjust the carousel styles */
+#portfolioCarousel {
+    margin-top: 3rem;
+    position: relative;
+    transition: transform 0.5s ease-in-out;
+}
+.header {
+    font-weight: bolder;
+    font-size: 3rem;
+}
+.carousel-indicators {
+    transform: translate(0, 2rem);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.carousel-indicators li {
+    background-color: var(--secondary2);
+    border: none;
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    margin: 0 8px;
+    display: inline-block;
+    transition: background-color 0.3s ease-in-out;
+}
+.carousel-indicators .active {
+    background-color: var(--accent);
+    width: 14px;
+    height: 14px;
+}
+.carousel-control-prev-icon, .carousel-control-next-icon {
+    color: var(--accent);
+    font-size: 2rem;
+}
+.carousel-control-prev, .carousel-control-next {
+    width: auto;
+    color: var(--accent);
+}
+/* Adjust the carousel item styles */
+.carousel-inner {
+    background-color: var(--secondary);
+    border-radius: 10px;
+    padding: 2rem;
+    transition: transform 0.5s ease-in-out;
+}
+.carousel-item {
+    width: 50%;
+    text-align: center;
+    transition: transform 0.5s ease-in-out;
+}
+/* Adjust the portfolio card styles inside carousel items */
+.portfolio-card {
+    width: 50%;
+    transform: translate(50%);
+    background-color: var(--secondary2);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.portfolio-card:hover {
+    transform: translate(50%) scale(0.95);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.7);
+}
+.portfolioContent {
+    background-color: var(--secondary2);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.portfolio-card-img-top {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+.portfolio-card-body {
+    background-color: var(--secondary2);
+    padding: 20px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+.portfolio-card-title {
+    font-size: 1.5rem;
+    color: var(--accent);
+    font-weight: bold;
+}
+.portfolio-card-text {
+    font-size: 1rem;
+    color: var(--text);
+}
+.portfolio-text {
+    transform: translate(0, 120%);
+    text-align: center;
+    font-size: large;
+}
+.portfolio-button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+.btn.portfolio-button {
+    transform: translate(0, 60%);
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, text 0.3s ease;
+    background-color: var(--primary);
+    color: var(--text);
+    border: none;
+}
+.btn.portfolio-button:hover {
+    background-color: var(--primary2);
+    color: var(--text);
+    transform: translate(0, 60%) scale(0.95);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.7);
+}
+
+/* Adjust modal styles for the carousel */
+.modal-dialog {
+    max-width: none; /* Allow the modal to be wider for carousel */
+    width: 80%; /* Adjust the width as needed */
+    outline: none;
+    border-radius: 10px;
+    margin: 1.75rem auto;
+}
+/* Modal styles */
+.modal {
+    border-radius: 10px;
+    outline: none;
+}
+.modal-content {
+    background-color: var(--background);
+    color: var(--text);
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    outline: none;
+}
+.modal-header {
+    background-color: var(--background2);
+    color: var(--text);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    outline: none;
+}
+.modal-title {
+    font-size: 1.5rem;
+}
+.modal-header .close {
+    background-color: var(--primary);
+    color: var(--background);
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+.modal-header .close:hover {
+    background-color: var(--primary2);
+    color: var(--text);
+    transform: scale(0.95);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.7);
+}
+.modal-body {
+    background-color: var(--background);
+    color: var(--text);
+    padding: 20px;
+    outline: none !important;
+}
+.modal-footer {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: var(--background);
+    outline: none !important;
+}
+/* Style the close button in modals */
+.modal-footer .btn-secondary {
+    margin: 0 auto;
+    background-color: var(--primary);
+    color: var(--background);
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+.modal-footer .btn-secondary:hover {
+    background-color: var(--primary2);
+    color: var(--text);
+    transform: scale(0.95);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.7);
+}
+
+.contactContent {
+    background-color: var(--background);
+}
+.contact-info {
+    margin-bottom: 20px;
+}
+.contact-info-item {
+    margin: 10px 0;
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-align: center;
+}
+.contact-info-text {
+    text-align: center;
+}
+.contact-link {
+    text-decoration: none;
+    color: var(--accent);
+    font-weight: normal;
+}
+.contact-link:hover {
+    text-decoration: underline;
+    color: var(--accent);
+}
+#contact-button {
+    color: var(--text);
+    background-color: var(--primary);
+    border: var(--text);
+}
+#contact-button:hover {
+    transform: scale(.95);
+    background-color: var(--primary2);
+}
+
+/* social media icons styling */
+.social-icons {
+    font-size: 36px;
+    cursor: pointer;
+    text-align: center;
+}
+.fa-github:hover {
+    color: white;
+}
+.fa-instagram:hover {
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+.fa-twitter:hover {
+    color: #1DA1F2;
+}
+.fa-linkedin:hover {
+    color: #0077B5
+}
+.fa-twitch:hover {
+    color: #9146FF;
+}
+.fab {
+    color: var(--text);
+}
+
+/* footer styling */
+#footer {
+    background-color: var(--background2);
+    text-align: center;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+}
+
+/* coloring and spacing on all sections */
+#about, #skills, #portfolio, #contact {
+    background-color: var(--background);
+    color: var(--text);
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}
+#contact {
+    padding-bottom: 4rem;
+}
+#about, #portfolio {
+    background-color: var(--secondary);
+}
+
+/* back to top button */
+.back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: var(--primary);
+    color: var(--text);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.back-to-top:hover {
+    background-color: var(--accent);
+    color: var(--text);
+}
