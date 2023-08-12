@@ -28,10 +28,10 @@ document.querySelectorAll('.btn-enter-portfolio').forEach(button => {
     });
 });
 
-// Calculate age based on birthdate
-function calculateAge(birthdate) {
+// Calculate age based on birth date
+function calculateAge(birth_date) {
     const today = new Date();
-    const birthDate = new Date(birthdate);
+    const birthDate = new Date(birth_date);
     let age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
 
@@ -43,8 +43,8 @@ function calculateAge(birthdate) {
 }
 
 window.onload = function() {
-    const birthdate = new Date('2003-09-13');
-    const age = calculateAge(birthdate);
+    const birth_date = new Date('2003-09-13');
+    const age = calculateAge(birth_date);
     document.getElementById('ageValue').innerHTML = age;
 };
 

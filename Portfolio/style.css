@@ -41,9 +41,6 @@
 }
 
 /* navbar styling */
-.navbarScroll {
-    /*background-color: #1c1e258e;*/
-}
 .active-nav .nav-link {
     color: var(--primary2) !important;
 }
@@ -86,7 +83,7 @@
 }
 
 /* hero background image */
-.bgimage {
+.bg-image {
     height: 100vh;
     background: url('images/georgia-tech-campus-center.webp');
     background-size:cover;
@@ -94,7 +91,7 @@
     background-position: center center;
     position:relative;
 }
-.bgimage::before {
+.bg-image::before {
     content: '';
     position: absolute;
     top: 0;
