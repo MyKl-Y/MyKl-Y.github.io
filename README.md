@@ -3,7 +3,7 @@ Welcome to my Website repository! This repository serves as a central hub for al
 
 ## Projects
 
-- [My Portfolio](https://MyKl-Y.github.io/Portfolio/index.html)
+- [My Portfolio](https://MyKl-Y.github.io/Portfolio/index.html) (WIP)
 - [Project 1](https://MyKl-Y.github.io/Project1/index.html)
 - [Project 2](https://MyKl-Y.github.io/Project2/index.html)
 - [Project 3](https://MyKl-Y.github.io/Project3/index.html)
