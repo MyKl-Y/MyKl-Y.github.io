@@ -1,5 +1,6 @@
 // add class navbarDark on navbar scroll
 const header = document.querySelector('.navbar');
+const collapsedNavbar = document.querySelector('.navbar-collapse');
 const targetSection = document.querySelector('#home');
 
 window.onscroll = function() {
@@ -14,6 +15,18 @@ window.onscroll = function() {
         header.classList.remove('navbarDark', 'navbarShrink');
     }
 }
+
+var navbar_btn = document.getElementById('navbar-toggler');
+
+navbar_btn.addEventListener('click', function() {
+    if(this.classList.contains('active')) {
+        this.classList.remove('active');
+        this.classList.add('not-active');
+    } else {
+        this.classList.remove('not-active');
+        this.classList.add('active');
+    }
+});
 
 // Smooth scroll to target section
 document.querySelectorAll('.btn-enter-portfolio').forEach(button => {
