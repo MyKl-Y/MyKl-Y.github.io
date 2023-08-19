@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Michael Yim | Main</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- google fonts -->
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+        <!-- linking css file -->
+        <link rel="stylesheet" href="style.css">
+        <!-- font awesome -->
+        <script src="https://kit.fontawesome.com/31149d48b0.js" crossorigin="anonymous"></script>
+    </head>
+
+    <body data-theme>
+        <nav class="navbar topnav">
+            <div class="container">
+                <a onclick="openNav()"><i class="fas fa-bars"></i></a>
+                <a href="#">Testing</a>
+                <a href="#" class="split">Test</a>
+                <a href="#" class="split">123</a>
+            </div>
+        </nav>
+        <nav id="mySidenav" class="navbar sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a href="#">About</a>
+            <a href="#">Services</a>
+            <a href="#">Clients</a>
+            <a href="#">Contact</a>
+            <div class="toggle-container">
+                <label class="switch">
+                    <input type="checkbox" id="theme-toggle">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </nav>
+        <div id="main">
+            <div class="container profile-container">
+                <div class="card profile-card">
+                    <div class="background profile-background">
+                        <img class="profile-image" src="images/profile-pic.jpg" alt="background">
+                    </div>
+                    <div class="content profile-content">
+                        <h2>Michael Yim</h2>
+                        <p>
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                        </p>
+                        <ul class="social-icons">
+                            <li><a href="https://github.com/MyKl-Y" target="_blank"><i class="fab fa-github"></i></a></li>
+                            <li><a href="https://www.instagram.com/michael.y.yim/" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                            <li><a href="https://twitter.com/Mikey_Y_Yim" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="https://www.linkedin.com/in/michael-yim-olmos/" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+                            <li><a href="https://www.twitch.tv/myklwastaken" target="_blank"><i class="fab fa-twitch"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- load javascript after loading all html content -->
+        <script src="script/script.js"></script>
+    </body>
+</html>

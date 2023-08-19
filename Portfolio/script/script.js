@@ -34,7 +34,28 @@ document.querySelectorAll('.btn-enter-portfolio').forEach(button => {
         event.preventDefault();
         const targetSection = document.querySelector(button.getAttribute('href'));
         if (targetSection) {
-            targetSection.scrollIntoView({
+            const targetOffset = targetSection.offsetTop - 55;
+            
+            window.scrollTo({
+                top: targetOffset,
+                behavior: 'smooth'
+            });
+        }
+    });
+});
+
+// Smooth scrolling to section with offset
+document.querySelectorAll('a.nav-link').forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetSection = document.querySelector(targetId);
+
+        if (targetSection) {
+            const targetOffset = targetSection.offsetTop - 55;
+            
+            window.scrollTo({
+                top: targetOffset,
                 behavior: 'smooth'
             });
         }
@@ -88,45 +109,6 @@ function preloadImages() {
 }
     
 preloadImages();
-
-/*
-document.querySelectorAll('.portfolioContent').forEach((card, index) => {
-    card.addEventListener('click', () => {
-        const modal = document.querySelector(`#portfolioModal${index + 1}`);
-        const overlay = document.querySelector('#overlay');
-
-        if (modal && overlay) {
-            modal.style.display = 'block';
-            overlay.style.display = 'block';
-        }
-    });
-});
-
-// Open modal when close button is clicked
-document.querySelectorAll('.modal-close').forEach(closeButton => {
-    closeButton.addEventListener('click', () => {
-        const modal = closeButton.closest('.modal');
-        const overlay = document.querySelector('#overlay');
-
-        if (modal && overlay) {
-            modal.style.display = 'none';
-            overlay.style.display = 'none';
-        }
-    });
-});
-
-// Close modals and overlay when overlay is clicked
-document.querySelector('#overlay').addEventListener('click', () => {
-    document.querySelectorAll('.modal').forEach(modal => {
-        modal.style.display = 'none';
-    });
-
-    const overlay = document.querySelector('#overlay');
-    if (overlay) {
-        overlay.style.display = 'none';
-    }
-});
-*/
 
 
 // Back to top button
@@ -198,4 +180,44 @@ document.addEventListener("scroll", function () {
             activeNavItem.parentElement.classList.add("active-nav");
         }
     });
+});
+
+// Get the toggle switch element
+const themeToggle = document.getElementById("theme-toggle");
+
+// Function to set the theme based on user preference
+function setTheme(theme) {
+    if (theme === "dark") {
+        document.documentElement.setAttribute("data-theme", "dark");
+        localStorage.setItem("theme", "dark");
+    } else {
+        document.documentElement.setAttribute("data-theme", "light");
+        localStorage.setItem("theme", "light");
+    }
+}
+
+// Function to toggle the theme
+function toggleTheme() {
+    const currentTheme = localStorage.getItem("theme") || "light";
+    const newTheme = currentTheme === "dark" ? "light" : "dark";
+    setTheme(newTheme);
+}
+
+// Add event listener to the toggle switch
+themeToggle.addEventListener("change", toggleTheme);
+
+// Apply the user's theme preference on page load
+document.addEventListener("DOMContentLoaded", () => {
+    const userTheme = localStorage.getItem("theme") || "light";
+    setTheme(userTheme);
+});
+
+const pressStart = document.querySelector('.btn-enter-portfolio');
+
+button.addEventListener('mouseenter', () => {
+    pressStart.textContent = '> PRESS START';
+});
+
+button.addEventListener('mouseleave', () => {
+    pressStart.textContent = '- PRESS START';
 });

@@ -1,0 +1,305 @@
+:root {
+    --background1-dark: #23222c;
+    --background2-dark: #2a2933;
+    --background1-light: #eefcfb;
+    --background2-light: #e8f5f4;
+    --text-dark: #eefcfb;
+    --text-light: #23222c;
+    --primary1: #05b89d;
+    --primary2-light: #cbf3ed;
+    --primary2-dark: #1e393c;
+    --secondary1-light: #c1cafb;
+    --secondary2-light: #e6f3fb;
+    --secondary1-dark: #020722;
+    --secondary2-dark: #1c1c29;
+    --accent1-light: #c03348;
+    --accent2-light: #d0808d;
+    --accent3-light: #ddbcc1;
+    --accent1-dark: #e7a5af;
+    --accent2-dark: #9a737d;
+    --accent3-dark: #624d57;
+}
+
+/* Light Mode */
+[data-theme="light"] {
+    --background1: var(--background1-light);
+    --background2: var(--background2-light);
+    --text: var(--text-light);
+    --primary: var(--primary1);
+    --primary2: var(--primary2-light);
+    --secondary1: var(--secondary1-light);
+    --secondary2: var(--secondary2-light);
+    --accent1: var(--accent1-light);
+    --accent2: var(--accent2-light);
+    --accent3: var(--accent3-light);
+}
+
+/* Dark Mode */
+[data-theme="dark"] {
+    --background1: var(--background1-dark);
+    --background2: var(--background2-dark);
+    --text: var(--text-dark);
+    --primary: var(--primary1);
+    --primary2: var(--primary2-dark);
+    --secondary1: var(--secondary1-dark);
+    --secondary2: var(--secondary2-dark);
+    --accent1: var(--accent1-dark);
+    --accent2: var(--accent2-dark);
+    --accent3: var(--accent3-dark);
+}
+
+/* scroll bar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: var(--background2);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--primary);
+}
+
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    background-color: var(--background1);
+    font-family: Poppins, sans-serif;
+}
+
+/* The side navigation menu */
+.sidenav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0;
+    left: 0;
+    background-color: var(--background2);
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+/* The navigation menu links */
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: var(--text);
+    display: block;
+    transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+    color: var(--accent1);
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
+.topNav.navbarDark {
+    background-color: rgb(28 30 37 / 80%);
+    backdrop-filter: blur(20px);
+}
+/* navbar */
+.topnav {
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    background-color: var(--background2);
+    overflow: hidden;
+    display: block;
+    width: 100%;
+}
+    
+.topnav a {
+    float: left;
+    color: var(--text);
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+    
+.topnav a:hover {
+    background-color: var(--background1);
+    color: var(--text);
+}
+    
+.topnav a.split {
+    float: right;
+    background-color: var(--primary);
+    color: var(--text);
+}
+.topnav a.split:hover {
+    background-color: var(--primary2);
+    color: var(--text);
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+    transition: margin-left .5s;
+    padding: 24px;
+    display: grid;
+    place-items: center;
+    height: 100vh;
+}
+
+/* Toggle switch styles */
+.toggle-container {
+    display: flex;
+    align-items: center;
+    margin-top: 16px;
+    padding: 8px 8px 8px 32px;
+}
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+}
+.switch input {
+    display: none;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--text);
+    transition: .4s;
+    border-radius: 34px;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: var(--background1);
+    transition: .4s;
+    border-radius: 50%;
+}
+input:checked + .slider {
+    background-color: var(--text);
+}
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
+
+.card.profile-card {
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 20px 20px 16px 16px;
+    background-color: var(--background2);
+    cursor: pointer;
+    overflow: hidden;
+    max-width: clamp(620px, 70vw, 820px);
+    min-width: 260px;
+    min-height: 280px;
+}
+.card.profile-card:hover {
+    transform: scale(.98);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.background.profile-background {
+    width: 1000px;
+    height: 667px;
+    overflow: hidden;
+    flex: 1 1 250px;
+}
+.background.profile-background img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.content.profile-content {
+    flex: 3 1 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    padding: 16px;
+}
+.content.profile-content > h2 {
+    background: linear-gradient(90deg, var(--primary), var(--accent1));
+    background-clip: text;
+    color: var(--text);
+    font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+    font-weight: 700;
+    margin: clamp(0.35rem, 2vw, 0.55rem);
+}
+.content.profile-content > p {
+    color: var(--text);
+    margin: clamp(0.35rem, 2vw, 0.55rem);
+    font-size: clamp(1.1rem, 1.75vw, 1.35rem);
+    font-weight: 400;
+    margin-bottom: 16px;
+    line-height: 22px;
+}
+.social-icons {
+    font-style: normal;
+    display: flex;
+    width: 100%;
+    justify-content: end;
+    margin-top: auto;
+    gap: clamp(0.4rem, 2vw, 0.4rem);
+}
+.social-icons li {
+    font-style: normal;
+    list-style: none;
+}
+.social-icons li a {
+    color: var(--text);
+    font-style: normal;
+    position: relative;
+    place-items: center;
+    font-weight: bold;
+    transition: .2s;
+}
+.fab {
+    font-style: normal;
+    color: var(--text);
+    width: clamp(1.6rem, 2.3vw, 2rem);
+    height: clamp(1.6rem, 2.3vw, 2rem);
+}
+.fab:hover {
+    transition: 1.2s;
+    transform: scale(1.2);
+}
+.fa-github:hover {
+    color: var(--text);
+}
+.fa-instagram:hover {
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+.fa-twitter:hover {
+    color: #1DA1F2;
+}
+.fa-linkedin:hover {
+    color: #0077B5
+}
+.fa-twitch:hover {
+    color: #9146FF;
+}
