@@ -6,7 +6,7 @@ Welcome to my Website repository! This repository serves as a central hub for al
 - [My Portfolio V1](https://MyKl-Y.github.io/Portfolio/index.html) (WIP)
 - [My Portfolio V2](https://MyKl-Y.github.io/Portfolio/test.html) (WIP)
 - [Budget Tracker](https://MyKl-Y.github.io/Budget-Tracker/index.html) (WIP)
-- [Student Dashboard](https://MyKl-Y.github.io/Student-Dashboard/index.html)
+- [Student Dashboard](https://MyKl-Y.github.io/Student-Dashboard/index.html) (WIP)
 
 Feel free to explore these projects and learn more about my work.
 
