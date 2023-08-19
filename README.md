@@ -15,6 +15,6 @@ Feel free to explore these projects and learn more about my work.
 You can reach out to me via email at michaelyyim@gmail.com or connect with me on: 
 - [LinkedIn](https://www.linkedin.com/in/michael-yim-olmos/) 
 - [Instagram](https://www.instagram.com/michael.y.yim/)
-- [Twitter](https://twitter.com/Mikey_Y_Yim).
+- [Twitter](https://twitter.com/Mikey_Y_Yim)
 
 Thank you for visiting my GitHub Pages repository!
