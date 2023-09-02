@@ -15,7 +15,7 @@ I want a computer science enthusiast dashboard with student info too. if i want 
 5. like a courses dashboard where i can like input courses into like cards, separated by school years, where they have like an image the course name and number, if it is inprogress or completed, and if it is clicked i want it to popup a modal with said info and more like professor and their contact, the main website, the textbook website, syllabus, and assignments for this class entered based on the previous features but also i can add assignments from here
 6. a review tab/section where it can take in all the information i have given so far like when I was supposed to learn something, last time I reviewed it, and other information of sorts and tell me what to review 
 7. an initial homepage custom for me obviously
-8. a notes tab where i can enter in notes (maybe advanced) where it can have like styled text taht i can change while using the app, tables, images, code snippets etc. maybe access to my notion and google docs if it is an app or website
+8. a notes tab where i can enter in notes (maybe advanced) where it can have like styled text that i can change while using the app, tables, images, code snippets etc. maybe access to my notion and google docs if it is an app or website
 9. resources tab like books or websites i found useful or helpful
 10. link to my portfolio website, github, other websites, and other socials, etc
 11. internship/job section (either table format or cards) where i can input like internships or jobs that i have applied to that has the website for the specific role, the role, when i applied, statis (like regected, interviewing, accepted, etc) and anything else of importance

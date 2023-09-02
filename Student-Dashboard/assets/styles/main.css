@@ -1,0 +1,9 @@
+/* assets/styles/main.css */
+body {
+    background-color: #3e3e49;
+}
+#root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
