@@ -1,19 +1,20 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import LandingPage from './LandingPage';
-import Dashboard from './Dashboard';
-import './App.css';
+import { Route, Routes } from 'react-router-dom';
+import Navbar from './components/navbar';
+import TaskList from './components/taskList';
+import Edit from './components/edit';
+import Create from './components/create';
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Switch>
-          <Route path="/" exact component={LandingPage} />
-          <Route path="/dashboard" component={Dashboard} />
-        </Switch>
-      </div>
-    </Router>
+    <div>
+      <Navbar />
+      <Routes>
+        <Route exact path="/" element={<TaskList />} />
+        <Route path="/edit/:id" element={<Edit />} />
+        <Route path="/create" element={<Create />} />
+      </Routes>
+    </div>
   );
 }
 
