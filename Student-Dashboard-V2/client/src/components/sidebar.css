@@ -1,0 +1,122 @@
+.sidebar {
+    height: 100%;
+    position: fixed;
+    top: 0;
+    background-color: #333;
+    color: white;
+    transition: all 0.3s;
+    overflow-y: auto;
+    position: absolute;
+    z-index: 5;
+}
+
+.toggle-button {
+    display: none;
+    background-color: transparent;
+    border: none;
+    color: #333;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 10px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 6;
+}
+
+.toggle-button.open {
+    color: white; /* Change color to white when the sidebar is open */
+}
+
+ul {
+    list-style-type: none;
+    padding: 32px;
+}
+
+li {
+    color: white;
+    display: inline;
+    padding: 10px;
+    column-gap: 0;
+}
+
+li a {
+    text-decoration: none;
+}
+
+li p {
+    padding-left: 10px;
+}
+
+.link-container {
+    display: grid;
+}
+
+/* Media query for responsive design */
+@media screen and (min-width: 0em) {
+    .toggle-button {
+        display: grid;
+    }
+    .sidebar {
+        left: -100%;
+        width: 100%;
+    }
+    .sidebar.open {
+        left: 0;
+    }
+    li {
+        font-size: 200%;
+    }
+}
+@media screen and (min-width: 40em) {
+    .toggle-button {
+        display: grid;
+    }
+    .sidebar {
+        left: -100%;
+        width: 100%;
+    }
+    .sidebar.open {
+        left: 0;
+    }
+    li {
+        font-size: 200%;
+    }
+}
+
+@media screen and (min-width: 48em) {
+    .toggle-button {
+        display: none;
+    }
+    .sidebar {
+        left: 0;
+        width: 120px;
+    }
+    li {
+        font-size: 200%;
+    }
+    li p {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 64em) {
+    .toggle-button {
+        display: none;
+    }
+    .sidebar {
+        left: 0;
+        width: 250px;
+    }
+    .sidebar.open ul {
+        display: grid;
+    }
+    li {
+        font-size: 130%;
+    }
+    li p {
+        font-size: 130%;
+        display: inline;
+        width: fit-content;
+    }
+}

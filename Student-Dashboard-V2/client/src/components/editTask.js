@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router"
+import "bootstrap/dist/css/bootstrap.css";
 
-export default function edit() {
+export default function editTask() {
     const [form, setForm] = useState({
         name: "",
         description: "",
@@ -37,7 +38,7 @@ export default function edit() {
             const task = await response.json();
             if (!task) {
                 window.alert(`Task with id ${id} not found`);
-                navigate("/");
+                navigate("/tasks");
                 return;
             }
 
@@ -85,7 +86,7 @@ export default function edit() {
             },
         });
 
-        navigate("/");
+        navigate("/tasks");
     }
 
     // This following section will display the form that takes input from the user to update the data.

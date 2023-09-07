@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
+import "bootstrap/dist/css/bootstrap.css";
 
-export default function Create() {
+export default function CreateTask() {
     const [form, setForm] = useState({
         name: "",
         description: "",
@@ -75,7 +76,7 @@ export default function Create() {
             recurrenceYears: "",
         });
         setShowRecurrenceFields(false); // Hide recurrence fields
-        navigate("/");
+        navigate("/tasks");
     }
 
     // Toggle the visibility of recurrence fields when the checkbox changes

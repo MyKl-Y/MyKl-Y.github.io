@@ -1,38 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* App.css */
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.content {
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  right: 0;
+  width: 100%;
+  height: 100vh;
+  padding: 20px;
+  background-image: url(./images/abstract-geometric-shape-gradient-background-2.jpg);
+  background-size: 100% 100%;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Media query for responsive design */
+@media screen and (min-width: 40em) {
+  .content {
+      right: 0;
+      width: 100%;
   }
-  to {
-    transform: rotate(360deg);
+}
+
+@media screen and (min-width: 48em) {
+  .content {
+      right: 0;
+      width: calc(100% - 120px);
+  }
+}
+
+@media screen and (min-width: 64em) {
+  .content {
+      right: 0;
+      width: calc(100% - 250px);
   }
 }

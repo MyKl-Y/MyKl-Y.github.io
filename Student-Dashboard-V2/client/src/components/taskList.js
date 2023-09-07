@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.css";
 
 const Task = (props) => (
     <tr>
@@ -13,7 +14,7 @@ const Task = (props) => (
         <td>{props.task.recurrenceCount}</td>
         <td>
             <Link className="btn btn-link" 
-                to={`/edit/${props.task._id}`}
+                to={`/edit-task/${props.task._id}`}
             >
                 Edit
             </Link> |
@@ -94,6 +95,9 @@ export default function TaskList() {
                 </thead>
                 <tbody>{taskList()}</tbody>
             </table>
+            <Link className="nav-link" to="/create-task">
+                Create Task
+            </Link>
         </div>
     );
 }
