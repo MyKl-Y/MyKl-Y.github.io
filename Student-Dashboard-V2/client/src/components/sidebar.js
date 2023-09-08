@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import "bootstrap/dist/css/bootstrap.css";
 import { Link } from 'react-router-dom';
 import './sidebar.css';
-import { FaTachometerAlt, FaCog, FaBook, FaTasks, FaClipboard, FaChevronLeft, FaChevronCircleRight, FaRegArrowAltCircleRight } from 'react-icons/fa';
+import { FaTachometerAlt, FaCog, FaBook, FaTasks, FaClipboard, FaChevronLeft, FaChevronCircleRight } from 'react-icons/fa';
 
 const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(false);
