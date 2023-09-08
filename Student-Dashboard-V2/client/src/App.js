@@ -8,6 +8,7 @@ import LandingPage from './components/landingPage';
 import Dashboard from './components/dashboard';
 import Sidebar from './components/sidebar';
 import WaveAnimation from './components/waveAnimation';
+import { useTheme } from './context/ThemeContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
 
@@ -18,11 +19,17 @@ function App() {
   const isLandingPage = location.pathname === '/';
   const appClassName = isLandingPage ? 'App center-content' : 'App flex-end-content';
 
+  const { isDarkMode, toggleMode } = useTheme();
+
+  const componentStyle = {
+      '--background': isDarkMode ? 'linear-gradient(60deg, rgb(53, 29, 150) -10%, rgb(1, 90, 102) 100%)' : 'linear-gradient(60deg, rgba(84,58,183,1) -10%, rgba(0,172,193,1) 100%)',
+  };
+
   return (
-    <div className={appClassName}>
+    <div className={appClassName} style={componentStyle}>
         {renderSidebar && <Sidebar />}
         {/*<Navbar />*/}
-        <div className={`content ${isLandingPage ? 'landing-page' : ''}`}>
+        <div className={`content ${isLandingPage ? 'landing-page' : ''}`} style={componentStyle}>
           <Routes>
             <Route exact path="/" element={<LandingPage />} />
             <Route path="/dashboard" element={<Dashboard />} />
@@ -31,7 +38,7 @@ function App() {
             <Route path="/create-task" element={<CreateTask />} />
           </Routes>
         </div>
-        <div className='waves-container'>
+        <div className='waves-container' style={componentStyle}>
           {!renderSidebar && <WaveAnimation />}
         </div>
     </div>
