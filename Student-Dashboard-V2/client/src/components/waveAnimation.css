@@ -1,8 +1,7 @@
 .waves {
-    position:relative;
+    position: relative;
     width: 100%;
     height:15vh;
-    margin-bottom:-7px; /*Fix for safari gap*/
     min-height:100px;
     max-height:150px;
     transition: color .3s;

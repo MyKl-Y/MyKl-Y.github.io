@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import { Link } from 'react-router-dom';
 import './sidebar.css';
 import { FaTachometerAlt, FaCog, FaBook, FaTasks, FaClipboard, FaChevronLeft, FaChevronCircleRight } from 'react-icons/fa';
+import { motion } from 'framer-motion/dist/framer-motion'
 
 const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -11,12 +12,20 @@ const Sidebar = () => {
     };
 
     return (
-        <div className="sidebar-container">
+        <div 
+            className="sidebar-container"
+        >
             <button className={`toggle-button ${isOpen ? 'open' : ''}`} 
             onClick={toggleSidebar}>
                 {isOpen ? <FaChevronLeft /> : <FaChevronCircleRight />}
             </button>
-            <div className={`sidebar ${isOpen ? 'open' : ''}`}>
+            <motion.div 
+                className={`sidebar ${isOpen ? 'open' : ''}`}
+                initial={{ translateX: '-100%' }}
+                animate={{ translateX: 0 }}
+                exit={{ translateX: '-100%' }}
+                transition={{ duration: .1, delay: .5 }}
+            >
             <ul>
                 <li>
                     <div className='link-container'>
@@ -60,7 +69,7 @@ const Sidebar = () => {
                     </div>
                 </li>
             </ul>
-            </div>
+            </motion.div>
         </div>
     );
 }

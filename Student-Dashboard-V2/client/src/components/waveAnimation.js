@@ -1,6 +1,7 @@
 import React from 'react';
 import './waveAnimation.css';
 import { useTheme } from '../context/ThemeContext';
+import { motion } from 'framer-motion/dist/framer-motion'
 
 function WaveAnimation() {
     const { isDarkMode, toggleMode } = useTheme();
@@ -13,7 +14,11 @@ function WaveAnimation() {
     };
 
     return (
-        <div>
+        <motion.div
+            initial={{ y: '100%' }}
+            animate={{ y: 0 }} // Translate up
+            exit={{ y: '-200%' }} // Translate further up during exit
+        >
             <svg className="waves" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shapeRendering="auto">
                 <defs>
                     <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
@@ -25,7 +30,7 @@ function WaveAnimation() {
                     <use xlinkHref="#gentle-wave" x="48" y="7" className="wave4" style={componentStyle} />
                 </g>
             </svg>
-        </div>
+        </motion.div>
     );
 }
 
