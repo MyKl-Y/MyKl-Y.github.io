@@ -2,7 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-/* App.css */
+::-webkit-scrollbar {
+  display: none !important;
+}
+
 .App {
   display: flex;
   flex-direction: row;
@@ -11,15 +14,40 @@
   overflow: hidden;
 }
 
+/* Add this to your App.css file or a separate CSS file */
 .waves-container {
   position: absolute;
   width: 100%;
   bottom: 0px;
+  transition: transform 0.6s ease-in-out;
+}
+
+.waves-container.animate {
+  transform: translateY(-100%);
+}
+
+.landing-page.animate {
+  transform: translateY(-95%);
+}
+
+.filler-block {
+  display: none;
+}
+
+.filler-block.animate {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 110vh;
+  background-color: var(--background-color);
+  z-index: 1;
+  transition: transform 0.6s ease-in-out;
 }
 
 .App.center-content {
   justify-content: center;
   background: var(--background);
+  overflow: hidden;
 }
 
 .content {
@@ -43,6 +71,7 @@
   height: 100vh;
   padding: 20px;
   align-self: center;
+  transition: transform 0.6s ease-in-out;
 }
 
 /* Media query for responsive design */
@@ -56,13 +85,13 @@
 @media screen and (min-width: 48em) {
   .content:not(.landing-page) {
       right: 0;
-      width: calc(100% - 120px);
+      width: calc(100% - 150px);
   }
 }
 
 @media screen and (min-width: 64em) {
   .content:not(.landing-page) {
       right: 0;
-      width: calc(100% - 250px);
+      width: calc(100% - 300px);
   }
 }

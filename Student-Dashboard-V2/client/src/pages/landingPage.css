@@ -30,7 +30,6 @@
     border-radius: 10px 40px 10px 40px;
     padding: 20px;
     color: var(--text-color);
-    overflow: hidden;
     border: none;
     /*animation: anime1 5s cubic-bezier(0.16, 1, 0.3, 1) 1s alternate;*/
 }
@@ -44,6 +43,7 @@
 .glass-morphism h1 {
     font-weight: 700;
     margin: 0;
+    margin-top: 1.5rem;
     padding: 0;
     width: fit-content;
 }
@@ -53,6 +53,8 @@
     border-radius: 10px 20px 10px 20px !important;
     background: var(--background);
     color: var(--text-color);
+    border: none;
+    outline: none;
 }
 
 /* Media query for responsive design */
@@ -198,4 +200,56 @@
         opacity: 1;
         visibility: visible;
     }
+}
+
+.glass-morphism .ribbon-1 {
+    --f: 10px; /* control the folded part*/
+    --r: 15px; /* control the ribbon shape */
+    --t: 10px; /* the top offset */
+    
+    position: absolute;
+    inset: var(--t) auto auto calc(-1*var(--f));
+    padding: 0 10px var(--f) calc(10px + var(--r));
+    clip-path: 
+        polygon(0 0,100% 0,100% calc(100% - var(--f)),calc(100% - var(--f)) 100%,
+        calc(100% - var(--f)) calc(100% - var(--f)),0 calc(100% - var(--f)),
+        var(--r) calc(50% - var(--f)/2));
+    background: #BD1550;
+    box-shadow: 0 calc(-1*var(--f)) 0 inset #0005;
+    border: none;
+    transform-origin: 'center';
+    transform: scaleX(-1);
+    transition: transform 0s ease-in-out;
+}
+.glass-morphism .ribbon-1 p {
+    content: "Dark Mode";
+    transition: transform 0s ease-in-out;
+    transform: scaleX(-1);
+    color: var(--text-color); /* Ensure text is visible against the background */
+    margin: 0;
+}
+
+.glass-morphism .ribbon-2 {
+    --f: 10px; /* control the folded part*/
+    --r: 15px; /* control the ribbon shape */
+    --t: 10px; /* the top offset */
+    
+    position: absolute;
+    inset: var(--t) calc(-1*var(--f)) auto auto;
+    padding: 0 10px var(--f) calc(10px + var(--r));
+    clip-path: 
+        polygon(0 0,100% 0,100% calc(100% - var(--f)),calc(100% - var(--f)) 100%,
+        calc(100% - var(--f)) calc(100% - var(--f)),0 calc(100% - var(--f)),
+        var(--r) calc(50% - var(--f)/2));
+    background: #BD1550;
+    box-shadow: 0 calc(-1*var(--f)) 0 inset #0005;
+    border: none;
+    transform: rotateY(-1);
+    transition: transform 0s ease-in-out;
+}
+.glass-morphism .ribbon-2 p {
+    content: "Light Mode";
+    transition: transform 0s ease-in-out;
+    color: var(--text-color); /* Ensure text is visible against the background */
+    margin: 0;
 }
