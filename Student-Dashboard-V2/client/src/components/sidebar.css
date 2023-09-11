@@ -12,6 +12,8 @@
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
     box-shadow: -5px -5px 10px 3px var(--light-shadow), 3px 5px 5px var(--dark-shadow);
+    overflow-y: auto;
+    max-height: 100vh;
 }
 
 .toggle-button {
@@ -30,6 +32,12 @@
 
 .toggle-button.open {
     color: var(--text-color); /* Change color to white when the sidebar is open */
+}
+
+.sidebar-header {
+    position: sticky;
+    top: 0;
+    background-color: var(--background-color);
 }
 
 .sidebar-header a {
@@ -138,6 +146,9 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    position: sticky;
+    bottom: 0;
+    background-color: var(--background-color);
 }
 
 .account-container a {
