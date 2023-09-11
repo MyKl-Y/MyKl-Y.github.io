@@ -18,3 +18,4 @@ You can reach out to me via email at michaelyyim@gmail.com or connect with me on
 - [Twitter](https://twitter.com/Mikey_Y_Yim)
 
 Thank you for visiting my GitHub Pages repository!
+Check out my non-website projects at https://github.com/MyKl-Y?tab=repositories

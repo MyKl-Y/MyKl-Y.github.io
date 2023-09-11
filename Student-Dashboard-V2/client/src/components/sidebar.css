@@ -12,8 +12,6 @@
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
     box-shadow: -5px -5px 10px 3px var(--light-shadow), 3px 5px 5px var(--dark-shadow);
-    overflow-y: auto;
-    max-height: 100vh;
 }
 
 .toggle-button {
@@ -78,7 +76,6 @@
     background-color: var(--background-color);
     display: flex;
     flex-direction: column;
-    margin: 1rem 2rem 1rem 2rem;
 }
 
 .link-container a::after {
@@ -259,6 +256,7 @@
     .link-container svg {
         width: 30px;
         height: 30px;
+        margin: none !important;
     }
     .link-container p {
         display: none;
@@ -305,8 +303,9 @@
         margin: 1rem 2rem 1rem 2rem;
     }
     .link-container p {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
         display: block;
+        margin-top: .3rem;
     }
     .link-container svg {
         width: 20px;
