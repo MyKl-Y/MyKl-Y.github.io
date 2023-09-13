@@ -50,6 +50,12 @@
   overflow: hidden;
 }
 
+.App.auth-center {
+  justify-content: center;
+  align-items: center;
+  background: var(--background-color);
+}
+
 .content {
   display: flex;
   justify-content: center;

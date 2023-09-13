@@ -20,13 +20,15 @@ import Account from './pages/account';
 //import EditAccount from './pages/editAccount';
 //import CreateAccount from './pages/createAccount';
 import Help from './pages/help';
+import Authentication from './pages/authentication';
 import Sidebar from './components/sidebar';
 import WaveAnimation from './components/waveAnimation';
 //import AnimatedRoutes from './components/AnimatedRoutes';
 import { useTheme } from './context/ThemeContext';
+import { useAuth } from './context/AuthContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
-import { motion, AnimatePresence } from 'framer-motion/dist/framer-motion';
+import { AnimatePresence } from 'framer-motion/dist/framer-motion';
 import Applications from './pages/applications';
 
 function App() {
@@ -34,9 +36,20 @@ function App() {
 
   const [animateWaves, setAnimateWaves] = useState(false); // State variable to trigger animation
 
-  const renderSidebar = location.pathname !== '/';
+  const [user, setLoginUser] = useState({
+    id: "",
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const { currentuser } = useAuth();
+  // Determine if the user is authenticated
+  const isAuthenticated = !!currentuser;
+
+  const renderSidebar = !['/', '/login', '/register', '/auth'].includes(location.pathname);
   const isLandingPage = location.pathname === '/';
-  const appClassName = isLandingPage ? 'App center-content' : 'App flex-end-content';
+  const isLoginRegister = ['/login', '/register', '/auth'].includes(location.pathname);
 
   const { isDarkMode, toggleMode } = useTheme();
 
@@ -58,7 +71,7 @@ function App() {
 
   return (
     <div 
-      className={appClassName} 
+      className={isLandingPage ? 'App center-content' : (isLoginRegister ? 'App auth-center' : 'App flex-end-content')} 
       style={componentStyle}
     >
       <AnimatePresence exitBeforeEnter>
@@ -69,26 +82,34 @@ function App() {
           style={componentStyle}
         >
           <Routes>
-            <Route exact path="/" element={<LandingPage onEnterClick={triggerWaveAnimation} />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/tasks" element={<TaskList />} />
-            <Route path="/edit-task/:id" element={<EditTask />} />
-            <Route path="/create-task" element={<CreateTask />} />
-            <Route path="/assignments" element={<Assignments />} />
-            {/*<Route path="/edit-assignment/:id" element={<EditAssignment />} />*/}
-            {/*<Route path="/create-assignment" element={<CreateAssignment />} />*/}
-            <Route path="/calendar" element={<Calendar />} />
-            {/*<Route path="/edit-calendar/:id" element={<EditCalendar />} />*/}
-            {/*<Route path="/create-calendar" element={<CreateCalendar />} />*/}
-            <Route path="/grades" element={<Grades />} />
-            {/*<Route path="/edit-grade/:id" element={<EditGrade />} />*/}
-            {/*<Route path="/create-grade" element={<CreateGrade />} />*/}
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/account" element={<Account />} />
-            {/*<Route path="/edit-account/:id" element={<EditAccount />} />*/}
-            {/*<Route path="/create-account" element={<CreateAccount />} />*/}
-            <Route path="/help" element={<Help />} />
-            <Route path="/applications" element={<Applications />} />
+            {isAuthenticated ? (
+              <>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/tasks" element={<TaskList />} />
+                <Route path="/edit-task/:id" element={<EditTask />} />
+                <Route path="/create-task" element={<CreateTask />} />
+                <Route path="/assignments" element={<Assignments />} />
+                {/*<Route path="/edit-assignment/:id" element={<EditAssignment />} />*/}
+                {/*<Route path="/create-assignment" element={<CreateAssignment />} />*/}
+                <Route path="/calendar" element={<Calendar />} />
+                {/*<Route path="/edit-calendar/:id" element={<EditCalendar />} />*/}
+                {/*<Route path="/create-calendar" element={<CreateCalendar />} />*/}
+                <Route path="/grades" element={<Grades />} />
+                {/*<Route path="/edit-grade/:id" element={<EditGrade />} />*/}
+                {/*<Route path="/create-grade" element={<CreateGrade />} />*/}
+                <Route path="/settings" element={<Settings />} />
+                <Route path="/account" element={<Account />} />
+                {/*<Route path="/edit-account/:id" element={<EditAccount />} />*/}
+                {/*<Route path="/create-account" element={<CreateAccount />} />*/}
+                <Route path="/help" element={<Help />} />
+                <Route path="/applications" element={<Applications />} />
+              </>
+            ) : (
+              <>
+                <Route exact path="/" element={<LandingPage onEnterClick={triggerWaveAnimation} user={user} />} />
+                <Route path="/auth" element={<Authentication setLoginUser={setLoginUser}/>}/>
+              </>
+            )}
           </Routes>
           <div 
             className={`waves-container ${animateWaves ? 'animate' : ''}`} // Add 'animate' class when animation should occur 

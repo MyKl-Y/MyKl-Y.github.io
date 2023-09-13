@@ -1,3 +1,4 @@
+/* Sidebar Container */
 .sidebar {
     height: 100%;
     position: fixed;
@@ -13,7 +14,7 @@
     border-bottom-right-radius: 15px;
     box-shadow: -5px -5px 10px 3px var(--light-shadow), 3px 5px 5px var(--dark-shadow);
 }
-
+/* Toggle Button */
 .toggle-button {
     display: none;
     background-color: transparent;
@@ -27,17 +28,15 @@
     right: 0;
     z-index: 6;
 }
-
 .toggle-button.open {
     color: var(--text-color); /* Change color to white when the sidebar is open */
 }
-
+/* Sidebar Header */
 .sidebar-header {
     position: sticky;
     top: 0;
     background-color: var(--background-color);
 }
-
 .sidebar-header a {
     display: flex;
     flex-direction: row;
@@ -47,7 +46,6 @@
     text-decoration: none;
     color: var(--text-color);
 }
-
 .sidebar-header svg {
     width: 50px;
     height: 50px;
@@ -55,14 +53,13 @@
     margin-right: 1rem;
     color: var(--primary);
 }
-
 .sidebar-header h3 {
     font-size: 2rem;
     font-weight: 700;
     margin: 0;
     padding: 0;
 }
-
+/* Nav Links */
 .inset-container {
     flex-grow: 1;
     display: flex;
@@ -71,48 +68,46 @@
     margin: 1rem;
     box-shadow: inset .2rem .2rem .5rem 0rem var(--dark-shadow), inset -.2rem -.2rem .5rem 0rem var(--light-shadow);
 }
-
 .link-container {
     background-color: var(--background-color);
     display: flex;
     flex-direction: column;
 }
-
 .link-container a::after {
     content: "";
     flex-grow: 1; /* Fill unused space */
     background: var(--background-color); /* Background color for the unused space */
+    border-radius: inherit;
 }
-
 .link-container a {
     background: var(--background-color);
     text-decoration: none;
     display: flex;
     flex-direction: row;
     align-content: center;
-    border-radius: 5%;
+    border-radius: 1rem;
 }
-
+.link-container a:hover {
+    background: var(--background-color);
+    box-shadow: -5px -5px 10px -1px var(--light-shadow), 5px 5px 10px var(--dark-shadow);
+}
 .link-container a.active-link {
     border-top-right-radius: none;
     border-bottom-right-radius: none;
     color: var(--accent-gradient);
 }
-
 .link-container a.active-link p {
     background: var(--accent-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
-
 .link-container a.active-link .vl {
     margin: auto;    
     background: var(--accent-gradient);
     width: 6px;
     height: 90%;
-    border-radius: 20%;
+    border-radius: 1rem;
 }
-
 .link-container svg {
     background-color: var(--background-color);
     margin: 10px;
@@ -120,7 +115,6 @@
     height: 20px;
     color: var(--primary);
 }
-
 .link-container p {
     background-color: var(--background-color);
     display: none;
@@ -131,13 +125,12 @@
     font-size: 1.5rem;
     color: var(--text-color);
 }
-
 .sidebar hr {
     width: 90%;
     align-self: center;
     color: var(--text-color);
 }
-
+/* Account */
 .account-container {
     display: flex;
     flex-direction: row;
@@ -147,7 +140,6 @@
     bottom: 0;
     background-color: var(--background-color);
 }
-
 .account-container a {
     display: flex;
     flex-direction: row;
@@ -155,7 +147,6 @@
     align-items: center;
     text-decoration: none;
 }
-
 .account-container .button {
     justify-self: center;
     background: var(--primary);
@@ -168,18 +159,15 @@
     margin: 1rem;
     box-shadow: inset -.2rem -.2rem .5rem 0rem var(--accent-dark), inset .2rem .2rem .5rem 0rem var(--accent-light);
 }
-
 .account-container .button:active {
     box-shadow: inset .2rem .2rem .5rem 0rem var(--accent-dark), inset -.2rem -.2rem .5rem 0rem var(--accent-light);
 }
-
 .account-container a svg {
     width: 30px;
     height: 30px;
     margin: 10px;
     color: var(--background-color);
 }
-
 .account-container a p {
     margin: 0;
     padding: 0;
@@ -188,7 +176,7 @@
     color: var(--background-color);
 }
 
-/* Media query for responsive design */
+/* Media query for responsive design: Smallest */
 @media screen and (min-width: 0em) {
     .toggle-button {
         display: grid;
@@ -202,6 +190,7 @@
     }
     .link-container {
         font-size: 2rem;
+        margin: 1rem 1rem .5rem 1rem;
     }
     .link-container p {
         display: flex;
@@ -211,7 +200,16 @@
         width: 100%;
         box-shadow: -5px -5px 10px -1px var(--light-shadow), 5px 5px 10px var(--dark-shadow);
     }
+    .link-container a.active-link .vl {
+        margin: auto;    
+        background: var(--accent-gradient);
+        width: 6px;
+        height: 80%;
+        border-radius: 1rem;
+        margin-left: .5rem;
+    }
 }
+/* Media query for responsive design: Phone */
 @media screen and (min-width: 40em) {
     .toggle-button {
         display: grid;
@@ -225,6 +223,7 @@
     }
     .link-container {
         font-size: 2rem;
+        margin: 1rem 1rem .5rem 1rem;
     }
     .link-container svg {
         width: 30px;
@@ -236,10 +235,19 @@
     }
     .link-container a.active-link {
         width: 100%;
+        border-radius: 1rem;
         box-shadow: -5px -5px 10px -1px var(--light-shadow), 5px 5px 10px var(--dark-shadow);
     }
+    .link-container a.active-link .vl {
+        margin: auto;    
+        background: var(--accent-gradient);
+        width: 6px;
+        height: 85%;
+        border-radius: 1rem;
+        margin-left: 1rem;
+    }
 }
-
+/* Media query for responsive design: Tablet */
 @media screen and (min-width: 48em) {
     .toggle-button {
         display: none;
@@ -250,8 +258,7 @@
     }
     .link-container {
         font-size: 2rem;
-        margin-left: auto;
-        margin-right: auto;
+        margin: 1rem auto .5rem auto;
     }
     .link-container svg {
         width: 30px;
@@ -266,7 +273,16 @@
     }
     .link-container a.active-link {
         width: 185%;
+        border-bottom-right-radius: 0;
+        border-top-right-radius: 0;
         box-shadow: -.4rem -.4rem .4rem -.4rem var(--light-shadow), -.2rem .8rem .4rem -.6rem var(--dark-shadow);
+    }
+    .link-container a.active-link .vl {
+        margin: auto;    
+        background: var(--accent-gradient);
+        width: 6px;
+        height: 90%;
+        border-radius: 1rem;
     }
     .sidebar-header svg {
         width: 50px;
@@ -281,12 +297,11 @@
         height: 2.5rem;
         margin: 2rem;
     }
-    
     .account-container a p {
         display: none;
     }
 }
-
+/* Media query for responsive design: Computer and Laptops */
 @media screen and (min-width: 64em) {
     .toggle-button {
         display: none;
@@ -300,7 +315,7 @@
     }
     .link-container {
         font-size: 1.5rem;
-        margin: 1rem 2rem 1rem 2rem;
+        margin: 1rem 2rem 0rem 2rem;
     }
     .link-container p {
         font-size: 1.25rem;
@@ -315,8 +330,17 @@
         border: 1rem solid var(--background-color);
     }
     .link-container a.active-link {
-        width: 130%;
-        box-shadow: -.7rem -.7rem .5rem -.5rem var(--light-shadow), -.2rem 1rem .4rem -.6rem var(--dark-shadow);
+        width: 135%;
+        border-bottom-right-radius: 0;
+        border-top-right-radius: 0;
+        box-shadow: -.6rem -.6rem .4rem -.5rem var(--light-shadow), -.4rem 1.1rem .4rem -.9rem var(--dark-shadow);
+    }
+    .link-container a.active-link .vl {
+        margin: auto;    
+        background: var(--accent-gradient);
+        width: 6px;
+        height: 90%;
+        border-radius: 1rem;
     }
     .sidebar-header svg {
         width: 50px;

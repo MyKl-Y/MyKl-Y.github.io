@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
-import WaveAnimation from '../components/waveAnimation';
 import './landingPage.css';
-import { AnimatePresence, motion } from 'framer-motion/dist/framer-motion'
+import { motion } from 'framer-motion/dist/framer-motion'
 
-function LandingPage({ onEnterClick }) {
+function LandingPage({ onEnterClick, user }) {
     const { isDarkMode, toggleMode } = useTheme();
     const [isRotated, setIsRotated] = useState(false);
-    const [animationComplete, setAnimationComplete] = useState(false);
+    const [animationComplete, setAnimationComplete] = useState();
     const navigate = useNavigate();
 
     const componentStyle = {
@@ -35,7 +34,11 @@ function LandingPage({ onEnterClick }) {
         onEnterClick();
         setTimeout(() => {
             setAnimationComplete(true);
-            navigate("/dashboard")
+            if (user && user._id) {
+                navigate("/dashboard")
+            } else {
+                navigate("/auth")
+            }
         }, 1000);
     };
 
@@ -60,7 +63,7 @@ function LandingPage({ onEnterClick }) {
                             className={'btn btn-lg btn-primary'}
                             onClick={handleEnterClick}
                         >
-                            Enter
+                            {user && user._id ? "Dashboard" : "Login"}
                         </Link>
                 </div>
             </div>

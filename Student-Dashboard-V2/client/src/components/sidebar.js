@@ -89,7 +89,7 @@ const Sidebar = () => {
                         to="/"
                     >
                         <FaGraduationCap></FaGraduationCap>
-                        <h3>Grad Easy</h3>
+                        <h3>UpGrad</h3>
                     </Link>
                 </div>
                 <div className='inset-container'>
