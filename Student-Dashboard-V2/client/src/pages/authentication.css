@@ -124,7 +124,7 @@ label {
     margin-top: none !important;
 }
 #confirm-label {
-    margin-top: 2rem;
+    margin-top: none !important;
 }
 .login-form {
     position: relative;
@@ -278,6 +278,14 @@ input:focus + .search-icon {
     100% { transform: scale(1) rotate(0deg) ; }
 }
 
+.input-error {
+    border: 1px solid red;
+}
+
+.input-normal {
+    border: 1px solid transparent;
+}
+
 #tooltip
 {
     position: absolute;
@@ -355,3 +363,4 @@ input:focus + .search-icon {
     border-right-color: transparent;
     border-style: solid;
 }
+

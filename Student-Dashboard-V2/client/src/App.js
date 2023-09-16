@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Route, Routes, useLocation, Navigate } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 //import Navbar from './components/navbar';
 import TaskList from './pages/taskList';
 import EditTask from './pages/editTask';
@@ -62,6 +62,7 @@ function isProtectedRoute(routePath) {
 
 function App() {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const [animateWaves, setAnimateWaves] = useState(false); // State variable to trigger animation
 
@@ -138,7 +139,6 @@ function App() {
               <>
                 <Route exact path="/" element={<LandingPage onEnterClick={triggerWaveAnimation} user={currentUser} />} />
                 <Route path="/auth" element={<Authentication setLoginUser={setLoginUser}/>}/>
-                {isProtectedRoute(location.pathname) && <Navigate to="/auth" replace />}
               </>
             )}
           </Routes>

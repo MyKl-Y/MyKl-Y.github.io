@@ -44,6 +44,7 @@ const Authentication = ({ setLoginUser }) => {
 
     const [isLoginTab, setIsLoginTab] = useState(true); // State to switch between Login and Register
     const [passwordError, setPasswordError] = useState('');
+    const [passwordError0, setPasswordError0] = useState('');
     const [usernameError, setUsernameError] = useState('');
     const [emailError, setEmailError] = useState('');
     //const [isPasswordTooltipVisible, setPasswordTooltipVisible] = useState(false);
@@ -60,16 +61,20 @@ const Authentication = ({ setLoginUser }) => {
     };      
 
     const validatePassword = () => {
-        const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[.!@#$%^&*])[A-Za-z0-9.!@#$%^&*]{8,}$/;
+        const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[.!@#$%^&*-_])[A-Za-z0-9.!@#$%^&*]{8,}$/;
         if (!user.password.match(passwordRegex) && (user.password !== '')) {
             setPasswordError(
+                'Must contain at least 1 of (A-Z), (a-z), (.!@#$%^&*-_), and be 8 characters long'
+            );
+            setPasswordError0(
                 'Password doesn\'t meet requirements'
-                //'Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 special character (!.@#$%^&*), and be at least 8 characters long.'
             );
         } else if (user.password !== user.confirmPassword) { 
             setPasswordError('Passwords Must Match');
+            setPasswordError0('');
         } else {
             setPasswordError('');
+            setPasswordError0('');
         }
     };
 
@@ -301,7 +306,7 @@ const Authentication = ({ setLoginUser }) => {
                             <div className='search'>
                                 <input
                                     type="email"
-                                    className="login-email"
+                                    className="login-email ${emailError ? 'input-error' : 'input-normal'}"
                                     name="email"
                                     value={user.email}
                                     onChange={handleChange}
@@ -356,7 +361,7 @@ const Authentication = ({ setLoginUser }) => {
                             <div className='search'>
                                 <input
                                     type="text"
-                                    className="register-name"
+                                    className={`register-name ${usernameError ? 'input-error' : 'input-normal'}`}
                                     name="name"
                                     value={user.name}
                                     onChange={handleChange}
@@ -379,7 +384,7 @@ const Authentication = ({ setLoginUser }) => {
                             <div className='search'>
                                 <input
                                     type="email"
-                                    className="register-email"
+                                    className={`register-email ${emailError ? 'input-error' : 'input-normal'}`}
                                     name="email"
                                     value={user.email}
                                     onChange={handleChange}
@@ -413,7 +418,7 @@ const Authentication = ({ setLoginUser }) => {
                                 </button>
                                 <input
                                     type={showPassword ? "text" : "password"}
-                                    className="register-password"
+                                    className={`register-password ${passwordError0 ? 'input-error' : 'input-normal'}`}
                                     name="password"
                                     value={user.password}
                                     onChange={handleChange}
@@ -432,6 +437,11 @@ const Authentication = ({ setLoginUser }) => {
                                 */
                                 }
                             </div>
+                            <label htmlFor="password-info-error" className="error">
+                                {
+                                    passwordError0
+                                }
+                            </label>
                             <label htmlFor="confirm-password" className="label" id="confirm-label">
                                 Confirm Password &nbsp;
                                 <span style={{color: 'red', fontWeight: 'bold'}}>*</span>
@@ -450,7 +460,7 @@ const Authentication = ({ setLoginUser }) => {
                                 </button>
                                 <input
                                     type={showPassword ? "text" : "password"}
-                                    className="register-password"
+                                    className={`register-password ${passwordError ? 'input-error' : 'input-normal'}`}
                                     name="confirmPassword"
                                     value={user.confirmPassword}
                                     onChange={handleChange}
