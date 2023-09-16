@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation, Navigate } from 'react-router-dom';
 //import Navbar from './components/navbar';
 import TaskList from './pages/taskList';
 import EditTask from './pages/editTask';
@@ -31,6 +31,35 @@ import './App.css'
 import { AnimatePresence } from 'framer-motion/dist/framer-motion';
 import Applications from './pages/applications';
 
+// Define a function to check if a route is protected
+function isProtectedRoute(routePath) {
+  // List the paths that require authentication
+  const protectedPaths = [
+    '/dashboard',
+    '/tasks',
+    "/edit-task/:id",
+    "/create-task",
+    "/assignments",
+    /*"/edit-assignment/:id",*/
+    /*"/create-assignment",*/
+    "/calendar",
+    /*"/edit-calendar/:id",*/
+    /*<Route path="/create-calendar" element={<CreateCalendar />} />*/
+    "/grades",
+    /*"/edit-grade/:id",*/
+    /*"/create-grade",*/
+    "/settings",
+    "/account",
+    /*"/edit-account/:id",*/
+    /*"/create-account",*/
+    "/help",
+    "/applications",
+    // Add more protected paths here
+  ];
+
+  return protectedPaths.includes(routePath);
+}
+
 function App() {
   const location = useLocation();
 
@@ -43,15 +72,16 @@ function App() {
     password: "",
   });
 
-  const { currentuser } = useAuth();
+  const { currentUser } = useAuth();
   // Determine if the user is authenticated
-  const isAuthenticated = !!currentuser;
+  const isAuthenticated = !!currentUser;
 
   const renderSidebar = !['/', '/login', '/register', '/auth'].includes(location.pathname);
   const isLandingPage = location.pathname === '/';
   const isLoginRegister = ['/login', '/register', '/auth'].includes(location.pathname);
 
   const { isDarkMode, toggleMode } = useTheme();
+
 
   const componentStyle = {
       '--background': 
@@ -106,8 +136,9 @@ function App() {
               </>
             ) : (
               <>
-                <Route exact path="/" element={<LandingPage onEnterClick={triggerWaveAnimation} user={user} />} />
+                <Route exact path="/" element={<LandingPage onEnterClick={triggerWaveAnimation} user={currentUser} />} />
                 <Route path="/auth" element={<Authentication setLoginUser={setLoginUser}/>}/>
+                {isProtectedRoute(location.pathname) && <Navigate to="/auth" replace />}
               </>
             )}
           </Routes>

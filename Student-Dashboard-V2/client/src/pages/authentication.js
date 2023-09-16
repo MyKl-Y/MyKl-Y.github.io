@@ -8,7 +8,28 @@ import {
     FaHashtag,
     FaLock,
     FaCheck,
+    FaInfoCircle,
 } from 'react-icons/fa';
+
+/*
+const PasswordRequirementsTooltip = () => {
+    return (
+        <div id="tooltip" className="right">
+            <div className="tooltip-arrow" />
+            <div className='tooltip-content'>
+                <p>Password must meet the following requirements:</p>
+                <ul>
+                    <li>At least 1 uppercase letter</li>
+                    <li>At least 1 lowercase letter</li>
+                    <li>At least 1 number</li>
+                    <li>At least 1 special character (!.@#$%^&*)</li>
+                    <li>At least 8 characters long</li>
+                </ul>
+            </div>
+        </div>
+    );
+};
+*/
 
 const Authentication = ({ setLoginUser }) => {
     const navigate = useNavigate();
@@ -23,6 +44,13 @@ const Authentication = ({ setLoginUser }) => {
     const [passwordError, setPasswordError] = useState('');
     const [usernameError, setUsernameError] = useState('');
     const [emailError, setEmailError] = useState('');
+    const [isPasswordTooltipVisible, setPasswordTooltipVisible] = useState(false);
+
+    /*
+    const togglePasswordTooltip = () => {
+        setPasswordTooltipVisible(!isPasswordTooltipVisible);
+    }
+    */
 
     const validatePassword = () => {
         const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[.!@#$%^&*])[A-Za-z0-9.!@#$%^&*]{8,}$/;
@@ -40,33 +68,41 @@ const Authentication = ({ setLoginUser }) => {
 
     // Function to check username availability
     const checkUsernameAvailability = async (username) => {
-        try {
-            const response = await fetch(`http://localhost:5050/register/check-username/${username}`);
-            const data = await response.json()
+        if (username !== '') {
+            try {
+                const response = await fetch(`http://localhost:5050/register/check-username/${username}`);
+                const data = await response.json()
 
-            if (data.taken) {
-                setUsernameError('Username is already taken');
-            } else {
-                setUsernameError('');
+                if (data.taken) {
+                    setUsernameError('Username is already taken');
+                } else {
+                    setUsernameError('');
+                }
+            } catch (error) {
+                console.error('Error checking username:', error);
             }
-        } catch (error) {
-            console.error('Error checking username:', error);
+        } else {
+            setUsernameError('Username cannot be blank');
         }
     };
 
     // Function to check email availability
     const checkEmailAvailability = async (email) => {
-        try {
-            const response = await fetch(`http://localhost:5050/register/check-email/${email}`);
-            const data = await response.json()
+        if (email !== '') {
+            try {
+                const response = await fetch(`http://localhost:5050/register/check-email/${email}`);
+                const data = await response.json()
 
-            if (data.taken) {
-                setEmailError('Email is already taken');
-            } else {
-                setEmailError('');
+                if (data.taken) {
+                    setEmailError('Email is already taken');
+                } else {
+                    setEmailError('');
+                }
+            } catch (error) {
+                console.error('Error checking email:', error);
             }
-        } catch (error) {
-            console.error('Error checking email:', error);
+        } else {
+            setEmailError('Email cannot be blank');
         }
     };
 
@@ -89,7 +125,9 @@ const Authentication = ({ setLoginUser }) => {
     const canSubmit = () => {
         return (
             isLoginTab ||
-            (passwordError === '')
+            (passwordError === '') ||
+            (usernameError === '') ||
+            (emailError === '')
         );
     };
     
@@ -186,7 +224,7 @@ const Authentication = ({ setLoginUser }) => {
             if (response.status === 201) {
                 // Registration successful, you can set some state or redirect to login
                 console.log('Registration successful');
-                setIsLoginTab(isLoginTab);
+                setIsLoginTab(!isLoginTab);
             } else {
                 // Handle registration error, e.g., user already exists
                 const data = await response.json();
@@ -249,7 +287,10 @@ const Authentication = ({ setLoginUser }) => {
                         <form className="login-form" autoComplete="off" onSubmit={onSubmit}>
                             {/* Login form JSX */}
                             {/* Email input */}
-                            <label htmlFor="email" className="label">Email</label>
+                            <label htmlFor="email" className="label">
+                                Email &nbsp;
+                                <span style={{color: 'red', fontWeight: 'bold'}}>*</span>
+                            </label>
                             <div className='search'>
                                 <input
                                     type="email"
@@ -263,7 +304,10 @@ const Authentication = ({ setLoginUser }) => {
                                 <FaEnvelope></FaEnvelope>
                             </div>
                             {/* Password input */}
-                            <label htmlFor="password" className="label">Password</label>
+                            <label htmlFor="password" className="label">
+                                Password &nbsp;
+                                <span style={{color: 'red', fontWeight: 'bold'}}>*</span>
+                            </label>
                             <div className='search'>
                                 <input
                                     type="password"
@@ -287,7 +331,10 @@ const Authentication = ({ setLoginUser }) => {
                         <form className="register-form" onSubmit={onSubmit}>
                             {/* Register form JSX */}
                             {/* Name input */}
-                            <label htmlFor="name" className="label" id="username-label">Username</label>
+                            <label htmlFor="name" className="label" id="username-label">
+                                Username &nbsp;
+                                <span style={{color: 'red', fontWeight: 'bold'}}>*</span>
+                            </label>
                             <div className='search'>
                                 <input
                                     type="text"
@@ -307,7 +354,10 @@ const Authentication = ({ setLoginUser }) => {
                             }
                             </label>
                             {/* Email input */}
-                            <label htmlFor="email" className="label" id="email-label">Email</label>
+                            <label htmlFor="email" className="label" id="email-label">
+                                Email &nbsp;
+                                <span style={{color: 'red', fontWeight: 'bold'}}>*</span>
+                            </label>
                             <div className='search'>
                                 <input
                                     type="email"
@@ -327,7 +377,10 @@ const Authentication = ({ setLoginUser }) => {
                             }
                             </label>
                             {/* Password input */}
-                            <label htmlFor="password" className="label" id="password-label">Password</label>
+                            <label htmlFor="password" className="label" id="password-label">
+                                Password &nbsp;
+                                <span style={{color: 'red', fontWeight: 'bold'}}>*</span>
+                            </label>
                             <div className='search'>
                                 <input
                                     type="password"
@@ -339,8 +392,21 @@ const Authentication = ({ setLoginUser }) => {
                                     required
                                 />
                                 <FaLock></FaLock>
+                                {
+                                /* 
+                                    isPasswordTooltipVisible && <PasswordRequirementsTooltip />
+                                    <FaInfoCircle
+                                    onMouseEnter={togglePasswordTooltip}
+                                    onMouseLeave={togglePasswordTooltip}
+                                    color='var(--primary)'
+                                    />
+                                */
+                                }
                             </div>
-                            <label htmlFor="confirm-password" className="label" id="confirm-label">Confirm Password</label>
+                            <label htmlFor="confirm-password" className="label" id="confirm-label">
+                                Confirm Password &nbsp;
+                                <span style={{color: 'red', fontWeight: 'bold'}}>*</span>
+                            </label>
                             <div className='search'>
                             <input
                                     type="password"
@@ -354,9 +420,9 @@ const Authentication = ({ setLoginUser }) => {
                                 <FaCheck></FaCheck>
                             </div>
                             <label htmlFor="password-match-error" className="error">
-                            {
-                                passwordError
-                            }
+                                {
+                                    passwordError
+                                }
                             </label>
                             <button
                                 type="submit"

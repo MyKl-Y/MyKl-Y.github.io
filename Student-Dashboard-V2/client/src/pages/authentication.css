@@ -250,3 +250,81 @@ input:focus + svg {
     75%   { transform: scale(1.1, 0.98) rotate(2deg) ; }
     100% { transform: scale(1) rotate(0deg) ; }
 }
+
+#tooltip
+{
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    font-style: normal;
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 1.42857143;
+    text-align: left;
+    text-align: start;
+    text-shadow: none;
+    text-transform: none;
+    white-space: normal;
+    word-break: normal;
+    word-spacing: normal;
+    word-wrap: normal;
+    font-size: 12px;
+    width: 18rem;
+    margin-bottom: 0 !important;
+    
+    display: inline-block;
+}
+
+#tooltip .tooltip-content {
+    background-color: var(--primary);
+    color: var(--background-color);
+    border-radius: 1rem;
+    padding: .5rem;
+    margin-left: -2rem;
+    margin-bottom: -151rem;
+    box-shadow: .3rem .3rem .6rem -.2rem var(--dark-shadow),-.2rem -.2rem .5rem .1rem var(--light-shadow);
+}
+
+#tooltip p {
+    margin: 0;
+    margin-left: .5rem;
+    padding: 0;
+    width: fit-content;
+}
+
+#tooltip ul {
+    margin: 0;
+    margin-left: .5rem;
+}
+
+#tooltip.right
+{
+    margin-left: 2rem;
+}
+
+#tooltip .tooltip-arrow
+{
+    bottom: 0;
+    left: 0;
+    margin-top: -5px;
+    border-width: 5px 5px 5px 0;
+}
+
+#tooltip.right .tooltip-arrow
+{
+    bottom: -.2rem;
+    left: -.5rem;
+    margin-left: -5px;
+    border-width: 5px 5px 5px 0;
+    border-right-color: var(--primary);
+}
+
+#tooltip .tooltip-arrow
+{
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-right-color: transparent;
+    border-style: solid;
+}

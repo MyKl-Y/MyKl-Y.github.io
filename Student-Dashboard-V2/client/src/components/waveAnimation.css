@@ -48,3 +48,11 @@
 .wave4 {
   fill: var(--wave4)
 }
+
+@media screen and (orientation: landscape) and (max-width: 60rem) {
+  .waves {
+    height: 14vh;
+    min-height: 5vh;
+    max-height: 20vh;
+  }
+}

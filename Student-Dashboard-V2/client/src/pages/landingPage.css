@@ -66,9 +66,9 @@
         font-size: 3rem;
     }
     .glass-morphism p {
-        font-size: .75rem;
+        font-size: 1rem;
     }
-    .btn {
+    .glass-morphism .btn {
         font-size: 1rem;
     }
 }
@@ -181,6 +181,20 @@
             min-height: 30rem;
         }
     }*/
+}
+@media screen and (orientation: landscape) and (max-width: 60rem) {
+    .glass-morphism {
+        height: fit-content;
+    }
+    .glass-morphism h1 {
+        font-size: 3rem;
+    }
+    .glass-morphism p {
+        font-size: 1rem;
+    }
+    .glass-morphism .btn {
+        font-size: 1rem;
+    }
 }
 
 @keyframes anime2 {
