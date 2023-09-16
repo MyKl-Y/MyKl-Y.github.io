@@ -9,6 +9,8 @@ import {
     FaLock,
     FaCheck,
     FaInfoCircle,
+    FaEye,
+    FaEyeSlash,
 } from 'react-icons/fa';
 
 /*
@@ -44,13 +46,18 @@ const Authentication = ({ setLoginUser }) => {
     const [passwordError, setPasswordError] = useState('');
     const [usernameError, setUsernameError] = useState('');
     const [emailError, setEmailError] = useState('');
-    const [isPasswordTooltipVisible, setPasswordTooltipVisible] = useState(false);
+    //const [isPasswordTooltipVisible, setPasswordTooltipVisible] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     /*
     const togglePasswordTooltip = () => {
         setPasswordTooltipVisible(!isPasswordTooltipVisible);
     }
     */
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };      
 
     const validatePassword = () => {
         const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[.!@#$%^&*])[A-Za-z0-9.!@#$%^&*]{8,}$/;
@@ -301,7 +308,7 @@ const Authentication = ({ setLoginUser }) => {
                                     placeholder="Your email"
                                     required
                                 />
-                                <FaEnvelope></FaEnvelope>
+                                <FaEnvelope className='search-icon'></FaEnvelope>
                             </div>
                             {/* Password input */}
                             <label htmlFor="password" className="label">
@@ -309,8 +316,19 @@ const Authentication = ({ setLoginUser }) => {
                                 <span style={{color: 'red', fontWeight: 'bold'}}>*</span>
                             </label>
                             <div className='search'>
+                                <button
+                                    type="button"
+                                    className="show-password-button"
+                                    onClick={togglePasswordVisibility}
+                                >
+                                    {
+                                    showPassword ? 
+                                        <FaEyeSlash className='eye-btn' style={{color: 'var(--primary)'}} /> : 
+                                        <FaEye className='eye-btn' style={{color: 'var(--inverted-primary)'}}/>
+                                    }
+                                </button>
                                 <input
-                                    type="password"
+                                    type={showPassword ? "text" : "password"}
                                     className="login-password"
                                     name="password"
                                     value={user.password}
@@ -318,7 +336,7 @@ const Authentication = ({ setLoginUser }) => {
                                     placeholder="Your password"
                                     required
                                 />
-                                <FaLock></FaLock>
+                                <FaLock className='search-icon'></FaLock>
                             </div>
                             <button
                                 type="submit"
@@ -346,7 +364,7 @@ const Authentication = ({ setLoginUser }) => {
                                     placeholder="Username"
                                     required
                                 />
-                                <FaHashtag></FaHashtag>
+                                <FaHashtag className='search-icon'></FaHashtag>
                             </div>
                             <label htmlFor="username-error" className="error">
                             {
@@ -369,7 +387,7 @@ const Authentication = ({ setLoginUser }) => {
                                     placeholder="Email"
                                     required
                                 />
-                                <FaEnvelope></FaEnvelope>
+                                <FaEnvelope className='search-icon'></FaEnvelope>
                             </div>
                             <label htmlFor="email-error" className="error">
                             {
@@ -382,8 +400,19 @@ const Authentication = ({ setLoginUser }) => {
                                 <span style={{color: 'red', fontWeight: 'bold'}}>*</span>
                             </label>
                             <div className='search'>
+                                <button
+                                    type="button"
+                                    className="show-password-button"
+                                    onClick={togglePasswordVisibility}
+                                >
+                                    {
+                                    showPassword ? 
+                                        <FaEyeSlash className='eye-btn' style={{color: 'var(--primary)'}} /> : 
+                                        <FaEye className='eye-btn' style={{color: 'var(--inverted-primary)'}}/>
+                                    }
+                                </button>
                                 <input
-                                    type="password"
+                                    type={showPassword ? "text" : "password"}
                                     className="register-password"
                                     name="password"
                                     value={user.password}
@@ -391,7 +420,7 @@ const Authentication = ({ setLoginUser }) => {
                                     placeholder="Password"
                                     required
                                 />
-                                <FaLock></FaLock>
+                                <FaLock className='search-icon'></FaLock>
                                 {
                                 /* 
                                     isPasswordTooltipVisible && <PasswordRequirementsTooltip />
@@ -408,16 +437,27 @@ const Authentication = ({ setLoginUser }) => {
                                 <span style={{color: 'red', fontWeight: 'bold'}}>*</span>
                             </label>
                             <div className='search'>
-                            <input
-                                    type="password"
+                                <button
+                                    type="button"
+                                    className="show-password-button"
+                                    onClick={togglePasswordVisibility}
+                                >
+                                    {
+                                    showPassword ? 
+                                        <FaEyeSlash className='eye-btn' style={{color: 'var(--primary)'}} /> : 
+                                        <FaEye className='eye-btn' style={{color: 'var(--inverted-primary)'}}/>
+                                    }
+                                </button>
+                                <input
+                                    type={showPassword ? "text" : "password"}
                                     className="register-password"
                                     name="confirmPassword"
                                     value={user.confirmPassword}
                                     onChange={handleChange}
-                                    placeholder="Confirm Password"
+                                    placeholder="Confirm"
                                     required
                                 />
-                                <FaCheck></FaCheck>
+                                <FaCheck className='search-icon'></FaCheck>
                             </div>
                             <label htmlFor="password-match-error" className="error">
                                 {

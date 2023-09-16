@@ -90,6 +90,7 @@ input {
     border-radius: 1rem;
     font-size: 1.4rem;
     padding-left: 3.8rem;
+    padding-right: 3.8rem;
     box-shadow: inset .2rem .2rem .5rem var(--dark-shadow), inset -.2rem -.2rem .5rem var(--light-shadow);
     background: none;
     color: var(--primary);
@@ -138,7 +139,7 @@ label {
     align-items: center;
     flex-direction: row-reverse;
 }
-.search svg {
+.search .search-icon {
     position: absolute;
     left: 2rem;
     margin: .2rem .2rem 0 .2rem;
@@ -146,7 +147,33 @@ label {
     height: 1.5rem;
     color: var(--inverted-primary);
 }
-input:focus + svg {
+.search .show-password-button {
+    position: absolute;
+    margin: 0rem .2rem .2rem .2rem;
+    cursor: pointer;
+    width: fit-content !important;
+    height: fit-content !important;
+    outline: none;
+    border: none;
+    right: 2rem;
+    padding: 0;
+    font-size: 1.5rem;
+    background-color: var(--background-color);
+    z-index: 7;
+}
+.search .show-password-button .eye-button {
+    position: relative !important;
+    width: 1.5rem;
+    height: 1.5rem;
+    left: auto;
+    top: auto;
+    bottom: auto;
+    right: auto;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+}
+input:focus + .search-icon {
     color: var(--primary);
 }
 .login-email {
