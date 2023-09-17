@@ -5,6 +5,7 @@ import { motion } from 'framer-motion/dist/framer-motion'
 const Dashboard = () => {
     return (
         <motion.div
+            key='dashboard'
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

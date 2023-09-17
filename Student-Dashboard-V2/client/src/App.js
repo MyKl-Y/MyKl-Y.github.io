@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 //import Navbar from './components/navbar';
 import TaskList from './pages/taskList';
-import EditTask from './pages/editTask';
-import CreateTask from './pages/createTask';
+import EditTask from './pages/taskEdit';
+import CreateTask from './pages/taskCreate';
 import LandingPage from './pages/landingPage';
 import Dashboard from './pages/dashboard';
 import Assignments from './pages/assignments';
@@ -21,6 +21,9 @@ import Account from './pages/account';
 //import CreateAccount from './pages/createAccount';
 import Help from './pages/help';
 import Authentication from './pages/authentication';
+import Courses from './pages/courseList';
+import EditCourse from './pages/courseEdit';
+import CreateCourse from './pages/courseCreate';
 import Sidebar from './components/sidebar';
 import WaveAnimation from './components/waveAnimation';
 //import AnimatedRoutes from './components/AnimatedRoutes';
@@ -126,7 +129,9 @@ function App() {
                 {/*<Route path="/create-account" element={<CreateAccount />} />*/}
                 <Route path="/help" element={<Help />} />
                 <Route path="/applications" element={<Applications />} />
-
+                <Route path='/courses' element={<Courses />} />
+                <Route path="/edit-course/:id" element={<EditCourse />} />
+                <Route path="/create-course" element={<CreateCourse />} />
                 <Route exact path="/" element={<LandingPage onEnterClick={triggerWaveAnimation} />} />
                 <Route path="/auth" element={<Authentication />}/>
 
