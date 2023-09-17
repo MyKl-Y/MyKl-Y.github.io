@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import { Link, useLocation } from 'react-router-dom';
 import './sidebar.css';
 import { useTheme } from '../context/ThemeContext';
+import { useAuth } from '../context/AuthContext';
 import { 
     FaTachometerAlt, 
     FaCog, 
@@ -26,6 +27,9 @@ const Sidebar = () => {
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
     };
+
+    const { user } = useAuth();
+    const isLoggedIn = !!user;
 
     const location = useLocation();
 
@@ -78,6 +82,7 @@ const Sidebar = () => {
                 {isOpen ? <FaChevronLeft /> : <FaChevronCircleRight />}
             </button>
             <motion.div 
+                key='sidebar'
                 className={`sidebar ${isOpen ? 'open' : ''}`}
                 initial={{ translateX: '-100%' }}
                 animate={{ translateX: 0 }}
@@ -189,7 +194,7 @@ const Sidebar = () => {
                 <div className='account-container'>
                     <Link className='button' to="/account">
                         <FaUserAstronaut></FaUserAstronaut>
-                        <p>Account</p>
+                        <p>{isLoggedIn ? user.name : 'Guest'}</p>
                     </Link>
                 </div>
             </motion.div>

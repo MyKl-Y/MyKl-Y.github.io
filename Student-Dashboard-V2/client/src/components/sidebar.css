@@ -133,9 +133,9 @@
 /* Account */
 .account-container {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: stretch;
     position: sticky;
     bottom: 0;
     background-color: var(--background-color);
@@ -143,12 +143,12 @@
 .account-container a {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
     text-decoration: none;
 }
 .account-container .button {
-    justify-self: center;
+    justify-self: stretch;
     background: var(--primary);
     border: none;
     color: var(--background-color);

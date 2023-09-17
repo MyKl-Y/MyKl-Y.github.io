@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useTheme } from '../context/ThemeContext';
-import { motion } from 'framer-motion/dist/framer-motion'
+import { useAuth } from '../context/AuthContext';
+import { motion } from 'framer-motion/dist/framer-motion';
 import './authentication.css';
 import { 
     FaEnvelope,
@@ -33,7 +34,7 @@ const PasswordRequirementsTooltip = () => {
 };
 */
 
-const Authentication = ({ setLoginUser }) => {
+const Authentication = () => {
     const navigate = useNavigate();
     const [user, setUser] = useState({
         name: "",
@@ -41,6 +42,8 @@ const Authentication = ({ setLoginUser }) => {
         password: "",
         confirmPassword: "",
     });
+
+    const { currentUser, authLogin } = useAuth();
 
     const [isLoginTab, setIsLoginTab] = useState(true); // State to switch between Login and Register
     const [passwordError, setPasswordError] = useState('');
@@ -147,6 +150,7 @@ const Authentication = ({ setLoginUser }) => {
         e.preventDefault();
     
         const newUser = { ...user };
+        console.log(newUser.name, newUser.email)
     
         if (isLoginTab) {
             await login(newUser);
@@ -212,6 +216,8 @@ const Authentication = ({ setLoginUser }) => {
     
             if (response.status === 200) {
                 // Login successful, you can set some state or redirect to the authenticated page
+                const data = await response.json();
+                authLogin(data.userData);
                 console.log('Login successful');
                 navigate('/dashboard');
             } else {
@@ -273,6 +279,7 @@ const Authentication = ({ setLoginUser }) => {
             </motion.div>
             */}
             <motion.div 
+                key='authentication'
                 className="auth-container"
                 initial={{ transform: "scale(0)", opacity: 0 }}
                 animate={{ transform: "scale(1)", opacity: 1 }}

@@ -66,16 +66,9 @@ function App() {
 
   const [animateWaves, setAnimateWaves] = useState(false); // State variable to trigger animation
 
-  const [user, setLoginUser] = useState({
-    id: "",
-    name: "",
-    email: "",
-    password: "",
-  });
-
   const { currentUser } = useAuth();
   // Determine if the user is authenticated
-  const isAuthenticated = !!currentUser;
+  const isLoggedIn = !!currentUser;
 
   const renderSidebar = !['/', '/login', '/register', '/auth'].includes(location.pathname);
   const isLandingPage = location.pathname === '/';
@@ -113,8 +106,7 @@ function App() {
           style={componentStyle}
         >
           <Routes>
-            {isAuthenticated ? (
-              <>
+
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/tasks" element={<TaskList />} />
                 <Route path="/edit-task/:id" element={<EditTask />} />
@@ -134,13 +126,10 @@ function App() {
                 {/*<Route path="/create-account" element={<CreateAccount />} />*/}
                 <Route path="/help" element={<Help />} />
                 <Route path="/applications" element={<Applications />} />
-              </>
-            ) : (
-              <>
-                <Route exact path="/" element={<LandingPage onEnterClick={triggerWaveAnimation} user={currentUser} />} />
-                <Route path="/auth" element={<Authentication setLoginUser={setLoginUser}/>}/>
-              </>
-            )}
+
+                <Route exact path="/" element={<LandingPage onEnterClick={triggerWaveAnimation} />} />
+                <Route path="/auth" element={<Authentication />}/>
+
           </Routes>
           <div 
             className={`waves-container ${animateWaves ? 'animate' : ''}`} // Add 'animate' class when animation should occur 

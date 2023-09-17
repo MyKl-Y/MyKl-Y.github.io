@@ -103,6 +103,12 @@ input:focus {
     outline: none;
     box-shadow: .3rem .3rem .6rem var(--dark-shadow),-.2rem -.2rem .5rem var(--light-shadow);
 }
+.input-error {
+    border: 1px solid red;
+}
+.input-normal {
+    border: 1px solid transparent;
+}
 label {
     position: relative;
     display: flex;
@@ -180,18 +186,9 @@ input:focus + .search-icon {
     margin: 0 1rem 0rem 1rem;
     font-size: 1.4rem;
 }
-.login-email::placeholder {
-}
-.login-email:focus {
-
-}
 .login-password {
     margin: 0 1rem 0rem 1rem;
     font-size: 1.4rem;
-}
-.login-password::placeholder {
-}
-.login-password:focus {
 }
 .login-button {
     margin: 1rem;
@@ -204,9 +201,6 @@ input:focus + .search-icon {
     border-radius: 1rem;
     padding: .5rem;
     box-shadow: inset -.2rem -.2rem .5rem -.2rem var(--accent-dark), inset .2rem .2rem .5rem 0rem var(--accent-light);
-}
-.login-button:hover {
-
 }
 .login-button:active {
     box-shadow: inset .2rem .2rem .5rem -.2rem var(--accent-dark), inset -.2rem -.2rem .5rem 0rem var(--accent-light);
@@ -222,25 +216,13 @@ input:focus + .search-icon {
     margin: 0 1rem 0rem 1rem;
     font-size: 1.4rem;
 }
-.register-name::placeholder {
-}
-.register-name:focus {
-}
 .register-email {
     margin: 0 1rem 0rem 1rem;
     font-size: 1.4rem;
 }
-.register-email::placeholder {
-}
-.register-email:focus {
-}
 .register-password {
     margin: 0 1rem 0rem 1rem;
     font-size: 1.4rem;
-}
-.register-password::placeholder {
-}
-.register-password:focus {
 }
 .register-button {
     margin: 1rem;
@@ -254,13 +236,11 @@ input:focus + .search-icon {
     padding: .5rem;
     box-shadow: inset -.2rem -.2rem .5rem -.2rem var(--accent-dark), inset .2rem .2rem .5rem 0rem var(--accent-light);
 }
-.register-button:hover {
-
-}
 .register-button:active {
     box-shadow: inset .2rem .2rem .5rem -.2rem var(--accent-dark), inset -.2rem -.2rem .5rem 0rem var(--accent-light);
 }
 
+/*
 .animation {
     width: 80rem;
     height: 1rem;
@@ -277,15 +257,9 @@ input:focus + .search-icon {
     75%   { transform: scale(1.1, 0.98) rotate(2deg) ; }
     100% { transform: scale(1) rotate(0deg) ; }
 }
+*/
 
-.input-error {
-    border: 1px solid red;
-}
-
-.input-normal {
-    border: 1px solid transparent;
-}
-
+/*
 #tooltip
 {
     position: absolute;
@@ -363,4 +337,4 @@ input:focus + .search-icon {
     border-right-color: transparent;
     border-style: solid;
 }
-
+*/

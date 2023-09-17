@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
+import { useAuth } from '../context/AuthContext';
 import './landingPage.css';
 import { motion } from 'framer-motion/dist/framer-motion'
 
-function LandingPage({ onEnterClick, user }) {
+function LandingPage({ onEnterClick }) {
     const { isDarkMode, toggleMode } = useTheme();
     const [isRotated, setIsRotated] = useState(false);
     const [animationComplete, setAnimationComplete] = useState();
+
+    const { user } = useAuth();
+    const isLoggedIn = !!user;
+
     const navigate = useNavigate();
 
     const componentStyle = {
@@ -34,7 +39,7 @@ function LandingPage({ onEnterClick, user }) {
         onEnterClick();
         setTimeout(() => {
             setAnimationComplete(true);
-            if (user && user._id) {
+            if (isLoggedIn) {
                 navigate("/dashboard")
             } else {
                 navigate("/auth")
@@ -44,6 +49,7 @@ function LandingPage({ onEnterClick, user }) {
 
     return (
         <motion.div 
+            key='landing-page'
             className='container'
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -63,7 +69,7 @@ function LandingPage({ onEnterClick, user }) {
                             className={'btn btn-lg btn-primary'}
                             onClick={handleEnterClick}
                         >
-                            {user && user._id ? "Dashboard" : "Login"}
+                            {isLoggedIn ? "Enter" : "Login"}
                         </Link>
                 </div>
             </div>

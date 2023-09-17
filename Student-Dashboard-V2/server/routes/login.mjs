@@ -19,7 +19,12 @@ router.post("/", async (req, res) => {
         // Check if the provided password matches the stored password
         if (user.password === password) {
             // Authentication successful
-            res.status(200).json({ message: 'Login successful' });
+            const userData = {
+                email: user.email,
+                name: user.name, // Include the user's name
+                // Add other user data as needed
+            };
+            res.status(200).json({ message: 'Login successful', userData });
         } else {
             res.status(401).json({ message: 'Invalid credentials' });
         }
