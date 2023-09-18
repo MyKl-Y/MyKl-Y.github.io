@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-//import Navbar from './components/navbar';
+import Navbar from './components/navbar';
 import TaskList from './pages/taskList';
 import EditTask from './pages/taskEdit';
 import CreateTask from './pages/taskCreate';
@@ -103,7 +103,7 @@ function App() {
     >
       <AnimatePresence exitBeforeEnter>
         {renderSidebar && <Sidebar />}
-        {/*<Navbar />*/}
+        {renderSidebar && <Navbar />}
         <div 
           className={`content ${isLandingPage ? `landing-page ${animateWaves ? 'animate' : ''}` : ''}`} 
           style={componentStyle}

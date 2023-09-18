@@ -1,0 +1,24 @@
+.navbar-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    background-color: var(--background-color);
+    box-shadow: .3rem .3rem .6rem var(--dark-shadow), -.2rem -.2rem .5rem var(--light-shadow);
+    width: auto !important;
+    padding: 20px;
+}
+
+.navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    background-color: var(--background-color);
+    box-shadow: .3rem .3rem .6rem var(--dark-shadow), -.2rem -.2rem .5rem var(--light-shadow);
+    border-radius: 1rem;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    height: 4.75rem;
+    align-self: flex-end;
+}

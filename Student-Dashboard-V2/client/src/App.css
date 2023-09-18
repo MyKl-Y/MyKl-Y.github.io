@@ -50,6 +50,16 @@
   overflow: hidden;
 }
 
+.App.flex-end-content {
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  overflow: hidden;
+  right: 0;
+  bottom: 0;
+}
+
+
 .App.auth-center {
   justify-content: center;
   align-items: center;
@@ -58,12 +68,13 @@
 
 .content {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  align-self: flex-end;
+  justify-content: flex-start;
+  align-items: flex-start;
   right: 0;
   width: 100%;
   height: 100vh;
-  padding: 20px;
+  padding: 2rem;
   /*background-image: url(./images/abstract-geometric-shape-gradient-background-2.jpg);
   background-size: 100% 100%;*/
 }
@@ -84,20 +95,41 @@
 @media screen and (min-width: 40em) {
   .content:not(.landing-page) {
       right: 0;
+      bottom: 0;
       width: 100%;
+      height: calc(100vh - 116px);
+  }
+  .navbar-container {
+      right: 0;
+      bottom: 0;
+      width: 100% !important;
   }
 }
 
 @media screen and (min-width: 48em) {
   .content:not(.landing-page) {
       right: 0;
+      bottom: 0;
       width: calc(100% - 150px);
+      height: calc(100vh - 116px);
+  }
+  .navbar-container {
+      right: 0;
+      bottom: 0;
+      width: calc(100% - 150px) !important;
   }
 }
 
 @media screen and (min-width: 64em) {
   .content:not(.landing-page) {
       right: 0;
+      bottom: 0;
       width: calc(100% - 300px);
+      height: calc(100vh - 116px);
+  }
+  .navbar-container {
+      right: 0;
+      bottom: 0;
+      width: calc(100% - 300px) !important;
   }
 }
