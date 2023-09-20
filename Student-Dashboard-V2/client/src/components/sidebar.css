@@ -180,10 +180,12 @@
 @media screen and (min-width: 0em) {
     .toggle-button {
         display: grid;
+        z-index: 7;
     }
     .sidebar {
         left: -100%;
         width: 100%;
+        z-index: 6;
     }
     .sidebar.open {
         left: 0;
@@ -213,10 +215,12 @@
 @media screen and (min-width: 40em) {
     .toggle-button {
         display: grid;
+        z-index: 7;
     }
     .sidebar {
         left: -100%;
         width: 100%;
+        z-index: 6;
     }
     .sidebar.open {
         left: 0;
@@ -255,6 +259,7 @@
     .sidebar {
         left: 0;
         width: 150px;
+        z-index: 5;
     }
     .link-container {
         font-size: 2rem;
@@ -309,6 +314,7 @@
     .sidebar {
         left: 0;
         width: 300px;
+        z-index: 5;
     }
     .sidebar.open ul {
         display: grid;

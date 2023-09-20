@@ -1,0 +1,97 @@
+.courses-container {
+    overflow-y: scroll;
+    height: 100%;
+}
+
+/* Style for the tabs */
+.courses-tabs button {
+    background: none;
+    border: none;
+    margin-right: .5rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    padding: .25rem .5rem;
+    font-size: 1rem;
+    border-radius: 1rem;
+    transition: background-color 0.3s, color 0.3s;
+    color: var(--primary);
+    box-shadow: .2rem .2rem .5rem 0rem var(--dark-shadow), -.2rem -.2rem .5rem 0rem var(--light-shadow);
+}
+
+/* Style for the active tab */
+.courses-tabs .active-tab {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    box-shadow: inset .2rem .2rem .5rem 0rem var(--dark-shadow), inset -.2rem -.2rem .5rem 0rem var(--light-shadow);
+}
+
+/* Style for the course list */
+.courses-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.single-course {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: .2rem .2rem .5rem var(--dark-shadow), -.2rem -.2rem .5rem var(--light-shadow);
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    background-color: var(--background-color);
+    display: flex;
+    color: var(--text-color);
+    flex: 1 1 50rem stretch;
+}
+
+.single-course h3 {
+    color: var(--accent-dark)
+}
+
+.single-course h5 {
+    color: var(--primary)
+}
+
+/* Style for buttons inside the course list */
+.single-course button {
+    background-color: var(--primary);
+    border: none;
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    box-shadow: inset .2rem .2rem .5rem 0rem var(--accent-dark), inset -.2rem -.2rem .5rem 0rem var(--accent-light);
+    color: var(--background-color);
+    margin-left: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Style for buttons on hover */
+.single-course button:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* Style for the create button */
+button.create-course {
+    background-color: #28a745; /* Green color */
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Style for the create button on hover */
+button.create-course:hover {
+    background-color: #218838; /* Darker green color on hover */
+}

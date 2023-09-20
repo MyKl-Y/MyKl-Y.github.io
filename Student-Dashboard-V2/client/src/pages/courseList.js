@@ -8,11 +8,54 @@ import {
     FaEdit,
     FaFolderPlus,
 } from 'react-icons/fa';
+import "./courseList.css";
 
 function Courses() {
+    const { isDarkMode } = useTheme();
+
+    const componentStyle = {
+        '--background': 
+            isDarkMode ? 
+            'linear-gradient(60deg, rgba(84,58,183,1) -100%, rgba(0,172,193,1) 200%)' : 
+            'linear-gradient(60deg, rgb(53, 29, 150) -100%, rgb(1, 90, 102) 200%)',
+        '--text-color': 
+            !isDarkMode ? 
+            'rgba(47,62,112,1)' : 
+            'rgba(255,203,0, 1)',
+        '--background-color': 
+            !isDarkMode ? 
+            'rgba(236,240,243, 1)' : 
+            'rgba(12,15,19,1)',
+        '--light-shadow': 
+            !isDarkMode ? 
+            '#fff' : 
+            '#222',
+        '--dark-shadow': 
+            !isDarkMode ? 
+            '#ccc' : 
+            '#000',
+        '--accent-gradient': 
+            !isDarkMode ? 
+            'linear-gradient(60deg, rgba(255,203,0,1) 0%, rgba(255,143,0,1) 100%)' : 
+            'linear-gradient(60deg, rgba(47,62,112,1) 0%, rgba(255,255,255,1) 100%)',
+        '--accent-light':
+            isDarkMode ?
+            'rgba(255,203,0,1)' :
+            'rgba(138, 189, 255, 1)',
+        '--accent-dark':
+            isDarkMode ?
+            'rgba(255,143,0,1)' :
+            'rgba(91, 14, 235, 1)',
+        '--primary':
+            !isDarkMode ?
+            'rgba(109, 93, 252, 1)':
+            'rgba(255, 173, 0, 1)',
+    };
+
     const [courses, setCourses] = useState([]);
     const [selectedCourse, setSelect] = useState(null);
     const [showCreateForm, setShowCreateForm] = useState(false);
+    const [selectedSemester, setSelectedSemester] = useState("All Semesters"); // Track the selected semester
     const { user } = useAuth();
 
     // Function to fetch courses from the backend
@@ -140,53 +183,83 @@ function Courses() {
         return acc;
     }, {});
 
-    return (
-        <div>
-            <h1>My Courses</h1>
-            {showCreateForm ? (
-                <CourseCreate onCourseCreate={addCourse} onCancel={() => setShowCreateForm(false)} />
-            ) : (
-                <button onClick={() => setShowCreateForm(true)}>
-                    <FaFolderPlus></FaFolderPlus>
-                </button>
-            )}
-            {Object.keys(groupedCourses).map((semester) => (
-                <div key={semester}>
-                    <h2>{semester}</h2>
-                    <ul>
-                        {groupedCourses[semester].map((course) => (
-                            <li key={course._id}>
-                                {selectedCourse === course._id ? (
-                                    <CourseEdit
-                                        course={course}
-                                        onUpdateCourse={updateCourse}
-                                        onCancel={deselectCourse}
-                                    />
-                                ) : (
-                                    <div>
-                                        <h3>{course.courseName}</h3>
-                                        <p>Course Number: {course.courseNumber}</p>
-                                        <p>Professor: {course.professor}</p>
-                                        {/* Add other course details */}
-                                        <p>Meeting Times: {course.meetingTimes}</p>
-                                        <p>Created by: {course.user}</p>
-                                        {/*<p>Tag: {course.tag}</p>
-                                        <p>Links: {course.links}</p>*/}
-                                        <button onClick={() => selectCourse(course._id)}>
-                                            <FaEdit></FaEdit>
-                                        </button>
-                                        <button onClick={() => deleteCourse(course._id)}>
-                                            <FaTrashAlt></FaTrashAlt>
-                                        </button>
-                                    </div>
-                                )}
-                            </li>
-                        ))}
-                    </ul>
+    const semesterOptions = [
+        "All Semesters", 
+        "Fall 2022",
+        "Spring 2023",
+        "Summer 2023",
+        "Fall 2023",
+        "Spring 2024",
+        "Summer 2024",
+        "Fall 2024",
+        "Spring 2025",
+        "Summer 2025",
+        "Fall 2025",
+        "Spring 2026",
+    ];
+
+    // Sort courses alphabetically within each semester
+    const sortedCourses = {};
+    Object.keys(groupedCourses).forEach((semester) => {
+        sortedCourses[semester] = groupedCourses[semester].sort((a, b) =>
+            a.courseName.localeCompare(b.courseName)
+        );
+    });
+
+    const filteredCourses = selectedSemester === "All Semesters"
+        ? courses
+        : groupedCourses[selectedSemester] || [];
+
+        return (
+            <div className="courses-container" style={componentStyle}>
+                <div className="courses-tabs">
+                    {/* Tabs for selecting the semester */}
+                    {semesterOptions.map((semesterOption) => (
+                        <button
+                            key={semesterOption}
+                            onClick={() => setSelectedSemester(semesterOption)}
+                            className={selectedSemester === semesterOption ? "active-tab" : ""}
+                        >
+                            {semesterOption}
+                        </button>
+                    ))}
                 </div>
-            ))}
-        </div>
-    );
+                {showCreateForm ? (
+                    <CourseCreate onCourseCreate={addCourse} onCancel={() => setShowCreateForm(false)} />
+                ) : (
+                    <button className="create-course" onClick={() => setShowCreateForm(true)}>
+                        <FaFolderPlus></FaFolderPlus>
+                    </button>
+                )}
+                <ul className="courses-list">
+                    {filteredCourses.map((course) => (
+                        <li className="single-course" key={course._id}>
+                            {selectedCourse === course._id ? (
+                                <CourseEdit
+                                    course={course}
+                                    onUpdateCourse={updateCourse}
+                                    onCancel={deselectCourse}
+                                />
+                            ) : (
+                                <div>
+                                    <h3>{course.courseName}</h3>
+                                    <h5>{course.courseNumber}</h5>
+                                    <p>Professor: {course.professor}</p>
+                                    <p>Meeting Times: {course.meetingTimes}</p>
+                                    <p>Created by: {course.user}</p>
+                                    <button onClick={() => selectCourse(course._id)}>
+                                        <FaEdit></FaEdit>
+                                    </button>
+                                    <button onClick={() => deleteCourse(course._id)}>
+                                        <FaTrashAlt></FaTrashAlt>
+                                    </button>
+                                </div>
+                            )}
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        );
 }
 
 export default Courses;
