@@ -99,11 +99,6 @@
       width: 100%;
       height: calc(100vh - 116px);
   }
-  .navbar-container {
-      right: 0;
-      bottom: 0;
-      width: 100% !important;
-  }
 }
 
 @media screen and (min-width: 48em) {
@@ -113,11 +108,6 @@
       width: calc(100% - 150px);
       height: calc(100vh - 116px);
   }
-  .navbar-container {
-      right: 0;
-      bottom: 0;
-      width: calc(100% - 150px) !important;
-  }
 }
 
 @media screen and (min-width: 64em) {
@@ -126,10 +116,5 @@
       bottom: 0;
       width: calc(100% - 300px);
       height: calc(100vh - 116px);
-  }
-  .navbar-container {
-      right: 0;
-      bottom: 0;
-      width: calc(100% - 300px) !important;
   }
 }

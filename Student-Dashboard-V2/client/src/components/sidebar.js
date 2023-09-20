@@ -22,7 +22,7 @@ import {
 import { motion } from 'framer-motion/dist/framer-motion'
 
 const Sidebar = () => {
-    const { isDarkMode, toggleMode } = useTheme();
+    const { isDarkMode } = useTheme();
     const [isOpen, setIsOpen] = useState(false);
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
