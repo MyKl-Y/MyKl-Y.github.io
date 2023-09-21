@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useAuth } from "../context/AuthContext";
+//import { useAuth } from "../context/AuthContext";
 import { useTheme } from '../context/ThemeContext';
 import CourseCreate from "./courseCreate";
 import CourseEdit from "./courseEdit";
@@ -41,14 +41,14 @@ function Courses() {
         '--accent-light':
             isDarkMode ?
             'rgba(255,203,0,1)' :
-            'rgba(138, 189, 255, 1)',
+            'rgba(47,62,112,1)',
         '--accent-dark':
             isDarkMode ?
             'rgba(255,143,0,1)' :
-            'rgba(91, 14, 235, 1)',
+            'rgba(255,255,255,1)',
         '--primary':
             !isDarkMode ?
-            'rgba(109, 93, 252, 1)':
+            'rgba(81, 101, 167, 1)':
             'rgba(255, 173, 0, 1)',
     };
 
@@ -56,7 +56,7 @@ function Courses() {
     const [selectedCourse, setSelect] = useState(null);
     const [showCreateForm, setShowCreateForm] = useState(false);
     const [selectedSemester, setSelectedSemester] = useState("All Semesters"); // Track the selected semester
-    const { user } = useAuth();
+    //const { user } = useAuth();
 
     // Function to fetch courses from the backend
     const fetchCourses = async () => {
@@ -212,8 +212,7 @@ function Courses() {
 
         return (
             <div className="courses-container" style={componentStyle}>
-                <div className="courses-tabs">
-                    {/* Tabs for selecting the semester */}
+                {/*<div className="courses-tabs">
                     {semesterOptions.map((semesterOption) => (
                         <button
                             key={semesterOption}
@@ -223,6 +222,20 @@ function Courses() {
                             {semesterOption}
                         </button>
                     ))}
+                </div>*/}
+                <div className="semester-dropdown">
+                    <label htmlFor="semester-select">Select Semester:</label>
+                    <select
+                        id="semester-select"
+                        value={selectedSemester}
+                        onChange={(e) => setSelectedSemester(e.target.value)}
+                    >
+                        {semesterOptions.map((semesterOption) => (
+                            <option className="semester-option" key={semesterOption} value={semesterOption}>
+                                {semesterOption}
+                            </option>
+                        ))}
+                    </select>
                 </div>
                 {showCreateForm ? (
                     <CourseCreate onCourseCreate={addCourse} onCancel={() => setShowCreateForm(false)} />

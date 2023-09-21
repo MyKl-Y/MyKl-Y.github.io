@@ -42,7 +42,7 @@
 }
 
 .navbar li a {
-    box-shadow: inset .3rem .3rem .6rem var(--dark-shadow), inset -.2rem -.2rem .5rem var(--light-shadow);
+    box-shadow: .3rem .3rem .6rem var(--dark-shadow), -.2rem -.2rem .5rem var(--light-shadow);
     text-decoration: none;
     color: var(--text-color);
     font-size: 1.5rem;
@@ -61,7 +61,7 @@
     background: var(--accent-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    box-shadow: .3rem .3rem .6rem var(--dark-shadow), -.2rem -.2rem .5rem var(--light-shadow);
+    box-shadow: inset .3rem .3rem .6rem var(--dark-shadow), inset -.2rem -.2rem .5rem var(--light-shadow);
 }
 
 /* Media query for responsive design */

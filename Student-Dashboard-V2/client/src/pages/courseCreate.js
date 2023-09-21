@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
+//import { useNavigate } from "react-router";
 import "bootstrap/dist/css/bootstrap.css";
 import { useAuth } from "../context/AuthContext";
 
@@ -19,7 +19,7 @@ export default function CreateTask({ onCourseCreate, onCancel }) {
         user: "",
     });
 
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
 
     const handleAddCourse = () => {
         // Set the user to property of the newCourse object

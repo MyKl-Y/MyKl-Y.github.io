@@ -51,7 +51,7 @@ export default function Navbar() {
     const isDashboardRoute = location.pathname.startsWith('/dashboard');
     const isCoursesRoute = location.pathname.startsWith("/courses");
     const isTasksRoute = location.pathname.startsWith("/tasks");
-    const isAssignmentsRoute = location.pathname.startsWith("/assignments");
+    //const isAssignmentsRoute = location.pathname.startsWith("/assignments");
     const isApplicationsRoute = location.pathname.startsWith("/applications");
     const isCalendarRoute = location.pathname.startsWith("/calendar");
     const isGradesRoute = location.pathname.startsWith("/grades");
@@ -79,35 +79,42 @@ export default function Navbar() {
                         {isTasksRoute && (
                             <li className="nav-item">
                                 <NavLink to="/tasks" activeClassName="active-link">
-                                    Tasks
+                                    All Tasks
                                 </NavLink>
                             </li>
                         )}
                         {isTasksRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/edit-task/1" activeClassName="active-link">
-                                    Edit Task
-                                </NavLink>
-                            </li>
-                        )}
-                        {isTasksRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/create-task" activeClassName="active-link">
-                                    Create Task
-                                </NavLink>
-                            </li>
-                        )}
-                        {isAssignmentsRoute && (
                             <li className="nav-item">
                                 <NavLink to="/assignments" activeClassName="active-link">
                                     Assignments
                                 </NavLink>
                             </li>
                         )}
+                        {isTasksRoute && (
+                            <li className="nav-item">
+                                <NavLink to="/habits" activeClassName="active-link">
+                                    Habits
+                                </NavLink>
+                            </li>
+                        )}
                         {isApplicationsRoute && (
                             <li className="nav-item">
                                 <NavLink to="/applications" activeClassName="active-link">
-                                    Applications
+                                    All Applications
+                                </NavLink>
+                            </li>
+                        )}
+                        {isApplicationsRoute && (
+                            <li className="nav-item">
+                                <NavLink to="/applications/jobs" activeClassName="active-link">
+                                    Job Applications
+                                </NavLink>
+                            </li>
+                        )}
+                        {isApplicationsRoute && (
+                            <li className="nav-item">
+                                <NavLink to="/applications/internships" activeClassName="active-link">
+                                    Internship Applications
                                 </NavLink>
                             </li>
                         )}
@@ -118,20 +125,6 @@ export default function Navbar() {
                                 </NavLink>
                             </li>
                         )}
-                        {isCalendarRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/edit-calendar/1" activeClassName="active-link">
-                                    Edit Calendar
-                                </NavLink>
-                            </li>
-                        )}
-                        {isCalendarRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/create-calendar" activeClassName="active-link">
-                                    Create Calendar
-                                </NavLink>
-                            </li>
-                        )}
                         {isGradesRoute && (
                             <li className="nav-item">
                                 <NavLink to="/grades" activeClassName="active-link">
@@ -139,38 +132,10 @@ export default function Navbar() {
                                 </NavLink>
                             </li>
                         )}
-                        {isGradesRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/edit-grade/1" activeClassName="active-link">
-                                    Edit Grade
-                                </NavLink>
-                            </li>
-                        )}
-                        {isGradesRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/create-grade" activeClassName="active-link">
-                                    Create Grade
-                                </NavLink>
-                            </li>
-                        )}
                         {isSettingsRoute && (
                             <li className="nav-item">
                                 <NavLink to="/settings" activeClassName="active-link">
                                     Settings
-                                </NavLink>
-                            </li>
-                        )}
-                        {isSettingsRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/edit-account/1" activeClassName="active-link">
-                                    Edit Account
-                                </NavLink>
-                            </li>
-                        )}
-                        {isSettingsRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/create-account" activeClassName="active-link">
-                                    Create Account
                                 </NavLink>
                             </li>
                         )}

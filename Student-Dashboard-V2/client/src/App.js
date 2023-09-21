@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import Navbar from './components/navbar';
 import TaskList from './pages/taskList';
 import EditTask from './pages/taskEdit';
@@ -28,56 +28,26 @@ import Sidebar from './components/sidebar';
 import WaveAnimation from './components/waveAnimation';
 //import AnimatedRoutes from './components/AnimatedRoutes';
 import { useTheme } from './context/ThemeContext';
-import { useAuth } from './context/AuthContext';
+//import { useAuth } from './context/AuthContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
 import { AnimatePresence } from 'framer-motion/dist/framer-motion';
 import Applications from './pages/applications';
 
-// Define a function to check if a route is protected
-function isProtectedRoute(routePath) {
-  // List the paths that require authentication
-  const protectedPaths = [
-    '/dashboard',
-    '/tasks',
-    "/edit-task/:id",
-    "/create-task",
-    "/assignments",
-    /*"/edit-assignment/:id",*/
-    /*"/create-assignment",*/
-    "/calendar",
-    /*"/edit-calendar/:id",*/
-    /*<Route path="/create-calendar" element={<CreateCalendar />} />*/
-    "/grades",
-    /*"/edit-grade/:id",*/
-    /*"/create-grade",*/
-    "/settings",
-    "/account",
-    /*"/edit-account/:id",*/
-    /*"/create-account",*/
-    "/help",
-    "/applications",
-    // Add more protected paths here
-  ];
-
-  return protectedPaths.includes(routePath);
-}
-
 function App() {
   const location = useLocation();
-  const navigate = useNavigate();
 
   const [animateWaves, setAnimateWaves] = useState(false); // State variable to trigger animation
 
-  const { currentUser } = useAuth();
+  //const { currentUser } = useAuth();
   // Determine if the user is authenticated
-  const isLoggedIn = !!currentUser;
+  //const isLoggedIn = !!currentUser;
 
   const renderSidebar = !['/', '/login', '/register', '/auth'].includes(location.pathname);
   const isLandingPage = location.pathname === '/';
   const isLoginRegister = ['/login', '/register', '/auth'].includes(location.pathname);
 
-  const { isDarkMode, toggleMode } = useTheme();
+  const { isDarkMode } = useTheme();
 
 
   const componentStyle = {

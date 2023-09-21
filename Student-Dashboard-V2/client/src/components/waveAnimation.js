@@ -3,7 +3,7 @@ import './waveAnimation.css';
 import { useTheme } from '../context/ThemeContext';
 
 function WaveAnimation() {
-    const { isDarkMode, toggleMode } = useTheme();
+    const { isDarkMode } = useTheme();
 
     const componentStyle = {
         '--wave1': 
