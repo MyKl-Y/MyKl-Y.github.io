@@ -1,0 +1,42 @@
+.create-course-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem;
+    background-color: var(--background-color);
+    box-shadow: .2rem .2rem .5rem 0rem var(--dark-shadow), -.2rem -.2rem .5rem 0rem var(--light-shadow);
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
+.create-course-container h1 {
+    margin: 1rem;
+    font-size: 2rem;
+    color: var(--text-color);
+}
+
+.create-course-container form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem;
+}
+
+.create-course-container form input {
+    margin: 1rem;
+    font-size: 1rem;
+    padding: .5rem;
+    border-radius: 1rem;
+    border: none;
+    box-shadow: .2rem .2rem .5rem 0rem var(--dark-shadow), -.2rem -.2rem .5rem 0rem var(--light-shadow);
+}
+
+.create-course-container form input:focus {
+    box-shadow: inset .2rem .2rem .5rem 0rem var(--dark-shadow), inset -.2rem -.2rem .5rem 0rem var(--light-shadow);
+}
+
+.create-course-container form input::placeholder {
+    color: var(--text-color);
+}

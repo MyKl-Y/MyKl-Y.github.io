@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import ReactModal from "react-modal";
 //import { useAuth } from "../context/AuthContext";
 import { useTheme } from '../context/ThemeContext';
 import CourseCreate from "./courseCreate";
@@ -8,6 +9,7 @@ import {
     FaEdit,
     FaFolderPlus,
 } from 'react-icons/fa';
+import { Chip } from "@mui/material";
 import "./courseList.css";
 
 function Courses() {
@@ -20,7 +22,7 @@ function Courses() {
             'linear-gradient(60deg, rgb(53, 29, 150) -100%, rgb(1, 90, 102) 200%)',
         '--text-color': 
             !isDarkMode ? 
-            'rgba(47,62,112,1)' : 
+            'rgba(9,9,121,1)' : 
             'rgba(255,203,0, 1)',
         '--background-color': 
             !isDarkMode ? 
@@ -37,26 +39,28 @@ function Courses() {
         '--accent-gradient': 
             !isDarkMode ? 
             'linear-gradient(60deg, rgba(255,203,0,1) 0%, rgba(255,143,0,1) 100%)' : 
-            'linear-gradient(60deg, rgba(47,62,112,1) 0%, rgba(255,255,255,1) 100%)',
+            'linear-gradient(60deg, rgba(9,9,121,1) 0%, rgba(0,212,255,1) 100%)',
         '--accent-light':
             isDarkMode ?
             'rgba(255,203,0,1)' :
-            'rgba(47,62,112,1)',
+            'rgba(9,9,121,1)',
         '--accent-dark':
             isDarkMode ?
             'rgba(255,143,0,1)' :
-            'rgba(255,255,255,1)',
+            'rgba(0,212,255,1)',
         '--primary':
             !isDarkMode ?
-            'rgba(81, 101, 167, 1)':
+            'rgba(25, 101, 207, 1)':
             'rgba(255, 173, 0, 1)',
     };
 
     const [courses, setCourses] = useState([]);
     const [selectedCourse, setSelect] = useState(null);
-    const [showCreateForm, setShowCreateForm] = useState(false);
-    const [selectedSemester, setSelectedSemester] = useState("All Semesters"); // Track the selected semester
+    //const [showCreateForm, setShowCreateForm] = useState(false);
+    //const [selectedSemester, setSelectedSemester] = useState("All Semesters"); // Track the selected semester
+    const [selectedSemesters, setSelectedSemesters] = useState(["All Semesters"]); // Track the selected semesters
     //const { user } = useAuth();
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false); // Track modal state
 
     // Function to fetch courses from the backend
     const fetchCourses = async () => {
@@ -206,11 +210,64 @@ function Courses() {
         );
     });
 
-    const filteredCourses = selectedSemester === "All Semesters"
-        ? courses
-        : groupedCourses[selectedSemester] || [];
+    // Get unique semesters
+    const uniqueSemesters = ["All Semesters", ...Object.keys(groupedCourses)];
 
-        return (
+
+    // Function to handle clicking on a semester chip
+    const handleSemesterClick = (semester) => {
+        setSelectedSemesters((prevSelectedSemesters) => {
+            if (semester === "All Semesters") {
+                // If "All Semesters" chip is clicked, clear all selections
+                return ["All Semesters"];
+            } else {
+                const updatedSelections = prevSelectedSemesters.includes(semester)
+                    ? prevSelectedSemesters.filter((s) => s !== semester)
+                    : [...prevSelectedSemesters, semester];
+        
+                if (updatedSelections.length === semesterOptions.length - 1) {
+                    // If all other semester chips are selected, select "All Semesters"
+                    return ["All Semesters"];
+                } else if (updatedSelections.length === 0) {
+                    // If all semester chips are deselected, select "All Semesters"
+                    return ["All Semesters"];
+                } else {
+                    // Remove "All Semesters" if it was previously selected
+                    return updatedSelections.filter((s) => s !== "All Semesters");
+                }
+            }
+        });
+    };
+
+    // Function to check if a semester chip is selected
+    const isSemesterSelected = (semester) => {
+        return selectedSemesters.includes(semester);
+    };
+
+    // Filter courses based on selected semesters
+    const filteredCourses = selectedSemesters.includes("All Semesters")
+        ? courses
+        : courses.filter((course) => selectedSemesters.includes(course.semester));
+
+    // Function to open the "Create Course" modal
+    const openCreateModal = () => {
+        console.log("Opening modal");
+
+        setIsCreateModalOpen(true);
+
+        console.log("Opened modal");
+    };
+
+    // Function to close the "Create Course" modal
+    const closeCreateModal = () => {
+        console.log("Closing modal");
+
+        setIsCreateModalOpen(false);
+        
+        console.log("Closed modal");
+    };
+
+    return (
             <div className="courses-container" style={componentStyle}>
                 {/*<div className="courses-tabs">
                     {semesterOptions.map((semesterOption) => (
@@ -223,7 +280,7 @@ function Courses() {
                         </button>
                     ))}
                 </div>*/}
-                <div className="semester-dropdown">
+                {/*<div className="semester-dropdown">
                     <label htmlFor="semester-select">Select Semester:</label>
                     <select
                         id="semester-select"
@@ -236,14 +293,54 @@ function Courses() {
                             </option>
                         ))}
                     </select>
+                </div>*/}
+                <div className="course-toolbar">
+                <button className="create-course" onClick={openCreateModal}>
+                    <FaFolderPlus></FaFolderPlus>
+                </button>
+                <div className="semester-filters">
+                    {uniqueSemesters.map((semester) => (
+                        <Chip
+                            key={semester}
+                            label={semester}
+                            onClick={() => handleSemesterClick(semester)}
+                            //color={selectedSemesters.includes(semester) ? "primary" : "default"}
+                            //variant={selectedSemesters.includes(semester) ? "default" : "outlined"}
+                            color={isSemesterSelected(semester) ? "primary" : "default"}
+                            variant={isSemesterSelected(semester) ? "default" : "outlined"}
+                            className={selectedSemesters.includes(semester) ? "active-tab" : "inactive-tab"}
+                        />
+                    ))}
                 </div>
-                {showCreateForm ? (
+                </div>
+                <ReactModal
+                    isOpen={isCreateModalOpen}
+                    onRequestClose={closeCreateModal}
+                    ariaHideApp={false} // Disable the warning about appElement
+                    contentLabel="Create Course Modal"
+                    style={{
+                        overlay: {
+                            position: 'fixed',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            backgroundColor: 'rgba(0, 0, 0, 0.25)'
+                        }
+                    }}
+                    className="custom-modal" // Add a custom class name for styling
+                    overlayClassName="custom-modal-overlay" // Add a custom class name for overlay styling
+                >
+                    {/* Render the CreateCourseModal component */}
+                    <CourseCreate onCourseCreate={addCourse} onCancel={closeCreateModal} />
+                </ReactModal>
+                {/*showCreateForm ? (
                     <CourseCreate onCourseCreate={addCourse} onCancel={() => setShowCreateForm(false)} />
                 ) : (
                     <button className="create-course" onClick={() => setShowCreateForm(true)}>
                         <FaFolderPlus></FaFolderPlus>
                     </button>
-                )}
+                )*/}
                 <ul className="courses-list">
                     {filteredCourses.map((course) => (
                         <li className="single-course" key={course._id}>

@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import { NavLink, useLocation } from "react-router-dom";
 import "./navbar.css";
 import { useTheme } from '../context/ThemeContext';
+import { motion } from "framer-motion/dist/framer-motion";
 
 export default function Navbar() {
     const location = useLocation();
@@ -59,7 +60,15 @@ export default function Navbar() {
     const isHelpRoute = location.pathname.startsWith("/help");
 
     return (
-        <div className="navbar-container" style={componentStyle}>
+        <motion.div 
+            className="navbar-container" 
+            style={componentStyle}
+            key='sidebar'
+            initial={{ translateX: '-150%' }}
+            animate={{ translateX: "0" }}
+            exit={{ translateX: '-150%' }}
+            transition={{ duration: .5, delay: .75 }}
+        >
             <nav className="navbar">
                     <ul className="navbar-nav">
                         {isDashboardRoute && (
@@ -148,6 +157,6 @@ export default function Navbar() {
                         )}
                     </ul>
             </nav>
-        </div>
+        </motion.div>
     );
 }

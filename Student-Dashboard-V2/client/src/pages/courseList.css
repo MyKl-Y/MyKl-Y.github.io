@@ -3,7 +3,7 @@
     height: 100%;
 }
 
-/* Style for the tabs */
+/* Style for the tabs 
 .courses-tabs button {
     background: none;
     border: none;
@@ -19,7 +19,7 @@
     box-shadow: .2rem .2rem .5rem 0rem var(--dark-shadow), -.2rem -.2rem .5rem 0rem var(--light-shadow);
 }
 
-/* Style for the active tab */
+/* Style for the active tab 
 .courses-tabs .active-tab {
     background: var(--accent-gradient);
     -webkit-background-clip: text;
@@ -55,7 +55,7 @@ select#semester-select {
     border-radius: 1rem;
     transition: background-color 0.3s, color 0.3s;
     color: var(--primary);
-    box-shadow: inset .2rem .2rem .5rem 0rem var(--dark-shadow), inset -.2rem -.2rem .5rem 0rem var(--light-shadow);
+    box-shadow: .2rem .2rem .5rem 0rem var(--dark-shadow), -.2rem -.2rem .5rem 0rem var(--light-shadow);
 }
 
 select#semester-select .semester-option {
@@ -69,16 +69,45 @@ select#semester-select .semester-option {
     transition: background-color 0.3s, color 0.3s;
 }
 
-/* Style for dropdown on hover */
+/* Style for dropdown on hover 
 select#semester-select:hover {
     color: var(--text-color);
 }
 
-/* Style for dropdown when focused */
+/* Style for dropdown when focused 
 select#semester-select:focus {
-    box-shadow: .2rem .2rem .5rem .2rem var(--dark-shadow), -.2rem -.2rem .5rem .2rem var(--light-shadow);
+    box-shadow: inset .2rem .2rem .5rem .2rem var(--dark-shadow), inset -.2rem -.2rem .5rem .2rem var(--light-shadow);
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+} */
+
+.course-toolbar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 1rem;
+}
+
+.semester-filters {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: fit-content;
+    margin: 1rem;
+}
+.semester-filters .active-tab {
+    margin-right: .5rem;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    box-shadow: inset .2rem .2rem .5rem 0rem var(--dark-shadow), inset -.2rem -.2rem .5rem 0rem var(--light-shadow);
+}
+.semester-filters .inactive-tab {
+    margin-right: .5rem;
+    background: none;
+    color: var(--primary);
+    box-shadow: .2rem .2rem .5rem 0rem var(--dark-shadow), -.2rem -.2rem .5rem 0rem var(--light-shadow);
+    border: none;
 }
 
 /* Style for the course list */
@@ -120,17 +149,17 @@ select#semester-select:focus {
     padding-bottom: .25rem;
     padding-right: 1rem;
     padding-left: 1rem;
-    box-shadow: inset .2rem .2rem .5rem -.2rem var(--accent-dark), inset -.2rem -.2rem .5rem -.2rem var(--accent-light);
+    box-shadow: .25rem .25rem .5rem -.2rem var(--accent-dark), -.25rem -.25rem .5rem -.2rem var(--accent-light);
     color: var(--background-color);
     margin-right: 1rem;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
-    border-radius: 1rem;
+    border-radius: .5rem;
 }
 
 /* Style for buttons on hover */
 .single-course button:hover {
-    box-shadow: inset .2rem .2rem .5rem 0rem var(--accent-light), inset -.2rem -.2rem .5rem 0rem var(--accent-dark);
+    box-shadow: inset .2rem .2rem .5rem -.2rem var(--accent-light), inset -.2rem -.2rem .5rem -.2rem var(--accent-dark);
 }
 
 /* Style for the create button */
@@ -142,11 +171,54 @@ button.create-course {
     border-radius: 1rem;
     cursor: pointer;
     font-size: 1rem;
-    margin: .5rem 1rem .5rem 1rem;
+    margin: .5rem 0rem .5rem 0rem;
     transition: background-color 0.3s, color 0.3s;
 }
 
 /* Style for the create button on hover */
 button.create-course:hover {
     background-color: #218838; /* Darker green color on hover */
+}
+
+/* Style for the modal */
+.custom-modal {
+    /* Modal styles here */
+    position: absolute;
+    /* Add other styles as needed */
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+/* Media query for responsive design */
+@media screen and (max-width: 40em) {
+    .custom-modal {
+        right: 0;
+        bottom: 116px;
+        width: 100%;
+        height: fit-content;
+    }
+}
+@media screen and (min-width: 40em) {
+    .custom-modal {
+        right: 0;
+        bottom: 116px;
+        width: 100%;
+        height: fit-content;
+    }
+}
+@media screen and (min-width: 48em) {
+    .custom-modal {
+        right: 75px;
+        bottom: 116px;
+        width: calc(75% - 150px);
+        height: fit-content;
+    }
+}
+@media screen and (min-width: 64em) {
+    .custom-modal {
+        right: 150px;
+        bottom: 116px;
+        width: calc(75% - 300px);
+        height: fit-content;
+    }
 }

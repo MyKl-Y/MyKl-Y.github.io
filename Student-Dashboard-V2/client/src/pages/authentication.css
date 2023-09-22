@@ -83,7 +83,7 @@
 .form-container {
     width: 100%;
 }
-input {
+.auth-body input {
     width: calc(100% - 2rem);
     height: 4rem;
     border: none;
@@ -96,20 +96,20 @@ input {
     color: var(--primary);
     margin-top: none !important;
 }
-input::placeholder {
+.auth-body input::placeholder {
     color: var(--inverted-primary);
 }
-input:focus {
+.auth-body input:focus {
     outline: none;
     box-shadow: .3rem .3rem .6rem var(--dark-shadow),-.2rem -.2rem .5rem var(--light-shadow);
 }
-.input-error {
+.auth-body .input-error {
     border: 1px solid red;
 }
-.input-normal {
+.auth-body .input-normal {
     border: 1px solid transparent;
 }
-label {
+.auth-body label {
     position: relative;
     display: flex;
     justify-self: flex-start;
@@ -118,7 +118,7 @@ label {
     font-size: 1rem;
     color: var(--inverted-primary);
 }
-.error {
+.auth-body .error {
     color: red;
     margin: 0 1rem 0rem 2rem;
     height: 1rem;

@@ -40,7 +40,7 @@ const Sidebar = () => {
             'linear-gradient(60deg, rgb(53, 29, 150) -100%, rgb(1, 90, 102) 200%)',
         '--text-color': 
             !isDarkMode ? 
-            'rgba(47,62,112,1)' : 
+            'rgba(9,9,121,1)' : 
             'rgba(255,203,0, 1)',
         '--background-color': 
             !isDarkMode ? 
@@ -57,18 +57,18 @@ const Sidebar = () => {
         '--accent-gradient': 
             !isDarkMode ? 
             'linear-gradient(60deg, rgba(255,203,0,1) 0%, rgba(255,143,0,1) 100%)' : 
-            'linear-gradient(60deg, rgba(47,62,112,1) 0%, rgba(255,255,255,1) 100%)',
+            'linear-gradient(60deg, rgba(9,9,121,1) 0%, rgba(0,212,255,1) 100%)',
         '--accent-light':
             isDarkMode ?
             'rgba(255,203,0,1)' :
-            'rgba(47,62,112,1)',
+            'rgba(9,9,121,1)',
         '--accent-dark':
             isDarkMode ?
             'rgba(255,143,0,1)' :
-            'rgba(255,255,255,1)',
+            'rgba(0,212,255,1)',
         '--primary':
             !isDarkMode ?
-            'rgba(81, 101, 167, 1)':
+            'rgba(25, 101, 207, 1)':
             'rgba(255, 173, 0, 1)',
     };
 
@@ -87,7 +87,7 @@ const Sidebar = () => {
                 initial={{ translateX: '-100%' }}
                 animate={{ translateX: 0 }}
                 exit={{ translateX: '-100%' }}
-                transition={{ duration: .1, delay: 1 }}
+                transition={{ duration: .25, delay: 1 }}
             >
                 <div className='sidebar-header'>
                     <Link
