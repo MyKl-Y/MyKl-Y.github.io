@@ -5,6 +5,7 @@ import tasks from "./routes/task.mjs"
 import login from "./routes/login.mjs"
 import register from "./routes/register.mjs"
 import courses from "./routes/courses.mjs"
+import graduation from "./routes/graduation.mjs"
 
 const PORT = process.env.PORT || 5050;
 const app = express();
@@ -19,6 +20,7 @@ app.use("/task", tasks)
 app.use("/login", login)
 app.use("/register", register)
 app.use("/courses", courses)
+app.use("/graduation", graduation)
 
 // start the Express server
 app.listen(PORT, () => {

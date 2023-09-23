@@ -149,7 +149,7 @@ select#semester-select:focus {
     padding-bottom: .25rem;
     padding-right: 1rem;
     padding-left: 1rem;
-    box-shadow: .25rem .25rem .5rem -.2rem var(--accent-dark), -.25rem -.25rem .5rem -.2rem var(--accent-light);
+    box-shadow: .25rem .25rem .15rem 0rem var(--dark-shadow), -.25rem -.25rem .15rem 0rem var(--light-shadow);
     color: var(--background-color);
     margin-right: 1rem;
     cursor: pointer;
