@@ -24,6 +24,7 @@ import Authentication from './pages/authentication';
 import Courses from './pages/courseList';
 import EditCourse from './pages/courseEdit';
 import CreateCourse from './pages/courseCreate';
+import Graduation from './pages/GraduationRequirements';
 import Sidebar from './components/sidebar';
 import WaveAnimation from './components/waveAnimation';
 //import AnimatedRoutes from './components/AnimatedRoutes';
@@ -102,6 +103,7 @@ function App() {
                 <Route path='/courses' element={<Courses />} />
                 <Route path="/edit-course/:id" element={<EditCourse />} />
                 <Route path="/create-course" element={<CreateCourse />} />
+                <Route path="/graduation" element={<Graduation />} />
                 <Route exact path="/" element={<LandingPage onEnterClick={triggerWaveAnimation} />} />
                 <Route path="/auth" element={<Authentication />}/>
 

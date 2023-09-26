@@ -51,7 +51,7 @@ export default function Navbar() {
 
     const isDashboardRoute = location.pathname.startsWith('/dashboard');
     const isCoursesRoute = location.pathname.startsWith("/courses");
-    const isDegreeRoute = location.pathname.startsWith("/degree");
+    const isDegreeRoute = location.pathname.startsWith("/graduation");
     const isTasksRoute = location.pathname.startsWith("/tasks");
     //const isAssignmentsRoute = location.pathname.startsWith("/assignments");
     const isApplicationsRoute = location.pathname.startsWith("/applications");
@@ -88,8 +88,8 @@ export default function Navbar() {
                         )}
                         {isCoursesRoute && (
                             <li className="nav-item">
-                                <NavLink to="/degree" activeClassName="active-link">
-                                    Degree
+                                <NavLink to="/graduation" activeClassName="active-link">
+                                    Graduation Requirements
                                 </NavLink>
                             </li>
                         )}
@@ -102,8 +102,8 @@ export default function Navbar() {
                         )}
                         {isDegreeRoute && (
                             <li className="nav-item">
-                                <NavLink to="/degree" activeClassName="active-link">
-                                    Degree
+                                <NavLink to="/graduation" activeClassName="active-link">
+                                    Graduation Requirements
                                 </NavLink>
                             </li>
                         )}
