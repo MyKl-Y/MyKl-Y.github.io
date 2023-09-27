@@ -3,11 +3,70 @@
     width: 100%;
     height: 100%;
     overflow: auto;
-    padding: 0 1em;
+    padding: 0 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.node-form {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem;
+}
+.node-form input {
+    margin: .5rem;
+    padding: .5rem;
+    border-radius: .5rem;
+    border: none;
+    box-shadow: 
+        -.2rem -.2rem .5rem 0rem var(--light-shadow), 
+        .2rem .2rem .5rem 0rem var(--dark-shadow);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    width: 100%;
+}
+
+.node-form input:focus {
+    outline: none;
+    box-shadow: 
+        inset -.2rem -.2rem .5rem 0rem var(--light-shadow), 
+        inset .2rem .2rem .5rem 0rem var(--dark-shadow);
+}
+
+.node-form button {
+    margin: .5rem;
+    padding: .5rem;
+    border-radius: .5rem;
+    border: none;
+    box-shadow: 
+        .25rem .25rem .15rem 0rem var(--dark-shadow), 
+        -.25rem -.25rem .15rem 0rem var(--light-shadow);
+    background-color: var(--primary);
+    color: var(--background-color);
+    cursor: pointer;
+    width: 100%;
+}
+
+.node-form button:active {
+    box-shadow: 
+        inset -.2rem -.2rem .5rem -.2rem var(--accent-light), 
+        inset .2rem .2rem .5rem -.2rem var(--accent-dark);
+}
+
+.node-form button:hover {
+    box-shadow: 
+        inset -.2rem -.2rem .5rem -.2rem var(--accent-dark), 
+        inset .2rem .2rem .5rem -.2rem var(--accent-light);
+}
+
+.tree li.active-node > p {
+    box-shadow:
+        inset -.2rem -.2rem .5rem -.2rem var(--light-shadow),
+        inset .2rem .2rem .5rem 0rem var(--dark-shadow);
 }
 
 .tree, .tree ul, .tree li {
@@ -18,7 +77,7 @@
 }
 
 .tree {
-    margin: 0 0 1em;
+    margin: 0 0 1rem;
     text-align: center;
 }
 .tree, .tree ul {
@@ -29,12 +88,12 @@
 }
     .tree li {
         display: table-cell;
-        padding: .5em 0;
+        padding: .5rem;
         vertical-align: top;
     }
         /* _________ */
         .tree li:before {
-            outline: solid 1px #666;
+            outline: solid 1px var(--primary);
             content: "";
             left: 0;
             position: absolute;
@@ -44,13 +103,15 @@
         .tree li:first-child:before {left: 50%;}
         .tree li:last-child:before {right: 50%;}
 
-        .tree code, .tree span {
-            border: solid .1em #666;
-            border-radius: .2em;
+        .tree p, .tree span, .tree .node-form {
+            box-shadow: .3rem .3rem .6rem var(--dark-shadow),-.2rem -.2rem .5rem var(--light-shadow);
+            border-radius: 1rem;
             display: inline-block;
-            margin: 0 .2em .5em;
-            padding: .2em .5em;
+            margin: 0 .2rem .5rem;
+            padding: .5rem 1rem;
             position: relative;
+            color: var(--text-color);
+            background-color: var(--background-color);
         }
         /* If the tree represents DOM structure */
         .tree code {
@@ -59,27 +120,30 @@
 
             /* | */
             .tree ul:before,
-            .tree code:before,
-            .tree span:before {
-                outline: solid 1px #666;
+            .tree p:before,
+            .tree span:before, 
+            .tree .node-form:before{
+                outline: solid 1px var(--primary);
                 content: "";
-                height: .5em;
+                height: .5rem;
                 left: 50%;
                 position: absolute;
             }
             .tree ul:before {
-                top: -.5em;
+                top: -.5rem;
             }
-            .tree code:before,
-            .tree span:before {
-                top: -.55em;
+            .tree p:before,
+            .tree span:before,
+            .tree .node-form:before {
+                top: -.5rem;
             }
 
 /* The root node doesn't connect upwards */
 .tree > li {margin-top: 0;}
     .tree > li:before,
     .tree > li:after,
-    .tree > li > code:before,
-    .tree > li > span:before {
-      outline: none;
+    .tree > li > p:before,
+    .tree > li > span:before,
+    .tree > li > .node-form:before {
+        outline: none;
     }

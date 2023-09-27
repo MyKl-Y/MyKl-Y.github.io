@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import DegreeComponent from "../components/DegreeComponent";
 import RequirementComponent from "../components/RequirementComponent";
 import CourseComponent from "../components/CourseComponent";
+import { useTheme } from '../context/ThemeContext';
+import { motion } from "framer-motion/dist/framer-motion";
 
 const GraduationRequirements = () => {
     const [selectedDegree, setSelectedDegree] = useState(null);

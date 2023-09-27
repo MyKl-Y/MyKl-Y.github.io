@@ -1,11 +1,52 @@
 // DegreeComponent.js
 import React, { useState, useEffect } from "react";
-import { useTheme } from '../context/ThemeContext';
 import { motion } from "framer-motion/dist/framer-motion";
+import { useTheme } from '../context/ThemeContext';
 import RequirementComponent from "./RequirementComponent";
 import "./DegreeComponent.css";
 
 const DegreeComponent = ({ onSelectDegree }) => {
+    const { isDarkMode } = useTheme();
+
+    const componentStyle = {
+        '--background': 
+            isDarkMode ? 
+            'linear-gradient(60deg, rgba(84,58,183,1) -100%, rgba(0,172,193,1) 200%)' : 
+            'linear-gradient(60deg, rgb(53, 29, 150) -100%, rgb(1, 90, 102) 200%)',
+        '--text-color': 
+            !isDarkMode ? 
+            'rgba(9,9,121,1)' : 
+            'rgba(255,203,0, 1)',
+        '--background-color': 
+            !isDarkMode ? 
+            'rgba(236,240,243, 1)' : 
+            'rgba(12,15,19,1)',
+        '--light-shadow': 
+            !isDarkMode ? 
+            '#fff' : 
+            '#222',
+        '--dark-shadow': 
+            !isDarkMode ? 
+            '#ccc' : 
+            '#000',
+        '--accent-gradient': 
+            !isDarkMode ? 
+            'linear-gradient(60deg, rgba(255,203,0,1) 0%, rgba(255,143,0,1) 100%)' : 
+            'linear-gradient(60deg, rgba(9,9,121,1) 0%, rgba(0,212,255,1) 100%)',
+        '--accent-light':
+            isDarkMode ?
+            'rgba(255,203,0,1)' :
+            'rgba(9,9,121,1)',
+        '--accent-dark':
+            isDarkMode ?
+            'rgba(255,143,0,1)' :
+            'rgba(0,212,255,1)',
+        '--primary':
+            !isDarkMode ?
+            'rgba(25, 101, 207, 1)':
+            'rgba(255, 173, 0, 1)',
+    };
+
     const [degrees, setDegrees] = useState([]);
     const [newDegree, setNewDegree] = useState("");
 
@@ -53,12 +94,16 @@ const DegreeComponent = ({ onSelectDegree }) => {
     };
 
     return (
-        <div className="tree-container">
+        <div className="tree-container" style={componentStyle}>
             <h2>Degrees</h2>
-            <ul class="tree">
+            <ul className="tree">
                 {degrees.map((degree) => (
-                    <li className="degree-node" key={degree._id} onClick={() => handleSelectDegree(degree)}>
-                        {degree.name}
+                    <li 
+                        className={`degree-node ${selectedDegree === degree ? "active-node" : ""}`} 
+                        key={degree._id} 
+                        onClick={() => handleSelectDegree(degree)}
+                    >
+                        <p className="degree-name"><h3>{degree.name}</h3></p>
                         {selectedDegree &&
                             <RequirementComponent 
                                 selectedDegree={selectedDegree} 

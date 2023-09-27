@@ -1,13 +1,57 @@
 // CourseComponent.js
 import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion/dist/framer-motion";
+import { useTheme } from '../context/ThemeContext';
 
 const CourseComponent = ({ selectedDegree, selectedRequirement, onCreateCourse }) => {
+    const { isDarkMode } = useTheme();
+
+    const componentStyle = {
+        '--background': 
+            isDarkMode ? 
+            'linear-gradient(60deg, rgba(84,58,183,1) -100%, rgba(0,172,193,1) 200%)' : 
+            'linear-gradient(60deg, rgb(53, 29, 150) -100%, rgb(1, 90, 102) 200%)',
+        '--text-color': 
+            !isDarkMode ? 
+            'rgba(9,9,121,1)' : 
+            'rgba(255,203,0, 1)',
+        '--background-color': 
+            !isDarkMode ? 
+            'rgba(236,240,243, 1)' : 
+            'rgba(12,15,19,1)',
+        '--light-shadow': 
+            !isDarkMode ? 
+            '#fff' : 
+            '#222',
+        '--dark-shadow': 
+            !isDarkMode ? 
+            '#ccc' : 
+            '#000',
+        '--accent-gradient': 
+            !isDarkMode ? 
+            'linear-gradient(60deg, rgba(255,203,0,1) 0%, rgba(255,143,0,1) 100%)' : 
+            'linear-gradient(60deg, rgba(9,9,121,1) 0%, rgba(0,212,255,1) 100%)',
+        '--accent-light':
+            isDarkMode ?
+            'rgba(255,203,0,1)' :
+            'rgba(9,9,121,1)',
+        '--accent-dark':
+            isDarkMode ?
+            'rgba(255,143,0,1)' :
+            'rgba(0,212,255,1)',
+        '--primary':
+            !isDarkMode ?
+            'rgba(25, 101, 207, 1)':
+            'rgba(255, 173, 0, 1)',
+    };
+
     const [courses, setCourses] = useState([]);
     const [newCourse, setNewCourse] = useState({
         code: "",
         name: "",
         credits: 0,
     });
+    const [selectedCourse, setSelectedCourse] = useState(null);
     // Check if selectedDegree and selectedRequirement are defined before accessing their properties
     const hasSelectedDegree = !!selectedDegree;
     const hasSelectedRequirement = !!selectedRequirement;
@@ -58,8 +102,12 @@ const CourseComponent = ({ selectedDegree, selectedRequirement, onCreateCourse }
         }
     };
 
+    const handleSelectCourse = (course) => {
+        setSelectedCourse(course);
+    };
+
     return (
-        <div>
+        <div style={componentStyle}>
             {hasSelectedDegree && (
                 <div>
                     {/*<h2>Courses for {selectedDegree.name}</h2>*/}
@@ -70,40 +118,59 @@ const CourseComponent = ({ selectedDegree, selectedRequirement, onCreateCourse }
                     ) ? (
                         <ul>
                             {selectedRequirement.courses.map((course) => (
-                                <li className="course-node" key={course._id}>
-                                    {course.name}
+                                <li 
+                                    className={`course-node ${
+                                        selectedCourse === course ? "active-node" : ""
+                                    }`} 
+                                    key={course._id}
+                                    onClick={() => handleSelectCourse(course)}
+                                >
+                                    <p>
+                                        <h5>{course.code}</h5>
+                                        <h5>{course.name}</h5>
+                                        Credit Hours: <b>{course.credits}</b>
+                                        <br/>
+                                        Status: {
+                                            course.is_complete ?
+                                            <b>Complete</b> :
+                                            <b>Incomplete</b>
+                                        }
+                                        {/*<button onClick={()=>onDeleteCourseClickHandler(course)}>Delete</button>*/}
+                                    </p>
                                 </li>
                             ))}
-                        <li>
-                            <input
-                                type="text"
-                                placeholder="Enter course code"
-                                value={newCourse.code}
-                                onChange={(e) =>
-                                    setNewCourse({ ...newCourse, code: e.target.value })
-                                }
-                            />
-                            <input
-                                type="text"
-                                placeholder="Enter course name"
-                                value={newCourse.name}
-                                onChange={(e) =>
-                                    setNewCourse({ ...newCourse, name: e.target.value })
-                                }
-                            />
-                            <input
-                                type="number"
-                                placeholder="Enter credits"
-                                value={newCourse.credits}
-                                onChange={(e) =>
-                                    setNewCourse({
-                                    ...newCourse,
-                                    credits: parseInt(e.target.value, 10),
-                                    })
-                                }
-                            />
-                            <button onClick={handleCourseSubmit}>Add Course</button>
-                        </li>
+                            <li>
+                                <div className="node-form">
+                                    <input
+                                        type="text"
+                                        placeholder="Enter course code"
+                                        value={newCourse.code}
+                                        onChange={(e) =>
+                                            setNewCourse({ ...newCourse, code: e.target.value })
+                                        }
+                                    />
+                                    <input
+                                        type="text"
+                                        placeholder="Enter course name"
+                                        value={newCourse.name}
+                                        onChange={(e) =>
+                                            setNewCourse({ ...newCourse, name: e.target.value })
+                                        }
+                                    />
+                                    <input
+                                        type="number"
+                                        placeholder="Enter credits"
+                                        value={newCourse.credits}
+                                        onChange={(e) =>
+                                            setNewCourse({
+                                            ...newCourse,
+                                            credits: parseInt(e.target.value, 10),
+                                            })
+                                        }
+                                    />
+                                    <button onClick={handleCourseSubmit}>Add Course</button>
+                                </div>
+                            </li>
                         </ul>
                     ) : (
                         <p>No courses found</p>
