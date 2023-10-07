@@ -20,6 +20,22 @@ import {
     FaCalendarAlt,
 } from 'react-icons/fa';
 import { motion } from 'framer-motion/dist/framer-motion'
+import { 
+    SchoolTwoTone, 
+    DashboardTwoTone,
+    LibraryBooksTwoTone,
+    ListAltTwoTone,
+    DesignServicesTwoTone,
+    AssignmentTwoTone,
+    CalendarMonthTwoTone,
+    WorkspacePremiumTwoTone,
+    SettingsTwoTone,
+    HelpTwoTone,
+    AccountCircleTwoTone,
+} from '@mui/icons-material';
+import { Avatar, Tooltip } from '@mui/material';
+import { deepOrange } from '@mui/material/colors';
+
 
 const Sidebar = () => {
     const { isDarkMode } = useTheme();
@@ -93,107 +109,134 @@ const Sidebar = () => {
                     <Link
                         to="/"
                     >
-                        <FaGraduationCap></FaGraduationCap>
+                        <SchoolTwoTone />
                         <h3>UpGrad</h3>
                     </Link>
                 </div>
                 <div className='inset-container'>
-                    <div className='link-container'>
-                        <Link 
-                            to="/dashboard" 
-                            className={location.pathname === '/dashboard' ? 'active-link' : ''}
-                        >
-                            <div className='vl'></div>
-                            <FaTachometerAlt></FaTachometerAlt> 
-                            <p>Dashboard</p>
-                        </Link>
-                    </div>
-                    <div className='link-container'>
-                        <Link 
-                            to="/courses"
-                            className={location.pathname === '/courses' ? 'active-link' : ''}
-                        >
-                            <div className='vl'></div>
-                            <FaBook></FaBook> 
-                            <p>Courses</p>
-                        </Link>
-                    </div>
-                    <div className='link-container'>
-                        <Link 
-                            to="/tasks"
-                            className={location.pathname === '/tasks' ? 'active-link' : ''}
-                        >
-                            <div className='vl'></div>
-                            <FaTasks></FaTasks> 
-                            <p>Tasks</p>
-                        </Link>
-                    </div>
-                    <div className='link-container'>
-                        <Link 
-                            to="/assignments"
-                            className={location.pathname === '/assignments' ? 'active-link' : ''}
-                        >
-                            <div className='vl'></div>
-                            <FaPencilRuler></FaPencilRuler> 
-                            <p>Assignments</p>
-                        </Link>
-                    </div>
-                    <div className='link-container'>
-                        <Link 
-                            to="/applications"
-                            className={location.pathname === '/applications' ? 'active-link' : ''}
-                        >
-                            <div className='vl'></div>
-                            <FaClipboardList></FaClipboardList> 
-                            <p>Applications</p>
-                        </Link>
-                    </div>
-                    <div className='link-container'>
-                        <Link 
-                            to="/calendar"
-                            className={location.pathname === '/calendar' ? 'active-link' : ''}
-                        >
-                            <div className='vl'></div>
-                            <FaCalendarAlt></FaCalendarAlt> 
-                            <p>Calendar</p>
-                        </Link>
-                    </div>
-                    <div className='link-container'>
-                        <Link 
-                            to="/grades"
-                            className={location.pathname === '/grades' ? 'active-link' : ''}
-                        >
-                            <div className='vl'></div>
-                            <FaAward></FaAward> 
-                            <p>Grades</p>
-                        </Link>
-                    </div>
+                    <Tooltip 
+                        title='Dashboard' 
+                        placement='right'
+                    >
+                        <div className='link-container'>
+                            <Link 
+                                to="/dashboard" 
+                                className={location.pathname === '/dashboard' ? 'active-link' : ''}
+                            >
+                                <div className='vl'></div>
+                                <DashboardTwoTone />
+                                <p>Dashboard</p>
+                            </Link>
+                        </div>
+                    </Tooltip>
+                    <Tooltip title='Courses' placement='right'>
+                        <div className='link-container'>
+                            <Link 
+                                to="/courses"
+                                className={location.pathname === '/courses' ? 'active-link' : ''}
+                            >
+                                <div className='vl'></div>
+                                <LibraryBooksTwoTone /> 
+                                <p>Courses</p>
+                            </Link>
+                        </div>
+                    </Tooltip>
+                    <Tooltip title='Tasks' placement='right'>
+                        <div className='link-container'>
+                            <Link 
+                                to="/tasks"
+                                className={location.pathname === '/tasks' ? 'active-link' : ''}
+                            >
+                                <div className='vl'></div>
+                                <ListAltTwoTone />
+                                <p>Tasks</p>
+                            </Link>
+                        </div>
+                    </Tooltip>
+                    <Tooltip title='Assignments' placement='right'>
+                        <div className='link-container'>
+                            <Link 
+                                to="/assignments"
+                                className={location.pathname === '/assignments' ? 'active-link' : ''}
+                            >
+                                <div className='vl'></div>
+                                <DesignServicesTwoTone /> 
+                                <p>Assignments</p>
+                            </Link>
+                        </div>
+                    </Tooltip>
+                    <Tooltip title='Applications' placement='right'>
+                        <div className='link-container'>
+                            <Link 
+                                to="/applications"
+                                className={location.pathname === '/applications' ? 'active-link' : ''}
+                            >
+                                <div className='vl'></div>
+                                <AssignmentTwoTone /> 
+                                <p>Applications</p>
+                            </Link>
+                        </div>
+                    </Tooltip>
+                    <Tooltip title='Calendar' placement='right'>
+                        <div className='link-container'>
+                            <Link 
+                                to="/calendar"
+                                className={location.pathname === '/calendar' ? 'active-link' : ''}
+                            >
+                                <div className='vl'></div>
+                                <CalendarMonthTwoTone /> 
+                                <p>Calendar</p>
+                            </Link>
+                        </div>
+                    </Tooltip>
+                    <Tooltip title='Grades' placement='right'>
+                        <div className='link-container'>
+                            <Link 
+                                to="/grades"
+                                className={location.pathname === '/grades' ? 'active-link' : ''}
+                            >
+                                <div className='vl'></div>
+                                <WorkspacePremiumTwoTone />
+                                <p>Grades</p>
+                            </Link>
+                        </div>
+                    </Tooltip>
                     {/* Add more items as needed */}
                     <hr />
-                    <div className='link-container'>
-                        <Link 
-                            to="/settings"
-                            className={location.pathname === '/settings' ? 'active-link' : ''}
-                        >
-                            <div className='vl'></div>
-                            <FaCog></FaCog> 
-                            <p>Settings</p>
-                        </Link>
-                    </div>
-                    <div className='link-container'>
-                        <Link 
-                            to="/help"
-                            className={location.pathname === '/help' ? 'active-link' : ''}
-                        >
-                            <div className='vl'></div>
-                            <FaQuestion></FaQuestion> 
-                            <p>Help</p>
-                        </Link>
-                    </div>
+                    <Tooltip title='Settings' placement='right'>
+                        <div className='link-container'>
+                            <Link 
+                                to="/settings"
+                                className={location.pathname === '/settings' ? 'active-link' : ''}
+                            >
+                                <div className='vl'></div>
+                                <SettingsTwoTone /> 
+                                <p>Settings</p>
+                            </Link>
+                        </div>
+                    </Tooltip>
+                    <Tooltip title='Help' placement='right'>
+                        <div className='link-container'>
+                            <Link 
+                                to="/help"
+                                className={location.pathname === '/help' ? 'active-link' : ''}
+                            >
+                                <div className='vl'></div>
+                                <HelpTwoTone /> 
+                                <p>Help</p>
+                            </Link>
+                        </div>
+                    </Tooltip>
                 </div>
                 <div className='account-container'>
                     <Link className='button' to="/account">
-                        <FaUserAstronaut></FaUserAstronaut>
+                        {
+                            isLoggedIn ? 
+                                <Avatar sx={{ bgcolor: 'var(--background-color)', color: 'var(--text-color)' }}>
+                                    {user.name.charAt(0)}
+                                </Avatar> : 
+                                <AccountCircleTwoTone /> 
+                        }
                         <p>{isLoggedIn ? user.name : 'Guest'}</p>
                     </Link>
                 </div>

@@ -131,21 +131,21 @@ export default function Navbar() {
                         {isApplicationsRoute && (
                             <li className="nav-item">
                                 <NavLink to="/applications" activeClassName="active-link">
-                                    All Applications
+                                    All
                                 </NavLink>
                             </li>
                         )}
                         {isApplicationsRoute && (
                             <li className="nav-item">
                                 <NavLink to="/applications/jobs" activeClassName="active-link">
-                                    Job Applications
+                                    Jobs
                                 </NavLink>
                             </li>
                         )}
                         {isApplicationsRoute && (
                             <li className="nav-item">
                                 <NavLink to="/applications/internships" activeClassName="active-link">
-                                    Internship Applications
+                                    Internships
                                 </NavLink>
                             </li>
                         )}

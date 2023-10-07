@@ -10,6 +10,7 @@ router.post("/degree", async (req, res) => {
         const newDegree = {
             name: req.body.name,
             requirements: [],
+            user: req.body.user,
         };
         let collection = await db.collection("graduationRequirements");
         let result = await collection.insertOne(newDegree);

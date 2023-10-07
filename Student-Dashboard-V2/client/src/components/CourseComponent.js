@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion/dist/framer-motion";
 import { useTheme } from '../context/ThemeContext';
+import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 
 const CourseComponent = ({ selectedDegree, selectedRequirement, onCreateCourse }) => {
     const { isDarkMode } = useTheme();
@@ -168,7 +169,9 @@ const CourseComponent = ({ selectedDegree, selectedRequirement, onCreateCourse }
                                             })
                                         }
                                     />
-                                    <button onClick={handleCourseSubmit}>Add Course</button>
+                                    <button onClick={handleCourseSubmit}>
+                                        <AddCircleTwoToneIcon/>
+                                    </button>
                                 </div>
                             </li>
                         </ul>

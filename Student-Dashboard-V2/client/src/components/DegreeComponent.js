@@ -2,10 +2,13 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion/dist/framer-motion";
 import { useTheme } from '../context/ThemeContext';
+import { useAuth } from "../context/AuthContext";
 import RequirementComponent from "./RequirementComponent";
 import "./DegreeComponent.css";
+import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 
 const DegreeComponent = ({ onSelectDegree }) => {
+    const { user } = useAuth();
     const { isDarkMode } = useTheme();
 
     const componentStyle = {
@@ -63,7 +66,10 @@ const DegreeComponent = ({ onSelectDegree }) => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ name: newDegree }),
+            body: JSON.stringify({ 
+                name: newDegree,
+                user: user.name,
+            }),
         })
             .then((res) => res.json())
             .then((data) => {
@@ -104,7 +110,7 @@ const DegreeComponent = ({ onSelectDegree }) => {
                         onClick={() => handleSelectDegree(degree)}
                     >
                         <p className="degree-name"><h3>{degree.name}</h3></p>
-                        {selectedDegree &&
+                        {selectedDegree && selectedDegree._id === degree._id &&
                             <RequirementComponent 
                                 selectedDegree={selectedDegree} 
                                 onCreateRequirement={onCreateRequirement}
@@ -114,13 +120,17 @@ const DegreeComponent = ({ onSelectDegree }) => {
                     </li>
                 ))}
             </ul>
-            <input
-                type="text"
-                placeholder="Enter a new degree"
-                value={newDegree}
-                onChange={(e) => setNewDegree(e.target.value)}
-            />
-            <button onClick={handleDegreeSubmit}>Add Degree</button>
+            <div className="node-form">
+                <input
+                    type="text"
+                    placeholder="Degree Name"
+                    value={newDegree}
+                    onChange={(e) => setNewDegree(e.target.value)}
+                />
+                <button onClick={handleDegreeSubmit}>
+                    <AddCircleTwoToneIcon />
+                </button>
+            </div>
         </div>
         
     );

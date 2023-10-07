@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import CourseComponent from "./CourseComponent";
 import { useTheme } from '../context/ThemeContext';
+import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 
 const RequirementComponent = ({ selectedDegree, onCreateRequirement, onSelectRequirement }) => {
     const { isDarkMode } = useTheme();
@@ -149,7 +150,7 @@ const RequirementComponent = ({ selectedDegree, onCreateRequirement, onSelectReq
                     <div className="node-form">
                         <input
                             type="text"
-                            placeholder="Enter requirement name"
+                            placeholder="Name"
                             value={newRequirement.name}
                             onChange={(e) =>
                                 setNewRequirement({ ...newRequirement, name: e.target.value })
@@ -157,7 +158,7 @@ const RequirementComponent = ({ selectedDegree, onCreateRequirement, onSelectReq
                         />
                         <input
                             type="number"
-                            placeholder="Enter credits"
+                            placeholder="Credits"
                             value={newRequirement.credits}
                             onChange={(e) =>
                                 setNewRequirement({
@@ -166,7 +167,9 @@ const RequirementComponent = ({ selectedDegree, onCreateRequirement, onSelectReq
                                 })
                             }
                         />
-                        <button onClick={handleRequirementSubmit}>Add Requirement</button>
+                        <button onClick={handleRequirementSubmit}>
+                            <AddCircleTwoToneIcon />
+                        </button>
                     </div>
                 </li>
             </ul>
