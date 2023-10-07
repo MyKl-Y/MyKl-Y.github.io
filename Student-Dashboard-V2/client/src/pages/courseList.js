@@ -11,6 +11,11 @@ import {
 } from 'react-icons/fa';
 import { Chip } from "@mui/material";
 import "./courseList.css";
+import {
+    DeleteTwoTone,
+    EditTwoTone,
+    CreateNewFolderTwoTone,
+} from '@mui/icons-material'
 
 function Courses() {
     const { isDarkMode } = useTheme();
@@ -296,7 +301,7 @@ function Courses() {
                 </div>*/}
                 <div className="course-toolbar">
                 <button className="create-course" onClick={openCreateModal}>
-                    <FaFolderPlus></FaFolderPlus>
+                    <CreateNewFolderTwoTone />
                 </button>
                 <div className="semester-filters">
                     {uniqueSemesters.map((semester) => (
@@ -358,10 +363,10 @@ function Courses() {
                                     <p>Meeting Times: {course.meetingTimes}</p>
                                     <p>Created by: {course.user}</p>
                                     <button onClick={() => selectCourse(course._id)}>
-                                        <FaEdit></FaEdit>
+                                        <EditTwoTone />
                                     </button>
                                     <button onClick={() => deleteCourse(course._id)}>
-                                        <FaTrashAlt></FaTrashAlt>
+                                        <DeleteTwoTone />
                                     </button>
                                 </div>
                             )}
