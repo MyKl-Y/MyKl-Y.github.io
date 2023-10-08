@@ -54,7 +54,7 @@
     display: flex;
     color: var(--text-color);
     flex: 1 1 50rem stretch;
-    cursor: zoom-in;
+    cursor: var(--cursor);
 }
 
 .single-course h3 {

@@ -20,6 +20,8 @@ import { motion } from "framer-motion/dist/framer-motion";
 
 function Courses() {
     const { isDarkMode } = useTheme();
+    
+    const [isACourseSelected, setIsACourseSelected] = useState(false);
 
     const componentStyle = {
         '--background': 
@@ -70,6 +72,10 @@ function Courses() {
             'rgba(200,50,50,1)',
         '--remove-dark':
             'rgba(145,0,0,1)',
+        '--cursor':
+            isACourseSelected ?
+            'zoom-out' :
+            'zoom-in',
     };
 
     const [courses, setCourses] = useState([]);
@@ -79,6 +85,7 @@ function Courses() {
     const [selectedSemesters, setSelectedSemesters] = useState(["All Semesters"]); // Track the selected semesters
     //const { user } = useAuth();
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false); // Track modal state
+    const [selectedCourseInfo, setSelectedCourseInfo] = useState(null);
 
     // Function to fetch courses from the backend
     const fetchCourses = async () => {
@@ -297,6 +304,18 @@ function Courses() {
         return indexA - indexB;
     });
 
+    // Function to show additional information for a course when clicked
+    const showCourseInfo = (courseId) => {
+        setSelectedCourseInfo(courseId);
+        setIsACourseSelected(true);
+    };
+
+    // Function to hide additional information
+    const hideCourseInfo = () => {
+        setSelectedCourseInfo(null);
+        setIsACourseSelected(false);
+    };
+
     return (
             <motion.div 
                 className="courses-container" 
@@ -356,7 +375,15 @@ function Courses() {
                 )*/}
                 <ul className="courses-list">
                     {filteredCourses.map((course) => (
-                        <li className="single-course" key={course._id}>
+                        <li 
+                            className="single-course" 
+                            key={course._id}
+                            onClick={
+                                isACourseSelected 
+                                    ? () => hideCourseInfo(course._id) 
+                                    : () => showCourseInfo(course._id)
+                            }
+                        >
                             {selectedCourse === course._id ? (
                                 <CourseEdit
                                     course={course}
@@ -367,9 +394,35 @@ function Courses() {
                                 <div>
                                     <h3>{course.courseName}</h3>
                                     <h5>{course.courseNumber}</h5>
-                                    <p>Professor: {course.professor}</p>
-                                    <p>Meeting Times: {course.meetingTimes}</p>
-                                    <p>Created by: {course.user}</p>
+                                    <p><b>Professor</b>: <i>{course.professor}</i></p>
+                                    {isACourseSelected && selectedCourseInfo === course._id
+                                        ? (
+                                            <>
+                                                <p>
+                                                    <b>Professor Contact</b>: <i>{course.professorContact}</i>
+                                                </p>
+                                                <p>
+                                                    <b>Semester</b>: <i>{course.semester}</i>
+                                                </p>
+                                            </>
+                                        )
+                                        : ''
+                                    }
+                                    <p><b>Meeting Times</b>: <i>{course.meetingTimes}</i></p>
+                                    <p><b>Created By</b>: <i>{course.user}</i></p>
+                                    {isACourseSelected && selectedCourseInfo === course._id
+                                        ? (
+                                            <>
+                                                <p>
+                                                    <b>Tags</b>: <i>{course.tag}</i>
+                                                </p>
+                                                <p>
+                                                    <b>Links</b>: <i>{course.link}</i>
+                                                </p>
+                                            </>
+                                        )
+                                        : ''
+                                    }
                                     <button onClick={() => selectCourse(course._id)}>
                                         <EditTwoTone />
                                     </button>

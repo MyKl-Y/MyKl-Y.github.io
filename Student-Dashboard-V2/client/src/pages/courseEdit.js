@@ -101,6 +101,14 @@ function CourseEdit({ course, onUpdateCourse }) {
                 />
                 <input
                     type="text"
+                    placeholder="Professor Contact"
+                    value={editedCourse.professorContact}
+                    onChange={(e) =>
+                        setEditedCourse({ ...editedCourse, professorContact: e.target.value })
+                    }
+                />
+                <input
+                    type="text"
                     placeholder="Semester"
                     value={editedCourse.semester}
                     onChange={(e) =>
@@ -118,18 +126,10 @@ function CourseEdit({ course, onUpdateCourse }) {
                 />
                 <input
                     type="text"
-                    placeholder="Tag"
+                    placeholder="Tags"
                     value={editedCourse.tag}
                     onChange={(e) =>
                         setEditedCourse({ ...editedCourse, tag: e.target.value })
-                    }
-                />
-                <input
-                    type="text"
-                    placeholder="Professor Contact"
-                    value={editedCourse.professorContact}
-                    onChange={(e) =>
-                        setEditedCourse({ ...editedCourse, professorContact: e.target.value })
                     }
                 />
                 <input
