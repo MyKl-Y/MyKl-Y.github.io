@@ -16,6 +16,7 @@ import {
     EditTwoTone,
     CreateNewFolderTwoTone,
 } from '@mui/icons-material'
+import { motion } from "framer-motion/dist/framer-motion";
 
 function Courses() {
     const { isDarkMode } = useTheme();
@@ -57,6 +58,18 @@ function Courses() {
             !isDarkMode ?
             'rgba(25, 101, 207, 1)':
             'rgba(255, 173, 0, 1)',
+        '--add-light':
+            'rgba(70,215,100,1)',
+        '--add-primary':
+            'rgba(40,165,70,1)',
+        '--add-dark':
+            'rgba(10,115,40,1)',
+        '--remove-light':
+            'rgba(255,100,100,1)',
+        '--remove-primary':
+            'rgba(200,50,50,1)',
+        '--remove-dark':
+            'rgba(145,0,0,1)',
     };
 
     const [courses, setCourses] = useState([]);
@@ -272,39 +285,34 @@ function Courses() {
         console.log("Closed modal");
     };
 
+    // Create a function to get the index of a semester in semesterOptions
+    const getSemesterIndex = (semester) => {
+        return semesterOptions.indexOf(semester);
+    };
+
+    // Sort uniqueSemesters based on the custom order defined in semesterOptions
+    const sortedUniqueSemesters = [...uniqueSemesters].sort((a, b) => {
+        const indexA = getSemesterIndex(a);
+        const indexB = getSemesterIndex(b);
+        return indexA - indexB;
+    });
+
     return (
-            <div className="courses-container" style={componentStyle}>
-                {/*<div className="courses-tabs">
-                    {semesterOptions.map((semesterOption) => (
-                        <button
-                            key={semesterOption}
-                            onClick={() => setSelectedSemester(semesterOption)}
-                            className={selectedSemester === semesterOption ? "active-tab" : ""}
-                        >
-                            {semesterOption}
-                        </button>
-                    ))}
-                </div>*/}
-                {/*<div className="semester-dropdown">
-                    <label htmlFor="semester-select">Select Semester:</label>
-                    <select
-                        id="semester-select"
-                        value={selectedSemester}
-                        onChange={(e) => setSelectedSemester(e.target.value)}
-                    >
-                        {semesterOptions.map((semesterOption) => (
-                            <option className="semester-option" key={semesterOption} value={semesterOption}>
-                                {semesterOption}
-                            </option>
-                        ))}
-                    </select>
-                </div>*/}
+            <motion.div 
+                className="courses-container" 
+                style={componentStyle}
+                key='dashboard'
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: .5 }}
+            >
                 <div className="course-toolbar">
                 <button className="create-course" onClick={openCreateModal}>
                     <CreateNewFolderTwoTone />
                 </button>
                 <div className="semester-filters">
-                    {uniqueSemesters.map((semester) => (
+                    {sortedUniqueSemesters.map((semester) => (
                         <Chip
                             key={semester}
                             label={semester}
@@ -365,7 +373,7 @@ function Courses() {
                                     <button onClick={() => selectCourse(course._id)}>
                                         <EditTwoTone />
                                     </button>
-                                    <button onClick={() => deleteCourse(course._id)}>
+                                    <button className="delete-course" onClick={() => deleteCourse(course._id)}>
                                         <DeleteTwoTone />
                                     </button>
                                 </div>
@@ -373,7 +381,7 @@ function Courses() {
                         </li>
                     ))}
                 </ul>
-            </div>
+            </motion.div>
         );
 }
 

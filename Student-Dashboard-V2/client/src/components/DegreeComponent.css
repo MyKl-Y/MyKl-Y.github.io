@@ -45,7 +45,7 @@
     box-shadow: 
         .25rem .25rem .15rem 0rem var(--dark-shadow), 
         -.25rem -.25rem .15rem 0rem var(--light-shadow);
-    background-color: var(--primary);
+    background-color: var(--add-primary);
     color: var(--background-color);
     cursor: pointer;
     width: 100%;
@@ -53,14 +53,14 @@
 
 .node-form button:active {
     box-shadow: 
-        inset -.2rem -.2rem .5rem -.2rem var(--accent-light), 
-        inset .2rem .2rem .5rem -.2rem var(--accent-dark);
+        inset -.2rem -.2rem .5rem -.2rem var(--add-light), 
+        inset .2rem .2rem .5rem -.2rem var(--add-dark);
 }
 
 .node-form button:hover {
     box-shadow: 
-        inset -.2rem -.2rem .5rem -.2rem var(--accent-dark), 
-        inset .2rem .2rem .5rem -.2rem var(--accent-light);
+        inset -.2rem -.2rem .5rem -.2rem var(--add-dark), 
+        inset .2rem .2rem .5rem -.2rem var(--add-light);
 }
 
 .tree li.active-node > p {
@@ -79,6 +79,9 @@
 .tree {
     margin: 0 0 1rem;
     text-align: center;
+}
+.tree p {
+    cursor: pointer !important;
 }
 .tree, .tree ul {
     display: table;

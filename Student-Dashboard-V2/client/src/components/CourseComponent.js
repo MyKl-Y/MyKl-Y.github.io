@@ -44,6 +44,18 @@ const CourseComponent = ({ selectedDegree, selectedRequirement, onCreateCourse }
             !isDarkMode ?
             'rgba(25, 101, 207, 1)':
             'rgba(255, 173, 0, 1)',
+        '--add-light':
+            'rgba(70,215,100,1)',
+        '--add-primary':
+            'rgba(40,165,70,1)',
+        '--add-dark':
+            'rgba(10,115,40,1)',
+        '--remove-light':
+            'rgba(255,100,100,1)',
+        '--remove-primary':
+            'rgba(200,50,50,1)',
+        '--remove-dark':
+            'rgba(145,0,0,1)',
     };
 
     const [courses, setCourses] = useState([]);

@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from '../context/ThemeContext';
 import "./courseCreate.css";
+import { motion } from "framer-motion/dist/framer-motion";
 
 export default function CreateTask({ onCourseCreate, onCancel }) {
     const { user } = useAuth();
@@ -16,7 +17,7 @@ export default function CreateTask({ onCourseCreate, onCancel }) {
             'linear-gradient(60deg, rgb(53, 29, 150) -100%, rgb(1, 90, 102) 200%)',
         '--text-color': 
             !isDarkMode ? 
-            'rgba(47,62,112,1)' : 
+            'rgba(9,9,121,1)' : 
             'rgba(255,203,0, 1)',
         '--background-color': 
             !isDarkMode ? 
@@ -33,19 +34,31 @@ export default function CreateTask({ onCourseCreate, onCancel }) {
         '--accent-gradient': 
             !isDarkMode ? 
             'linear-gradient(60deg, rgba(255,203,0,1) 0%, rgba(255,143,0,1) 100%)' : 
-            'linear-gradient(60deg, rgba(47,62,112,1) 0%, rgba(255,255,255,1) 100%)',
+            'linear-gradient(60deg, rgba(9,9,121,1) 0%, rgba(0,212,255,1) 100%)',
         '--accent-light':
             isDarkMode ?
             'rgba(255,203,0,1)' :
-            'rgba(47,62,112,1)',
+            'rgba(9,9,121,1)',
         '--accent-dark':
             isDarkMode ?
             'rgba(255,143,0,1)' :
-            'rgba(255,255,255,1)',
+            'rgba(0,212,255,1)',
         '--primary':
             !isDarkMode ?
-            'rgba(81, 101, 167, 1)':
+            'rgba(25, 101, 207, 1)':
             'rgba(255, 173, 0, 1)',
+        '--add-light':
+            'rgba(70,215,100,1)',
+        '--add-primary':
+            'rgba(40,165,70,1)',
+        '--add-dark':
+            'rgba(10,115,40,1)',
+        '--remove-light':
+            'rgba(255,100,100,1)',
+        '--remove-primary':
+            'rgba(200,50,50,1)',
+        '--remove-dark':
+            'rgba(145,0,0,1)',
     };
 
     const [newCourse, setNewCourse] = useState({
@@ -84,7 +97,15 @@ export default function CreateTask({ onCourseCreate, onCancel }) {
     };
 
     return (
-        <div className="create-course-container" style={componentStyle}>
+        <motion.div 
+            className="create-course-container" 
+            style={componentStyle}
+            key='create-course'
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: .5 }}
+        >
             {/* Add Course Form */}
             <h2>Add a New Course</h2>
             <form>
@@ -146,17 +167,21 @@ export default function CreateTask({ onCourseCreate, onCancel }) {
                 />
                 <input
                     type="text"
-                    placeholder="Tag"
+                    placeholder="Tags"
                     value={newCourse.tag}
                     onChange={(e) =>
                         setNewCourse({ ...newCourse, tag: e.target.value })
                     }
                 />
-                <button type="button" onClick={handleAddCourse}>
-                    Add Course
-                </button>
-                <button onClick={onCancel}>Cancel</button>
+                <div className="create-course-buttons">
+                    <button className="Add-Course" type="button" onClick={handleAddCourse}>
+                        Add 
+                    </button>
+                    <button className='Cancel-Add-Course' onClick={onCancel}>
+                        Cancel
+                    </button>
+                </div>
             </form>
-        </div>
+        </motion.div>
     );
 }

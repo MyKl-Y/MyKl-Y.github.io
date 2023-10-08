@@ -3,89 +3,11 @@
     height: 100%;
 }
 
-/* Style for the tabs 
-.courses-tabs button {
-    background: none;
-    border: none;
-    margin-right: .5rem;
-    margin-bottom: 1rem;
-    margin: .5rem 0rem .5rem 1rem;
-    cursor: pointer;
-    padding: .25rem .5rem;
-    font-size: 1rem;
-    border-radius: 1rem;
-    transition: background-color 0.3s, color 0.3s;
-    color: var(--primary);
-    box-shadow: .2rem .2rem .5rem 0rem var(--dark-shadow), -.2rem -.2rem .5rem 0rem var(--light-shadow);
-}
-
-/* Style for the active tab 
-.courses-tabs .active-tab {
-    background: var(--accent-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    box-shadow: inset .2rem .2rem .5rem 0rem var(--dark-shadow), inset -.2rem -.2rem .5rem 0rem var(--light-shadow);
-}
-
-.semester-dropdown {
-    margin: 1rem;
-    padding: .5rem;
-    font-size: 1rem;
-    border-radius: 1rem;
-    transition: background-color 0.3s, color 0.3s;
-    color: var(--primary);
-    box-shadow: .2rem .2rem .5rem 0rem var(--dark-shadow), -.2rem -.2rem .5rem 0rem var(--light-shadow);
-    background: none;
-    border: none;
-}
-
-.semester-dropdown label {
-    margin-left: .5rem;
-}
-
-select#semester-select {
-    background: none;
-    border: none;
-    margin-right: .5rem;
-    margin-bottom: 1rem;
-    margin: .5rem 0rem .5rem 1rem;
-    cursor: pointer;
-    padding: .25rem .5rem;
-    font-size: 1rem;
-    border-radius: 1rem;
-    transition: background-color 0.3s, color 0.3s;
-    color: var(--primary);
-    box-shadow: .2rem .2rem .5rem 0rem var(--dark-shadow), -.2rem -.2rem .5rem 0rem var(--light-shadow);
-}
-
-select#semester-select .semester-option {
-    background: var(--background-color);
-    color: var(--text-color);
-    border: none;
-    border-radius: 1rem;
-    padding: .5rem;
-    margin: .5rem;
-    box-shadow: .2rem .2rem .5rem 0rem var(--dark-shadow), -.2rem -.2rem .5rem 0rem var(--light-shadow);
-    transition: background-color 0.3s, color 0.3s;
-}
-
-/* Style for dropdown on hover 
-select#semester-select:hover {
-    color: var(--text-color);
-}
-
-/* Style for dropdown when focused 
-select#semester-select:focus {
-    box-shadow: inset .2rem .2rem .5rem .2rem var(--dark-shadow), inset -.2rem -.2rem .5rem .2rem var(--light-shadow);
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-} */
-
 .course-toolbar {
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin: 1rem;
+    margin: 0rem 1rem 0rem 1rem;
 }
 
 .semester-filters {
@@ -98,6 +20,7 @@ select#semester-select:focus {
 .semester-filters .active-tab {
     margin-right: .5rem;
     background: var(--accent-gradient);
+    font-weight: bolder;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     box-shadow: inset .2rem .2rem .5rem 0rem var(--dark-shadow), inset -.2rem -.2rem .5rem 0rem var(--light-shadow);
@@ -131,6 +54,7 @@ select#semester-select:focus {
     display: flex;
     color: var(--text-color);
     flex: 1 1 50rem stretch;
+    cursor: zoom-in;
 }
 
 .single-course h3 {
@@ -162,22 +86,48 @@ select#semester-select:focus {
     box-shadow: inset .2rem .2rem .5rem -.2rem var(--accent-light), inset -.2rem -.2rem .5rem -.2rem var(--accent-dark);
 }
 
+.single-course button.delete-course {
+    background-color: var(--remove-primary);
+    border: none;
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    box-shadow: .25rem .25rem .15rem 0rem var(--dark-shadow), -.25rem -.25rem .15rem 0rem var(--light-shadow);
+    color: var(--background-color);
+    margin-right: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    border-radius: .5rem;
+}
+
+/* Style for buttons on hover */
+.single-course button.delete-course:hover {
+    box-shadow: inset .2rem .2rem .5rem -.2rem var(--remove-dark), inset -.2rem -.2rem .5rem -.2rem var(--remove-light);
+}
+
 /* Style for the create button */
 button.create-course {
-    background-color: #28a745; /* Green color */
-    color: #fff;
-    padding: .5rem 1rem;
+    background-color: var(--add-primary); /* Green color */
+    color: var(--background-color);
+    padding: 0rem 1rem;
     border: none;
-    border-radius: 1rem;
+    border-radius: .5rem;
     cursor: pointer;
-    font-size: 1rem;
-    margin: .5rem 0rem .5rem 0rem;
+    margin: 0rem;
     transition: background-color 0.3s, color 0.3s;
+    box-shadow: .25rem .25rem .2rem -.1rem var(--dark-shadow), -.25rem -.25rem .2rem -.1rem var(--light-shadow);
 }
+
+button.create-course svg {
+    width: 2rem;
+    height: 2rem;
+}
+
 
 /* Style for the create button on hover */
 button.create-course:hover {
-    background-color: #218838; /* Darker green color on hover */
+    box-shadow: inset .2rem .2rem .5rem -.2rem var(--add-dark), inset -.2rem -.2rem .5rem -.2rem var(--add-light);
 }
 
 /* Style for the modal */
@@ -193,7 +143,8 @@ button.create-course:hover {
 @media screen and (max-width: 40em) {
     .custom-modal {
         right: 0;
-        bottom: 116px;
+        bottom: 20%;
+        top: 30%;
         width: 100%;
         height: fit-content;
     }
@@ -201,7 +152,8 @@ button.create-course:hover {
 @media screen and (min-width: 40em) {
     .custom-modal {
         right: 0;
-        bottom: 116px;
+        bottom: 20%;
+        top: 30%;
         width: 100%;
         height: fit-content;
     }
@@ -209,7 +161,8 @@ button.create-course:hover {
 @media screen and (min-width: 48em) {
     .custom-modal {
         right: 75px;
-        bottom: 116px;
+        bottom: 20%;
+        top: 30%;
         width: calc(75% - 150px);
         height: fit-content;
     }
@@ -217,7 +170,8 @@ button.create-course:hover {
 @media screen and (min-width: 64em) {
     .custom-modal {
         right: 150px;
-        bottom: 116px;
+        bottom: 20%;
+        top: 30%;
         width: calc(75% - 300px);
         height: fit-content;
     }

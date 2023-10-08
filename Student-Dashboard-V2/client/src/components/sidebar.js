@@ -133,7 +133,13 @@ const Sidebar = () => {
                         <div className='link-container'>
                             <Link 
                                 to="/courses"
-                                className={location.pathname === '/courses' ? 'active-link' : ''}
+                                className=
+                                    {location.pathname === '/courses' 
+                                        ? 'active-link' 
+                                        : (location.pathname === '/graduation' 
+                                            ? 'active-link' 
+                                            : '')
+                                    }
                             >
                                 <div className='vl'></div>
                                 <LibraryBooksTwoTone /> 
@@ -232,7 +238,7 @@ const Sidebar = () => {
                     <Link className='button' to="/account">
                         {
                             isLoggedIn ? 
-                                <Avatar sx={{ bgcolor: 'var(--background-color)', color: 'var(--text-color)' }}>
+                                <Avatar sx={{ background: 'var(--accent-gradient)', color: 'var(--text-color)' }}>
                                     {user.name.charAt(0)}
                                 </Avatar> : 
                                 <AccountCircleTwoTone /> 

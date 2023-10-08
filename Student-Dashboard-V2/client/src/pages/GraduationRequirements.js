@@ -22,7 +22,13 @@ const GraduationRequirements = () => {
     };
     
     return (
-        <>
+        <motion.div
+            key='graduation'
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: .5 }}
+        >
             <DegreeComponent 
                 onSelectDegree={(degree) => setSelectedDegree(degree)}
             />
@@ -48,7 +54,7 @@ const GraduationRequirements = () => {
                     </>
                 )
                 </div>*/}
-        </>
+        </motion.div>
     );
 };
 
