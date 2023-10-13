@@ -12,7 +12,7 @@
     flex-direction: column;
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
-    box-shadow: -5px -5px 10px 3px var(--light-shadow), 3px 5px 5px var(--dark-shadow);
+    box-shadow: -5px -5px 10px 3px var(--light-shadow), 3px 114px 5px var(--dark-shadow);
 }
 /* Toggle Button */
 .toggle-button {
@@ -158,10 +158,10 @@
     border-radius: 1rem;
     padding: .5rem;
     margin: 1rem;
-    box-shadow: inset -.2rem -.2rem .5rem 0rem var(--accent-dark), inset .2rem .2rem .5rem 0rem var(--accent-light);
+    box-shadow: -.3rem -.3rem .2rem 0rem var(--light-shadow), .3rem .3rem .2rem 0rem var(--dark-shadow);
 }
 .account-container .button:active {
-    box-shadow: inset .2rem .2rem .5rem 0rem var(--accent-dark), inset -.2rem -.2rem .5rem 0rem var(--accent-light);
+    box-shadow: inset .2rem .2rem .5rem 0rem var(--accent-light), inset -.2rem -.2rem .5rem 0rem var(--accent-dark);
 }
 .account-container a svg {
     width: 30px;

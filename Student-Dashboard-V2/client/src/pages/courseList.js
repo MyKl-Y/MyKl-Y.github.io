@@ -409,7 +409,6 @@ function Courses() {
                                         : ''
                                     }
                                     <p><b>Meeting Times</b>: <i>{course.meetingTimes}</i></p>
-                                    <p><b>Created By</b>: <i>{course.user}</i></p>
                                     {isACourseSelected && selectedCourseInfo === course._id
                                         ? (
                                             <>
@@ -423,6 +422,7 @@ function Courses() {
                                         )
                                         : ''
                                     }
+                                    <p><b>Created By</b>: <i>{course.user}</i></p>
                                     <button onClick={() => selectCourse(course._id)}>
                                         <EditTwoTone />
                                     </button>

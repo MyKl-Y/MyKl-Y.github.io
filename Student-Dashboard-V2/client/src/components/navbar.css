@@ -8,8 +8,33 @@
     padding: 20px;
     border-bottom-right-radius: 1rem;
     z-index: 5;
+    height: 114px;
 }
 
+.navbar-container::before {
+    content: "";
+    position: absolute;
+    
+    background-color: transparent !important;
+    left: 0;
+    bottom: -3rem;
+    height: 3rem;
+    width: 3rem;
+    border-top-left-radius: 1rem;
+    box-shadow: 0 -1rem 0 0 var(--background-color);
+}
+.navbar-container::after {
+    content: "";
+    position: absolute;
+    
+    background-color: transparent !important;
+    left: 0;
+    bottom: -1rem;
+    height: 1rem;
+    width: 1rem;
+    border-top-left-radius: 1rem;
+    box-shadow: inset .5rem .5rem .5rem -.7rem var(--dark-shadow) ;
+}
 .navbar {
     display: flex;
     flex-direction: row;
@@ -70,6 +95,14 @@
         right: 0;
         bottom: 0;
         width: 100% !important;
+        border-bottom-left-radius: 1rem;
+        box-shadow: 0rem .3rem .6rem -.2rem var(--dark-shadow);
+    }
+    .navbar-container::before {
+        display: none;
+    }
+    .navbar-container::after {
+        display: none;
     }
 }
 @media screen and (min-width: 40em) {
@@ -77,6 +110,14 @@
         right: 0;
         bottom: 0;
         width: 100% !important;
+        border-bottom-left-radius: 1rem;
+        box-shadow: 0rem .3rem .6rem -.2rem var(--dark-shadow);
+    }
+    .navbar-container::before {
+        display: none;
+    }
+    .navbar-container::after {
+        display: none;
     }
 }
 
@@ -85,6 +126,14 @@
         right: 0;
         bottom: 0;
         width: calc(100% - 150px) !important;
+        border-bottom-left-radius: 0rem;
+        box-shadow: .4rem .3rem .6rem -.2rem var(--dark-shadow);
+    }
+    .navbar-container::before {
+        display: block;
+    }
+    .navbar-container::after {
+        display: block;
     }
 }
 
@@ -93,5 +142,13 @@
         right: 0;
         bottom: 0;
         width: calc(100% - 300px) !important;
+        border-bottom-left-radius: 0rem;
+        box-shadow: .4rem .3rem .6rem -.2rem var(--dark-shadow);
+    }
+    .navbar-container::before {
+        display: block;
+    }
+    .navbar-container::after {
+        display: block;
     }
 }

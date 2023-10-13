@@ -24,8 +24,10 @@ import {
     SchoolTwoTone, 
     DashboardTwoTone,
     LibraryBooksTwoTone,
+    AccountTreeTwoTone,
     ListAltTwoTone,
     DesignServicesTwoTone,
+    EventRepeatTwoTone,
     AssignmentTwoTone,
     CalendarMonthTwoTone,
     WorkspacePremiumTwoTone,
@@ -142,7 +144,9 @@ const Sidebar = () => {
                                     }
                             >
                                 <div className='vl'></div>
-                                <LibraryBooksTwoTone /> 
+                                {location.pathname === '/graduation'
+                                    ? <AccountTreeTwoTone />
+                                    : <LibraryBooksTwoTone />}
                                 <p>Courses</p>
                             </Link>
                         </div>
@@ -151,23 +155,23 @@ const Sidebar = () => {
                         <div className='link-container'>
                             <Link 
                                 to="/tasks"
-                                className={location.pathname === '/tasks' ? 'active-link' : ''}
+                                className=
+                                    {location.pathname === '/tasks' 
+                                        ? 'active-link' 
+                                        : (location.pathname === '/assignments' 
+                                            ? 'active-link' 
+                                            : (location.pathname === '/habits')
+                                                ? 'active-link'
+                                                : '')
+                                    }
                             >
                                 <div className='vl'></div>
-                                <ListAltTwoTone />
+                                {location.pathname === '/assignments'
+                                    ? <DesignServicesTwoTone />
+                                    : location.pathname === '/habits' 
+                                        ? <EventRepeatTwoTone /> 
+                                        : <ListAltTwoTone />}
                                 <p>Tasks</p>
-                            </Link>
-                        </div>
-                    </Tooltip>
-                    <Tooltip title='Assignments' placement='right'>
-                        <div className='link-container'>
-                            <Link 
-                                to="/assignments"
-                                className={location.pathname === '/assignments' ? 'active-link' : ''}
-                            >
-                                <div className='vl'></div>
-                                <DesignServicesTwoTone /> 
-                                <p>Assignments</p>
                             </Link>
                         </div>
                     </Tooltip>

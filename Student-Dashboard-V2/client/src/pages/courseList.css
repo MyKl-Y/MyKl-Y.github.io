@@ -51,10 +51,11 @@
     margin: 1rem 1rem;
     border-radius: 5px;
     background-color: var(--background-color);
-    display: flex;
     color: var(--text-color);
     flex: 1 1 50rem stretch;
     cursor: var(--cursor);
+    height: fit-content;
+    transition: all 0.5s ease-in-out;
 }
 
 .single-course h3 {
