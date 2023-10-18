@@ -7,9 +7,16 @@ import { motion } from "framer-motion/dist/framer-motion";
 
 const GraduationRequirements = () => {
     const [selectedDegree, setSelectedDegree] = useState(null);
+    const [selectedConcentration, setSelectedConcentration] = useState(null);
     const [selectedRequirement, setSelectedRequirement] = useState(null);
+    const [createdConcentrations, setCreatedConcentrations] = useState([]);
     const [createdRequirements, setCreatedRequirements] = useState([]);
     const [createdCourses, setCreatedCourses] = useState([]);
+
+    // Function to handle the creation of a new concentration
+    const onCreateConcentration = (newConcentration) => {
+        setCreatedConcentrations([...createdConcentrations, newConcentration]);
+    };
 
     // Function to handle the creation of a new requirement
     const onCreateRequirement = (newRequirement) => {

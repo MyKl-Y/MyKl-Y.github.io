@@ -4,7 +4,7 @@ import CourseComponent from "./CourseComponent";
 import { useTheme } from '../context/ThemeContext';
 import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 
-const RequirementComponent = ({ selectedDegree, onCreateRequirement, onSelectRequirement }) => {
+const RequirementComponent = ({ selectedDegree, selectedConcentration, onCreateRequirement, onSelectRequirement }) => {
     const { isDarkMode } = useTheme();
 
     const componentStyle = {
@@ -63,33 +63,35 @@ const RequirementComponent = ({ selectedDegree, onCreateRequirement, onSelectReq
         name: "",
         credits: 0,
     });
-    const [hasRequirements, setHasRequirements] = useState(false);
+    const [selectedRequirement, setSelectedRequirement] = useState(false);
+    const hasSelectedDegree = !!selectedDegree;
+    const hasSelectedConcentration = !!selectedConcentration;
 
     useEffect(()=>{
-        if (selectedDegree.requirements.length > 0)
-            setHasRequirements(true);
+        if (selectedDegree.concentrations.length > 0)
+            selectedDegree.selectedConcentration = selectedDegree.concentrations[0];
     }
     ,[selectedDegree]);
 
     useEffect(() => {
-        if (selectedDegree && hasRequirements) {
+        if (hasSelectedDegree && hasSelectedConcentration) {
             // Fetch requirements for the selected degree from the backend
             // You can use fetch or any other method you prefer
             // Update the URL as needed
-            fetch(`http://localhost:5050/graduation/requirement/${selectedDegree._id}`)
+            fetch(`http://localhost:5050/graduation/requirement/${selectedDegree._id}/${selectedConcentration._id}`)
                 .then((response) => response.json())
                 .then((data) => setRequirements(data))
                 .catch((error) => console.error(error));
         }
-    }, [selectedDegree]);
+    }, [selectedDegree, selectedConcentration, hasSelectedConcentration, hasSelectedDegree]);
 
     const handleRequirementSubmit = () => {
-        if (selectedDegree) {
+        if (hasSelectedConcentration && hasSelectedDegree) {
 
         // Send a POST request to create a new requirement for the selected degree
         // You can use fetch or any other method you prefer
         // Update the URL and request body as needed
-        fetch(`http://localhost:5050/graduation/requirement/${selectedDegree._id}`, {
+        fetch(`http://localhost:5050/graduation/requirement/${selectedDegree._id}/${selectedConcentration._id}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -115,7 +117,6 @@ const RequirementComponent = ({ selectedDegree, onCreateRequirement, onSelectReq
         setSelectedRequirement(requirement);
     };
 
-    const [selectedRequirement, setSelectedRequirement] = useState(null);
     const [createdCourses, setCreatedCourses] = useState([]);
 
     // Function to handle the creation of a new course
@@ -126,67 +127,99 @@ const RequirementComponent = ({ selectedDegree, onCreateRequirement, onSelectReq
     return (
         <div style={componentStyle}>
             {/*<h2>Requirements for {selectedDegree.name}</h2>*/}
-            {(selectedDegree.requirements && selectedDegree.requirements.length > 0) ? (
-            <ul>
-                {selectedDegree.requirements.map((requirement) => (
-                    <li 
-                        className={`requirements-node ${
-                            selectedRequirement === requirement ? "active-node" : ""
-                        }`} 
-                        key={requirement._id} 
-                        onClick={() => handleSelectRequirement(requirement)}
-                    >
-                        <p>
-                            <h4>{requirement.name}</h4>
-                            Credit Hours: <b>{requirement.credits}</b>
-                            <br/>
-                            Status: 
-                            <b>
-                                {
-                                    requirement.is_complete ?
-                                    " Complete" :
-                                    " Incomplete"
+            {(
+                hasSelectedConcentration
+                && selectedConcentration.requirements 
+                && selectedConcentration.requirements.length > 0
+            ) ? (
+                <ul>
+                    {selectedConcentration.requirements.map((requirement) => (
+                        <li 
+                            className={`requirements-node ${
+                                selectedRequirement === requirement ? "active-node" : ""
+                            }`} 
+                            key={requirement._id} 
+                        >
+                            <p onClick={() => handleSelectRequirement(requirement)}>
+                                <h5>{requirement.name}</h5>
+                                Credit Hours: <b>{requirement.credits}</b>
+                                <br/>
+                                Status: 
+                                <b>
+                                    {
+                                        requirement.is_complete ?
+                                        " Complete" :
+                                        " Incomplete"
+                                    }
+                                </b>
+                            </p>
+                            {selectedRequirement && selectedRequirement._id === requirement._id && (
+                                <CourseComponent 
+                                    selectedDegree={selectedDegree}
+                                    selectedConcentration={selectedConcentration}
+                                    selectedRequirement={selectedRequirement} 
+                                    onCreateCourse={onCreateCourse}
+                                />
+                            )}
+                        </li>
+                    ))}
+                    <li>
+                        <div className="node-form">
+                            <input
+                                type="text"
+                                placeholder="Name"
+                                value={newRequirement.name}
+                                onChange={(e) =>
+                                    setNewRequirement({ ...newRequirement, name: e.target.value })
                                 }
-                            </b>
-                        </p>
-                        {selectedRequirement && selectedRequirement._id === requirement._id && (
-                            <CourseComponent 
-                                selectedDegree={selectedDegree}
-                                selectedRequirement={selectedRequirement} 
-                                onCreateCourse={onCreateCourse}
                             />
-                        )}
+                            <input
+                                type="number"
+                                placeholder="Credits"
+                                value={newRequirement.credits}
+                                onChange={(e) =>
+                                    setNewRequirement({
+                                    ...newRequirement,
+                                    credits: parseInt(e.target.value, 10),
+                                    })
+                                }
+                            />
+                            <button onClick={handleRequirementSubmit}>
+                                <AddCircleTwoToneIcon />
+                            </button>
+                        </div>
                     </li>
-                ))}
-                <li>
-                    <div className="node-form">
-                        <input
-                            type="text"
-                            placeholder="Name"
-                            value={newRequirement.name}
-                            onChange={(e) =>
-                                setNewRequirement({ ...newRequirement, name: e.target.value })
-                            }
-                        />
-                        <input
-                            type="number"
-                            placeholder="Credits"
-                            value={newRequirement.credits}
-                            onChange={(e) =>
-                                setNewRequirement({
-                                ...newRequirement,
-                                credits: parseInt(e.target.value, 10),
-                                })
-                            }
-                        />
-                        <button onClick={handleRequirementSubmit}>
-                            <AddCircleTwoToneIcon />
-                        </button>
-                    </div>
-                </li>
-            </ul>
+                </ul>
             ) : (
-                <p>No requirements found</p>
+                <ul>
+                    <li><p>No Requirements Found</p></li>
+                    <li>
+                        <div className="node-form">
+                            <input
+                                type="text"
+                                placeholder="Name"
+                                value={newRequirement.name}
+                                onChange={(e) =>
+                                    setNewRequirement({ ...newRequirement, name: e.target.value })
+                                }
+                            />
+                            <input
+                                type="number"
+                                placeholder="Credits"
+                                value={newRequirement.credits}
+                                onChange={(e) =>
+                                    setNewRequirement({
+                                    ...newRequirement,
+                                    credits: parseInt(e.target.value, 10),
+                                    })
+                                }
+                            />
+                            <button onClick={handleRequirementSubmit}>
+                                <AddCircleTwoToneIcon />
+                            </button>
+                        </div>
+                    </li>
+                </ul>
             )}
         </div>
     );

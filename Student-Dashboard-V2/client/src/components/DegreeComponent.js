@@ -3,9 +3,10 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion/dist/framer-motion";
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from "../context/AuthContext";
-import RequirementComponent from "./RequirementComponent";
+import ConcentrationComponent from "./ConcentrationComponent";
 import "./DegreeComponent.css";
 import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
+import { Select, FormControl, MenuItem, OutlinedInput } from '@mui/material';
 
 const DegreeComponent = ({ onSelectDegree }) => {
     const { user } = useAuth();
@@ -63,7 +64,11 @@ const DegreeComponent = ({ onSelectDegree }) => {
     };
 
     const [degrees, setDegrees] = useState([]);
-    const [newDegree, setNewDegree] = useState("");
+    const [newDegree, setNewDegree] = useState({
+        name: "", 
+        credits: 0, 
+        user: "",
+    });
 
     useEffect(() => {
         fetch("http://localhost:5050/graduation/degree")
@@ -79,14 +84,15 @@ const DegreeComponent = ({ onSelectDegree }) => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({ 
-                name: newDegree,
+                name: newDegree.name,
+                credits: newDegree.credits,
                 user: user.name,
             }),
         })
             .then((res) => res.json())
             .then((data) => {
                 setDegrees([...degrees, data]);
-                setNewDegree("");
+                setNewDegree({name: "", credits: 0, user: ""});
 
                 // Delay for 2 seconds, then reload the page on success
                 setTimeout(() => {
@@ -97,53 +103,194 @@ const DegreeComponent = ({ onSelectDegree }) => {
 
     };
 
+    const [showAddNewForm, setShowAddNewForm] = useState(false); // Add state for Add New form
+
+
     const handleSelectDegree = (degree) => {
         onSelectDegree(degree);
         setSelectedDegree(degree);
+        setShowAddNewForm(false); // Close the Add New forms
     };
 
-    const [createdRequirements, setCreatedRequirements] = useState([]);
-    const [selectedRequirement, setSelectedRequirement] = useState(null);
+    const [createdConcentrations, setCreatedConcentrations] = useState([]);
+    const [selectedConcentration, setSelectedConcentration] = useState(null);
     const [selectedDegree, setSelectedDegree] = useState(null);
 
-    // Function to handle the creation of a new requirement
-    const onCreateRequirement = (newRequirement) => {
-        setCreatedRequirements([...createdRequirements, newRequirement]);
+    // Function to handle the creation of a new concentration
+    const onCreateConcentration = (newConcentration) => {
+        setCreatedConcentrations([...createdConcentrations, newConcentration]);
+    };
+
+    const [showDropdown, setShowDropdown] = useState(false);
+    
+    // Function to toggle the custom dropdown
+    const toggleDropdown = () => {
+        setShowDropdown(!showDropdown);
     };
 
     return (
         <div className="tree-container" style={componentStyle}>
             <h2>Degrees</h2>
-            <ul className="tree">
+            {/*<select
+                className="degree-select"
+                value={selectedDegree === "addNew" ? "addNew" : (selectedDegree ? selectedDegree._id : "none")} // Use the selected degree's ID
+                onChange={(e) => {
+                    const selectedValue = e.target.value;
+                    if (selectedValue === "addNew") {
+                        setShowAddNewForm(true); // Show the Add New form
+                        setSelectedDegree("addNew");
+                    } else if (selectedValue === "none") {
+                        setSelectedDegree(null); // Clear selected degree
+                    } else {
+                        const selected = degrees.find((degree) => degree._id === selectedValue);
+                        handleSelectDegree(selected);
+                    }
+                }}
+            >
+                <option className="menuItem" value="none" disabled>Select a Degree</option>
+                <option className="menuItem" value="addNew">Add New</option>
                 {degrees.map((degree) => (
+                    <option className="menuItem" key={degree._id} value={degree._id}>
+                        {degree.name}
+                    </option>
+                ))}
+            </select>*/}
+            <div className="custom-dropdown-container">
+                <div
+                    className={`custom-dropdown-header ${showDropdown ? "active" : ""}`}
+                    onClick={toggleDropdown}
+                >
+                    <span>{selectedDegree === "addNew" ? "Add New" : (selectedDegree ? selectedDegree.name : "Select a Degree")}</span>
+                    <span className="dropdown-icon">{showDropdown ? " ▲" : " ▼"}</span>
+                </div>
+                {showDropdown && (
+                    <div className="custom-dropdown-options">
+                        <div
+                            className="custom-dropdown-option"
+                            onClick={() => 
+                                {
+                                    handleSelectDegree("")
+                                    setShowAddNewForm(false) // Show the Add New form
+                                    toggleDropdown()
+                                }
+                            }
+                        >
+                            
+                        </div>
+                        <div
+                            className="custom-dropdown-option"
+                            onClick={() => 
+                                {
+                                    handleSelectDegree("addNew")
+                                    setShowAddNewForm(true) // Show the Add New form
+                                    toggleDropdown()
+                                }
+                            }
+                        >
+                            Add New
+                        </div>
+                        {degrees.map((degree) => (
+                            <div
+                                className="custom-dropdown-option"
+                                key={degree._id}
+                                onClick={() => 
+                                    {
+                                        handleSelectDegree(degree)
+                                        toggleDropdown()
+                                    }
+                                }
+                            >
+                                {degree.name}
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+            <ul className="tree">
+                {/*{degrees.length > 0 && degrees.map((degree) => (
                     <li 
                         className={`degree-node ${selectedDegree === degree ? "active-node" : ""}`} 
                         key={degree._id} 
-                        onClick={() => handleSelectDegree(degree)}
                     >
-                        <p className="degree-name"><h3>{degree.name}</h3></p>
+                        <p className="degree-name" onClick={() => handleSelectDegree(degree)}>
+                            <h3>{degree.name}</h3>
+                            Credit Hours: <b>{degree.credits}</b>
+                        </p>
                         {selectedDegree && selectedDegree._id === degree._id &&
-                            <RequirementComponent 
+                            <ConcentrationComponent 
                                 selectedDegree={selectedDegree} 
-                                onCreateRequirement={onCreateRequirement}
-                                onSelectRequirement={(requirement) => setSelectedRequirement(requirement)}
+                                onCreateConcentration={onCreateConcentration}
+                                onSelectConcentration={(concentration) => setSelectedConcentration(concentration)}
                             /> 
                         }
                     </li>
                 ))}
                 <li>
+                    <div className="node-form">
+                        <input
+                            type="text"
+                            placeholder="Degree Name"
+                            value={newDegree.name}
+                            onChange={(e) => setNewDegree({...newDegree, name: e.target.value})}
+                        />
+                        <input
+                            type="number"
+                            placeholder="Credits"
+                            value={newDegree.credits}
+                            onChange={(e) =>
+                                setNewDegree({
+                                ...newDegree,
+                                credits: parseInt(e.target.value, 10),
+                                })
+                            }
+                        />
+                        <button onClick={handleDegreeSubmit}>
+                            <AddCircleTwoToneIcon />
+                        </button>
+                    </div>
+                </li>*/}
+                {showAddNewForm ? (
+                <li>
                 <div className="node-form">
-                <input
-                    type="text"
-                    placeholder="Degree Name"
-                    value={newDegree}
-                    onChange={(e) => setNewDegree(e.target.value)}
-                />
-                <button onClick={handleDegreeSubmit}>
-                    <AddCircleTwoToneIcon />
-                </button>
-            </div>
+                    <input
+                        type="text"
+                        placeholder="Degree Name"
+                        value={newDegree.name}
+                        onChange={(e) => setNewDegree({ ...newDegree, name: e.target.value })}
+                    />
+                    <input
+                        type="number"
+                        placeholder="Credits"
+                        value={newDegree.credits}
+                        onChange={(e) =>
+                            setNewDegree({
+                                ...newDegree,
+                                credits: parseInt(e.target.value, 10),
+                            })
+                        }
+                    />
+                    <button onClick={handleDegreeSubmit}>
+                        <AddCircleTwoToneIcon />
+                    </button>
+                </div>
                 </li>
+            ) : selectedDegree ? (
+                <li 
+                    className={`degree-node active-node`} 
+                >
+                        <p className="degree-name">
+                            <h3>{selectedDegree.name}</h3>
+                            Credit Hours: <b>{selectedDegree.credits}</b>
+                        </p>
+                        {selectedDegree &&
+                            <ConcentrationComponent 
+                                selectedDegree={selectedDegree} 
+                                onCreateConcentration={onCreateConcentration}
+                                onSelectConcentration={(concentration) => setSelectedConcentration(concentration)}
+                            /> 
+                        }
+                    </li>
+            ) : null}
             </ul>
         </div>
         

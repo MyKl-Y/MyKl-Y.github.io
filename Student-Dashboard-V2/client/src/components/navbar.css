@@ -6,6 +6,7 @@
     box-shadow: .4rem .3rem .6rem -.2rem var(--dark-shadow);
     width: auto !important;
     padding: 20px;
+    padding-left: 0 !important;
     border-bottom-right-radius: 1rem;
     z-index: 5;
     height: 114px;
@@ -70,7 +71,7 @@
     box-shadow: .3rem .3rem .6rem var(--dark-shadow), -.2rem -.2rem .5rem var(--light-shadow);
     text-decoration: none;
     color: var(--text-color);
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: 500;
     transition: all .3s;
     border-radius: 1rem;
@@ -104,6 +105,10 @@
     .navbar-container::after {
         display: none;
     }
+    .navbar li {
+        padding-left: 1rem;
+        padding-right: 0rem;
+    }
 }
 @media screen and (min-width: 40em) {
     .navbar-container {
@@ -118,6 +123,10 @@
     }
     .navbar-container::after {
         display: none;
+    }
+    .navbar li {
+        padding-left: 1rem;
+        padding-right: 0rem;
     }
 }
 
@@ -135,6 +144,10 @@
     .navbar-container::after {
         display: block;
     }
+    .navbar li {
+        padding-left: 0rem;
+        padding-right: 1rem;
+    }
 }
 
 @media screen and (min-width: 64em) {
@@ -150,5 +163,9 @@
     }
     .navbar-container::after {
         display: block;
+    }
+    .navbar li {
+        padding-left: 0rem;
+        padding-right: 1rem;
     }
 }

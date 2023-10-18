@@ -4,7 +4,7 @@ import { motion } from "framer-motion/dist/framer-motion";
 import { useTheme } from '../context/ThemeContext';
 import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 
-const CourseComponent = ({ selectedDegree, selectedRequirement, onCreateCourse }) => {
+const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequirement, onCreateCourse }) => {
     const { isDarkMode } = useTheme();
 
     const componentStyle = {
@@ -67,34 +67,35 @@ const CourseComponent = ({ selectedDegree, selectedRequirement, onCreateCourse }
     const [selectedCourse, setSelectedCourse] = useState(null);
     // Check if selectedDegree and selectedRequirement are defined before accessing their properties
     const hasSelectedDegree = !!selectedDegree;
+    const hasSelectedConcentration = !!selectedConcentration;
     const hasSelectedRequirement = !!selectedRequirement;
 
     // if selected degree has requirements then make selectedRequirement default to the first index
     useEffect(()=>{
-        if (selectedDegree.requirements.length > 0)
-            selectedDegree.selectedRequirement = selectedDegree.requirements[0];
+        if (selectedDegree.selectedConcentration.requirements.length > 0)
+            selectedDegree.selectedConcentration.selectedRequirement = selectedDegree.selectedConcentration.requirements[0];
     }
-    ,[selectedDegree]);
+    ,[selectedDegree, selectedConcentration]);
 
     useEffect(() => {
-        if (hasSelectedDegree && hasSelectedRequirement) {
+        if (hasSelectedDegree && hasSelectedConcentration && hasSelectedRequirement) {
         // Fetch courses for the selected requirement from the backend
         // You can use fetch or any other method you prefer
         // Update the URL as needed
-        fetch(`http://localhost:5050/graduation/course/${selectedDegree._id}/${selectedRequirement._id}`)
+        fetch(`http://localhost:5050/graduation/course/${selectedDegree._id}/${selectedConcentration._id}/${selectedRequirement._id}`)
             .then((response) => response.json())
             .then((data) => setCourses(data))
             .catch((error) => console.error(error));
         }
-    }, [selectedDegree, selectedRequirement, hasSelectedDegree, hasSelectedRequirement]);
+    }, [selectedDegree, selectedRequirement, selectedConcentration, hasSelectedDegree, hasSelectedConcentration, hasSelectedRequirement]);
 
     const handleCourseSubmit = () => {
-        if (hasSelectedDegree && hasSelectedRequirement) {
+        if (hasSelectedDegree && hasSelectedConcentration && hasSelectedRequirement) {
 
             // Send a POST request to create a new course for the selected requirement
             // You can use fetch or any other method you prefer
             // Update the URL and request body as needed
-            fetch(`http://localhost:5050/graduation/course/${selectedDegree._id}/${selectedRequirement._id}`, {
+            fetch(`http://localhost:5050/graduation/course/${selectedDegree._id}/${selectedConcentration._id}/${selectedRequirement._id}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -107,9 +108,9 @@ const CourseComponent = ({ selectedDegree, selectedRequirement, onCreateCourse }
                 setNewCourse({code: "", name: "", credits: 0});
 
                 // Delay for 2 seconds, then reload the page on success
-                //setTimeout(() => {
-                //    window.location.reload();
-                //}, 500);
+                setTimeout(() => {
+                    window.location.reload();
+                }, 500);
             })
             .catch((error) => console.error(error));
         }
@@ -121,7 +122,7 @@ const CourseComponent = ({ selectedDegree, selectedRequirement, onCreateCourse }
 
     return (
         <div style={componentStyle}>
-            {hasSelectedDegree && (
+            {hasSelectedDegree && hasSelectedConcentration && (
                 <div>
                     {/*<h2>Courses for {selectedDegree.name}</h2>*/}
                     {(
@@ -136,11 +137,11 @@ const CourseComponent = ({ selectedDegree, selectedRequirement, onCreateCourse }
                                         selectedCourse === course ? "active-node" : ""
                                     }`} 
                                     key={course._id}
-                                    onClick={() => handleSelectCourse(course)}
                                 >
-                                    <p>
-                                        <h5>{course.code}</h5>
-                                        <h5>{course.name}</h5>
+                                    <p onClick={() => handleSelectCourse(course)}>
+                                        <h6>{course.code}</h6>
+                                        <b><i>{course.name}</i></b>
+                                        <br/>
                                         Credit Hours: <b>{course.credits}</b>
                                         <br/>
                                         Status: {
@@ -156,7 +157,7 @@ const CourseComponent = ({ selectedDegree, selectedRequirement, onCreateCourse }
                                 <div className="node-form">
                                     <input
                                         type="text"
-                                        placeholder="Enter course code"
+                                        placeholder="Code"
                                         value={newCourse.code}
                                         onChange={(e) =>
                                             setNewCourse({ ...newCourse, code: e.target.value })
@@ -164,7 +165,7 @@ const CourseComponent = ({ selectedDegree, selectedRequirement, onCreateCourse }
                                     />
                                     <input
                                         type="text"
-                                        placeholder="Enter course name"
+                                        placeholder="Name"
                                         value={newCourse.name}
                                         onChange={(e) =>
                                             setNewCourse({ ...newCourse, name: e.target.value })
@@ -172,7 +173,7 @@ const CourseComponent = ({ selectedDegree, selectedRequirement, onCreateCourse }
                                     />
                                     <input
                                         type="number"
-                                        placeholder="Enter credits"
+                                        placeholder="Credits"
                                         value={newCourse.credits}
                                         onChange={(e) =>
                                             setNewCourse({
@@ -188,7 +189,43 @@ const CourseComponent = ({ selectedDegree, selectedRequirement, onCreateCourse }
                             </li>
                         </ul>
                     ) : (
-                        <p>No courses found</p>
+                        <ul>
+                            <li><p>No courses found</p></li>
+                            <li>
+                                <div className="node-form">
+                                    <input
+                                        type="text"
+                                        placeholder="Code"
+                                        value={newCourse.code}
+                                        onChange={(e) =>
+                                            setNewCourse({ ...newCourse, code: e.target.value })
+                                        }
+                                    />
+                                    <input
+                                        type="text"
+                                        placeholder="Name"
+                                        value={newCourse.name}
+                                        onChange={(e) =>
+                                            setNewCourse({ ...newCourse, name: e.target.value })
+                                        }
+                                    />
+                                    <input
+                                        type="number"
+                                        placeholder="Credits"
+                                        value={newCourse.credits}
+                                        onChange={(e) =>
+                                            setNewCourse({
+                                            ...newCourse,
+                                            credits: parseInt(e.target.value, 10),
+                                            })
+                                        }
+                                    />
+                                    <button onClick={handleCourseSubmit}>
+                                        <AddCircleTwoToneIcon/>
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
                     )}
 
                 </div>

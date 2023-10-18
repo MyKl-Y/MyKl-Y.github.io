@@ -9,7 +9,21 @@ router.post("/degree", async (req, res) => {
     try {
         const newDegree = {
             name: req.body.name,
-            requirements: [],
+            credits: req.body.credits,
+            concentrations: [
+                {
+                    _id: new ObjectId(),
+                    name: "General Education",
+                    requirements: [],
+                    is_complete: false,
+                },
+                {
+                    _id: new ObjectId(),
+                    name: "Major Specific",
+                    requirements: [],
+                    is_complete: false,
+                }
+            ],
             user: req.body.user,
         };
         let collection = await db.collection("graduationRequirements");
@@ -21,10 +35,28 @@ router.post("/degree", async (req, res) => {
     }
 });
 
-// Create a new requirement within a degree
-router.post("/requirement/:degreeId", async (req, res) => {
+// Create a new concentrations within a degree
+router.post("/concentration/:degreeId", async (req, res) => {
     try {
         let query = {_id: new ObjectId(req.params["degreeId"])};
+        const newConcentration = {
+            _id: new ObjectId(),
+            name: req.body.name,
+            requirements: [],
+            is_complete: false,
+        };
+        let collection = await db.collection("graduationRequirements");
+        let result = await collection.updateOne(query, {$push: {"concentrations": newConcentration}});
+        res.send(result).status(201); // 201 Created
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({"message": error})
+    }
+});
+
+// Create a new requirement within a concentration
+router.post("/requirement/:degreeId/:concentrationId", async (req, res) => {
+    try {
         const newRequirement = {
             _id: new ObjectId(),
             name: req.body.name,
@@ -33,11 +65,14 @@ router.post("/requirement/:degreeId", async (req, res) => {
             is_complete: false,
         };
         let collection = await db.collection("graduationRequirements");
-        //let result = await collection.updateOne(
-        //    { _id: req.params.degreeId },
-        //    { $push: { "requirements": newRequirement } },
-        //);
-        let result = await collection.updateOne(query, {$push: {"requirements": newRequirement}});
+        let result = await collection.updateOne(
+            { 
+                "_id": new ObjectId(req.params["degreeId"]), 
+                "concentrations._id": new ObjectId(req.params["concentrationId"]) 
+            },
+            {$push: {"concentrations.$[conElem].requirements": newRequirement}},
+            { arrayFilters: [{ "conElem._id": new ObjectId(req.params.concentrationId) }] }
+        );
         res.send(result).status(201); // 201 Created
     } catch (error) {
         console.error(error);
@@ -46,7 +81,7 @@ router.post("/requirement/:degreeId", async (req, res) => {
 });
 
 // Create a new course within a requirement
-router.post("/course/:degreeId/:requirementId", async (req, res) => {
+router.post("/course/:degreeId/:concentrationId/:requirementId", async (req, res) => {
     try {
         const newCourse = {
             _id: new ObjectId(),
@@ -58,11 +93,17 @@ router.post("/course/:degreeId/:requirementId", async (req, res) => {
         let collection = await db.collection("graduationRequirements");
         let result = await collection.updateOne(
             { 
-                "_id": new ObjectId(req.params["degreeId"]), 
-                "requirements._id": new ObjectId(req.params["requirementId"]) 
+                "_id": new ObjectId(req.params["degreeId"]),
+                "concentrations._id": new ObjectId(req.params["concentrationId"]),
+                "concentrations.requirements._id": new ObjectId(req.params["requirementId"]) 
             },
-            { $push: { "requirements.$[reqElem].courses": newCourse } },
-            { arrayFilters: [{ "reqElem._id": new ObjectId(req.params.requirementId) }] }
+            { $push: { "concentrations.$[conElem].requirements.$[reqElem].courses": newCourse } },
+            { arrayFilters: 
+                [
+                    { "conElem._id": new ObjectId(req.params.concentrationId) },
+                    { "reqElem._id": new ObjectId(req.params.requirementId) }
+                ] 
+            }
         );
         res.send(result).status(201); // 201 Created
     } catch (error) {
@@ -78,12 +119,12 @@ router.get("/degree", async (req, res) => {
     res.send(results).status(200);
 });
 
-// Read a lits of all requirements by degree Id
-router.get("/requirement/:degreeId", async (req, res) => {
+// Read a lits of all concentrations by degree Id
+router.get("/concentration/:degreeId", async (req, res) => {
     try {
         let collection = await db.collection("graduationRequirements");
         let filter = {_id: new ObjectId(req.params["degreeId"])};
-        const projection = { requirements: 1, _id: 0 };
+        const projection = { concentrations: 1, _id: 0 };
         let result = await collection.find(filter, { projection }).toArray();
         res.send(result).status(200);
     } catch (error) {
@@ -92,17 +133,52 @@ router.get("/requirement/:degreeId", async (req, res) => {
     }
 });
 
-// Read a list of all courses by degree Id and requirementId
-router.get("/course/:degreeId/:requirementId", async (req, res) => {
+// Read a lits of all requirements by concentration Id
+router.get("/requirement/:degreeId/:concentrationId", async (req, res) => {
     try {
         let collection = await db.collection("graduationRequirements");
         let filter1  = {_id: new ObjectId(req.params["degreeId"])};
-        let filter2 = {"requirements._id": new ObjectId(req.params["requirementId"])};
+        let filter2 = {"concentrations._id": new ObjectId(req.params["concentrationId"])};
         const pipeline = [
             { $match: filter1 },
-            { $unwind: "$requirements" },
+            { $unwind: "$concentrations" },
             { $match: filter2 },
-            { $project: { courses: "$requirements.courses", _id: 0 } },
+            { $project: { requirements: "$concentrations.requirements", _id: 0 } },
+        ];
+        let result = await collection.aggregate(pipeline).toArray();
+        res.send(result).status(200);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({"message": error})
+    }
+});    
+
+// Read a list of all courses by degree Id and requirementId
+router.get("/course/:degreeId/:concentrationId/:requirementId", async (req, res) => {
+    try {
+        let collection = await db.collection("graduationRequirements");
+        let filter1  = {_id: new ObjectId(req.params["degreeId"])};
+        let filter2 = {"concentrations._id": new ObjectId(req.params["concentrationId"])};
+        let filter3 = {"concentrations.requirements._id": new ObjectId(req.params["requirementId"])};
+        const pipeline = [
+            { 
+                $match: filter1,
+            },
+            { 
+                $unwind: "$concentrations" 
+            },
+            {
+                $match: filter2,
+            },
+            {
+                $unwind: "$concentrations.requirements",
+            },
+            { 
+                $match: filter3, 
+            },
+            { 
+                $project: { courses: "$concentrations.requirements.courses", _id: 0 },
+            },
         ];
         let result = await collection.aggregate(pipeline).toArray();
         res.send(result).status(200);
@@ -129,15 +205,36 @@ router.put("/degree/:degreeId", async (req, res) => {
     }
 });
 
-// Update a requirement within a degree
-router.put("/requirement/:degreeId/:requirementId", async (req, res) => {
+// Update a concentration within a degree
+router.put("/concentration/:degreeId/:concentrationId", async (req, res) => {
     try {
         const updates = req.body;
         let collection = await db.collection("graduationRequirements");
         const updateResult = await collection.updateOne(
-            { "_id": req.params.degreeId, "degree.requirements._id": req.params.requirementId },
-            { $set: { "degree.$[degreeElem].requirements.$[reqElem]": updates } },
-            { arrayFilters: [{ "degreeElem._id": req.params.degreeId }, { "reqElem._id": req.params.requirementId }] }
+            { "_id": req.params.degreeId, "concentrations._id": req.params.concentrationId },
+            { $set: { "degree.$[degreeElem].concentrations.$[concElem]": updates } },
+            { arrayFilters: [{ "degreeElem._id": req.params.degreeId }, { "concElem._id": concentrationId }] }
+        );
+        res.send(updateResult).status(200);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ "message": error });
+    }
+});
+
+// Update a requirement within a concentration
+router.put("/requirement/:degreeId/:concentrationId/:requirementId", async (req, res) => {
+    try {
+        const updates = req.body;
+        let collection = await db.collection("graduationRequirements");
+        const updateResult = await collection.updateOne(
+            { 
+                "_id": req.params.degreeId, 
+                "degree.concentrations._id": req.params.concentrationId,
+                "degree.concentrations.requirements._id": req.params.requirementId 
+            },
+            { $set: { "degree.$[degreeElem].concentrations.$[concElem].requirements.$[reqElem]": updates } },
+            { arrayFilters: [{ "degreeElem._id": req.params.degreeId }, { "concElem._id": req.params.concentrationId }, { "reqElem._id": req.params.requirementId }] }
         );
         res.send(updateResult).status(200);
     } catch (error) {
@@ -147,14 +244,19 @@ router.put("/requirement/:degreeId/:requirementId", async (req, res) => {
 });
 
 // Update a course within a requirement
-router.put("/course/:degreeId/:requirementId/:courseId", async (req, res) => {
+router.put("/course/:degreeId/:concentrationId/:requirementId/:courseId", async (req, res) => {
     try {
         const updates = req.body;
         let collection = await db.collection("graduationRequirements");
         const updateResult = await collection.updateOne(
-            { "_id": req.params.degreeId, "degree.requirements._id": req.params.requirementId, "degree.requirements.courses._id": req.params.courseId },
-            { $set: { "degree.$[degreeElem].requirements.$[reqElem].courses.$[courseElem]": updates } },
-            { arrayFilters: [{ "degreeElem._id": req.params.degreeId }, { "reqElem._id": req.params.requirementId }, { "courseElem._id": req.params.courseId }] }
+            { 
+                "_id": req.params.degreeId, 
+                "degree.concentrations._id": req.params.concentrationId,
+                "degree.concentrations.requirements._id": req.params.requirementId, 
+                "degree.concentrations.requirements.courses._id": req.params.courseId 
+            },
+            { $set: { "degree.$[degreeElem].concentrations.$[concElem].requirements.$[reqElem].courses.$[courseElem]": updates } },
+            { arrayFilters: [{ "degreeElem._id": req.params.degreeId }, { "concElem._id": req.params.concentrationId }, { "reqElem._id": req.params.requirementId }, { "courseElem._id": req.params.courseId }] }
         );
         res.send(updateResult).status(200);
     } catch (error) {
@@ -177,13 +279,13 @@ router.delete("/degree/:degreeId", async (req, res) => {
     }
 });
 
-// Delete a requirement within a degree
-router.delete("/requirement/:degreeId/:requirementId", async (req, res) => {
+// Delete a concentration within a degree
+router.delete("/concentration/:degreeId/:concentrationId", async (req, res) => {
     try {
         let collection = await db.collection("graduationRequirements");
         const deleteResult = await collection.updateOne(
             { "_id": req.params.degreeId },
-            { $pull: { "degree.$[degreeElem].requirements": { _id: req.params.requirementId } } },
+            { $pull: { "degree.$[degreeElem].concentrations": { _id: req.params.concentrationId } } },
             { arrayFilters: [{ "degreeElem._id": req.params.degreeId }] }
         );
         res.send(deleteResult).status(200);
@@ -193,14 +295,30 @@ router.delete("/requirement/:degreeId/:requirementId", async (req, res) => {
     }
 });
 
-// Delete a course within a requirement
-router.delete("/course/:degreeId/:requirementId/:courseId", async (req, res) => {
+// Delete a requirement within a degree
+router.delete("/requirement/:degreeId/:concentrationId/:requirementId", async (req, res) => {
     try {
         let collection = await db.collection("graduationRequirements");
         const deleteResult = await collection.updateOne(
-            { "_id": req.params.degreeId, "degree.requirements._id": req.params.requirementId },
-            { $pull: { "degree.$[degreeElem].requirements.$[reqElem].courses": { _id: req.params.courseId } } },
-            { arrayFilters: [{ "degreeElem._id": req.params.degreeId }, { "reqElem._id": req.params.requirementId }] }
+            { "_id": req.params.degreeId, "degree.concentrations._id": req.params.concentrationId },
+            { $pull: { "degree.$[degreeElem].concentrations.$[concElem].concentrations": { _id: req.params.requirementId } } },
+            { arrayFilters: [{ "degreeElem._id": req.params.degreeId }, { "concElem._id": req.params.concentrationId }] }
+        );
+        res.send(deleteResult).status(200);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({"message": error})
+    }
+});
+
+// Delete a course within a requirement
+router.delete("/course/:degreeId/:concentrationId/:requirementId/:courseId", async (req, res) => {
+    try {
+        let collection = await db.collection("graduationRequirements");
+        const deleteResult = await collection.updateOne(
+            { "_id": req.params.degreeId, "degree.concentrations._id": req.params.concentrationId, "degree.concentrations.requirements._id": req.params.requirementId },
+            { $pull: { "degree.$[degreeElem].concentrations.$[concElem].requirements.$[reqElem].courses": { _id: req.params.courseId } } },
+            { arrayFilters: [{ "degreeElem._id": req.params.degreeId }, { "concElem._id": req.params.concentrationId }, { "reqElem._id": req.params.requirementId }] }
         );
         res.send(deleteResult).status(200);
     } catch (error) {
