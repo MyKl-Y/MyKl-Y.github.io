@@ -194,9 +194,9 @@ router.put("/degree/:degreeId", async (req, res) => {
         const updates = req.body;
         let collection = await db.collection("graduationRequirements");
         const updateResult = await collection.updateOne(
-            { _id: req.params.degreeId },
+            { _id: new ObjectId(req.params["degreeId"]) },
             { $set: { "degree.$[elem]": updates } },
-            { arrayFilters: [{ "elem._id": req.params.degreeId }] }
+            { arrayFilters: [{ "elem._id": new ObjectId(req.params["degreeId"]) }] }
         );
         res.send(updateResult).status(200);
     } catch (error) {
@@ -208,34 +208,87 @@ router.put("/degree/:degreeId", async (req, res) => {
 // Update a concentration within a degree
 router.put("/concentration/:degreeId/:concentrationId", async (req, res) => {
     try {
-        const updates = req.body;
         let collection = await db.collection("graduationRequirements");
+
+        const degreeId = new ObjectId(req.params["degreeId"]);
+        const concentrationId = new ObjectId(req.params["concentrationId"]);
+
+        const filter = {
+            _id: degreeId,
+            "concentrations._id": concentrationId,
+        };
+
+        const updates = {
+            $set: {
+                "concentrations.$": {
+                    _id: courseId,
+                    requirements: req.body.courses,
+                    name: req.body.name,
+                    is_complete: req.body.is_complete,
+                }
+            }
+        };
+
+        const arrayFilters = [
+            /*{ "degreeElem._id": degreeId },
+            { "concElem._id": concentrationId },*/
+        ];
+
         const updateResult = await collection.updateOne(
-            { "_id": req.params.degreeId, "concentrations._id": req.params.concentrationId },
-            { $set: { "degree.$[degreeElem].concentrations.$[concElem]": updates } },
-            { arrayFilters: [{ "degreeElem._id": req.params.degreeId }, { "concElem._id": concentrationId }] }
+            filter,
+            updates,
+            {
+            }
         );
+        
         res.send(updateResult).status(200);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ "message": error });
+        res.status(500).json({"message": error})
     }
 });
 
 // Update a requirement within a concentration
 router.put("/requirement/:degreeId/:concentrationId/:requirementId", async (req, res) => {
     try {
-        const updates = req.body;
         let collection = await db.collection("graduationRequirements");
+
+        const degreeId = new ObjectId(req.params["degreeId"]);
+        const concentrationId = new ObjectId(req.params["concentrationId"]);
+        const requirementId = new ObjectId(req.params["requirementId"]);
+
+        const filter = {
+            _id: degreeId,
+            "concentrations._id": concentrationId,
+            "concentrations.requirements._id": requirementId,
+        };
+
+        const updates = {
+            $set: {
+                "concentrations.$.requirements.$[reqElem]": {
+                    _id: courseId,
+                    courses: req.body.courses,
+                    name: req.body.name,
+                    credits: req.body.credits,
+                    is_complete: req.body.is_complete,
+                }
+            }
+        };
+
+        const arrayFilters = [
+            /*{ "degreeElem._id": degreeId },
+            { "concElem._id": concentrationId },*/
+            { "reqElem._id": requirementId },
+        ];
+
         const updateResult = await collection.updateOne(
-            { 
-                "_id": req.params.degreeId, 
-                "degree.concentrations._id": req.params.concentrationId,
-                "degree.concentrations.requirements._id": req.params.requirementId 
-            },
-            { $set: { "degree.$[degreeElem].concentrations.$[concElem].requirements.$[reqElem]": updates } },
-            { arrayFilters: [{ "degreeElem._id": req.params.degreeId }, { "concElem._id": req.params.concentrationId }, { "reqElem._id": req.params.requirementId }] }
+            filter,
+            updates,
+            {
+                arrayFilters
+            }
         );
+        
         res.send(updateResult).status(200);
     } catch (error) {
         console.error(error);
@@ -246,18 +299,47 @@ router.put("/requirement/:degreeId/:concentrationId/:requirementId", async (req,
 // Update a course within a requirement
 router.put("/course/:degreeId/:concentrationId/:requirementId/:courseId", async (req, res) => {
     try {
-        const updates = req.body;
         let collection = await db.collection("graduationRequirements");
+
+        const degreeId = new ObjectId(req.params["degreeId"]);
+        const concentrationId = new ObjectId(req.params["concentrationId"]);
+        const requirementId = new ObjectId(req.params["requirementId"]);
+        const courseId = new ObjectId(req.params["courseId"]);
+
+        const filter = {
+            _id: degreeId,
+            "concentrations._id": concentrationId,
+            "concentrations.requirements._id": requirementId,
+            "concentrations.requirements.courses._id": courseId
+        };
+
+        const updates = {
+            $set: {
+                "concentrations.$.requirements.$[reqElem].courses.$[courseElem]": {
+                    _id: courseId,
+                    code: req.body.code,
+                    name: req.body.name,
+                    credits: req.body.credits,
+                    is_complete: req.body.is_complete,
+                }
+            }
+        };
+
+        const arrayFilters = [
+            /*{ "degreeElem._id": degreeId },
+            { "concElem._id": concentrationId },*/
+            { "reqElem._id": requirementId },
+            { "courseElem._id": courseId }
+        ];
+
         const updateResult = await collection.updateOne(
-            { 
-                "_id": req.params.degreeId, 
-                "degree.concentrations._id": req.params.concentrationId,
-                "degree.concentrations.requirements._id": req.params.requirementId, 
-                "degree.concentrations.requirements.courses._id": req.params.courseId 
-            },
-            { $set: { "degree.$[degreeElem].concentrations.$[concElem].requirements.$[reqElem].courses.$[courseElem]": updates } },
-            { arrayFilters: [{ "degreeElem._id": req.params.degreeId }, { "concElem._id": req.params.concentrationId }, { "reqElem._id": req.params.requirementId }, { "courseElem._id": req.params.courseId }] }
+            filter,
+            updates,
+            {
+                arrayFilters
+            }
         );
+        
         res.send(updateResult).status(200);
     } catch (error) {
         console.error(error);

@@ -124,6 +124,26 @@ const RequirementComponent = ({ selectedDegree, selectedConcentration, onCreateR
         setCreatedCourses([...createdCourses, newCourse]);
     };
 
+    // Check if requirement is done if the requirement credit hours <= sum of all courses credit hours
+    const isRequirementDone = (requirement) => {
+        let sum = 0;
+        requirement.courses.forEach((course) => {
+            if (course.is_complete && course.credits) {
+                sum += course.credits;
+            }
+        })
+        return requirement.credits <= sum;
+    }
+    const requirementTotalCredits = (requirement) => {
+        let sum = 0;
+        requirement.courses.forEach((course) => {
+            if (course.is_complete && course.credits) {
+                sum += course.credits;
+            }
+        })
+        return sum;
+    }
+
     return (
         <div style={componentStyle}>
             {/*<h2>Requirements for {selectedDegree.name}</h2>*/}
@@ -140,25 +160,41 @@ const RequirementComponent = ({ selectedDegree, selectedConcentration, onCreateR
                             }`} 
                             key={requirement._id} 
                         >
-                            <p onClick={() => handleSelectRequirement(requirement)}>
+                            <div 
+                                className={`tree-node-content
+                                    ${
+                                        isRequirementDone(requirement) ? "complete-node" : ""
+                                    }`
+                                }  
+                                onClick={() => handleSelectRequirement(requirement)}
+                            >
                                 <h5>{requirement.name}</h5>
-                                Credit Hours: <b>{requirement.credits}</b>
+                                {`
+                                    ${
+                                        requirementTotalCredits(requirement)
+                                    }
+                                /
+                                    ${
+                                        requirement.credits
+                                    }
+                                `}
                                 <br/>
                                 Status: 
                                 <b>
                                     {
-                                        requirement.is_complete ?
-                                        " Complete" :
-                                        " Incomplete"
+                                        isRequirementDone(requirement) 
+                                            ? " Complete" 
+                                            : " Incomplete"
                                     }
                                 </b>
-                            </p>
+                            </div>
                             {selectedRequirement && selectedRequirement._id === requirement._id && (
                                 <CourseComponent 
                                     selectedDegree={selectedDegree}
                                     selectedConcentration={selectedConcentration}
                                     selectedRequirement={selectedRequirement} 
                                     onCreateCourse={onCreateCourse}
+                                    isRequirementDone={isRequirementDone(requirement)}
                                 />
                             )}
                         </li>

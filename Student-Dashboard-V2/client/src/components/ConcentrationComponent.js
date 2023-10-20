@@ -135,9 +135,9 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
                         }`} 
                         key={concentration._id} 
                     >
-                        <p onClick={() => handleSelectConcentration(concentration)}>
+                        <div className="tree-node-content" onClick={() => handleSelectConcentration(concentration)}>
                             <h4>{concentration.name}</h4>
-                        </p>
+                        </div>
                         {selectedConcentration && selectedConcentration._id === concentration._id && (
                             <RequirementComponent
                                 selectedDegree={selectedDegree}

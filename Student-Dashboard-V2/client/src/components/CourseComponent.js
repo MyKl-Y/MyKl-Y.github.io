@@ -4,7 +4,7 @@ import { motion } from "framer-motion/dist/framer-motion";
 import { useTheme } from '../context/ThemeContext';
 import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 
-const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequirement, onCreateCourse }) => {
+const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequirement, onCreateCourse, isRequirementDone }) => {
     const { isDarkMode } = useTheme();
 
     const componentStyle = {
@@ -120,6 +120,66 @@ const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequir
         setSelectedCourse(course);
     };
 
+    const [updatedCourse, setUpdatedCourse] = useState({
+        code: "",
+        name: "",
+        credits: "",
+        is_complete: false,
+    });
+
+    const toggleCourseCompleteness = (course) => {
+        // Toggle the completeness status of the course
+        // selectedDegree.selectedConcentration.selectedRequirement.selectedCourse.is_complete = !selectedDegree.selectedConcentration.selectedRequirement.selectedCourse.is_complete;
+
+        let updatedCourse;
+
+        if (course.is_complete) {
+            updatedCourse = {
+                code: course.code,
+                name: course.name,
+                credits: course.credits,
+                is_complete: false
+            }
+        } else {
+            updatedCourse = {
+                code: course.code,
+                name: course.name,
+                credits: course.credits,
+                is_complete: true
+            }
+        }
+
+        console.log(updatedCourse);
+
+        // Send a PUT request to update the course with the new completeness status
+        // You can use fetch or any other method you prefer
+        // Update the URL and request body as needed
+        fetch(`http://localhost:5050/graduation/course/${selectedDegree._id}/${selectedConcentration._id}/${selectedRequirement._id}/${selectedCourse._id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updatedCourse),
+        })
+        
+        .then((response) => response.json())
+        .then((data) => {
+            // Call the onUpdateCourse function to update the course in the UI
+            //onUpdateCourse(updatedCourse);
+            setUpdatedCourse({
+                code: "",
+                name: "",
+                credits: 0,
+                is_complete: false
+            })
+
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
+        })
+        .catch((error) => console.error(error));
+    };
+
     return (
         <div style={componentStyle}>
             {hasSelectedDegree && hasSelectedConcentration && (
@@ -133,24 +193,46 @@ const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequir
                         <ul>
                             {selectedRequirement.courses.map((course) => (
                                 <li 
-                                    className={`course-node ${
-                                        selectedCourse === course ? "active-node" : ""
-                                    }`} 
+                                    className={`course-node 
+                                        ${
+                                            selectedCourse === course ? "active-node" : ""
+                                        }`
+                                    } 
                                     key={course._id}
                                 >
-                                    <p onClick={() => handleSelectCourse(course)}>
+                                    <div 
+                                        className={`tree-node-content
+                                            ${
+                                                course.is_complete ? "complete-node" : ""
+                                            }`
+                                        } 
+                                        onClick={() => handleSelectCourse(course)}
+                                    >
                                         <h6>{course.code}</h6>
                                         <b><i>{course.name}</i></b>
                                         <br/>
-                                        Credit Hours: <b>{course.credits}</b>
-                                        <br/>
-                                        Status: {
-                                            course.is_complete ?
-                                            <b>Complete</b> :
-                                            <b>Incomplete</b>
-                                        }
+                                        {`
+                                            ${
+                                                course.is_complete 
+                                                    ? course.credits+" / "+course.credits
+                                                    : isRequirementDone
+                                                        ? ""
+                                                        : 0+" / "+course.credits
+                                            }`}
                                         {/*<button onClick={()=>onDeleteCourseClickHandler(course)}>Delete</button>*/}
-                                    </p>
+                                        { selectedCourse === course && !isRequirementDone
+                                            ? 
+                                                <button onClick={() => toggleCourseCompleteness(selectedCourse)}>
+                                                    Mark as {course.is_complete ? "Incomplete" : "Complete"}
+                                                </button>
+                                            : course.is_complete && selectedCourse === course
+                                                ? 
+                                                    <button onClick={() => toggleCourseCompleteness(selectedCourse)}>
+                                                        Mark as {course.is_complete ? "Incomplete" : "Complete"}
+                                                    </button>
+                                                : null
+                                        }
+                                    </div>
                                 </li>
                             ))}
                             <li>

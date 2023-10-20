@@ -6,7 +6,8 @@ import { useAuth } from "../context/AuthContext";
 import ConcentrationComponent from "./ConcentrationComponent";
 import "./DegreeComponent.css";
 import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
-import { Select, FormControl, MenuItem, OutlinedInput } from '@mui/material';
+//import { Select, FormControl, MenuItem, OutlinedInput } from '@mui/material';
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 const DegreeComponent = ({ onSelectDegree }) => {
     const { user } = useAuth();
@@ -128,6 +129,34 @@ const DegreeComponent = ({ onSelectDegree }) => {
         setShowDropdown(!showDropdown);
     };
 
+    function makeAbbr(str) {
+        let words = str.split(/\s+/);
+        let abbreviation = '';
+        for (let i = 0; i < words.length; i++) {
+            abbreviation += words[i][0];
+        }
+        return abbreviation.toUpperCase();
+    }
+
+    const totalCredits = calculateTotalCredits(selectedDegree);
+
+    function calculateTotalCredits(degree) {
+        let total = 0;
+        
+        if (degree !== "addNew" && degree !== null) {
+            degree.concentrations.forEach((concentration) => {
+                concentration.requirements.forEach((requirement) => {
+                    requirement.courses.forEach((course) => {
+                        if (course.is_complete) {
+                            total += course.credits;
+                        }
+                    })
+                })
+            })
+        }
+        return total;
+    }
+
     return (
         <div className="tree-container" style={componentStyle}>
             <h2>Degrees</h2>
@@ -160,25 +189,42 @@ const DegreeComponent = ({ onSelectDegree }) => {
                     className={`custom-dropdown-header ${showDropdown ? "active" : ""}`}
                     onClick={toggleDropdown}
                 >
-                    <span>{selectedDegree === "addNew" ? "Add New" : (selectedDegree ? selectedDegree.name : "Select a Degree")}</span>
+                    <span>
+                        {
+                            /*selectedDegree === "addNew" ? "Add New" : (selectedDegree ? selectedDegree.name : "Select a Degree")*/
+                            selectedDegree === "addNew" 
+                                ? "Add New" 
+                                : 
+                                    (
+                                        selectedDegree 
+                                            ? 
+                                                <abbr
+                                                    title={selectedDegree.name}
+                                                >
+                                                    {makeAbbr(selectedDegree.name)}
+                                                </abbr>
+                                            : "Select a Degree"
+                                    )
+                        }
+                    </span>
                     <span className="dropdown-icon">{showDropdown ? " ▲" : " ▼"}</span>
                 </div>
                 {showDropdown && (
                     <div className="custom-dropdown-options">
                         <div
-                            className="custom-dropdown-option"
+                            className={`custom-dropdown-option none-option ${selectedDegree === null ? "active" : ""}`}
                             onClick={() => 
                                 {
-                                    handleSelectDegree("")
+                                    handleSelectDegree(null)
                                     setShowAddNewForm(false) // Show the Add New form
                                     toggleDropdown()
                                 }
                             }
                         >
-                            
+
                         </div>
                         <div
-                            className="custom-dropdown-option"
+                            className={`custom-dropdown-option ${selectedDegree === "addNew" ? "active" : ""}`}
                             onClick={() => 
                                 {
                                     handleSelectDegree("addNew")
@@ -191,7 +237,7 @@ const DegreeComponent = ({ onSelectDegree }) => {
                         </div>
                         {degrees.map((degree) => (
                             <div
-                                className="custom-dropdown-option"
+                                className={`custom-dropdown-option ${selectedDegree === degree ? "active" : ""}`}
                                 key={degree._id}
                                 onClick={() => 
                                     {
@@ -206,6 +252,18 @@ const DegreeComponent = ({ onSelectDegree }) => {
                     </div>
                 )}
             </div>
+            <TransformWrapper
+                defaultScale={1}
+                defaultPositionX={200}
+                defaultPositionY={100}
+                wheel={{step: 50, disabled: false}}
+                options={{limitToBounds: false}}
+                pinch={{step: 50, disabled: false}}
+                doubleClick={{disabled: false}}
+                panning={{step: 50, disabled: false}}
+            >
+            <TransformComponent >
+                <div className="transform-container">
             <ul className="tree">
                 {/*{degrees.length > 0 && degrees.map((degree) => (
                     <li 
@@ -278,10 +336,18 @@ const DegreeComponent = ({ onSelectDegree }) => {
                 <li 
                     className={`degree-node active-node`} 
                 >
-                        <p className="degree-name">
+                        <div 
+                            className={`tree-node-content
+                                ${
+                                    totalCredits >= selectedDegree.credits 
+                                        ? "complete-node" 
+                                        : ""
+                                }`
+                            } 
+                        >
                             <h3>{selectedDegree.name}</h3>
-                            Credit Hours: <b>{selectedDegree.credits}</b>
-                        </p>
+                            Credit Hours: <b>{`${totalCredits}/${selectedDegree.credits}`}</b>
+                        </div>
                         {selectedDegree &&
                             <ConcentrationComponent 
                                 selectedDegree={selectedDegree} 
@@ -292,6 +358,9 @@ const DegreeComponent = ({ onSelectDegree }) => {
                     </li>
             ) : null}
             </ul>
+            </div>
+            </TransformComponent>
+            </TransformWrapper>
         </div>
         
     );
