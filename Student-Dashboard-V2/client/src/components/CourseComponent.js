@@ -4,7 +4,7 @@ import { motion } from "framer-motion/dist/framer-motion";
 import { useTheme } from '../context/ThemeContext';
 import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 
-const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequirement, onCreateCourse, isRequirementDone }) => {
+const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequirement, onCreateCourse, isRequirementDone, calculateTotalUpdates }) => {
     const { isDarkMode } = useTheme();
 
     const componentStyle = {
@@ -108,9 +108,10 @@ const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequir
                 setNewCourse({code: "", name: "", credits: 0});
 
                 // Delay for 2 seconds, then reload the page on success
-                setTimeout(() => {
-                    window.location.reload();
-                }, 500);
+                //setTimeout(() => {
+                //    window.location.reload();
+                //}, 500);
+                calculateTotalUpdates(1);
             })
             .catch((error) => console.error(error));
         }
@@ -173,9 +174,10 @@ const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequir
                 is_complete: false
             })
 
-            setTimeout(() => {
-                window.location.reload();
-            }, 500);
+            //setTimeout(() => {
+            //    window.location.reload();
+            //}, 500);
+            calculateTotalUpdates(1);
         })
         .catch((error) => console.error(error));
     };
@@ -272,7 +274,9 @@ const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequir
                         </ul>
                     ) : (
                         <ul>
-                            <li><p>No courses found</p></li>
+                            <li>
+                                <div className="tree-node-content">No Courses Found</div>
+                            </li>
                             <li>
                                 <div className="node-form">
                                     <input

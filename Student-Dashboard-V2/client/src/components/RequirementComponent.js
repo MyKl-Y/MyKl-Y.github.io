@@ -4,7 +4,7 @@ import CourseComponent from "./CourseComponent";
 import { useTheme } from '../context/ThemeContext';
 import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 
-const RequirementComponent = ({ selectedDegree, selectedConcentration, onCreateRequirement, onSelectRequirement }) => {
+const RequirementComponent = ({ selectedDegree, selectedConcentration, onCreateRequirement, onSelectRequirement, calculateTotalUpdates }) => {
     const { isDarkMode } = useTheme();
 
     const componentStyle = {
@@ -104,9 +104,10 @@ const RequirementComponent = ({ selectedDegree, selectedConcentration, onCreateR
             setNewRequirement({name: "", credits: 0});
 
             // Delay for 2 seconds, then reload the page on success
-            setTimeout(() => {
-                window.location.reload();
-            }, 500);
+            //setTimeout(() => {
+            //    window.location.reload();
+            //}, 500);
+            calculateTotalUpdates(1);
         })
         .catch((error) => console.error(error));
         }
@@ -178,15 +179,6 @@ const RequirementComponent = ({ selectedDegree, selectedConcentration, onCreateR
                                         requirement.credits
                                     }
                                 `}
-                                <br/>
-                                Status: 
-                                <b>
-                                    {
-                                        isRequirementDone(requirement) 
-                                            ? " Complete" 
-                                            : " Incomplete"
-                                    }
-                                </b>
                             </div>
                             {selectedRequirement && selectedRequirement._id === requirement._id && (
                                 <CourseComponent 
@@ -195,6 +187,7 @@ const RequirementComponent = ({ selectedDegree, selectedConcentration, onCreateR
                                     selectedRequirement={selectedRequirement} 
                                     onCreateCourse={onCreateCourse}
                                     isRequirementDone={isRequirementDone(requirement)}
+                                    calculateTotalUpdates={calculateTotalUpdates}
                                 />
                             )}
                         </li>
@@ -228,7 +221,9 @@ const RequirementComponent = ({ selectedDegree, selectedConcentration, onCreateR
                 </ul>
             ) : (
                 <ul>
-                    <li><p>No Requirements Found</p></li>
+                    <li>
+                        <div className="tree-node-content">No Requirements Found</div>
+                    </li>
                     <li>
                         <div className="node-form">
                             <input

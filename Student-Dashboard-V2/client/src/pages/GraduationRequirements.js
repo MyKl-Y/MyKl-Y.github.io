@@ -4,6 +4,7 @@ import RequirementComponent from "../components/RequirementComponent";
 import CourseComponent from "../components/CourseComponent";
 import { useTheme } from '../context/ThemeContext';
 import { motion } from "framer-motion/dist/framer-motion";
+import "../components/DegreeComponent.css";
 
 const GraduationRequirements = () => {
     const [selectedDegree, setSelectedDegree] = useState(null);
@@ -30,6 +31,7 @@ const GraduationRequirements = () => {
     
     return (
         <motion.div
+            className='GraduationRequirement'
             key='graduation'
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

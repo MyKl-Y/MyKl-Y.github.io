@@ -4,7 +4,7 @@ import RequirementComponent from "./RequirementComponent";
 import { useTheme } from '../context/ThemeContext';
 import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 
-const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelectConcentration }) => {
+const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelectConcentration, calculateTotalUpdates }) => {
     const { isDarkMode } = useTheme();
 
     const componentStyle = {
@@ -101,9 +101,10 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
             setNewConcentration({name: ""});
 
             // Delay for 2 seconds, then reload the page on success
-            setTimeout(() => {
-                window.location.reload();
-            }, 500);
+            //setTimeout(() => {
+            //    window.location.reload();
+            //}, 500);
+            calculateTotalUpdates(1);
         })
         .catch((error) => console.error(error));
         }
@@ -123,6 +124,18 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
         setCreatedRequirements([...createdRequirements, newRequirement]);
     };
 
+    // Function to get all credits for a concentration
+    const concentrationTotalCredits = (concentration) => {
+        let sum = 0;
+        concentration.requirements.forEach((requirement) => {
+            
+                sum += requirement.credits;
+
+        })
+        return sum;
+    }
+
+
     return (
         <div style={componentStyle}>
             {/*<h2>Requirements for {selectedDegree.name}</h2>*/}
@@ -137,6 +150,7 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
                     >
                         <div className="tree-node-content" onClick={() => handleSelectConcentration(concentration)}>
                             <h4>{concentration.name}</h4>
+                            <br/>Required Credits: <b>{concentrationTotalCredits(concentration)}</b>
                         </div>
                         {selectedConcentration && selectedConcentration._id === concentration._id && (
                             <RequirementComponent
@@ -144,6 +158,7 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
                                 selectedConcentration={selectedConcentration}
                                 onSelectRequirement={(requirement) => setSelectedRequirement(requirement)}
                                 onCreateRequirement={onCreateRequirement}
+                                calculateTotalUpdates={calculateTotalUpdates}
                             />
                         )}
                     </li>
@@ -166,7 +181,9 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
             </ul>
             ) : (
                 <ul>
-                    <li><p>No Concentrations Found</p></li>
+                    <li>
+                        <div className="tree-node-content">No Concentrations Found</div>
+                    </li>
                     <li>
                         <div className="node-form">
                             <input

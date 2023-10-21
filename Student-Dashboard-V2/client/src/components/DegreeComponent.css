@@ -1,26 +1,80 @@
+.GraduationRequirement {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
 /* It's supposed to look like a tree diagram */
 .tree-container {
     width: 100%;
     height: 100%;
-    overflow: auto;
     padding: 0 1rem;
     display: flex;
     flex-direction: column;
     align-items: stretch;
     justify-content: center;
+    flex-grow: 1;
 }
 
-.transform-container {
+.tree-button-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin: 1rem 0 1rem 0;
+}
+
+.refresh-button {
+    margin: 0 1rem 0 0;
+    padding: .5rem;
+    border-radius: .5rem;
+    border: none;
+    box-shadow: 
+        .25rem .25rem .15rem 0rem var(--dark-shadow), 
+        -.25rem -.25rem .15rem 0rem var(--light-shadow);
+    background-color: var(--add-primary);
+    color: var(--background-color);
+    cursor: pointer;
+}
+
+.help-icon {
+    margin: auto 0 auto 1rem;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+.react-transform-wrapper {
     width: 100%;
     height: 100%;
     display: flex;
+    flex-direction: row;
     flex-grow: 1;
+    align-items: stretch;
+    justify-content: center;
+    box-shadow:
+        inset -.2rem -.2rem .5rem 0rem var(--light-shadow),
+        inset .2rem .2rem .5rem 0rem var(--dark-shadow);
+    border-radius: 1rem;
+}
+.react-transform-wrapper .react-transform-component {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: center;
 }
 
 .tree h3, .tree h4, .tree h5, .tree h6 {
     color: var(--text-color);
     font-size: 1rem !important;
     font-weight: 500;
+}
+.tree h6 {
+    white-space: nowrap;
 }
 
 .custom-dropdown-container {
@@ -60,6 +114,7 @@
 }
 
 .custom-dropdown-options {
+    position: absolute;
     top: 100%;
     left: 0;
     width: 100%;
@@ -69,6 +124,12 @@
         .2rem .2rem .5rem 0rem var(--dark-shadow);
     border-bottom-left-radius: 1rem;
     border-bottom-right-radius: 1rem;
+    display: none;
+    z-index: 2;
+}
+
+.custom-dropdown-header.active + .custom-dropdown-options {
+    display: block;
 }
 
 .none-option {
@@ -168,8 +229,8 @@
 
 .node-form button:hover {
     box-shadow: 
-        inset -.2rem -.2rem .5rem -.2rem var(--add-dark), 
-        inset .2rem .2rem .5rem -.2rem var(--add-light);
+        inset -.2rem -.2rem .5rem -.2rem var(--add-light), 
+        inset .2rem .2rem .5rem -.2rem var(--add-dark);
 }
 
 .complete-node {
@@ -241,7 +302,7 @@
             .tree .node-form:before{
                 outline: solid 1px var(--primary);
                 content: "";
-                height: .5rem;
+                height: .45rem;
                 left: 50%;
                 position: absolute;
             }

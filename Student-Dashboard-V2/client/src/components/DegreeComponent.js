@@ -5,8 +5,9 @@ import { useTheme } from '../context/ThemeContext';
 import { useAuth } from "../context/AuthContext";
 import ConcentrationComponent from "./ConcentrationComponent";
 import "./DegreeComponent.css";
-import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
+import { AddCircleTwoTone, Refresh, HelpTwoTone } from '@mui/icons-material';
 //import { Select, FormControl, MenuItem, OutlinedInput } from '@mui/material';
+import { Badge, Tooltip } from "@mui/material";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 const DegreeComponent = ({ onSelectDegree }) => {
@@ -96,9 +97,10 @@ const DegreeComponent = ({ onSelectDegree }) => {
                 setNewDegree({name: "", credits: 0, user: ""});
 
                 // Delay for 2 seconds, then reload the page on success
-                setTimeout(() => {
-                    window.location.reload();
-                }, 500);
+                //setTimeout(() => {
+                //    window.location.reload();
+                //}, 500);
+                calculateTotalUpdates(1);
             })
             .catch((error) => console.error(error));
 
@@ -157,209 +159,237 @@ const DegreeComponent = ({ onSelectDegree }) => {
         return total;
     }
 
+    // Refresh Page Button Function
+    const refreshPage = () => {
+        window.location.reload();
+    }
+
+    // calculateTotalUpdates
+    const [updatesCount, setUpdatesCount] = useState(0);
+    const calculateTotalUpdates = (data) => {
+        let total = 0;
+        total += data;
+        setUpdatesCount(total);
+    }
+
     return (
         <div className="tree-container" style={componentStyle}>
-            <h2>Degrees</h2>
-            {/*<select
-                className="degree-select"
-                value={selectedDegree === "addNew" ? "addNew" : (selectedDegree ? selectedDegree._id : "none")} // Use the selected degree's ID
-                onChange={(e) => {
-                    const selectedValue = e.target.value;
-                    if (selectedValue === "addNew") {
-                        setShowAddNewForm(true); // Show the Add New form
-                        setSelectedDegree("addNew");
-                    } else if (selectedValue === "none") {
-                        setSelectedDegree(null); // Clear selected degree
-                    } else {
-                        const selected = degrees.find((degree) => degree._id === selectedValue);
-                        handleSelectDegree(selected);
-                    }
-                }}
-            >
-                <option className="menuItem" value="none" disabled>Select a Degree</option>
-                <option className="menuItem" value="addNew">Add New</option>
-                {degrees.map((degree) => (
-                    <option className="menuItem" key={degree._id} value={degree._id}>
-                        {degree.name}
-                    </option>
-                ))}
-            </select>*/}
-            <div className="custom-dropdown-container">
-                <div
-                    className={`custom-dropdown-header ${showDropdown ? "active" : ""}`}
-                    onClick={toggleDropdown}
-                >
-                    <span>
-                        {
-                            /*selectedDegree === "addNew" ? "Add New" : (selectedDegree ? selectedDegree.name : "Select a Degree")*/
-                            selectedDegree === "addNew" 
-                                ? "Add New" 
-                                : 
-                                    (
-                                        selectedDegree 
-                                            ? 
-                                                <abbr
-                                                    title={selectedDegree.name}
-                                                >
-                                                    {makeAbbr(selectedDegree.name)}
-                                                </abbr>
-                                            : "Select a Degree"
-                                    )
+            <div className="tree-button-container">
+                <Badge color="warning" variant="dot" invisible={1 > updatesCount}>
+                    <div className="refresh-button" onClick={refreshPage}>
+                            <Refresh/>
+                    </div>
+                </Badge>
+                {/*<select
+                    className="degree-select"
+                    value={selectedDegree === "addNew" ? "addNew" : (selectedDegree ? selectedDegree._id : "none")} // Use the selected degree's ID
+                    onChange={(e) => {
+                        const selectedValue = e.target.value;
+                        if (selectedValue === "addNew") {
+                            setShowAddNewForm(true); // Show the Add New form
+                            setSelectedDegree("addNew");
+                        } else if (selectedValue === "none") {
+                            setSelectedDegree(null); // Clear selected degree
+                        } else {
+                            const selected = degrees.find((degree) => degree._id === selectedValue);
+                            handleSelectDegree(selected);
                         }
-                    </span>
-                    <span className="dropdown-icon">{showDropdown ? " ▲" : " ▼"}</span>
-                </div>
-                {showDropdown && (
-                    <div className="custom-dropdown-options">
-                        <div
-                            className={`custom-dropdown-option none-option ${selectedDegree === null ? "active" : ""}`}
-                            onClick={() => 
-                                {
-                                    handleSelectDegree(null)
-                                    setShowAddNewForm(false) // Show the Add New form
-                                    toggleDropdown()
-                                }
+                    }}
+                >
+                    <option className="menuItem" value="none" disabled>Select a Degree</option>
+                    <option className="menuItem" value="addNew">Add New</option>
+                    {degrees.map((degree) => (
+                        <option className="menuItem" key={degree._id} value={degree._id}>
+                            {degree.name}
+                        </option>
+                    ))}
+                </select>*/}
+                <div className="custom-dropdown-container">
+                    <div
+                        className={`custom-dropdown-header ${showDropdown ? "active" : ""}`}
+                        onClick={toggleDropdown}
+                    >
+                        <span>
+                            {
+                                /*selectedDegree === "addNew" ? "Add New" : (selectedDegree ? selectedDegree.name : "Select a Degree")*/
+                                selectedDegree === "addNew" 
+                                    ? "Add New" 
+                                    : 
+                                        (
+                                            selectedDegree 
+                                                ? 
+                                                    <abbr
+                                                        title={selectedDegree.name}
+                                                    >
+                                                        {makeAbbr(selectedDegree.name)}
+                                                    </abbr>
+                                                : "Select a Degree"
+                                        )
                             }
-                        >
-
-                        </div>
-                        <div
-                            className={`custom-dropdown-option ${selectedDegree === "addNew" ? "active" : ""}`}
-                            onClick={() => 
-                                {
-                                    handleSelectDegree("addNew")
-                                    setShowAddNewForm(true) // Show the Add New form
-                                    toggleDropdown()
-                                }
-                            }
-                        >
-                            Add New
-                        </div>
-                        {degrees.map((degree) => (
+                        </span>
+                        <span className="dropdown-icon">{showDropdown ? " ▲" : " ▼"}</span>
+                    </div>
+                    {showDropdown && (
+                        <div className="custom-dropdown-options">
                             <div
-                                className={`custom-dropdown-option ${selectedDegree === degree ? "active" : ""}`}
-                                key={degree._id}
+                                className={`custom-dropdown-option none-option ${selectedDegree === null ? "active" : ""}`}
                                 onClick={() => 
                                     {
-                                        handleSelectDegree(degree)
+                                        handleSelectDegree(null)
+                                        setShowAddNewForm(false) // Show the Add New form
                                         toggleDropdown()
                                     }
                                 }
                             >
-                                {degree.name}
+
                             </div>
-                        ))}
-                    </div>
-                )}
+                            <div
+                                className={`custom-dropdown-option ${selectedDegree === "addNew" ? "active" : ""}`}
+                                onClick={() => 
+                                    {
+                                        handleSelectDegree("addNew")
+                                        setShowAddNewForm(true) // Show the Add New form
+                                        toggleDropdown()
+                                    }
+                                }
+                            >
+                                Add New
+                            </div>
+                            {degrees.map((degree) => (
+                                <div
+                                    className={`custom-dropdown-option ${selectedDegree === degree ? "active" : ""}`}
+                                    key={degree._id}
+                                    onClick={() => 
+                                        {
+                                            handleSelectDegree(degree)
+                                            toggleDropdown()
+                                        }
+                                    }
+                                >
+                                    {degree.name}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+                <Tooltip 
+                    title=
+                        "Select a degree, input fields, refresh when you want to update!"
+                    placement="right"
+                >
+                    <HelpTwoTone className="help-icon"/>
+                </Tooltip>
             </div>
             <TransformWrapper
-                defaultScale={1}
-                defaultPositionX={200}
-                defaultPositionY={100}
                 wheel={{step: 50, disabled: false}}
                 options={{limitToBounds: false}}
                 pinch={{step: 50, disabled: false}}
                 doubleClick={{disabled: false}}
-                panning={{step: 50, disabled: false}}
+                panning={{step: 50, disabled: false, activationKeys: ["Control"]}}
+                limitToBounds={false}
+                minScale={0.5}
+                initialScale={.75}
             >
-            <TransformComponent >
-                <div className="transform-container">
-            <ul className="tree">
-                {/*{degrees.length > 0 && degrees.map((degree) => (
-                    <li 
-                        className={`degree-node ${selectedDegree === degree ? "active-node" : ""}`} 
-                        key={degree._id} 
-                    >
-                        <p className="degree-name" onClick={() => handleSelectDegree(degree)}>
-                            <h3>{degree.name}</h3>
-                            Credit Hours: <b>{degree.credits}</b>
-                        </p>
-                        {selectedDegree && selectedDegree._id === degree._id &&
-                            <ConcentrationComponent 
-                                selectedDegree={selectedDegree} 
-                                onCreateConcentration={onCreateConcentration}
-                                onSelectConcentration={(concentration) => setSelectedConcentration(concentration)}
-                            /> 
-                        }
-                    </li>
-                ))}
-                <li>
-                    <div className="node-form">
-                        <input
-                            type="text"
-                            placeholder="Degree Name"
-                            value={newDegree.name}
-                            onChange={(e) => setNewDegree({...newDegree, name: e.target.value})}
-                        />
-                        <input
-                            type="number"
-                            placeholder="Credits"
-                            value={newDegree.credits}
-                            onChange={(e) =>
-                                setNewDegree({
-                                ...newDegree,
-                                credits: parseInt(e.target.value, 10),
-                                })
-                            }
-                        />
-                        <button onClick={handleDegreeSubmit}>
-                            <AddCircleTwoToneIcon />
-                        </button>
-                    </div>
-                </li>*/}
-                {showAddNewForm ? (
-                <li>
-                <div className="node-form">
-                    <input
-                        type="text"
-                        placeholder="Degree Name"
-                        value={newDegree.name}
-                        onChange={(e) => setNewDegree({ ...newDegree, name: e.target.value })}
-                    />
-                    <input
-                        type="number"
-                        placeholder="Credits"
-                        value={newDegree.credits}
-                        onChange={(e) =>
-                            setNewDegree({
-                                ...newDegree,
-                                credits: parseInt(e.target.value, 10),
-                            })
-                        }
-                    />
-                    <button onClick={handleDegreeSubmit}>
-                        <AddCircleTwoToneIcon />
-                    </button>
-                </div>
-                </li>
-            ) : selectedDegree ? (
-                <li 
-                    className={`degree-node active-node`} 
+                <TransformComponent
+                    wrapperStyle={{ width: '100%', display: 'flex' }}
+                    componentStyle={{ flex: 1 }}
                 >
-                        <div 
-                            className={`tree-node-content
-                                ${
-                                    totalCredits >= selectedDegree.credits 
-                                        ? "complete-node" 
-                                        : ""
-                                }`
-                            } 
-                        >
-                            <h3>{selectedDegree.name}</h3>
-                            Credit Hours: <b>{`${totalCredits}/${selectedDegree.credits}`}</b>
-                        </div>
-                        {selectedDegree &&
-                            <ConcentrationComponent 
-                                selectedDegree={selectedDegree} 
-                                onCreateConcentration={onCreateConcentration}
-                                onSelectConcentration={(concentration) => setSelectedConcentration(concentration)}
-                            /> 
-                        }
-                    </li>
-            ) : null}
-            </ul>
-            </div>
-            </TransformComponent>
+                        <ul className="tree">
+                            {/*{degrees.length > 0 && degrees.map((degree) => (
+                                <li 
+                                    className={`degree-node ${selectedDegree === degree ? "active-node" : ""}`} 
+                                    key={degree._id} 
+                                >
+                                    <p className="degree-name" onClick={() => handleSelectDegree(degree)}>
+                                        <h3>{degree.name}</h3>
+                                        Credit Hours: <b>{degree.credits}</b>
+                                    </p>
+                                    {selectedDegree && selectedDegree._id === degree._id &&
+                                        <ConcentrationComponent 
+                                            selectedDegree={selectedDegree} 
+                                            onCreateConcentration={onCreateConcentration}
+                                            onSelectConcentration={(concentration) => setSelectedConcentration(concentration)}
+                                        /> 
+                                    }
+                                </li>
+                            ))}
+                            <li>
+                                <div className="node-form">
+                                    <input
+                                        type="text"
+                                        placeholder="Degree Name"
+                                        value={newDegree.name}
+                                        onChange={(e) => setNewDegree({...newDegree, name: e.target.value})}
+                                    />
+                                    <input
+                                        type="number"
+                                        placeholder="Credits"
+                                        value={newDegree.credits}
+                                        onChange={(e) =>
+                                            setNewDegree({
+                                            ...newDegree,
+                                            credits: parseInt(e.target.value, 10),
+                                            })
+                                        }
+                                    />
+                                    <button onClick={handleDegreeSubmit}>
+                                        <AddCircleTwoToneIcon />
+                                    </button>
+                                </div>
+                            </li>*/}
+                            {showAddNewForm ? (
+                            <li>
+                            <div className="node-form">
+                                <input
+                                    type="text"
+                                    placeholder="Degree Name"
+                                    value={newDegree.name}
+                                    onChange={(e) => setNewDegree({ ...newDegree, name: e.target.value })}
+                                />
+                                <input
+                                    type="number"
+                                    placeholder="Credits"
+                                    value={newDegree.credits}
+                                    onChange={(e) =>
+                                        setNewDegree({
+                                            ...newDegree,
+                                            credits: parseInt(e.target.value, 10),
+                                        })
+                                    }
+                                />
+                                <button onClick={handleDegreeSubmit}>
+                                    <AddCircleTwoTone />
+                                </button>
+                            </div>
+                            </li>
+                        ) : selectedDegree ? (
+                            <li 
+                                className={`degree-node active-node`} 
+                            >
+                                    <div 
+                                        className={`tree-node-content
+                                            ${
+                                                totalCredits >= selectedDegree.credits 
+                                                    ? "complete-node" 
+                                                    : ""
+                                            }`
+                                        } 
+                                    >
+                                        <h3>{selectedDegree.name}</h3>
+                                        Credit Hours: <b>{`${totalCredits}/${selectedDegree.credits}`}</b>
+                                    </div>
+                                    {selectedDegree &&
+                                        <ConcentrationComponent 
+                                            selectedDegree={selectedDegree} 
+                                            onCreateConcentration={onCreateConcentration}
+                                            onSelectConcentration={(concentration) => setSelectedConcentration(concentration)}
+                                            calculateTotalUpdates={calculateTotalUpdates}
+                                        /> 
+                                    }
+                                </li>
+                        ) : null}
+                        </ul>
+                </TransformComponent>
             </TransformWrapper>
         </div>
         
