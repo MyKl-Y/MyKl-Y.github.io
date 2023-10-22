@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion/dist/framer-motion";
 import { useTheme } from '../context/ThemeContext';
-import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
+import { AddCircleTwoTone, CheckCircleTwoTone, CircleTwoTone, CancelTwoTone } from '@mui/icons-material';
 
 const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequirement, onCreateCourse, isRequirementDone, calculateTotalUpdates }) => {
     const { isDarkMode } = useTheme();
@@ -224,13 +224,27 @@ const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequir
                                         {/*<button onClick={()=>onDeleteCourseClickHandler(course)}>Delete</button>*/}
                                         { selectedCourse === course && !isRequirementDone
                                             ? 
-                                                <button onClick={() => toggleCourseCompleteness(selectedCourse)}>
-                                                    Mark as {course.is_complete ? "Incomplete" : "Complete"}
+                                                <button 
+                                                    className={`toggle-completion-button 
+                                                        ${course.is_complete ? "complete" : "incomplete"}`}
+                                                    onClick={() => toggleCourseCompleteness(selectedCourse)}
+                                                >
+                                                    {course.is_complete 
+                                                        ? <CancelTwoTone/>
+                                                        : <CheckCircleTwoTone/>
+                                                    }
                                                 </button>
                                             : course.is_complete && selectedCourse === course
                                                 ? 
-                                                    <button onClick={() => toggleCourseCompleteness(selectedCourse)}>
-                                                        Mark as {course.is_complete ? "Incomplete" : "Complete"}
+                                                    <button 
+                                                        className={`toggle-completion-button 
+                                                            ${course.is_complete ? "complete" : "incomplete"}`}
+                                                        onClick={() => toggleCourseCompleteness(selectedCourse)}
+                                                    >
+                                                        {course.is_complete 
+                                                            ? <CancelTwoTone/>
+                                                            : <CheckCircleTwoTone/>
+                                                        }
                                                     </button>
                                                 : null
                                         }
@@ -267,7 +281,7 @@ const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequir
                                         }
                                     />
                                     <button onClick={handleCourseSubmit}>
-                                        <AddCircleTwoToneIcon/>
+                                        <AddCircleTwoTone/>
                                     </button>
                                 </div>
                             </li>
@@ -307,7 +321,7 @@ const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequir
                                         }
                                     />
                                     <button onClick={handleCourseSubmit}>
-                                        <AddCircleTwoToneIcon/>
+                                        <AddCircleTwoTone/>
                                     </button>
                                 </div>
                             </li>

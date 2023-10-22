@@ -288,7 +288,8 @@ const DegreeComponent = ({ onSelectDegree }) => {
                 panning={{step: 50, disabled: false, activationKeys: ["Control"]}}
                 limitToBounds={false}
                 minScale={0.5}
-                initialScale={.75}
+                initialScale={.65}
+                centerOnInit={true}
             >
                 <TransformComponent
                     wrapperStyle={{ width: '100%', display: 'flex' }}

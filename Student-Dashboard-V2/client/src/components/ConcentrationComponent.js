@@ -134,6 +134,18 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
         })
         return sum;
     }
+    // Function to get all completed credits for a concentration
+    const concentrationCompletedCredits = (concentration) => {
+        let sum = 0;
+        concentration.requirements.forEach((requirement) => {
+            requirement.courses.forEach((course) => {
+                if (course.is_complete) {
+                    sum += course.credits;
+                }
+            })
+        })
+        return sum;
+    }
 
 
     return (
@@ -148,9 +160,18 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
                         }`} 
                         key={concentration._id} 
                     >
-                        <div className="tree-node-content" onClick={() => handleSelectConcentration(concentration)}>
+                        <div 
+                            className={`tree-node-content
+                                ${
+                                    concentrationCompletedCredits(concentration) === concentrationTotalCredits(concentration) 
+                                        ? "complete-node" 
+                                        : ""
+                                }`
+                            } 
+                            onClick={() => handleSelectConcentration(concentration)}
+                        >
                             <h4>{concentration.name}</h4>
-                            <br/>Required Credits: <b>{concentrationTotalCredits(concentration)}</b>
+                            <b>{concentrationCompletedCredits(concentration)} / {concentrationTotalCredits(concentration)}</b>
                         </div>
                         {selectedConcentration && selectedConcentration._id === concentration._id && (
                             <RequirementComponent

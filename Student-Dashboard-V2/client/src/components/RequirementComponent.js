@@ -166,7 +166,7 @@ const RequirementComponent = ({ selectedDegree, selectedConcentration, onCreateR
                                     ${
                                         isRequirementDone(requirement) ? "complete-node" : ""
                                     }`
-                                }  
+                                }
                                 onClick={() => handleSelectRequirement(requirement)}
                             >
                                 <h5>{requirement.name}</h5>

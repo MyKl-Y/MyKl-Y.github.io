@@ -237,6 +237,43 @@
     border: 1px solid var(--add-primary) !important;
 }
 
+.toggle-completion-button.incomplete {
+    margin: auto;
+    padding: .5rem;
+    border-radius: .5rem;
+    border: none;
+    box-shadow: 
+        .25rem .25rem .15rem 0rem var(--dark-shadow), 
+        -.25rem -.25rem .15rem 0rem var(--light-shadow);
+    background-color: var(--add-primary);
+    color: var(--background-color);
+    cursor: pointer;
+    width: 100%;
+}
+.toggle-completion-button.complete {
+    margin: auto;
+    padding: .5rem;
+    border-radius: .5rem;
+    border: none;
+    box-shadow: 
+        .25rem .25rem .15rem 0rem var(--dark-shadow), 
+        -.25rem -.25rem .15rem 0rem var(--light-shadow);
+    background-color: var(--remove-primary);
+    color: var(--background-color);
+    cursor: pointer;
+    width: 100%;
+}
+.toggle-completion-button:hover {
+    box-shadow: 
+        inset -.2rem -.2rem .5rem -.2rem var(--add-light), 
+        inset .2rem .2rem .5rem -.2rem var(--add-dark);
+}
+.toggle-completion-button:active {
+    box-shadow: 
+        inset -.2rem -.2rem .5rem -.2rem var(--add-light), 
+        inset .2rem .2rem .5rem -.2rem var(--add-dark);
+}
+
 .tree li.active-node > .tree-node-content {
     box-shadow:
         inset -.2rem -.2rem .5rem -.2rem var(--light-shadow),
