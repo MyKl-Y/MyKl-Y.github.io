@@ -70,14 +70,18 @@ const DegreeComponent = ({ onSelectDegree }) => {
         name: "", 
         credits: 0, 
         user: "",
+        type: "",
     });
 
     useEffect(() => {
         fetch("http://localhost:5050/graduation/degree")
             .then((res) => res.json())
-            .then((data) => setDegrees(data))
+            .then((data) => {
+                const userDegrees = data.filter((degree) => degree.user === user.name);
+                setDegrees(userDegrees);
+            })
             .catch((error) => console.error(error));
-    }, []);
+    }, [user]);
 
     const handleDegreeSubmit = () => {
         fetch("http://localhost:5050/graduation/degree", {
@@ -88,13 +92,14 @@ const DegreeComponent = ({ onSelectDegree }) => {
             body: JSON.stringify({ 
                 name: newDegree.name,
                 credits: newDegree.credits,
+                type: newDegree.type,
                 user: user.name,
             }),
         })
             .then((res) => res.json())
             .then((data) => {
                 setDegrees([...degrees, data]);
-                setNewDegree({name: "", credits: 0, user: ""});
+                setNewDegree({name: "", credits: 0, type: "", user: ""});
 
                 // Delay for 2 seconds, then reload the page on success
                 //setTimeout(() => {
@@ -135,7 +140,10 @@ const DegreeComponent = ({ onSelectDegree }) => {
         let words = str.split(/\s+/);
         let abbreviation = '';
         for (let i = 0; i < words.length; i++) {
-            abbreviation += words[i][0];
+            const word = words[i];
+            if (word !== '' && /^[A-Z][a-z]*$/.test(word)) {
+                abbreviation += (words[i][0] + ".");
+            }
         }
         return abbreviation.toUpperCase();
     }
@@ -170,6 +178,52 @@ const DegreeComponent = ({ onSelectDegree }) => {
         let total = 0;
         total += data;
         setUpdatesCount(total);
+    }
+
+    //The U.S. Department of Education recognized degrees.
+    const degreeTypeAbbreviations = {
+        "Minor": "Minor",
+
+        "Associate of Arts": "A.A.",
+        "Associate of Science": "A.S.",
+        "Associate of Applied Science": "A.A.S.",
+
+        "Bachelor of Architecture": "B.Arch.",
+        "Bachelor of Arts": "B.A.",
+        "Bachelor of Applied Arts": "B.A.A.",
+        "Bachelor of Applied Science": "B.A.S.",
+        "Bachelor of Business Administration": "B.B.A.",
+        "Bachelor of Engineering": "B.Eng.",
+        "Bachelor of Fine Arts": "B.F.A.",
+        "Bachelor of Science": "B.S.",
+
+        "Master of Arts": "M.A.",
+        "Master of Architecture": "M.Arch.",
+        "Master of Science": "M.S.",
+        "Master of Business Administration": "M.B.A.",
+        "Master of Education": "M.Ed.",
+        "Master of Engineering": "M.Eng.",
+        "Master of Fine Arts": "M.F.A.",
+        "Master of Laws": "LL.M.",
+        "Master of Public Administration": "M.P.A.",
+        "Master of Public Health": "M.P.H.",
+        "Master of Public Policy": "M.P.P.",
+        "Master of Social Work": "M.S.W.",
+
+        "Doctor of Education": "Ed.D.",
+        "Doctor of Medicine": "M.D.",
+        "Doctor of Philosophy": "Ph.D.",
+        "Doctor of Psychology": "Psy.D.",
+        "Doctor of Business Administration": "D.B.A.",
+        "Doctor of Engineering": "D.Eng.",
+        "Juris Doctor": "J.D.",
+        "Doctor of Pharmacy": "Pharm.D.",
+        "Doctor of Nursing Practice": "D.N.P.",
+    };
+
+    // Function to get the abbreviation for a degree type
+    function getDegreeTypeAbbreviation(degreeType) {
+        return degreeTypeAbbreviations[degreeType] || makeAbbr(degreeType);
     }
 
     return (
@@ -218,11 +272,12 @@ const DegreeComponent = ({ onSelectDegree }) => {
                                         (
                                             selectedDegree 
                                                 ? 
-                                                    <abbr
+                                                    /*<abbr
                                                         title={selectedDegree.name}
                                                     >
                                                         {makeAbbr(selectedDegree.name)}
-                                                    </abbr>
+                                                    </abbr>*/
+                                                    selectedDegree.name
                                                 : "Select a Degree"
                                         )
                             }
@@ -266,7 +321,7 @@ const DegreeComponent = ({ onSelectDegree }) => {
                                         }
                                     }
                                 >
-                                    {degree.name}
+                                    {degree.name + ", " + getDegreeTypeAbbreviation(degree.type)}
                                 </div>
                             ))}
                         </div>
@@ -358,6 +413,17 @@ const DegreeComponent = ({ onSelectDegree }) => {
                                         })
                                     }
                                 />
+                                <input
+                                    type="text"
+                                    placeholder="Degree Type"
+                                    value={newDegree.type}
+                                    onChange={(e) =>
+                                        setNewDegree({
+                                            ...newDegree,
+                                            type: e.target.value,
+                                        })
+                                    }
+                                />
                                 <button onClick={handleDegreeSubmit}>
                                     <AddCircleTwoTone />
                                 </button>
@@ -376,7 +442,13 @@ const DegreeComponent = ({ onSelectDegree }) => {
                                             }`
                                         } 
                                     >
-                                        <h3>{selectedDegree.name}</h3>
+                                        <h3>
+                                                <abbr title={selectedDegree.type}>
+                                                    {getDegreeTypeAbbreviation(selectedDegree.type)}
+                                                </abbr>
+                                                {" in "} 
+                                                {selectedDegree.name}
+                                        </h3>
                                         Credit Hours: <b>{`${totalCredits}/${selectedDegree.credits}`}</b>
                                     </div>
                                     {selectedDegree &&

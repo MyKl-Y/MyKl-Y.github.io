@@ -114,8 +114,13 @@ const RequirementComponent = ({ selectedDegree, selectedConcentration, onCreateR
     };
 
     const handleSelectRequirement = (requirement) => {
-        onSelectRequirement(requirement);
-        setSelectedRequirement(requirement);
+        if (selectedRequirement === requirement) {
+            setSelectedRequirement(null);
+            onSelectRequirement(null);
+        } else {
+            onSelectRequirement(requirement);
+            setSelectedRequirement(requirement);
+        }
     };
 
     const [createdCourses, setCreatedCourses] = useState([]);

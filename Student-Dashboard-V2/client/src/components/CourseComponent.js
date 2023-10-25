@@ -118,7 +118,11 @@ const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequir
     };
 
     const handleSelectCourse = (course) => {
-        setSelectedCourse(course);
+        if (selectedCourse === course) {
+            setSelectedCourse(null);
+        } else {
+            setSelectedCourse(course);
+        }
     };
 
     const [updatedCourse, setUpdatedCourse] = useState({
@@ -181,6 +185,8 @@ const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequir
         })
         .catch((error) => console.error(error));
     };
+
+    //TODO: Make degree, concentrations, requirements, and courses editable and deletable!
 
     return (
         <div style={componentStyle}>

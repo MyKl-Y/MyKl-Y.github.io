@@ -24,6 +24,7 @@ router.post("/degree", async (req, res) => {
                     is_complete: false,
                 }
             ],
+            type: req.body.type,
             user: req.body.user,
         };
         let collection = await db.collection("graduationRequirements");

@@ -111,8 +111,13 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
     };
 
     const handleSelectConcentration = (concentration) => {
-        onSelectConcentration(concentration);
-        setSelectedConcentration(concentration);
+        if (selectedConcentration === concentration) {
+            setSelectedConcentration(null);
+            onSelectConcentration(null);
+        } else {
+            onSelectConcentration(concentration);
+            setSelectedConcentration(concentration);
+        }
     };
 
     const [selectedConcentration, setSelectedConcentration] = useState(null);

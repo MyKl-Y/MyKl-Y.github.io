@@ -28,7 +28,7 @@
 }
 
 .refresh-button {
-    margin: 0 1rem 0 0;
+    margin: 0 0 0 0;
     padding: .5rem;
     border-radius: .5rem;
     border: none;
@@ -79,7 +79,8 @@
 
 .custom-dropdown-container {
     position: relative;
-    width: 10rem; /* Adjust the width as needed */
+    width: 100%;
+    margin-left: 1rem;
 }
 
 .custom-dropdown-header {
