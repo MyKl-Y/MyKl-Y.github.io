@@ -48,3 +48,8 @@
 .edit-course-container form button:hover {
     box-shadow: inset .2rem .2rem .5rem -.2rem var(--add-light), inset -.2rem -.2rem .5rem -.2rem var(--add-dark);
 }
+
+.edit-course-container form label {
+    color: var(--text-color);
+    margin: 0 0 0 .25rem;
+}

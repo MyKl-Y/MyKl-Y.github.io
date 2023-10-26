@@ -7,12 +7,12 @@
     background-color: var(--background-color);
     border-radius: 1rem;
     padding: 1rem;
+    transform: scale(.75);
 }
 
 .create-course-container h2 {
     text-align: center;
-    margin: 1rem;
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: var(--text-color);
 }
 
@@ -22,14 +22,12 @@
     justify-content: stretch;
     align-items: stretch;
     align-self: stretch;
-    margin: 1rem;
 }
 
 .create-course-container form input {
     background-color: var(--background-color);
     color: var(--primary);
-    margin: 1rem;
-    margin-top: 0rem;
+    margin: 0 .5rem 0 .5rem;
     font-size: 1rem;
     padding: .5rem;
     border-radius: 1rem;
@@ -40,10 +38,6 @@
 .create-course-container form input:focus {
     outline: none;
     box-shadow: inset .2rem .2rem .5rem 0rem var(--dark-shadow), inset -.2rem -.2rem .5rem 0rem var(--light-shadow);
-}
-
-.create-course-container form input::placeholder {
-    color: var(--text-color);
 }
 
 .create-course-container form .create-course-buttons {
@@ -59,8 +53,8 @@
     flex-basis: 50%;
     flex-grow: 1;
     color: var(--background-color);
-    margin: .5rem;
     font-size: 1rem;
+    margin: .5rem 0 0 0;
     padding: .5rem;
     border-radius: 1rem;
     border: none;
@@ -74,6 +68,7 @@
 
 .create-course-buttons .Add-Course {
     background-color: var(--add-primary);
+    margin-right: .5rem !important;
 }
 .create-course-container form .create-course-buttons .Add-Course:hover {
     box-shadow: inset .2rem .2rem .5rem 0rem var(--add-dark), inset -.2rem -.2rem .5rem 0rem var(--add-light);
@@ -81,7 +76,16 @@
 
 .create-course-buttons .Cancel-Add-Course {
     background-color: var(--remove-primary);
+    margin-left: .5rem !important;
 }
 .create-course-container form .create-course-buttons .Cancel-Add-Course:hover {
     box-shadow: inset .2rem .2rem .5rem 0rem var(--remove-dark), inset -.2rem -.2rem .5rem 0rem var(--remove-light);
+}
+
+.create-course-container form label {
+    color: var(--text-color);
+    margin: .25rem 0 .15rem .75rem;
+    font-size: 1rem;
+    border-radius: 1rem;
+    border: none;
 }

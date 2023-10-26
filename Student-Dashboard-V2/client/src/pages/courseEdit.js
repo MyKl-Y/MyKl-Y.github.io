@@ -75,66 +75,74 @@ function CourseEdit({ course, onUpdateCourse }) {
         <div className="edit-course-container">
             <h2>Edit Course</h2>
             <form>
+                <label>Course Name</label>
                 <input
                     type="text"
-                    placeholder="Course Name"
+                    placeholder="e.g., Differential Calculus"
                     value={editedCourse.courseName}
                     onChange={(e) =>
                         setEditedCourse({ ...editedCourse, courseName: e.target.value })
                     }
                 />
+                <label>Course Number</label>
                 <input
                     type="text"
-                    placeholder="Course Number"
+                    placeholder="e.g., MATH 1552"
                     value={editedCourse.courseNumber}
                     onChange={(e) =>
                         setEditedCourse({ ...editedCourse, courseNumber: e.target.value })
                     }
                 />
+                <label>Professor</label>
                 <input
                     type="text"
-                    placeholder="Professor"
+                    placeholder="e.g., Dr. Stark"
                     value={editedCourse.professor}
                     onChange={(e) =>
                         setEditedCourse({ ...editedCourse, professor: e.target.value })
                     }
                 />
+                <label>Professor Contact</label>
                 <input
                     type="text"
-                    placeholder="Professor Contact"
+                    placeholder="e.g., tstark@mit.edu, (426) 476-6626"
                     value={editedCourse.professorContact}
                     onChange={(e) =>
                         setEditedCourse({ ...editedCourse, professorContact: e.target.value })
                     }
                 />
+                <label>Semester</label>
                 <input
                     type="text"
-                    placeholder="Semester"
+                    placeholder="Fall 2022"
                     value={editedCourse.semester}
                     onChange={(e) =>
                         setEditedCourse({ ...editedCourse, semester: e.target.value })
                     }
                 />
                 {/* Add other course properties here */}
+                <label>Meeting Times</label>
                 <input
                     type="text"
-                    placeholder="Meeting Times"
+                    placeholder="e.g., TR 10:20 am-11:35 am, W 3:00 pm-4:00 pm"
                     value={editedCourse.meetingTimes}
                     onChange={(e) =>
                         setEditedCourse({ ...editedCourse, meetingTimes: e.target.value })
                     }
                 />
+                <label>Tags</label>
                 <input
                     type="text"
-                    placeholder="Tags"
+                    placeholder="e.g., Mathematics, Calculus, STEM"
                     value={editedCourse.tag}
                     onChange={(e) =>
                         setEditedCourse({ ...editedCourse, tag: e.target.value })
                     }
                 />
+                <label>Links</label>
                 <input
                     type="text"
-                    placeholder="Links"
+                    placeholder="e.g., https://www.mathway.com/Calculus"
                     value={editedCourse.links}
                     onChange={(e) =>
                         setEditedCourse({ ...editedCourse, links: e.target.value })

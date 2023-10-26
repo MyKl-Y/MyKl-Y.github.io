@@ -1,6 +1,7 @@
 .courses-container {
     overflow-y: scroll;
     height: 100%;
+    transition: all 0.5s ease-in-out;
 }
 
 .course-toolbar {
@@ -55,6 +56,14 @@
     flex: 1 1 50rem stretch;
     cursor: var(--cursor);
     height: fit-content;
+    transition: all 0.5s ease-in-out;
+}
+
+.single-course div {
+    transition: all 0.5s ease-in-out;
+}
+
+.single-course div p {
     transition: all 0.5s ease-in-out;
 }
 
@@ -145,7 +154,7 @@ button.create-course:hover {
     .custom-modal {
         right: 0;
         bottom: 20%;
-        top: 30%;
+        top: 25%;
         width: 100%;
         height: fit-content;
     }
@@ -154,7 +163,7 @@ button.create-course:hover {
     .custom-modal {
         right: 0;
         bottom: 20%;
-        top: 30%;
+        top: 25%;
         width: 100%;
         height: fit-content;
     }
@@ -163,16 +172,15 @@ button.create-course:hover {
     .custom-modal {
         right: 75px;
         bottom: 20%;
-        top: 30%;
+        top: 25%;
         width: calc(75% - 150px);
         height: fit-content;
     }
 }
 @media screen and (min-width: 64em) {
     .custom-modal {
-        right: 150px;
-        bottom: 20%;
-        top: 30%;
+        left: 14.9rem;
+        top: 5.75rem;
         width: calc(75% - 300px);
         height: fit-content;
     }
