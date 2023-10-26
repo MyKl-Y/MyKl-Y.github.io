@@ -176,7 +176,7 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
                             onClick={() => handleSelectConcentration(concentration)}
                         >
                             <h4>{concentration.name}</h4>
-                            <b>{concentrationCompletedCredits(concentration)} / {concentrationTotalCredits(concentration)}</b>
+                            <b className="credit-hours">{concentrationCompletedCredits(concentration)} / {concentrationTotalCredits(concentration)}</b>
                         </div>
                         {selectedConcentration && selectedConcentration._id === concentration._id && (
                             <RequirementComponent
@@ -191,9 +191,12 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
                 ))}
                 <li>
                     <div className="node-form">
+                        <label>
+                            Concentration Name
+                        </label>
                         <input
                             type="text"
-                            placeholder="Name"
+                            placeholder="e.g., Cybersecurity"
                             value={newConcentration.name}
                             onChange={(e) =>
                                 setNewConcentration({ ...newConcentration, name: e.target.value })
@@ -212,9 +215,12 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
                     </li>
                     <li>
                         <div className="node-form">
+                            <label>
+                                Concentration Name
+                            </label>
                             <input
                                 type="text"
-                                placeholder="Name"
+                                placeholder="e.g., Cybersecurity"
                                 value={newConcentration.name}
                                 onChange={(e) =>
                                     setNewConcentration({ ...newConcentration, name: e.target.value })

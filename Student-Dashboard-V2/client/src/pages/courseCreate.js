@@ -135,7 +135,8 @@ export default function CreateTask({ onCourseCreate, onCancel }) {
                 />
                 <input
                     type="text"
-                    placeholder="Meeting Times"
+                    placeholder="Meeting Times e.g., TR 10:20 am-11:35 am, W 3:00 pm-4:00 pm"
+                    pattern="^([A-Za-z, ]+)\s+(\d{1,2}:\d{2} [ap]m-\d{1,2}:\d{2} [ap]m, )*[A-Za-z, ]+\s+(\d{1,2}:\d{2} [ap]m-\d{1,2}:\d{2} [ap]m)$"
                     value={newCourse.meetingTimes}
                     onChange={(e) =>
                         setNewCourse({ ...newCourse, meetingTimes: e.target.value })

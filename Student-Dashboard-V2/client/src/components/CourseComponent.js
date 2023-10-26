@@ -259,25 +259,34 @@ const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequir
                             ))}
                             <li>
                                 <div className="node-form">
+                                    <label>
+                                        Course Code
+                                    </label>
                                     <input
                                         type="text"
-                                        placeholder="Code"
+                                        placeholder="e.g., MATH 1551"
                                         value={newCourse.code}
                                         onChange={(e) =>
                                             setNewCourse({ ...newCourse, code: e.target.value })
                                         }
                                     />
+                                    <label>
+                                        Course Name
+                                    </label>
                                     <input
                                         type="text"
-                                        placeholder="Name"
+                                        placeholder="e.g., Differential Calculus"
                                         value={newCourse.name}
                                         onChange={(e) =>
                                             setNewCourse({ ...newCourse, name: e.target.value })
                                         }
                                     />
+                                    <label>
+                                        Credits
+                                    </label>
                                     <input
                                         type="number"
-                                        placeholder="Credits"
+                                        placeholder="#"
                                         value={newCourse.credits}
                                         onChange={(e) =>
                                             setNewCourse({
@@ -299,25 +308,34 @@ const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequir
                             </li>
                             <li>
                                 <div className="node-form">
+                                    <label>
+                                        Course Code
+                                    </label>
                                     <input
                                         type="text"
-                                        placeholder="Code"
+                                        placeholder="e.g., MATH 1551"
                                         value={newCourse.code}
                                         onChange={(e) =>
                                             setNewCourse({ ...newCourse, code: e.target.value })
                                         }
                                     />
+                                    <label>
+                                        Course Name
+                                    </label>
                                     <input
                                         type="text"
-                                        placeholder="Name"
+                                        placeholder="e.g., Differential Calculus"
                                         value={newCourse.name}
                                         onChange={(e) =>
                                             setNewCourse({ ...newCourse, name: e.target.value })
                                         }
                                     />
+                                    <label>
+                                        Credits
+                                    </label>
                                     <input
                                         type="number"
-                                        placeholder="Credits"
+                                        placeholder="#"
                                         value={newCourse.credits}
                                         onChange={(e) =>
                                             setNewCourse({

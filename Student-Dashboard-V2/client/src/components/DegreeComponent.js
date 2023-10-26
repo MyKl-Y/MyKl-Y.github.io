@@ -234,30 +234,6 @@ const DegreeComponent = ({ onSelectDegree }) => {
                             <Refresh/>
                     </div>
                 </Badge>
-                {/*<select
-                    className="degree-select"
-                    value={selectedDegree === "addNew" ? "addNew" : (selectedDegree ? selectedDegree._id : "none")} // Use the selected degree's ID
-                    onChange={(e) => {
-                        const selectedValue = e.target.value;
-                        if (selectedValue === "addNew") {
-                            setShowAddNewForm(true); // Show the Add New form
-                            setSelectedDegree("addNew");
-                        } else if (selectedValue === "none") {
-                            setSelectedDegree(null); // Clear selected degree
-                        } else {
-                            const selected = degrees.find((degree) => degree._id === selectedValue);
-                            handleSelectDegree(selected);
-                        }
-                    }}
-                >
-                    <option className="menuItem" value="none" disabled>Select a Degree</option>
-                    <option className="menuItem" value="addNew">Add New</option>
-                    {degrees.map((degree) => (
-                        <option className="menuItem" key={degree._id} value={degree._id}>
-                            {degree.name}
-                        </option>
-                    ))}
-                </select>*/}
                 <div className="custom-dropdown-container">
                     <div
                         className={`custom-dropdown-header ${showDropdown ? "active" : ""}`}
@@ -336,10 +312,10 @@ const DegreeComponent = ({ onSelectDegree }) => {
                 </Tooltip>
             </div>
             <TransformWrapper
-                wheel={{step: 50, disabled: false}}
+                wheel={{step: 100, disabled: false}}
                 options={{limitToBounds: false}}
                 pinch={{step: 50, disabled: false}}
-                doubleClick={{disabled: false}}
+                doubleClick={{disabled: true}}
                 panning={{step: 50, disabled: false, activationKeys: ["Control"]}}
                 limitToBounds={false}
                 minScale={0.5}
@@ -351,76 +327,49 @@ const DegreeComponent = ({ onSelectDegree }) => {
                     componentStyle={{ flex: 1 }}
                 >
                         <ul className="tree">
-                            {/*{degrees.length > 0 && degrees.map((degree) => (
-                                <li 
-                                    className={`degree-node ${selectedDegree === degree ? "active-node" : ""}`} 
-                                    key={degree._id} 
-                                >
-                                    <p className="degree-name" onClick={() => handleSelectDegree(degree)}>
-                                        <h3>{degree.name}</h3>
-                                        Credit Hours: <b>{degree.credits}</b>
-                                    </p>
-                                    {selectedDegree && selectedDegree._id === degree._id &&
-                                        <ConcentrationComponent 
-                                            selectedDegree={selectedDegree} 
-                                            onCreateConcentration={onCreateConcentration}
-                                            onSelectConcentration={(concentration) => setSelectedConcentration(concentration)}
-                                        /> 
-                                    }
-                                </li>
-                            ))}
-                            <li>
-                                <div className="node-form">
-                                    <input
-                                        type="text"
-                                        placeholder="Degree Name"
-                                        value={newDegree.name}
-                                        onChange={(e) => setNewDegree({...newDegree, name: e.target.value})}
-                                    />
-                                    <input
-                                        type="number"
-                                        placeholder="Credits"
-                                        value={newDegree.credits}
-                                        onChange={(e) =>
-                                            setNewDegree({
-                                            ...newDegree,
-                                            credits: parseInt(e.target.value, 10),
-                                            })
-                                        }
-                                    />
-                                    <button onClick={handleDegreeSubmit}>
-                                        <AddCircleTwoToneIcon />
-                                    </button>
-                                </div>
-                            </li>*/}
                             {showAddNewForm ? (
                             <li>
                             <div className="node-form">
+                                <h3>Add New Degree</h3>
+                                <label>
+                                    Degree Type
+                                </label>
                                 <input
                                     type="text"
-                                    placeholder="Degree Name"
-                                    value={newDegree.name}
-                                    onChange={(e) => setNewDegree({ ...newDegree, name: e.target.value })}
-                                />
-                                <input
-                                    type="number"
-                                    placeholder="Credits"
-                                    value={newDegree.credits}
-                                    onChange={(e) =>
-                                        setNewDegree({
-                                            ...newDegree,
-                                            credits: parseInt(e.target.value, 10),
-                                        })
-                                    }
-                                />
-                                <input
-                                    type="text"
-                                    placeholder="Degree Type"
+                                    placeholder="e.g., Bachelor of Science"
                                     value={newDegree.type}
                                     onChange={(e) =>
                                         setNewDegree({
                                             ...newDegree,
                                             type: e.target.value,
+                                        })
+                                    }
+                                />
+                                <label>
+                                    Degree Name
+                                </label>
+                                <input
+                                    type="text"
+                                    placeholder="e.g., Computer Science"
+                                    value={newDegree.name}
+                                    onChange={(e) => 
+                                        setNewDegree({ 
+                                            ...newDegree, 
+                                            name: e.target.value 
+                                        })
+                                    }
+                                />
+                                <label>
+                                    Number of Credits
+                                </label>
+                                <input
+                                    type="number"
+                                    placeholder="#"
+                                    value={newDegree.credits}
+                                    onChange={(e) =>
+                                        setNewDegree({
+                                            ...newDegree,
+                                            credits: parseInt(e.target.value, 10),
                                         })
                                     }
                                 />

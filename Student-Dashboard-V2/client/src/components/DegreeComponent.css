@@ -72,9 +72,13 @@
     color: var(--text-color);
     font-size: 1rem !important;
     font-weight: 500;
+    text-wrap: nowrap;
 }
 .tree h6 {
-    white-space: nowrap;
+    white-space: nowrap !important;
+}
+.tree .credit-hours {
+    text-wrap: nowrap;
 }
 
 .custom-dropdown-container {
@@ -188,7 +192,7 @@
     margin: 1rem;
 }
 .node-form input {
-    margin: .5rem;
+    margin: .25rem .5rem .5rem .5rem;
     padding: .5rem;
     border-radius: .5rem;
     border: none;
@@ -200,14 +204,12 @@
     width: 100%;
     font-size: .75rem !important;
 }
-
 .node-form input:focus {
     outline: none;
     box-shadow: 
         inset -.2rem -.2rem .5rem 0rem var(--light-shadow), 
         inset .2rem .2rem .5rem 0rem var(--dark-shadow);
 }
-
 .node-form button {
     margin: .5rem;
     padding: .5rem;
@@ -221,17 +223,24 @@
     cursor: pointer;
     width: 100%;
 }
-
 .node-form button:active {
     box-shadow: 
         inset -.2rem -.2rem .5rem -.2rem var(--add-light), 
         inset .2rem .2rem .5rem -.2rem var(--add-dark);
 }
-
 .node-form button:hover {
     box-shadow: 
         inset -.2rem -.2rem .5rem -.2rem var(--add-light), 
         inset .2rem .2rem .5rem -.2rem var(--add-dark);
+}
+.node-form label {
+    border-radius: .5rem;
+    border: none;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-size: .75rem !important;
+    align-self: start;
+    text-wrap: nowrap;
 }
 
 .complete-node {

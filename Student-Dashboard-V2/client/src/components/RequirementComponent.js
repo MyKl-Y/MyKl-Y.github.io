@@ -199,17 +199,23 @@ const RequirementComponent = ({ selectedDegree, selectedConcentration, onCreateR
                     ))}
                     <li>
                         <div className="node-form">
+                            <label>
+                                Requirement Name
+                            </label>
                             <input
                                 type="text"
-                                placeholder="Name"
+                                placeholder="e.g., Lab Sciences"
                                 value={newRequirement.name}
                                 onChange={(e) =>
                                     setNewRequirement({ ...newRequirement, name: e.target.value })
                                 }
                             />
+                            <label>
+                                Requirement Credits
+                            </label>
                             <input
                                 type="number"
-                                placeholder="Credits"
+                                placeholder="#"
                                 value={newRequirement.credits}
                                 onChange={(e) =>
                                     setNewRequirement({
@@ -231,17 +237,23 @@ const RequirementComponent = ({ selectedDegree, selectedConcentration, onCreateR
                     </li>
                     <li>
                         <div className="node-form">
+                            <label>
+                                Requirement Name
+                            </label>
                             <input
                                 type="text"
-                                placeholder="Name"
+                                placeholder="e.g., Lab Sciences"
                                 value={newRequirement.name}
                                 onChange={(e) =>
                                     setNewRequirement({ ...newRequirement, name: e.target.value })
                                 }
                             />
+                            <label>
+                                Requirement Credits
+                            </label>
                             <input
                                 type="number"
-                                placeholder="Credits"
+                                placeholder="#"
                                 value={newRequirement.credits}
                                 onChange={(e) =>
                                     setNewRequirement({
