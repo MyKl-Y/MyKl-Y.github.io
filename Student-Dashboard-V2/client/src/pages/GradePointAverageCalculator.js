@@ -1,11 +1,11 @@
-import React from 'react';
-import { motion } from 'framer-motion/dist/framer-motion';
+// GradePointAverageCalculator.js
+import React, { useState, useEffect } from "react";
+import SingleGPACalculator from "../components/SingleGPACalculator";
+import { AddCircleTwoTone } from "@mui/icons-material";
 import { useTheme } from '../context/ThemeContext';
-import GradeCalculator from './GradeCalculator.js';
-import GPACalculator from './GradePointAverageCalculator.js';
-import './grades.css';
+import '../pages/grades.css';
 
-const Grades = () => {
+const GPACalculator = () => {
     const { isDarkMode } = useTheme();
 
     const componentStyle = {
@@ -59,20 +59,35 @@ const Grades = () => {
             'rgba(145,0,0,1)',
     };
 
-    // TODO: Connect Assignments and assignments api to add grades
+    const [calculators, setCalculators] = useState([{ id: 1 }]);
 
+    const addCalculator = () => {
+        const newId = Math.max(0, ...calculators.map(c => c.id)) + 1;
+        setCalculators([...calculators, { id: newId }]);
+    };
+
+    const removeCalculator = (id) => {
+        setCalculators(calculators.filter(c => c.id !== id));
+    };
+    
     return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: .5 }}
-            style={componentStyle}
-        >
-            <h2>Grades</h2>
-            {/* Add your dashboard content here */}
-        </motion.div>
-    );
-};
+        <div className="calculator-container" style={componentStyle}>
+            {calculators.map(calculator => (
+                <>
+                    <SingleGPACalculator
+                        key={calculator.id}
+                        id={calculator.id}
+                        onDelete={removeCalculator}
+                    />
+                    <br/>
+                </>
+            ))}
+            <button className="add-calculator" onClick={addCalculator}>
+                <AddCircleTwoTone />
+                Add Calculator
+            </button>
+        </div>
+    )
+}
 
-export default Grades;
+export default GPACalculator;

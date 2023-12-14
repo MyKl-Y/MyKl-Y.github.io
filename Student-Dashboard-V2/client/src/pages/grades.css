@@ -1,0 +1,275 @@
+.calculator-container {
+    overflow: scroll;
+    height: 100%;
+}
+
+.grade-calculator, .gpa-calculator {
+    margin: 0 auto;
+    width: calc(100% - 2rem);
+    padding: 2rem 2rem 2rem 2rem;
+    margin: 1rem;
+    border-radius: 1rem;
+    box-shadow: -5px -5px 10px -1px var(--light-shadow), 5px 5px 10px var(--dark-shadow);
+}
+
+.calculator-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.grade-calculator h1, .gpa-calculator h1 {
+    font-size: 3rem;
+    color: var(--text-color);
+}
+
+.remove-calculator {
+    background-color: var(--remove-primary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: .2rem .2rem .5rem 0rem var(--dark-shadow), -.2rem -.2rem .5rem 0rem var(--light-shadow);
+}
+
+.remove-calculator:hover {
+    box-shadow: inset .2rem .2rem .5rem 0rem var(--remove-dark), inset -.2rem -.2rem .5rem 0rem var(--remove-light);
+}
+
+.grade-calculator h2, .gpa-calculator h2 {
+    font-size: 1rem;
+    margin: 0rem 0rem .5rem .5rem;
+    color: var(--text-color);
+}
+
+.grade-calculator .assignment, .gpa-calculator .gpa-courses {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.grade-calculator .assignment input, .gpa-calculator .gpa-courses input {
+    width: 100%;
+    height: 2rem;
+    background-color: var(--background-color);
+    color: var(--text-color);  
+    padding: .25rem 1rem .25rem 1rem;
+    margin-right: .5rem;
+    border-radius: .5rem;
+    border: none;
+    box-shadow: .2rem .2rem .5rem 0rem var(--dark-shadow), -.2rem -.2rem .5rem 0rem var(--light-shadow);
+}
+
+.grade-calculator .assignment input:focus, .gpa-calculator .gpa-courses input:focus {
+    outline: none;
+    box-shadow: inset .2rem .2rem .5rem 0rem var(--dark-shadow), inset -.2rem -.2rem .5rem 0rem var(--light-shadow);
+}
+
+.grade-calculator .assignment .remove, .gpa-calculator .gpa-courses .remove {
+    background-color: var(--remove-primary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: .2rem .2rem .5rem 0rem var(--dark-shadow), -.2rem -.2rem .5rem 0rem var(--light-shadow);
+}
+
+.grade-calculator .assignment .remove:hover, .gpa-calculator .gpa-courses .remove:hover {
+    box-shadow: inset .2rem .2rem .5rem 0rem var(--remove-dark), inset -.2rem -.2rem .5rem 0rem var(--remove-light);
+}
+
+.grade-calculator .total {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    width: calc(100% - 2rem);
+}
+
+.grade-calculator .total label {
+    width: 100%;
+    height: 2rem;
+    background-color: var(--background-color);
+    color: var(--text-color);  
+    padding: .25rem 1.5rem .25rem .5rem;
+    margin-right: .5rem;
+    border-radius: .5rem;
+    border: none;
+    font-weight: 600;
+}
+
+.grade-calculator .total input {
+    width: 100%;
+    height: 2rem;
+    background-color: var(--background-color);
+    color: var(--text-color);  
+    padding: .25rem 1rem .25rem 1rem;
+    margin-right: .5rem;
+    border-radius: .5rem;
+    border: none;
+    box-shadow: inset .2rem .2rem .5rem 0rem var(--dark-shadow), inset -.2rem -.2rem .5rem 0rem var(--light-shadow);
+}
+
+.grade-calculator .add, .gpa-calculator .add {
+    background-color: var(--add-primary);
+    color: white;
+    margin-bottom: 1rem;
+    border: none;
+    border-radius: .5rem;
+    width: 100%;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: .2rem .2rem .5rem 0rem var(--dark-shadow), -.2rem -.2rem .5rem 0rem var(--light-shadow);
+}
+
+.grade-calculator .add:hover, .gpa-calculator .add:hover {
+    box-shadow: inset .2rem .2rem .5rem 0rem var(--add-dark), inset -.2rem -.2rem .5rem 0rem var(--add-light);
+}
+
+.grade-calculator .additional-parameters, .gpa-calculator .additional-parameters {
+    margin-bottom: 1rem;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.grade-calculator .additional-parameters .desired-average,.grade-calculator .additional-parameters .extra-credit, .gpa-calculator .additional-parameters .previous-gpa {
+    flex-grow: 1;
+    margin-right: 1rem;
+}
+
+.grade-calculator .additional-parameters .extra-credit input {
+    width: 100%;
+    height: 2rem;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: .25rem 1rem .25rem 1rem;
+    border-radius: .5rem;
+    border: none;
+    box-shadow: .2rem .2rem .5rem 0rem var(--dark-shadow), -.2rem -.2rem .5rem 0rem var(--light-shadow);
+}
+
+.gpa-calculator .additional-parameters .previous-gpa input {
+    width: calc(100% / 2 - .25rem);
+    height: 2rem;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: .25rem 1rem .25rem 1rem;
+    border-radius: .5rem;
+    border: none;
+    box-shadow: .2rem .2rem .5rem 0rem var(--dark-shadow), -.2rem -.2rem .5rem 0rem var(--light-shadow);
+}
+
+.gpa-calculator .additional-parameters .previous-gpa input[placeholder="Previous GPA"] {
+    margin-right: .5rem;
+}
+
+.grade-calculator .additional-parameters .extra-credit input:focus, .gpa-calculator .additional-parameters .previous-gpa input:focus {
+    outline: none;
+    box-shadow: inset .2rem .2rem .5rem 0rem var(--dark-shadow), inset -.2rem -.2rem .5rem 0rem var(--light-shadow);
+}
+
+.grade-calculator .additional-parameters .desired-average .input-average {
+    width: calc(100% - 2.8rem);
+    height: 2rem;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: .25rem 1rem .25rem 1rem;
+    border-radius: .5rem 0rem 0rem .5rem;
+    border: none;
+    box-shadow: .2rem .2rem .5rem 0rem var(--dark-shadow), -.2rem -.2rem .5rem 0rem var(--light-shadow);
+}
+
+.grade-calculator .additional-parameters .desired-average .input-average:focus {
+    outline: none;
+    box-shadow: inset .2rem .2rem .5rem 0rem var(--dark-shadow), inset -.2rem -.2rem .5rem 0rem var(--light-shadow);
+}
+
+.grade-calculator .additional-parameters .desired-average .percent-sign {
+    width: 2.8rem;
+    height: 2rem;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: .25rem 1rem .25rem 1rem;
+    border-radius: 0rem .5rem .5rem 0rem;
+    border: none;
+    box-shadow: inset .2rem .2rem .5rem 0rem var(--dark-shadow), inset -.2rem -.2rem .5rem 0rem var(--light-shadow);
+}
+
+.grade-calculator .additional-parameters .radio, .gpa-calculator .additional-parameters .radio {
+    flex-grow: 1;
+}
+
+.grade-calculator .additional-parameters .radio input, .gpa-calculator .additional-parameters .radio input {
+    display: none;
+}
+
+.grade-calculator .additional-parameters .radio input+label, .gpa-calculator .additional-parameters .radio input+label {
+    border: none;
+    border-radius: .5rem;
+    height: 2rem;
+    width: calc(100%/3);
+    cursor: pointer;
+    text-align: center;
+    padding-top: 3px;
+    box-shadow: .2rem .2rem .5rem 0rem var(--dark-shadow), -.2rem -.2rem .5rem 0rem var(--light-shadow);
+}
+
+.grade-calculator .additional-parameters .radio input:checked+label, .gpa-calculator .additional-parameters .radio input:checked+label {
+    box-shadow: inset .2rem .2rem .5rem 0rem var(--dark-shadow), inset -.2rem -.2rem .5rem 0rem var(--light-shadow);
+}
+
+.grade-calculator .calculated-grade label:nth-child(1), .gpa-calculator .calculated-gpa label:nth-child(1) {
+    margin-right: 1rem;
+}
+
+.grade-calculator .calculated-grade label, .gpa-calculator .calculated-gpa label {
+    width: calc(100% / 2 - .5rem);
+}
+
+.grade-calculator .calculated-grade input, .gpa-calculator .calculated-gpa input {
+    width: 100%;
+    height: 2rem;
+    background-color: var(--primary);
+    color: var(--background-color);
+    padding: .25rem 1rem .25rem 1rem;
+    border-radius: .5rem;
+    border: none;
+    box-shadow: .3rem .3rem .2rem 0rem var(--dark-shadow), -.3rem -.3rem .2rem 0rem var(--light-shadow);
+}
+
+.add-calculator {
+    background-color: var(--add-primary);
+    color: white;
+    border: none;
+    border-radius: 1rem;
+    width: calc(100% - 2rem);
+    margin: 0rem 1rem 0rem 1rem;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: .2rem .2rem .5rem 0rem var(--dark-shadow), -.2rem -.2rem .5rem 0rem var(--light-shadow);
+}
+
+.add-calculator:hover {
+    box-shadow: inset .2rem .2rem .5rem 0rem var(--add-dark), inset -.2rem -.2rem .5rem 0rem var(--add-light);
+}

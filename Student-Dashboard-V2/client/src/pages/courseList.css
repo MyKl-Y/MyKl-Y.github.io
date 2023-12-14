@@ -1,7 +1,6 @@
 .courses-container {
     overflow-y: scroll;
     height: 100%;
-    transition: all 0.5s ease-in-out;
 }
 
 .course-toolbar {
@@ -184,4 +183,27 @@ button.create-course:hover {
         width: calc(75% - 300px);
         height: fit-content;
     }
+}
+
+.course-info {
+    transition: all 0.5s ease-in-out;
+}
+
+.course-info.no-show {
+    color: transparent !important;
+    font-size: 0;
+}
+
+.course-info.no-show * {
+    margin: 0;
+}
+
+.course-info.no-show .button-holder * {
+    transform: scale(0);
+    transition: all .5s ease-in-out;
+}
+
+.course-info.show .button-holder * {
+    transform: scale(1);
+    transition: all .5s ease-in-out;
 }

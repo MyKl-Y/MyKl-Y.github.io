@@ -226,6 +226,9 @@ const DegreeComponent = ({ onSelectDegree }) => {
         return degreeTypeAbbreviations[degreeType] || makeAbbr(degreeType);
     }
 
+    // TODO: Automatically mark course complete if there is a course in the course collection with same code
+    // TODO: Zoom in and out buttons
+    
     return (
         <div className="tree-container" style={componentStyle}>
             <div className="tree-button-container">

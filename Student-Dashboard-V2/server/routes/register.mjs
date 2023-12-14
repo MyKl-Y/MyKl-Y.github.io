@@ -21,8 +21,11 @@ router.post("/", async (req,res) => {
             // Save the new user to the database
             const newUser = {
                 name,
+                displayName: name,
                 email,
                 password,
+                majors: [],
+                minors: [],
             };
 
             const insertedUserId = await collection.insertOne(newUser);
@@ -75,6 +78,42 @@ async function findUserByEmail(email) {
     const query = { email };
     return await collection.findOne(query);
 }
+
+// Read a user based on username
+router.get("/account/:userName", async (req, res) => {
+    const collection = await db.collection("users");
+    const userName = req.params["userName"];
+
+    try {
+        const query = { name: userName };
+        const result = await collection.findOne(query);
+
+        if (!result) res.send("Not found").status(404);
+        else res.send(result).status(200);
+    } catch (error) {
+        console.error("Error getting user:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+});
+
+// Update a current user based on parameters of userName
+router.patch("/account/:userName", async (req, res) => {
+    const collection = await db.collection("users");
+    const userName = req.params["userName"];
+    const { displayName, majors, minors } = req.body;
+
+    try {
+        const query = { name: userName };
+        const update = { $set: { displayName, majors, minors } };
+        const options = { upsert: true };
+        const result = await collection.updateOne(query, update);
+
+        res.send(result).status(200);
+    } catch (error) {
+        console.error("Error updating user:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+});
 
 export default router;
 export { findUserByEmail };

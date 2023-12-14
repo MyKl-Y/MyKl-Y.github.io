@@ -23,6 +23,9 @@ router.post("/", async (req, res) => {
                 email: user.email,
                 name: user.name, // Include the user's name
                 // Add other user data as needed
+                displayName: user.displayName,
+                majors: user.majors,
+                minors: user.minors,
             };
             res.status(200).json({ message: 'Login successful', userData });
         } else {

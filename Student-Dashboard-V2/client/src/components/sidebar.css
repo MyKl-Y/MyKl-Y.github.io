@@ -126,6 +126,9 @@
     font-size: 1.5rem;
     color: var(--text-color);
 }
+.link-container a:hover+p {
+    color: var(--primary);
+}
 .sidebar hr {
     width: 90%;
     align-self: center;
@@ -175,6 +178,9 @@
     width: fit-content;
     font-size: 1.5rem;
     color: var(--background-color);
+}
+.account-container .button.active-link {
+    box-shadow: inset .2rem .2rem .5rem 0rem var(--accent-light), inset -.2rem -.2rem .5rem 0rem var(--accent-dark);
 }
 
 /* Media query for responsive design: Smallest */

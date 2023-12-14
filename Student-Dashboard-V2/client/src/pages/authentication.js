@@ -38,9 +38,12 @@ const Authentication = () => {
     const navigate = useNavigate();
     const [user, setUser] = useState({
         name: "",
+        displayName: "",
         email: "",
         password: "",
         confirmPassword: "",
+        majors: [],
+        minors: [],
     });
 
     const { currentUser, authLogin } = useAuth();

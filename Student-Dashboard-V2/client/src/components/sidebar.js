@@ -34,6 +34,7 @@ import {
     SettingsTwoTone,
     HelpTwoTone,
     AccountCircleTwoTone,
+    CalculateTwoTone,
 } from '@mui/icons-material';
 import { Avatar, Tooltip } from '@mui/material';
 import { deepOrange } from '@mui/material/colors';
@@ -191,7 +192,9 @@ const Sidebar = () => {
                         <div className='link-container'>
                             <Link 
                                 to="/calendar"
-                                className={location.pathname === '/calendar' ? 'active-link' : ''}
+                                className={location.pathname === '/calendar' 
+                                    ? 'active-link' 
+                                    : ''}
                             >
                                 <div className='vl'></div>
                                 <CalendarMonthTwoTone /> 
@@ -203,10 +206,23 @@ const Sidebar = () => {
                         <div className='link-container'>
                             <Link 
                                 to="/grades"
-                                className={location.pathname === '/grades' ? 'active-link' : ''}
+                                className=
+                                    {location.pathname === '/grades' 
+                                        ? 'active-link' 
+                                        : location.pathname === '/grade-calculator' 
+                                            ? 'active-link' 
+                                            : location.pathname == '/gpa-calculator'
+                                                ? 'active-link'
+                                                : ''
+                                    }
                             >
                                 <div className='vl'></div>
-                                <WorkspacePremiumTwoTone />
+                                {location.pathname === '/gpa-calculator' 
+                                    ? <CalculateTwoTone/>
+                                    : location.pathname == '/grade-calculator'
+                                        ? <CalculateTwoTone/>
+                                        : <WorkspacePremiumTwoTone/>
+                                }
                                 <p>Grades</p>
                             </Link>
                         </div>
@@ -239,7 +255,10 @@ const Sidebar = () => {
                     </Tooltip>
                 </div>
                 <div className='account-container'>
-                    <Link className='button' to="/account">
+                    <Link 
+                        className={`button ${location.pathname === '/account' ? 'active-link' : ''}`} 
+                        to="/account"
+                    >
                         {
                             isLoggedIn ? 
                                 <Avatar sx={{ background: 'var(--accent-gradient)', color: 'var(--text-color)' }}>

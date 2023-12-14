@@ -273,15 +273,25 @@
     cursor: pointer;
     width: 100%;
 }
-.toggle-completion-button:hover {
+.toggle-completion-button.incomplete:hover {
     box-shadow: 
         inset -.2rem -.2rem .5rem -.2rem var(--add-light), 
         inset .2rem .2rem .5rem -.2rem var(--add-dark);
 }
-.toggle-completion-button:active {
+.toggle-completion-button.incomplete:active {
     box-shadow: 
         inset -.2rem -.2rem .5rem -.2rem var(--add-light), 
         inset .2rem .2rem .5rem -.2rem var(--add-dark);
+}
+.toggle-completion-button.complete:hover {
+    box-shadow: 
+        inset -.2rem -.2rem .5rem -.2rem var(--remove-light), 
+        inset .2rem .2rem .5rem -.2rem var(--remove-dark);
+}
+.toggle-completion-button.complete:active {
+    box-shadow: 
+        inset -.2rem -.2rem .5rem -.2rem var(--remove-light), 
+        inset .2rem .2rem .5rem -.2rem var(--remove-dark);
 }
 
 .tree li.active-node > .tree-node-content {

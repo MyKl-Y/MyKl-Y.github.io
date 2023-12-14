@@ -86,6 +86,7 @@ function Courses() {
     //const { user } = useAuth();
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false); // Track modal state
     const [selectedCourseInfo, setSelectedCourseInfo] = useState(null);
+    const [isCourseInfoVisible, setIsCourseInfoVisible] = useState(false);
 
     // Function to fetch courses from the backend
     const fetchCourses = async () => {
@@ -308,12 +309,14 @@ function Courses() {
     const showCourseInfo = (courseId) => {
         setSelectedCourseInfo(courseId);
         setIsACourseSelected(true);
+        setIsCourseInfoVisible(true);
     };
 
     // Function to hide additional information
     const hideCourseInfo = () => {
         setSelectedCourseInfo(null);
         setIsACourseSelected(false);
+        setIsCourseInfoVisible(false);
     };
 
     return (
@@ -392,43 +395,47 @@ function Courses() {
                                 />
                             ) : (
                                 <div>
+                                    {
+                                        //TODO: Image Header
+                                    }
                                     <h3>{course.courseName}</h3>
                                     <h5>{course.courseNumber}</h5>
-                                    <p><b>Professor</b>: <i>{course.professor}</i></p>
-                                    {isACourseSelected && selectedCourseInfo === course._id
-                                        ? (
-                                            <>
-                                                <p>
-                                                    <b>Professor Contact</b>: <i>{course.professorContact}</i>
-                                                </p>
-                                                <p>
-                                                    <b>Semester</b>: <i>{course.semester}</i>
-                                                </p>
-                                            </>
-                                        )
-                                        : ''
-                                    }
-                                    <p><b>Meeting Times</b>: <i>{course.meetingTimes}</i></p>
-                                    {isACourseSelected && selectedCourseInfo === course._id
-                                        ? (
-                                            <>
-                                                <p>
-                                                    <b>Tags</b>: <i>{course.tag}</i>
-                                                </p>
-                                                <p>
-                                                    <b>Links</b>: <i>{course.link}</i>
-                                                </p>
-                                            </>
-                                        )
-                                        : ''
-                                    }
-                                    <p><b>Created By</b>: <i>{course.user}</i></p>
-                                    <button onClick={() => selectCourse(course._id)}>
-                                        <EditTwoTone />
-                                    </button>
-                                    <button className="delete-course" onClick={() => deleteCourse(course._id)}>
-                                        <DeleteTwoTone />
-                                    </button>
+                                    <div 
+                                        className={`course-info 
+                                            ${isCourseInfoVisible && isACourseSelected && selectedCourseInfo === course._id
+                                                ? 'show' 
+                                                : 'no-show'}`}
+                                    >
+                                        <p>
+                                            <b>Professor</b>: <i>{course.professor}</i>
+                                        </p>
+                                        <p>
+                                            <b>Professor Contact</b>: <i>{course.professorContact}</i>
+                                        </p>
+                                        <p>
+                                            <b>Semester</b>: <i>{course.semester}</i>
+                                        </p>
+                                        <p>
+                                            <b>Meeting Times</b>: <i>{course.meetingTimes}</i>
+                                        </p>
+                                        <p>
+                                            <b>Tags</b>: <i>{course.tag}</i>
+                                        </p>
+                                        <p>
+                                            <b>Links</b>: <i>{course.link}</i>
+                                        </p>
+                                        <p>
+                                            <b>Created By</b>: <i>{course.user}</i>
+                                        </p>
+                                        <div className="button-holder">
+                                            <button onClick={() => selectCourse(course._id)}>
+                                                <EditTwoTone />
+                                            </button>
+                                            <button className="delete-course" onClick={() => deleteCourse(course._id)}>
+                                                <DeleteTwoTone />
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             )}
                         </li>

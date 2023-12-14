@@ -25,8 +25,18 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem("userData");
     };
 
+    // Update user function to modify user data in context and storage
+    const authUpdateUser = (newUsername) => {
+        setUser(prevUser => ({
+            ...prevUser,
+            name: newUsername,
+        }));
+        const updatedUserData = { ...user, name: newUsername };
+        localStorage.setItem("userData", JSON.stringify(updatedUserData));
+    };
+
     return (
-        <AuthContext.Provider value={{ user, authLogin, authLogout }}>
+        <AuthContext.Provider value={{ user, authLogin, authLogout, authUpdateUser }}>
             {children}
         </AuthContext.Provider>
     );

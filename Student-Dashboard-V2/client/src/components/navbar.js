@@ -57,8 +57,11 @@ export default function Navbar() {
     const isApplicationsRoute = location.pathname.startsWith("/applications");
     const isCalendarRoute = location.pathname.startsWith("/calendar");
     const isGradesRoute = location.pathname.startsWith("/grades");
+    const isGradeCalculatorRoute = location.pathname.startsWith("/grade-calculator");
+    const isGPACalculatorRoute = location.pathname.startsWith("/gpa-calculator");
     const isSettingsRoute = location.pathname.startsWith("/settings");
     const isHelpRoute = location.pathname.startsWith("/help");
+    const isAccountRoute = location.pathname.startsWith("/account");
 
     return (
         <motion.div 
@@ -163,6 +166,62 @@ export default function Navbar() {
                                 </NavLink>
                             </li>
                         )}
+                        {isGradesRoute && (
+                            <li className="nav-item">
+                                <NavLink to="/grade-calculator" activeClassName="active-link">
+                                    Grade Calculator
+                                </NavLink>
+                            </li>
+                        )}
+                        {isGradesRoute && (
+                            <li className="nav-item">
+                                <NavLink to="/gpa-calculator" activeClassName="active-link">
+                                    GPA Calculator
+                                </NavLink>
+                            </li>
+                        )}
+                        {isGradeCalculatorRoute && (
+                            <li className="nav-item">
+                                <NavLink to="/grades" activeClassName="active-link">
+                                    Grades
+                                </NavLink>
+                            </li>
+                        )}
+                        {isGradeCalculatorRoute && (
+                            <li className="nav-item">
+                                <NavLink to="/grade-calculator" activeClassName="active-link">
+                                    Grade Calculator
+                                </NavLink>
+                            </li>
+                        )}
+                        {isGradeCalculatorRoute && (
+                            <li className="nav-item">
+                                <NavLink to="/gpa-calculator" activeClassName="active-link">
+                                    GPA Calculator
+                                </NavLink>
+                            </li>
+                        )}
+                        {isGPACalculatorRoute && (
+                            <li className="nav-item">
+                                <NavLink to="/grades" activeClassName="active-link">
+                                    Grades
+                                </NavLink>
+                            </li>
+                        )}
+                        {isGPACalculatorRoute && (
+                            <li className="nav-item">
+                                <NavLink to="/grade-calculator" activeClassName="active-link">
+                                    Grade Calculator
+                                </NavLink>
+                            </li>
+                        )}
+                        {isGPACalculatorRoute && (
+                            <li className="nav-item">
+                                <NavLink to="/gpa-calculator" activeClassName="active-link">
+                                    GPA Calculator
+                                </NavLink>
+                            </li>
+                        )}
                         {isSettingsRoute && (
                             <li className="nav-item">
                                 <NavLink to="/settings" activeClassName="active-link">
@@ -174,6 +233,13 @@ export default function Navbar() {
                             <li className="nav-item">
                                 <NavLink to="/help" activeClassName="active-link">
                                     Help
+                                </NavLink>
+                            </li>
+                        )}
+                        {isAccountRoute && (
+                            <li className="nav-item">
+                                <NavLink to="/account" activeClassName="active-link">
+                                    Account
                                 </NavLink>
                             </li>
                         )}

@@ -13,6 +13,8 @@ import Calendar from './pages/calendar';
 //import EditCalendar from './pages/editCalendar';
 //import CreateCalendar from './pages/createCalendar';
 import Grades from './pages/grades';
+import GradeCalculator from './pages/GradeCalculator.js';
+import GPACalculator from './pages/GradePointAverageCalculator.js';
 //import EditGrade from './pages/editGrade';
 //import CreateGrade from './pages/createGrade';
 import Settings from './pages/settings';
@@ -94,6 +96,8 @@ function App() {
                 <Route path="/grades" element={<Grades />} />
                 {/*<Route path="/edit-grade/:id" element={<EditGrade />} />*/}
                 {/*<Route path="/create-grade" element={<CreateGrade />} />*/}
+                <Route path="/grade-calculator" element={<GradeCalculator />} />
+                <Route path="/gpa-calculator" element={<GPACalculator />} />
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/account" element={<Account />} />
                 {/*<Route path="/edit-account/:id" element={<EditAccount />} />*/}
