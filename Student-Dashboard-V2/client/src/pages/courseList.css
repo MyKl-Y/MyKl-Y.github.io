@@ -23,13 +23,17 @@
     font-weight: bolder;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    box-shadow: inset .2rem .2rem .5rem 0rem var(--dark-shadow), inset -.2rem -.2rem .5rem 0rem var(--light-shadow);
+    box-shadow: 
+        inset .2rem .2rem .5rem 0rem var(--background-dark-shadow), 
+        inset -.2rem -.2rem .5rem 0rem var(--background-light-shadow);
 }
 .semester-filters .inactive-tab {
     margin-right: .5rem;
     background: none;
     color: var(--primary);
-    box-shadow: .2rem .2rem .5rem 0rem var(--dark-shadow), -.2rem -.2rem .5rem 0rem var(--light-shadow);
+    box-shadow: 
+        .2rem .2rem .5rem 0rem var(--background-dark-shadow), 
+        -.2rem -.2rem .5rem 0rem var(--background-light-shadow);
     border: none;
 }
 
@@ -46,14 +50,17 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    box-shadow: .2rem .2rem .5rem var(--dark-shadow), -.2rem -.2rem .5rem var(--light-shadow);
+    box-shadow: 
+        .2rem .2rem .5rem var(--background-dark-shadow), 
+        -.2rem -.2rem .5rem var(--background-light-shadow);
     padding: 1rem;
     margin: 1rem 1rem;
     border-radius: 5px;
     background-color: var(--background-color);
     color: var(--text-color);
     flex: 1 1 50rem stretch;
-    cursor: var(--cursor);
+    /*cursor: var(--cursor);*/
+    cursor: pointer;
     height: fit-content;
     transition: all 0.5s ease-in-out;
 }
@@ -67,7 +74,7 @@
 }
 
 .single-course h3 {
-    color: var(--accent-light)
+    color: var(--primary-light-shadow)
 }
 
 .single-course h5 {
@@ -82,7 +89,9 @@
     padding-bottom: .25rem;
     padding-right: 1rem;
     padding-left: 1rem;
-    box-shadow: .25rem .25rem .15rem 0rem var(--dark-shadow), -.25rem -.25rem .15rem 0rem var(--light-shadow);
+    box-shadow: 
+        .25rem .25rem .15rem 0rem var(--background-dark-shadow), 
+        -.25rem -.25rem .15rem 0rem var(--background-light-shadow);
     color: var(--background-color);
     margin-right: 1rem;
     cursor: pointer;
@@ -92,7 +101,9 @@
 
 /* Style for buttons on hover */
 .single-course button:hover {
-    box-shadow: inset .2rem .2rem .5rem -.2rem var(--accent-light), inset -.2rem -.2rem .5rem -.2rem var(--accent-dark);
+    box-shadow: 
+        inset .2rem .2rem .5rem -.2rem var(--primary-light-shadow), 
+        inset -.2rem -.2rem .5rem -.2rem var(--primary-dark-shadow);
 }
 
 .single-course button.delete-course {
@@ -102,7 +113,9 @@
     padding-bottom: .25rem;
     padding-right: 1rem;
     padding-left: 1rem;
-    box-shadow: .25rem .25rem .15rem 0rem var(--dark-shadow), -.25rem -.25rem .15rem 0rem var(--light-shadow);
+    box-shadow: 
+        .25rem .25rem .15rem 0rem var(--background-dark-shadow), 
+        -.25rem -.25rem .15rem 0rem var(--background-light-shadow);
     color: var(--background-color);
     margin-right: 1rem;
     cursor: pointer;
@@ -112,7 +125,9 @@
 
 /* Style for buttons on hover */
 .single-course button.delete-course:hover {
-    box-shadow: inset .2rem .2rem .5rem -.2rem var(--remove-dark), inset -.2rem -.2rem .5rem -.2rem var(--remove-light);
+    box-shadow: 
+        inset .2rem .2rem .5rem -.2rem var(--remove-dark-shadow), 
+        inset -.2rem -.2rem .5rem -.2rem var(--remove-light-shadow);
 }
 
 /* Style for the create button */
@@ -125,7 +140,9 @@ button.create-course {
     cursor: pointer;
     margin: 0rem;
     transition: background-color 0.3s, color 0.3s;
-    box-shadow: .25rem .25rem .2rem -.1rem var(--dark-shadow), -.25rem -.25rem .2rem -.1rem var(--light-shadow);
+    box-shadow: 
+        .25rem .25rem .2rem -.1rem var(--background-dark-shadow), 
+        -.25rem -.25rem .2rem -.1rem var(--background-light-shadow);
 }
 
 button.create-course svg {
@@ -136,7 +153,9 @@ button.create-course svg {
 
 /* Style for the create button on hover */
 button.create-course:hover {
-    box-shadow: inset .2rem .2rem .5rem -.2rem var(--add-dark), inset -.2rem -.2rem .5rem -.2rem var(--add-light);
+    box-shadow: 
+        inset .2rem .2rem .5rem -.2rem var(--add-dark-shadow), 
+        inset -.2rem -.2rem .5rem -.2rem var(--add-light-shadow);
 }
 
 /* Style for the modal */

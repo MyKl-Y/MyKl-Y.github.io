@@ -13,12 +13,16 @@
     border-radius: 1rem;
     width: 80vw;
     background-color: var(--background-color);
-    box-shadow: .3rem .3rem .6rem var(--dark-shadow),-.2rem -.2rem .5rem var(--light-shadow);
+    box-shadow: 
+        .3rem .3rem .6rem var(--background-dark-shadow),
+        -.2rem -.2rem .5rem var(--background-light-shadow);
 }
 
 .auth-tabs {
     background: var(--background-color);
-    box-shadow: .3rem .3rem .6rem var(--dark-shadow),-.2rem -.2rem .5rem var(--light-shadow);
+    box-shadow: 
+        .3rem .3rem .6rem var(--background-dark-shadow),
+        -.2rem -.2rem .5rem var(--background-light-shadow);
     border-radius: 1rem;
     display: flex;
     flex-direction: row;
@@ -31,7 +35,7 @@
 .login-tab {
     margin: 1rem .5rem 1rem 1rem;
     width: 50%;
-    color: var(--inverted-primary);
+    color: var(--accent);
     background-color: var(--background-color);
     border: none;
     font-size: 1.4rem;
@@ -47,7 +51,7 @@
 .register-tab {
     margin: 1rem 1rem 1rem 0.5rem;
     width: 50%;
-    color: var(--inverted-primary);
+    color: var(--accent);
     background-color: var(--background-color);
     border: none;
     font-size: 1.4rem;
@@ -66,7 +70,9 @@
     width: calc(50% - 1.5rem);
     margin: 1rem;
     border-radius: .8rem;
-    box-shadow: inset .2rem .2rem .5rem var(--dark-shadow), inset -.2rem -.2rem .5rem var(--light-shadow);
+    box-shadow: 
+        inset .2rem .2rem .5rem var(--background-dark-shadow), 
+        inset -.2rem -.2rem .5rem var(--background-light-shadow);
     pointer-events: none;
 }
 .tabs-inner.login {
@@ -91,17 +97,21 @@
     font-size: 1.4rem;
     padding-left: 3.8rem;
     padding-right: 3.8rem;
-    box-shadow: inset .2rem .2rem .5rem var(--dark-shadow), inset -.2rem -.2rem .5rem var(--light-shadow);
+    box-shadow: 
+        inset .2rem .2rem .5rem var(--background-dark-shadow), 
+        inset -.2rem -.2rem .5rem var(--background-light-shadow);
     background: none;
     color: var(--primary);
     margin-top: none !important;
 }
 .auth-body input::placeholder {
-    color: var(--inverted-primary);
+    color: var(--accent);
 }
 .auth-body input:focus {
     outline: none;
-    box-shadow: .3rem .3rem .6rem var(--dark-shadow),-.2rem -.2rem .5rem var(--light-shadow);
+    box-shadow: 
+        .3rem .3rem .6rem var(--background-dark-shadow),
+        -.2rem -.2rem .5rem var(--background-light-shadow);
 }
 .auth-body .input-error {
     border: 1px solid red;
@@ -116,7 +126,7 @@
     align-self: flex-start;
     margin: 1rem 1rem 0 2rem;
     font-size: 1rem;
-    color: var(--inverted-primary);
+    color: var(--accent);
 }
 .auth-body .error {
     color: red;
@@ -151,7 +161,7 @@
     margin: .2rem .2rem 0 .2rem;
     width: 1.5rem;
     height: 1.5rem;
-    color: var(--inverted-primary);
+    color: var(--accent);
 }
 .search .show-password-button {
     position: absolute;
@@ -200,10 +210,14 @@ input:focus + .search-icon {
     cursor: pointer;
     border-radius: 1rem;
     padding: .5rem;
-    box-shadow: inset -.2rem -.2rem .5rem -.2rem var(--accent-dark), inset .2rem .2rem .5rem 0rem var(--accent-light);
+    box-shadow: 
+        inset -.2rem -.2rem .5rem -.2rem var(--primary-dark-shadow), 
+        inset .2rem .2rem .5rem 0rem var(--primary-light-shadow);
 }
 .login-button:active {
-    box-shadow: inset .2rem .2rem .5rem -.2rem var(--accent-dark), inset -.2rem -.2rem .5rem 0rem var(--accent-light);
+    box-shadow: 
+        inset .2rem .2rem .5rem -.2rem var(--primary-dark-shadow), 
+        inset -.2rem -.2rem .5rem 0rem var(--primary-light-shadow);
 }
 .register-form {
     position: relative;
@@ -234,10 +248,14 @@ input:focus + .search-icon {
     cursor: pointer;
     border-radius: 1rem;
     padding: .5rem;
-    box-shadow: inset -.2rem -.2rem .5rem -.2rem var(--accent-dark), inset .2rem .2rem .5rem 0rem var(--accent-light);
+    box-shadow: 
+        inset -.2rem -.2rem .5rem -.2rem var(--primary-dark-shadow), 
+        inset .2rem .2rem .5rem 0rem var(--primary-light-shadow);
 }
 .register-button:active {
-    box-shadow: inset .2rem .2rem .5rem -.2rem var(--accent-dark), inset -.2rem -.2rem .5rem 0rem var(--accent-light);
+    box-shadow: 
+        inset .2rem .2rem .5rem -.2rem var(--primary-dark-shadow), 
+        inset -.2rem -.2rem .5rem 0rem var(--primary-light-shadow);
 }
 
 /*

@@ -3,17 +3,17 @@ import './waveAnimation.css';
 import { useTheme } from '../context/ThemeContext';
 
 function WaveAnimation() {
-    const { isDarkMode } = useTheme();
+    const { mode } = useTheme();
 
     const componentStyle = {
         '--wave1': 
-            isDarkMode ? 'rgba(12,15,19,0.7)' : 'rgba(236,240,243, 0.7)',
+            mode==='dark' ? 'rgba(12,15,19,0.7)' : 'rgba(236,240,243, 0.7)',
         '--wave2': 
-            isDarkMode ? 'rgba(12,15,19,0.5)' : 'rgba(236,240,243, 0.5)',
+            mode==='dark' ? 'rgba(12,15,19,0.5)' : 'rgba(236,240,243, 0.5)',
         '--wave3': 
-            isDarkMode ? 'rgba(12,15,19,0.3)' : 'rgba(236,240,243, 0.3)',
+            mode==='dark' ? 'rgba(12,15,19,0.3)' : 'rgba(236,240,243, 0.3)',
         '--wave4': 
-            isDarkMode ? 'rgba(12,15,19,1)' : 'rgba(236,240,243, 1)',
+            mode==='dark' ? 'rgba(12,15,19,1)' : 'rgba(236,240,243, 1)',
     };
 
     return (

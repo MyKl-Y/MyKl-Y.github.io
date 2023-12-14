@@ -16,46 +16,7 @@ const Login = ({setLoginUser}) => {
         })
     }
 
-    const { isDarkMode, toggleMode } = useTheme();
-
-    const componentStyle = {
-        '--background': 
-            isDarkMode ? 
-            'linear-gradient(60deg, rgba(84,58,183,1) -100%, rgba(0,172,193,1) 200%)' : 
-            'linear-gradient(60deg, rgb(53, 29, 150) -100%, rgb(1, 90, 102) 200%)',
-        '--text-color': 
-            !isDarkMode ? 
-            'rgba(47,62,112,1)' : 
-            'rgba(255,203,0, 1)',
-        '--background-color': 
-            !isDarkMode ? 
-            'rgba(236,240,243, 1)' : 
-            'rgba(12,15,19,1)',
-        '--light-shadow': 
-            !isDarkMode ? 
-            '#fff' : 
-            '#222',
-        '--dark-shadow': 
-            !isDarkMode ? 
-            '#ccc' : 
-            '#000',
-        '--accent-gradient': 
-            !isDarkMode ? 
-            'linear-gradient(60deg, rgba(255,203,0,1) 0%, rgba(255,143,0,1) 100%)' : 
-            'linear-gradient(60deg, rgba(47,62,112,1) 0%, rgba(255,255,255,1) 100%)',
-        '--accent-light':
-            isDarkMode ?
-            'rgba(255,203,0,1)' :
-            'rgba(47,62,112,1)',
-        '--accent-dark':
-            isDarkMode ?
-            'rgba(255,143,0,1)' :
-            'rgba(255,255,255,1)',
-        '--primary':
-            !isDarkMode ?
-            'rgba(81, 101, 167, 1)':
-            'rgba(255, 173, 0, 1)',
-    };
+    const { currentTheme, toggleMode } = useTheme();
 
     //const login =()=>{
     //    axios.post("http://localhost:3000/Login",user)

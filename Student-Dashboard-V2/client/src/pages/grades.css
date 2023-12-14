@@ -9,7 +9,9 @@
     padding: 2rem 2rem 2rem 2rem;
     margin: 1rem;
     border-radius: 1rem;
-    box-shadow: -5px -5px 10px -1px var(--light-shadow), 5px 5px 10px var(--dark-shadow);
+    box-shadow: 
+        -5px -5px 10px -1px var(--background-light-shadow), 
+        5px 5px 10px var(--background-dark-shadow);
 }
 
 .calculator-header {
@@ -35,11 +37,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: .2rem .2rem .5rem 0rem var(--dark-shadow), -.2rem -.2rem .5rem 0rem var(--light-shadow);
+    box-shadow: 
+        .2rem .2rem .5rem 0rem var(--background-dark-shadow), 
+        -.2rem -.2rem .5rem 0rem var(--background-light-shadow);
 }
 
 .remove-calculator:hover {
-    box-shadow: inset .2rem .2rem .5rem 0rem var(--remove-dark), inset -.2rem -.2rem .5rem 0rem var(--remove-light);
+    box-shadow: 
+        inset .2rem .2rem .5rem 0rem var(--remove-dark-shadow), 
+        inset -.2rem -.2rem .5rem 0rem var(--remove-light-shadow);
 }
 
 .grade-calculator h2, .gpa-calculator h2 {
@@ -65,12 +71,16 @@
     margin-right: .5rem;
     border-radius: .5rem;
     border: none;
-    box-shadow: .2rem .2rem .5rem 0rem var(--dark-shadow), -.2rem -.2rem .5rem 0rem var(--light-shadow);
+    box-shadow: 
+        .2rem .2rem .5rem 0rem var(--background-dark-shadow), 
+        -.2rem -.2rem .5rem 0rem var(--background-light-shadow);
 }
 
 .grade-calculator .assignment input:focus, .gpa-calculator .gpa-courses input:focus {
     outline: none;
-    box-shadow: inset .2rem .2rem .5rem 0rem var(--dark-shadow), inset -.2rem -.2rem .5rem 0rem var(--light-shadow);
+    box-shadow: 
+        inset .2rem .2rem .5rem 0rem var(--background-dark-shadow), 
+        inset -.2rem -.2rem .5rem 0rem var(--background-light-shadow);
 }
 
 .grade-calculator .assignment .remove, .gpa-calculator .gpa-courses .remove {
@@ -83,11 +93,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: .2rem .2rem .5rem 0rem var(--dark-shadow), -.2rem -.2rem .5rem 0rem var(--light-shadow);
+    box-shadow: 
+        .2rem .2rem .5rem 0rem var(--background-dark-shadow), 
+        -.2rem -.2rem .5rem 0rem var(--background-light-shadow);
 }
 
 .grade-calculator .assignment .remove:hover, .gpa-calculator .gpa-courses .remove:hover {
-    box-shadow: inset .2rem .2rem .5rem 0rem var(--remove-dark), inset -.2rem -.2rem .5rem 0rem var(--remove-light);
+    box-shadow: 
+        inset .2rem .2rem .5rem 0rem var(--remove-dark-shadow), 
+        inset -.2rem -.2rem .5rem 0rem var(--remove-light-shadow);
 }
 
 .grade-calculator .total {
@@ -120,7 +134,9 @@
     margin-right: .5rem;
     border-radius: .5rem;
     border: none;
-    box-shadow: inset .2rem .2rem .5rem 0rem var(--dark-shadow), inset -.2rem -.2rem .5rem 0rem var(--light-shadow);
+    box-shadow: 
+        inset .2rem .2rem .5rem 0rem var(--background-dark-shadow), 
+        inset -.2rem -.2rem .5rem 0rem var(--background-light-shadow);
 }
 
 .grade-calculator .add, .gpa-calculator .add {
@@ -134,11 +150,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: .2rem .2rem .5rem 0rem var(--dark-shadow), -.2rem -.2rem .5rem 0rem var(--light-shadow);
+    box-shadow: 
+        .2rem .2rem .5rem 0rem var(--background-dark-shadow), 
+        -.2rem -.2rem .5rem 0rem var(--background-light-shadow);
 }
 
 .grade-calculator .add:hover, .gpa-calculator .add:hover {
-    box-shadow: inset .2rem .2rem .5rem 0rem var(--add-dark), inset -.2rem -.2rem .5rem 0rem var(--add-light);
+    box-shadow: 
+        inset .2rem .2rem .5rem 0rem var(--add-dark-shadow), 
+        inset -.2rem -.2rem .5rem 0rem var(--add-light-shadow);
 }
 
 .grade-calculator .additional-parameters, .gpa-calculator .additional-parameters {
@@ -164,7 +184,9 @@
     padding: .25rem 1rem .25rem 1rem;
     border-radius: .5rem;
     border: none;
-    box-shadow: .2rem .2rem .5rem 0rem var(--dark-shadow), -.2rem -.2rem .5rem 0rem var(--light-shadow);
+    box-shadow: 
+        .2rem .2rem .5rem 0rem var(--background-dark-shadow), 
+        -.2rem -.2rem .5rem 0rem var(--background-light-shadow);
 }
 
 .gpa-calculator .additional-parameters .previous-gpa input {
@@ -175,7 +197,9 @@
     padding: .25rem 1rem .25rem 1rem;
     border-radius: .5rem;
     border: none;
-    box-shadow: .2rem .2rem .5rem 0rem var(--dark-shadow), -.2rem -.2rem .5rem 0rem var(--light-shadow);
+    box-shadow: 
+        .2rem .2rem .5rem 0rem var(--background-dark-shadow), 
+        -.2rem -.2rem .5rem 0rem var(--background-light-shadow);
 }
 
 .gpa-calculator .additional-parameters .previous-gpa input[placeholder="Previous GPA"] {
@@ -184,7 +208,9 @@
 
 .grade-calculator .additional-parameters .extra-credit input:focus, .gpa-calculator .additional-parameters .previous-gpa input:focus {
     outline: none;
-    box-shadow: inset .2rem .2rem .5rem 0rem var(--dark-shadow), inset -.2rem -.2rem .5rem 0rem var(--light-shadow);
+    box-shadow: 
+        inset .2rem .2rem .5rem 0rem var(--background-dark-shadow), 
+        inset -.2rem -.2rem .5rem 0rem var(--background-light-shadow);
 }
 
 .grade-calculator .additional-parameters .desired-average .input-average {
@@ -195,12 +221,16 @@
     padding: .25rem 1rem .25rem 1rem;
     border-radius: .5rem 0rem 0rem .5rem;
     border: none;
-    box-shadow: .2rem .2rem .5rem 0rem var(--dark-shadow), -.2rem -.2rem .5rem 0rem var(--light-shadow);
+    box-shadow: 
+        .2rem .2rem .5rem 0rem var(--background-dark-shadow), 
+        -.2rem -.2rem .5rem 0rem var(--background-light-shadow);
 }
 
 .grade-calculator .additional-parameters .desired-average .input-average:focus {
     outline: none;
-    box-shadow: inset .2rem .2rem .5rem 0rem var(--dark-shadow), inset -.2rem -.2rem .5rem 0rem var(--light-shadow);
+    box-shadow: 
+        inset .2rem .2rem .5rem 0rem var(--background-dark-shadow), 
+        inset -.2rem -.2rem .5rem 0rem var(--background-light-shadow);
 }
 
 .grade-calculator .additional-parameters .desired-average .percent-sign {
@@ -211,7 +241,9 @@
     padding: .25rem 1rem .25rem 1rem;
     border-radius: 0rem .5rem .5rem 0rem;
     border: none;
-    box-shadow: inset .2rem .2rem .5rem 0rem var(--dark-shadow), inset -.2rem -.2rem .5rem 0rem var(--light-shadow);
+    box-shadow: 
+        inset .2rem .2rem .5rem 0rem var(--background-dark-shadow), 
+        inset -.2rem -.2rem .5rem 0rem var(--background-light-shadow);
 }
 
 .grade-calculator .additional-parameters .radio, .gpa-calculator .additional-parameters .radio {
@@ -230,11 +262,15 @@
     cursor: pointer;
     text-align: center;
     padding-top: 3px;
-    box-shadow: .2rem .2rem .5rem 0rem var(--dark-shadow), -.2rem -.2rem .5rem 0rem var(--light-shadow);
+    box-shadow: 
+        .2rem .2rem .5rem 0rem var(--background-dark-shadow), 
+        -.2rem -.2rem .5rem 0rem var(--background-light-shadow);
 }
 
 .grade-calculator .additional-parameters .radio input:checked+label, .gpa-calculator .additional-parameters .radio input:checked+label {
-    box-shadow: inset .2rem .2rem .5rem 0rem var(--dark-shadow), inset -.2rem -.2rem .5rem 0rem var(--light-shadow);
+    box-shadow: 
+        inset .2rem .2rem .5rem 0rem var(--background-dark-shadow), 
+        inset -.2rem -.2rem .5rem 0rem var(--background-light-shadow);
 }
 
 .grade-calculator .calculated-grade label:nth-child(1), .gpa-calculator .calculated-gpa label:nth-child(1) {
@@ -253,7 +289,9 @@
     padding: .25rem 1rem .25rem 1rem;
     border-radius: .5rem;
     border: none;
-    box-shadow: .3rem .3rem .2rem 0rem var(--dark-shadow), -.3rem -.3rem .2rem 0rem var(--light-shadow);
+    box-shadow: 
+        .3rem .3rem .2rem 0rem var(--background-dark-shadow), 
+        -.3rem -.3rem .2rem 0rem var(--background-light-shadow);
 }
 
 .add-calculator {
@@ -267,9 +305,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: .2rem .2rem .5rem 0rem var(--dark-shadow), -.2rem -.2rem .5rem 0rem var(--light-shadow);
+    box-shadow: 
+        .2rem .2rem .5rem 0rem var(--background-dark-shadow), 
+        -.2rem -.2rem .5rem 0rem var(--background-light-shadow);
 }
 
 .add-calculator:hover {
-    box-shadow: inset .2rem .2rem .5rem 0rem var(--add-dark), inset -.2rem -.2rem .5rem 0rem var(--add-light);
+    box-shadow: 
+        inset .2rem .2rem .5rem 0rem var(--add-dark-shadow), 
+        inset -.2rem -.2rem .5rem 0rem var(--add-light-shadow);
 }

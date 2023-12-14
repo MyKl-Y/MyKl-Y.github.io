@@ -12,7 +12,9 @@
     flex-direction: column;
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
-    box-shadow: -5px -5px 10px 3px var(--light-shadow), 3px 114px 5px var(--dark-shadow);
+    box-shadow: 
+        -5px -5px 10px 3px var(--background-light-shadow), 
+        3px 114px 5px var(--background-dark-shadow);
 }
 /* Toggle Button */
 .toggle-button {
@@ -67,7 +69,9 @@
     flex-direction: column;
     border-radius: 1rem;
     margin: 1rem;
-    box-shadow: inset .2rem .2rem .5rem 0rem var(--dark-shadow), inset -.2rem -.2rem .5rem 0rem var(--light-shadow);
+    box-shadow: 
+        inset .2rem .2rem .5rem 0rem var(--background-dark-shadow), 
+        inset -.2rem -.2rem .5rem 0rem var(--background-light-shadow);
 }
 .link-container {
     background-color: var(--background-color);
@@ -90,7 +94,9 @@
 }
 .link-container a:hover {
     background: var(--background-color);
-    box-shadow: -5px -5px 10px -1px var(--light-shadow), 5px 5px 10px var(--dark-shadow);
+    box-shadow: 
+        -5px -5px 10px -1px var(--background-light-shadow), 
+        5px 5px 10px var(--background-dark-shadow);
 }
 .link-container a.active-link {
     border-top-right-radius: none;
@@ -161,10 +167,14 @@
     border-radius: 1rem;
     padding: .5rem;
     margin: 1rem;
-    box-shadow: -.3rem -.3rem .2rem 0rem var(--light-shadow), .3rem .3rem .2rem 0rem var(--dark-shadow);
+    box-shadow: 
+        -.3rem -.3rem .2rem 0rem var(--background-light-shadow), 
+        .3rem .3rem .2rem 0rem var(--background-dark-shadow);
 }
 .account-container .button:active {
-    box-shadow: inset .2rem .2rem .5rem 0rem var(--accent-light), inset -.2rem -.2rem .5rem 0rem var(--accent-dark);
+    box-shadow: 
+        inset .2rem .2rem .5rem 0rem var(--primary-light-shadow), 
+        inset -.2rem -.2rem .5rem 0rem var(--primary-dark-shadow);
 }
 .account-container a svg {
     width: 30px;
@@ -180,7 +190,9 @@
     color: var(--background-color);
 }
 .account-container .button.active-link {
-    box-shadow: inset .2rem .2rem .5rem 0rem var(--accent-light), inset -.2rem -.2rem .5rem 0rem var(--accent-dark);
+    box-shadow: 
+        inset .2rem .2rem .5rem 0rem var(--primary-light-shadow), 
+        inset -.2rem -.2rem .5rem 0rem var(--primary-dark-shadow);
 }
 
 /* Media query for responsive design: Smallest */
@@ -207,7 +219,9 @@
     }
     .link-container a.active-link {
         width: 100%;
-        box-shadow: -5px -5px 10px -1px var(--light-shadow), 5px 5px 10px var(--dark-shadow);
+        box-shadow: 
+            -5px -5px 10px -1px var(--background-light-shadow), 
+            5px 5px 10px var(--background-dark-shadow);
     }
     .link-container a.active-link .vl {
         margin: auto;    
@@ -247,7 +261,9 @@
     .link-container a.active-link {
         width: 100%;
         border-radius: 1rem;
-        box-shadow: -5px -5px 10px -1px var(--light-shadow), 5px 5px 10px var(--dark-shadow);
+        box-shadow: 
+            -5px -5px 10px -1px var(--background-light-shadow), 
+            5px 5px 10px var(--background-dark-shadow);
     }
     .link-container a.active-link .vl {
         margin: auto;    
@@ -287,7 +303,9 @@
         width: 185%;
         border-bottom-right-radius: 0;
         border-top-right-radius: 0;
-        box-shadow: -.4rem -.4rem .4rem -.4rem var(--light-shadow), -.2rem .8rem .4rem -.6rem var(--dark-shadow);
+        box-shadow: 
+            -.4rem -.4rem .4rem -.4rem var(--background-light-shadow), 
+            -.2rem .8rem .4rem -.6rem var(--background-dark-shadow);
     }
     .link-container a.active-link .vl {
         margin: auto;    
@@ -346,7 +364,9 @@
         width: 135%;
         border-bottom-right-radius: 0;
         border-top-right-radius: 0;
-        box-shadow: -.6rem -.6rem .4rem -.5rem var(--light-shadow), -.4rem 1.1rem .4rem -.9rem var(--dark-shadow);
+        box-shadow: 
+            -.6rem -.6rem .4rem -.5rem var(--background-light-shadow), 
+            -.4rem 1.1rem .4rem -.9rem var(--background-dark-shadow);
     }
     .link-container a.active-link .vl {
         margin: auto;    

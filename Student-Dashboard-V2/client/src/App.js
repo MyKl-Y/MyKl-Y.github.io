@@ -50,17 +50,7 @@ function App() {
   const isLandingPage = location.pathname === '/';
   const isLoginRegister = ['/login', '/register', '/auth'].includes(location.pathname);
 
-  const { isDarkMode } = useTheme();
-
-
-  const componentStyle = {
-      '--background': 
-        isDarkMode ? 
-        'linear-gradient(60deg, rgba(84,58,183,1) -10%, rgba(0,172,193,1) 100%)' : 
-        'linear-gradient(60deg, rgb(53, 29, 150) -10%, rgb(1, 90, 102) 100%)',
-      '--background-color': isDarkMode ? 'rgba(12,15,19,1)' : 'rgba(236,240,243, 1)',
-      '--text-color': !isDarkMode ? 'rgba(12,15,19,1)' : 'rgba(236,240,243, 1)',
-  };
+  const { currentTheme } = useTheme();
 
   const triggerWaveAnimation = () => {
     setAnimateWaves(true);
@@ -72,14 +62,14 @@ function App() {
   return (
     <div 
       className={isLandingPage ? 'App center-content' : (isLoginRegister ? 'App auth-center' : 'App flex-end-content')} 
-      style={componentStyle}
+      style={currentTheme}
     >
       <AnimatePresence exitBeforeEnter>
         {renderSidebar && <Sidebar />}
         {renderSidebar && <Navbar />}
         <div 
           className={`content ${isLandingPage ? `landing-page ${animateWaves ? 'animate' : ''}` : ''}`} 
-          style={componentStyle}
+          style={currentTheme}
         >
           <Routes>
 
@@ -114,7 +104,7 @@ function App() {
           </Routes>
           <div 
             className={`waves-container ${animateWaves ? 'animate' : ''}`} // Add 'animate' class when animation should occur 
-            style={componentStyle}
+            style={currentTheme}
           >
             {isLandingPage && <WaveAnimation />}
             <div className={`filler-block ${animateWaves ? 'animate' : ''}`}></div>
