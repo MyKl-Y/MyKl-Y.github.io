@@ -1,7 +1,14 @@
-import logo from './assets/images/logo.svg';
 import { motion } from "framer-motion";
+import SplashPage from "./views/SplashPage";
+import Homepage from './views/Homepage';
+import './styles/App.scss';
+import { useTheme } from './context/theme/ThemeContext';
+import { Route, Routes, useLocation } from 'react-router-dom';
 
 function App() {
+  const { theme } = useTheme();
+  const location = useLocation();
+
   return (
     <motion.div 
       className="App"
@@ -9,21 +16,15 @@ function App() {
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
       exit={{ opacity: 0 }}
+      style={{
+        backgroundColor: theme.backgroundColor,
+        color: theme.textColor,
+      }}
     >
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <Routes>
+          <Route path="/" element={<SplashPage />} />
+          <Route path="/home" element={<Homepage />} />
+        </Routes>
     </motion.div>
   );
 }
