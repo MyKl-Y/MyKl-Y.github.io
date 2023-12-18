@@ -8,7 +8,6 @@
     justify-content: space-between;
     margin: .5rem 0rem;
     border-radius: 5px;
-    background-color: var(--background-color);
     display: flex;
     color: var(--text-color);
     flex: 1 1 50rem stretch;
@@ -22,16 +21,12 @@
     padding: .5rem;
     border-radius: 1rem;
     border: none;
-    box-shadow: 
-        .2rem .2rem .5rem 0rem var(--background-dark-shadow), 
-        -.2rem -.2rem .5rem 0rem var(--background-light-shadow);
+    box-shadow: var(--background-outset);
 }
 
 .edit-course-container input:focus {
     outline: none;
-    box-shadow: 
-        inset .2rem .2rem .5rem 0rem var(--background-dark-shadow), 
-        inset -.2rem -.2rem .5rem 0rem var(--background-light-shadow);
+    box-shadow: var(--selected-inset);
 }
 
 .edit-course-container form button {
@@ -41,9 +36,7 @@
     padding-bottom: .25rem;
     padding-right: 1rem;
     padding-left: 1rem;
-    box-shadow: 
-        .25rem .25rem .15rem 0rem var(--background-dark-shadow), 
-        -.25rem -.25rem .15rem 0rem var(--background-light-shadow);
+    box-shadow: var(--add-outset);
     color: var(--background-color);
     margin: .5rem 0rem 0rem 0rem !important;
     cursor: pointer;
@@ -52,9 +45,7 @@
 }
 
 .edit-course-container form button:hover {
-    box-shadow: 
-        inset .2rem .2rem .5rem -.2rem var(--add-light-shadow), 
-        inset -.2rem -.2rem .5rem -.2rem var(--add-dark-shadow);
+    box-shadow: var(--add-inset);
 }
 
 .edit-course-container form label {

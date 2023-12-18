@@ -6,7 +6,7 @@ import './landingPage.css';
 import { motion } from 'framer-motion/dist/framer-motion'
 
 function LandingPage({ onEnterClick }) {
-    const { mode, toggleMode } = useTheme();
+    const { currentTheme, mode, toggleMode } = useTheme();
     const [isRotated, setIsRotated] = useState(false);
     const [animationComplete, setAnimationComplete] = useState();
 
@@ -16,15 +16,6 @@ function LandingPage({ onEnterClick }) {
     const navigate = useNavigate();
 
     const componentStyle = {
-        '--background': 
-            mode==='dark' ? 
-            'linear-gradient(60deg, rgba(84,58,183,1) -100%, rgba(0,172,193,1) 200%)' : 
-            'linear-gradient(60deg, rgb(53, 29, 150) -100%, rgb(1, 90, 102) 200%)',
-        '--text-color': mode==='dark' ? 'rgba(12,15,19,1)' : 'rgba(236,240,243, 1)',
-        '--glass': 
-            mode==='dark' ? 
-            'rgba(12,15,19,0.15)' :
-            'rgba(236,240,243, 0.15)',
         transform: isRotated ? 'rotateY(180deg) scaleX(-1)' : 'rotateY(0deg)',
         transformOrigin: 'center',
         transition: 'transform .6s ease-in-out',
@@ -57,7 +48,7 @@ function LandingPage({ onEnterClick }) {
             transition={{ duration: 1 }}
         >
             <div className='row'>
-                <div className='text-center glass-morphism' style={componentStyle}>
+                <div className='text-center glass-morphism' style={{...currentTheme, ...componentStyle}}>
                     <button className={mode==='dark' ? "ribbon-1" : "ribbon-2"} onClick={handleButtonClick}>
                         <p>{mode==='dark' ? "Dark Mode" : "Light Mode"}</p>
                     </button>

@@ -4,7 +4,8 @@
     justify-content: center;
     align-items: center;
     margin: 1rem;
-    background-color: var(--background-color);
+    background: var(--background);
+    background-image: var(--background-image);
     border-radius: 1rem;
     padding: 1rem;
     transform: scale(.75);
@@ -17,6 +18,10 @@
 }
 
 .create-course-container form {
+    background-color: var(--background-color);
+    border-radius: 1rem;
+    backdrop-filter: var(--background-blur);
+    box-shadow: var(--background-outset);
     display: flex;
     flex-direction: column;
     justify-content: stretch;
@@ -32,16 +37,12 @@
     padding: .5rem;
     border-radius: 1rem;
     border: none;
-    box-shadow: 
-        .2rem .2rem .5rem 0rem var(--background-dark-shadow), 
-        -.2rem -.2rem .5rem 0rem var(--background-light-shadow);
+    box-shadow: var(--background-outset);
 }
 
 .create-course-container form input:focus {
     outline: none;
-    box-shadow: 
-        inset .2rem .2rem .5rem 0rem var(--background-dark-shadow), 
-        inset -.2rem -.2rem .5rem 0rem var(--background-light-shadow);
+    box-shadow: var(--background-inset);
 }
 
 .create-course-container form .create-course-buttons {
@@ -62,16 +63,12 @@
     padding: .5rem;
     border-radius: 1rem;
     border: none;
-    box-shadow: 
-        .2rem .2rem .5rem 0rem var(--background-dark-shadow), 
-        -.2rem -.2rem .5rem 0rem var(--background-light-shadow);
+    box-shadow: var(--add-outset);
     cursor: pointer;
 }
 
 .create-course-container form .create-course-buttons button:hover {
-    box-shadow: 
-        inset .2rem .2rem .5rem 0rem var(--background-dark-shadow), 
-        inset -.2rem -.2rem .5rem 0rem var(--background-light-shadow);
+    box-shadow: var(--add-inset);
 }
 
 .create-course-buttons .Add-Course {
@@ -79,9 +76,7 @@
     margin-right: .5rem !important;
 }
 .create-course-container form .create-course-buttons .Add-Course:hover {
-    box-shadow: 
-        inset .2rem .2rem .5rem 0rem var(--add-dark-shadow), 
-        inset -.2rem -.2rem .5rem 0rem var(--add-light-shadow);
+    box-shadow: var(--add-inset);
 }
 
 .create-course-buttons .Cancel-Add-Course {
@@ -89,9 +84,7 @@
     margin-left: .5rem !important;
 }
 .create-course-container form .create-course-buttons .Cancel-Add-Course:hover {
-    box-shadow: 
-        inset .2rem .2rem .5rem 0rem var(--remove-dark-shadow), 
-        inset -.2rem -.2rem .5rem 0rem var(--remove-light-shadow);
+    box-shadow: var(--remove-inset);
 }
 
 .create-course-container form label {

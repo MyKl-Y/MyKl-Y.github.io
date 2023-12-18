@@ -32,18 +32,14 @@
     padding: .5rem;
     border-radius: .5rem;
     border: none;
-    box-shadow: 
-        .25rem .25rem .15rem 0rem var(--background-dark-shadow), 
-        -.25rem -.25rem .15rem 0rem var(--background-light-shadow);
+    box-shadow: var(--add-outset);
     background-color: var(--add-primary);
-    color: var(--background-color);
+    color: white;
     cursor: pointer;
 }
 
 .refresh-button:hover {
-    box-shadow: 
-        inset -.2rem -.2rem .5rem -.2rem var(--add-light-shadow), 
-        inset .2rem .2rem .5rem -.2rem var(--add-dark-shadow);
+    box-shadow: var(--add-inset);
 }
 
 .help-icon {
@@ -61,9 +57,9 @@
     flex-grow: 1;
     align-items: stretch;
     justify-content: center;
-    box-shadow:
-        inset -.2rem -.2rem .5rem 0rem var(--background-light-shadow),
-        inset .2rem .2rem .5rem 0rem var(--background-dark-shadow);
+    box-shadow: var(--background-inset);
+    backdrop-filter: var(--background-blur);
+    background-color: var(--background-color);
     border-radius: 1rem;
 }
 .react-transform-wrapper .react-transform-component {
@@ -96,9 +92,8 @@
 .custom-dropdown-header {
     background-color: var(--background-color);
     color: var(--text-color);
-    box-shadow:
-        -.2rem -.2rem .5rem 0rem var(--background-light-shadow),
-        .2rem .2rem .5rem 0rem var(--background-dark-shadow);
+    box-shadow: var(--background-outset);
+    backdrop-filter: var(--background-blur);
     border-radius: 1rem;
     padding: .5rem;
     cursor: pointer;
@@ -109,10 +104,8 @@
 }
 
 .custom-dropdown-header.active {
-    background-color: var(--background-color);
-    box-shadow:
-        inset -.2rem -.2rem .5rem 0rem var(--background-light-shadow),
-        inset .2rem .2rem .5rem 0rem var(--background-dark-shadow);
+    background-color: var(--selected-color);
+    box-shadow: var(--selected-inset);
     border-radius: 1rem;
     border-bottom-left-radius: 0rem;
     border-bottom-right-radius: 0rem;
@@ -129,10 +122,7 @@
     top: 100%;
     left: 0;
     width: 100%;
-    background-color: var(--background-color);
-    box-shadow:
-        -.2rem -.2rem .5rem 0rem var(--background-light-shadow),
-        .2rem .2rem .5rem 0rem var(--background-dark-shadow);
+    box-shadow: var(--background-outset);
     border-bottom-left-radius: 1rem;
     border-bottom-right-radius: 1rem;
     display: none;
@@ -155,7 +145,7 @@
     cursor: pointer;
     user-select: none; /* Prevent text selection */
     box-shadow:
-        .2rem .2rem .2rem 0rem var(--background-dark-shadow);
+        .2rem .2rem .2rem 0rem var(--background-dark);
 }
 
 .custom-dropdown-option:last-child {
@@ -164,15 +154,13 @@
 }
 
 .custom-dropdown-option:hover {
-    box-shadow:
-        inset -.2rem -.2rem .5rem 0rem var(--background-light-shadow),
-        inset .2rem .2rem .5rem 0rem var(--background-dark-shadow);
+    box-shadow: var(--background-inset);
 }
 
 .custom-dropdown-option:hover ~ .custom-dropdown-options  {
     box-shadow:
-        inset -.2rem -.2rem .5rem 0rem var(--background-light-shadow),
-        .2rem .2rem .2rem 0rem var(--background-dark-shadow);
+        inset -.2rem -.2rem .5rem 0rem var(--background-light),
+        .2rem .2rem .2rem 0rem var(--background-dark);
 }
 
 .custom-dropdown-option:hover + .custom-dropdown-options {
@@ -202,9 +190,7 @@
     padding: .5rem;
     border-radius: .5rem;
     border: none;
-    box-shadow: 
-        -.2rem -.2rem .5rem 0rem var(--background-light-shadow), 
-        .2rem .2rem .5rem 0rem var(--background-dark-shadow);
+    box-shadow: var(--background-outset);
     background-color: var(--background-color);
     color: var(--text-color);
     width: 100%;
@@ -212,37 +198,29 @@
 }
 .node-form input:focus {
     outline: none;
-    box-shadow: 
-        inset -.2rem -.2rem .5rem 0rem var(--background-light-shadow), 
-        inset .2rem .2rem .5rem 0rem var(--background-dark-shadow);
+    background-color: var(--selected-color);
+    box-shadow: var(--selected-inset);
 }
 .node-form button {
     margin: .5rem;
     padding: .5rem;
     border-radius: .5rem;
     border: none;
-    box-shadow: 
-        .25rem .25rem .15rem 0rem var(--background-dark-shadow), 
-        -.25rem -.25rem .15rem 0rem var(--background-light-shadow);
+    box-shadow: var(--add-outset);
     background-color: var(--add-primary);
     color: var(--background-color);
     cursor: pointer;
     width: 100%;
 }
 .node-form button:active {
-    box-shadow: 
-        inset -.2rem -.2rem .5rem -.2rem var(--add-light-shadow), 
-        inset .2rem .2rem .5rem -.2rem var(--add-dark-shadow);
+    box-shadow: var(--add-inset);
 }
 .node-form button:hover {
-    box-shadow: 
-        inset -.2rem -.2rem .5rem -.2rem var(--add-light-shadow), 
-        inset .2rem .2rem .5rem -.2rem var(--add-dark-shadow);
+    box-shadow: var(--add-inset);
 }
 .node-form label {
     border-radius: .5rem;
     border: none;
-    background-color: var(--background-color);
     color: var(--text-color);
     font-size: .75rem !important;
     align-self: start;
@@ -258,9 +236,7 @@
     padding: .5rem;
     border-radius: .5rem;
     border: none;
-    box-shadow: 
-        .25rem .25rem .15rem 0rem var(--background-dark-shadow), 
-        -.25rem -.25rem .15rem 0rem var(--background-light-shadow);
+    box-shadow: var(--add-outset);
     background-color: var(--add-primary);
     color: var(--background-color);
     cursor: pointer;
@@ -271,39 +247,27 @@
     padding: .5rem;
     border-radius: .5rem;
     border: none;
-    box-shadow: 
-        .25rem .25rem .15rem 0rem var(--background-dark-shadow), 
-        -.25rem -.25rem .15rem 0rem var(--background-light-shadow);
+    box-shadow: var(--remove-outset);
     background-color: var(--remove-primary);
     color: var(--background-color);
     cursor: pointer;
     width: 100%;
 }
 .toggle-completion-button.incomplete:hover {
-    box-shadow: 
-        inset -.2rem -.2rem .5rem -.2rem var(--add-light-shadow), 
-        inset .2rem .2rem .5rem -.2rem var(--add-dark-shadow);
+    box-shadow: var(--add-inset);
 }
 .toggle-completion-button.incomplete:active {
-    box-shadow: 
-        inset -.2rem -.2rem .5rem -.2rem var(--add-light-shadow), 
-        inset .2rem .2rem .5rem -.2rem var(--add-dark-shadow);
+    box-shadow: var(--add-inset);
 }
 .toggle-completion-button.complete:hover {
-    box-shadow: 
-        inset -.2rem -.2rem .5rem -.2rem var(--remove-light-shadow), 
-        inset .2rem .2rem .5rem -.2rem var(--remove-dark-shadow);
+    box-shadow: var(--remove-inset);
 }
 .toggle-completion-button.complete:active {
-    box-shadow: 
-        inset -.2rem -.2rem .5rem -.2rem var(--remove-light-shadow), 
-        inset .2rem .2rem .5rem -.2rem var(--remove-dark-shadow);
+    box-shadow: var(--remove-inset);
 }
 
 .tree li.active-node > .tree-node-content {
-    box-shadow:
-        inset -.2rem -.2rem .5rem -.2rem var(--background-light-shadow),
-        inset .2rem .2rem .5rem 0rem var(--background-dark-shadow);
+    box-shadow: var(--background-inset);
 }
 
 .tree, .tree ul, .tree li {
@@ -344,9 +308,7 @@
         .tree li:last-child:before {right: 50%;}
 
         .tree .tree-node-content, .tree span, .tree .node-form {
-            box-shadow: 
-                .3rem .3rem .6rem var(--background-dark-shadow),
-                -.2rem -.2rem .5rem var(--background-light-shadow);
+            box-shadow: var(--background-outset);
             border-radius: 1rem;
             display: inline-block;
             margin: 0 .2rem .5rem;

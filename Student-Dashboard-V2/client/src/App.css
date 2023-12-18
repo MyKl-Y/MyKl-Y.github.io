@@ -10,7 +10,8 @@
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  background-color: var(--background-color);
+  background: var(--background);
+  background-image: var(--background-image);
   overflow: hidden;
 }
 
@@ -39,7 +40,7 @@
   position: absolute;
   width: 100%;
   height: 110vh;
-  background-color: var(--background-color);
+  background-color: rgb(from var(--background-color) r g b / 100%);
   z-index: 1;
   transition: transform 0.6s ease-in-out;
 }
@@ -47,6 +48,7 @@
 .App.center-content {
   justify-content: center;
   background: var(--background);
+  background-image: var(--background-image);
   overflow: hidden;
 }
 
@@ -64,6 +66,7 @@
   justify-content: center;
   align-items: center;
   background: var(--background-color);
+  background-image: var(--background-image);
 }
 
 .content {

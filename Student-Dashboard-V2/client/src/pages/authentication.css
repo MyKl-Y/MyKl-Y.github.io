@@ -13,16 +13,13 @@
     border-radius: 1rem;
     width: 80vw;
     background-color: var(--background-color);
-    box-shadow: 
-        .3rem .3rem .6rem var(--background-dark-shadow),
-        -.2rem -.2rem .5rem var(--background-light-shadow);
+    box-shadow: var(--background-outset);
+    backdrop-filter: var(--background-blur);
 }
 
 .auth-tabs {
     background: var(--background-color);
-    box-shadow: 
-        .3rem .3rem .6rem var(--background-dark-shadow),
-        -.2rem -.2rem .5rem var(--background-light-shadow);
+    box-shadow: var(--background-outset);
     border-radius: 1rem;
     display: flex;
     flex-direction: row;
@@ -70,9 +67,7 @@
     width: calc(50% - 1.5rem);
     margin: 1rem;
     border-radius: .8rem;
-    box-shadow: 
-        inset .2rem .2rem .5rem var(--background-dark-shadow), 
-        inset -.2rem -.2rem .5rem var(--background-light-shadow);
+    box-shadow: var(--background-inset);
     pointer-events: none;
 }
 .tabs-inner.login {
@@ -97,9 +92,7 @@
     font-size: 1.4rem;
     padding-left: 3.8rem;
     padding-right: 3.8rem;
-    box-shadow: 
-        inset .2rem .2rem .5rem var(--background-dark-shadow), 
-        inset -.2rem -.2rem .5rem var(--background-light-shadow);
+    box-shadow: var(--background-inset);
     background: none;
     color: var(--primary);
     margin-top: none !important;
@@ -109,9 +102,7 @@
 }
 .auth-body input:focus {
     outline: none;
-    box-shadow: 
-        .3rem .3rem .6rem var(--background-dark-shadow),
-        -.2rem -.2rem .5rem var(--background-light-shadow);
+    box-shadow: var(--background-outset);
 }
 .auth-body .input-error {
     border: 1px solid red;
@@ -210,14 +201,10 @@ input:focus + .search-icon {
     cursor: pointer;
     border-radius: 1rem;
     padding: .5rem;
-    box-shadow: 
-        inset -.2rem -.2rem .5rem -.2rem var(--primary-dark-shadow), 
-        inset .2rem .2rem .5rem 0rem var(--primary-light-shadow);
+    box-shadow: var(--primary-inset);
 }
 .login-button:active {
-    box-shadow: 
-        inset .2rem .2rem .5rem -.2rem var(--primary-dark-shadow), 
-        inset -.2rem -.2rem .5rem 0rem var(--primary-light-shadow);
+    box-shadow: var(--primary-inset);
 }
 .register-form {
     position: relative;
@@ -248,14 +235,10 @@ input:focus + .search-icon {
     cursor: pointer;
     border-radius: 1rem;
     padding: .5rem;
-    box-shadow: 
-        inset -.2rem -.2rem .5rem -.2rem var(--primary-dark-shadow), 
-        inset .2rem .2rem .5rem 0rem var(--primary-light-shadow);
+    box-shadow: var(--primary-inset);
 }
 .register-button:active {
-    box-shadow: 
-        inset .2rem .2rem .5rem -.2rem var(--primary-dark-shadow), 
-        inset -.2rem -.2rem .5rem 0rem var(--primary-light-shadow);
+    box-shadow: var(--primary-inset);
 }
 
 /*

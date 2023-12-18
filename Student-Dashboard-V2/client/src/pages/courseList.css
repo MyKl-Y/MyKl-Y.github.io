@@ -23,17 +23,14 @@
     font-weight: bolder;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    box-shadow: 
-        inset .2rem .2rem .5rem 0rem var(--background-dark-shadow), 
-        inset -.2rem -.2rem .5rem 0rem var(--background-light-shadow);
+    box-shadow: var(--selected-inset);
+    backdrop-filter: var(--background-blur);
 }
 .semester-filters .inactive-tab {
     margin-right: .5rem;
     background: none;
     color: var(--primary);
-    box-shadow: 
-        .2rem .2rem .5rem 0rem var(--background-dark-shadow), 
-        -.2rem -.2rem .5rem 0rem var(--background-light-shadow);
+    box-shadow: var(--background-outset);
     border: none;
 }
 
@@ -50,13 +47,12 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    box-shadow: 
-        .2rem .2rem .5rem var(--background-dark-shadow), 
-        -.2rem -.2rem .5rem var(--background-light-shadow);
+    box-shadow: var(--background-outset);
     padding: 1rem;
     margin: 1rem 1rem;
     border-radius: 5px;
     background-color: var(--background-color);
+    backdrop-filter: var(--background-blur);
     color: var(--text-color);
     flex: 1 1 50rem stretch;
     /*cursor: var(--cursor);*/
@@ -89,9 +85,7 @@
     padding-bottom: .25rem;
     padding-right: 1rem;
     padding-left: 1rem;
-    box-shadow: 
-        .25rem .25rem .15rem 0rem var(--background-dark-shadow), 
-        -.25rem -.25rem .15rem 0rem var(--background-light-shadow);
+    box-shadow: var(--primary-outset);
     color: var(--background-color);
     margin-right: 1rem;
     cursor: pointer;
@@ -101,9 +95,7 @@
 
 /* Style for buttons on hover */
 .single-course button:hover {
-    box-shadow: 
-        inset .2rem .2rem .5rem -.2rem var(--primary-light-shadow), 
-        inset -.2rem -.2rem .5rem -.2rem var(--primary-dark-shadow);
+    box-shadow: var(--primary-inset);
 }
 
 .single-course button.delete-course {
@@ -113,9 +105,7 @@
     padding-bottom: .25rem;
     padding-right: 1rem;
     padding-left: 1rem;
-    box-shadow: 
-        .25rem .25rem .15rem 0rem var(--background-dark-shadow), 
-        -.25rem -.25rem .15rem 0rem var(--background-light-shadow);
+    box-shadow: var(--remove-outset);
     color: var(--background-color);
     margin-right: 1rem;
     cursor: pointer;
@@ -125,9 +115,7 @@
 
 /* Style for buttons on hover */
 .single-course button.delete-course:hover {
-    box-shadow: 
-        inset .2rem .2rem .5rem -.2rem var(--remove-dark-shadow), 
-        inset -.2rem -.2rem .5rem -.2rem var(--remove-light-shadow);
+    box-shadow: var(--remove-inset);
 }
 
 /* Style for the create button */
@@ -140,9 +128,7 @@ button.create-course {
     cursor: pointer;
     margin: 0rem;
     transition: background-color 0.3s, color 0.3s;
-    box-shadow: 
-        .25rem .25rem .2rem -.1rem var(--background-dark-shadow), 
-        -.25rem -.25rem .2rem -.1rem var(--background-light-shadow);
+    box-shadow: var(--add-outset);
 }
 
 button.create-course svg {
@@ -153,9 +139,7 @@ button.create-course svg {
 
 /* Style for the create button on hover */
 button.create-course:hover {
-    box-shadow: 
-        inset .2rem .2rem .5rem -.2rem var(--add-dark-shadow), 
-        inset -.2rem -.2rem .5rem -.2rem var(--add-light-shadow);
+    box-shadow: var(--add-inset);
 }
 
 /* Style for the modal */
