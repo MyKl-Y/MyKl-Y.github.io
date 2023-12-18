@@ -286,8 +286,8 @@ function Courses() {
                             onClick={() => handleSemesterClick(semester)}
                             //color={selectedSemesters.includes(semester) ? "primary" : "default"}
                             //variant={selectedSemesters.includes(semester) ? "default" : "outlined"}
-                            color={isSemesterSelected(semester) ? "primary" : "default"}
-                            variant={isSemesterSelected(semester) ? "default" : "outlined"}
+                            //color={isSemesterSelected(semester) ? "primary" : "default"}
+                            //variant={isSemesterSelected(semester) ? "default" : "outlined"}
                             className={selectedSemesters.includes(semester) ? "active-tab" : "inactive-tab"}
                         />
                     ))}

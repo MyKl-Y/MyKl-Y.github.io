@@ -86,7 +86,7 @@ export const themes = {
             '--background-image': 'radial-gradient(at 79% 63%, hsla(357,79%,70%,1) 0px, transparent 50%),radial-gradient(at 82% 99%, hsla(254,75%,78%,1) 0px, transparent 50%),radial-gradient(at 33% 53%, hsla(343,85%,78%,1) 0px, transparent 50%),radial-gradient(at 83% 46%, hsla(150,73%,78%,1) 0px, transparent 50%),radial-gradient(at 65% 39%, hsla(251,82%,69%,1) 0px, transparent 50%),radial-gradient(at 67% 51%, hsla(8,77%,65%,1) 0px, transparent 50%),radial-gradient(at 29% 21%, hsla(179,93%,76%,1) 0px, transparent 50%)',
             '--text-color': 'rgba(17, 17, 17, 0.7)',
             '--background-color': 'rgba(255, 255, 255, 0.3)',
-            '--background-blur': 'blur(7px) saturate(100%)',
+            '--background-blur': 'blur(7px)',
             '--background-outset': '0 8px 32px 0 rgba( 31, 38, 135, 0.37 ), inset 0 0 0 2px rgba(255, 255, 255, 0.5)', 
             '--background-inset': '0 8px 32px 0 rgba( 31, 38, 135, 0.37 ), inset 0 0 0 2px rgba(255, 255, 255, 0.5)', 
             '--primary': 'rgba(0, 100, 255, 0.7)',
@@ -111,7 +111,7 @@ export const themes = {
             '--background-image': 'radial-gradient(at 79% 63%, hsla(357,100%,60%,1) 0px, transparent 50%),radial-gradient(at 82% 99%, hsla(254,100%,60%,1) 0px, transparent 50%),radial-gradient(at 33% 53%, hsla(343,100%,60%,1) 0px, transparent 50%),radial-gradient(at 83% 46%, hsla(150,100%,60%,1) 0px, transparent 50%),radial-gradient(at 65% 39%, hsla(251,100%,60%,1) 0px, transparent 50%),radial-gradient(at 67% 51%, hsla(8,100%,60%,1) 0px, transparent 50%),radial-gradient(at 29% 21%, hsla(179,100%,60%,1) 0px, transparent 50%)',
             '--text-color': 'rgba(255, 255, 255, 0.7)',
             '--background-color': 'rgba(17,17,17,.3)',
-            '--background-blur': 'blur(7px) saturate(100%)',
+            '--background-blur': 'blur(7px)',
             '--background-outset': '0 8px 32px 0 rgba( 31, 38, 135, 0.37 ), inset 0 0 0 2px rgba(17,17,17,.5)',
             '--background-inset': '0 8px 32px 0 rgba( 31, 38, 135, 0.37 ), inset 0 0 0 2px rgba(17,17,17,.5)',
             '--primary': 'rgba(175, 250, 235, 0.7)',
@@ -146,17 +146,37 @@ export const themes = {
     },
     minimal: {
         light: {
-            
+            '--background': '#efefef',
+            '--text-color': '#505050',
+            '--background-color': '#ffffff',
+            '--background-outset': '0 0 0 .1rem rgba(240,240,240,1)',
+            '--background-inset': '0 0 0 .1rem rgba(240,240,240,1)',
+            '--primary': 'rgba(255,150,0,.5)',
+            '--accent-gradient': 'rgba(32,86,255,1)',
+            '--accent': 'rgba(32,86,255,1)',
+            '--selected-color': 'rgba(32,86,255,.5)',
+            '--add-primary': 'rgba(0,255,0,.5)',
+            '--remove-primary': 'rgba(255,0,0,.5)',
         },
         dark: {
-            
+            '--background': '#101010',
+            '--text-color': '#afafaf',
+            '--background-color': '#1e1e1e',
+            '--background-outset': '0 0 0 .1rem rgba(10,10,10,1)',
+            '--background-inset': '0 0 0 .1rem rgba(10,10,10,1)',
+            '--primary': 'rgba(255,150,0,.5)',
+            '--accent-gradient': 'rgba(32,86,255,1)',
+            '--accent': 'rgba(32,86,255,1)',
+            '--selected-color': 'rgba(32,86,255,.5)',
+            '--add-primary': 'rgba(0,255,0,.5)',
+            '--remove-primary': 'rgba(255,0,0,.5)',
         },
     },
 }
 
 export const ThemeProvider = ({ children }) => {
-    const [style, setStyle] = useState('glass'); // Default style
-    const [mode, setMode] = useState('light'); // Default mode within the style
+    const [style, setStyle] = useState('minimal'); // Default style
+    const [mode, setMode] = useState('dark'); // Default mode within the style
 
     const changeTheme = (newStyle, newMode) => {
         setStyle(newStyle);

@@ -86,9 +86,7 @@
 }
 
 .navbar li a.active {
-    background: var(--accent-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--accent);
     box-shadow: var(--selected-inset);
     background-color: var(--selected-color);
 }

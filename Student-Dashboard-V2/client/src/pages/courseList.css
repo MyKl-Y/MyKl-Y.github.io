@@ -19,10 +19,9 @@
 }
 .semester-filters .active-tab {
     margin-right: .5rem;
-    background: var(--accent-gradient);
+    color: var(--accent);
+    background-color: var(--selected-color);
     font-weight: bolder;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     box-shadow: var(--selected-inset);
     backdrop-filter: var(--background-blur);
 }
@@ -30,6 +29,7 @@
     margin-right: .5rem;
     background: none;
     color: var(--primary);
+    background-color: var(--background-color);
     box-shadow: var(--background-outset);
     border: none;
 }
