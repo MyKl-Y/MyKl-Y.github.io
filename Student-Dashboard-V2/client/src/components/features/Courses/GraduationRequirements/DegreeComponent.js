@@ -1,10 +1,9 @@
 // DegreeComponent.js
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion/dist/framer-motion";
-import { useTheme } from '../context/ThemeContext';
-import { useAuth } from "../context/AuthContext";
+import { useTheme } from '../../../../context/theme/ThemeContext';
+import { useAuth } from "../../../../context/authentication/AuthContext";
 import ConcentrationComponent from "./ConcentrationComponent";
-import "./DegreeComponent.css";
+import "../../../../styles/DegreeComponent.css";
 import { AddCircleTwoTone, Refresh, HelpTwoTone } from '@mui/icons-material';
 //import { Select, FormControl, MenuItem, OutlinedInput } from '@mui/material';
 import { Badge, Tooltip } from "@mui/material";
@@ -12,7 +11,7 @@ import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 const DegreeComponent = ({ onSelectDegree }) => {
     const { user } = useAuth();
-    const { currentTheme, changeTheme, toggleMode } = useTheme();
+    const { currentTheme } = useTheme();
 
     const [degrees, setDegrees] = useState([]);
     const [newDegree, setNewDegree] = useState({

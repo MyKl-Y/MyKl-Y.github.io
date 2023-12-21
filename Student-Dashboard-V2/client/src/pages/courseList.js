@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from "react";
 import ReactModal from "react-modal";
 //import { useAuth } from "../context/AuthContext";
-import { useTheme } from '../context/ThemeContext';
-import CourseCreate from "./courseCreate";
-import CourseEdit from "./courseEdit";
-import { 
-    FaTrashAlt,
-    FaEdit,
-    FaFolderPlus,
-} from 'react-icons/fa';
+import { useTheme } from '../context/theme/ThemeContext';
+import CourseCreate from "../components/features/Courses/CourseList/courseCreate";
+import CourseEdit from "../components/features/Courses/CourseList/courseEdit";
 import { Chip } from "@mui/material";
-import "./courseList.css";
+import "../styles/courseList.css";
 import {
     DeleteTwoTone,
     EditTwoTone,
@@ -19,7 +14,7 @@ import {
 import { motion } from "framer-motion/dist/framer-motion";
 
 function Courses() {
-    const { currentTheme, changeTheme, toggleMode } = useTheme();
+    const { currentTheme, } = useTheme();
     
     const [isACourseSelected, setIsACourseSelected] = useState(false);
 
@@ -211,9 +206,9 @@ function Courses() {
     };
 
     // Function to check if a semester chip is selected
-    const isSemesterSelected = (semester) => {
+    /*const isSemesterSelected = (semester) => {
         return selectedSemesters.includes(semester);
-    };
+    };*/
 
     // Filter courses based on selected semesters
     const filteredCourses = selectedSemesters.includes("All Semesters")

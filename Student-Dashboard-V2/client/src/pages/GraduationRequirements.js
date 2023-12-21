@@ -1,14 +1,11 @@
 import React, { useState } from "react";
-import DegreeComponent from "../components/DegreeComponent";
-import RequirementComponent from "../components/RequirementComponent";
-import CourseComponent from "../components/CourseComponent";
-import { useTheme } from '../context/ThemeContext';
+import DegreeComponent from "../components/features/Courses/GraduationRequirements/DegreeComponent";
 import { motion } from "framer-motion/dist/framer-motion";
-import "../components/DegreeComponent.css";
+import "../styles/DegreeComponent.css";
 
 const GraduationRequirements = () => {
     const [selectedDegree, setSelectedDegree] = useState(null);
-    const [selectedConcentration, setSelectedConcentration] = useState(null);
+    /*const [selectedConcentration, setSelectedConcentration] = useState(null);
     const [selectedRequirement, setSelectedRequirement] = useState(null);
     const [createdConcentrations, setCreatedConcentrations] = useState([]);
     const [createdRequirements, setCreatedRequirements] = useState([]);
@@ -27,7 +24,7 @@ const GraduationRequirements = () => {
     // Function to handle the creation of a new course
     const onCreateCourse = (newCourse) => {
         setCreatedCourses([...createdCourses, newCourse]);
-    };
+    };*/
     
     return (
         <motion.div

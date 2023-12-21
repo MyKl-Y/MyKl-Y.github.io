@@ -1,9 +1,9 @@
 // GradeCalculator.js
 import React, { useState, useEffect } from "react";
-import SingleGradeCalculator from "../components/SingleGradeCalculator";
+import SingleGradeCalculator from "../components/features/Grades/Calculators/SingleGradeCalculator";
 import { AddCircleTwoTone } from "@mui/icons-material";
-import { useTheme } from '../context/ThemeContext';
-import '../pages/grades.css';
+import { useTheme } from '../context/theme/ThemeContext';
+import '../styles/grades.css';
 
 const GradeCalculator = () => {
     const { currentTheme, changeTheme, toggleMode } = useTheme();

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import { useTheme } from '../context/ThemeContext';
-import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/theme/ThemeContext';
+import { useAuth } from '../context/authentication/AuthContext';
 import { motion } from 'framer-motion/dist/framer-motion';
-import './authentication.css';
+import '../styles/authentication.css';
 import { 
     FaEnvelope,
     FaHashtag,

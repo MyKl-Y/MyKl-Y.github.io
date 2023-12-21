@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion/dist/framer-motion'
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/authentication/AuthContext';
 
 const Account = () => {
-    const { user, authLogout, authUpdateUser } = useAuth();
+    const { user, authLogout } = useAuth();
     const isLoggedIn = !!user;
     const navigate = useNavigate();
 
@@ -259,7 +259,7 @@ const Account = () => {
                                     );
                                     const isLast = index === currentUser.minors.length - 1;
                                     const isSecondToLast = index === currentUser.minors.length - 2;
-                                    const isFirst = index === 0;
+                                    //const isFirst = index === 0;
 
                                     let separator = "";
                                     

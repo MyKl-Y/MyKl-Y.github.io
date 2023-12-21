@@ -1,9 +1,9 @@
 // GradePointAverageCalculator.js
 import React, { useState, useEffect } from "react";
-import SingleGPACalculator from "../components/SingleGPACalculator";
+import SingleGPACalculator from "../components/features/Grades/Calculators/SingleGPACalculator";
 import { AddCircleTwoTone } from "@mui/icons-material";
-import { useTheme } from '../context/ThemeContext';
-import '../pages/grades.css';
+import { useTheme } from '../context/theme/ThemeContext';
+import '../styles/grades.css';
 
 const GPACalculator = () => {
     const { currentTheme, changeTheme, toggleMode } = useTheme();

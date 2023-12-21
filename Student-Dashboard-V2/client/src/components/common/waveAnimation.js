@@ -1,6 +1,6 @@
 import React from 'react';
-import './waveAnimation.css';
-import { useTheme } from '../context/ThemeContext';
+import '../../styles/waveAnimation.css';
+import { useTheme } from '../../context/theme/ThemeContext';
 
 function WaveAnimation() {
     const { mode } = useTheme();

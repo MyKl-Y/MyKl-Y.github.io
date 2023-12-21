@@ -1,11 +1,11 @@
 // RequirementComponent.js
 import React, { useState, useEffect } from "react";
 import CourseComponent from "./CourseComponent";
-import { useTheme } from '../context/ThemeContext';
+import { useTheme } from '../../../../context/theme/ThemeContext';
 import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 
 const RequirementComponent = ({ selectedDegree, selectedConcentration, onCreateRequirement, onSelectRequirement, calculateTotalUpdates }) => {
-    const { currentTheme, changeTheme, toggleMode } = useTheme();
+    const { currentTheme } = useTheme();
 
     const [requirements, setRequirements] = useState([]);
     const [newRequirement, setNewRequirement] = useState({

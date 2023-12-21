@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import Navbar from './components/navbar';
+import Navbar from './components/common/navbar.js';
 import TaskList from './pages/taskList';
 import EditTask from './pages/taskEdit';
 import CreateTask from './pages/taskCreate';
@@ -24,16 +24,16 @@ import Account from './pages/account';
 import Help from './pages/help';
 import Authentication from './pages/authentication';
 import Courses from './pages/courseList';
-import EditCourse from './pages/courseEdit';
-import CreateCourse from './pages/courseCreate';
+import EditCourse from './components/features/Courses/CourseList/courseEdit.js';
+import CreateCourse from './components/features/Courses/CourseList/courseCreate.js';
 import Graduation from './pages/GraduationRequirements';
-import Sidebar from './components/sidebar';
-import WaveAnimation from './components/waveAnimation';
+import Sidebar from './components/common/sidebar.js';
+import WaveAnimation from './components/common/waveAnimation.js';
 //import AnimatedRoutes from './components/AnimatedRoutes';
-import { useTheme } from './context/ThemeContext';
+import { useTheme } from './context/theme/ThemeContext.js';
 //import { useAuth } from './context/AuthContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css'
+import './styles/App.css'
 import { AnimatePresence } from 'framer-motion/dist/framer-motion';
 import Applications from './pages/applications';
 

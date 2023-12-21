@@ -1,11 +1,11 @@
 // ConcentrationComponent.js
 import React, { useState, useEffect } from "react";
 import RequirementComponent from "./RequirementComponent";
-import { useTheme } from '../context/ThemeContext';
+import { useTheme } from '../../../../context/theme/ThemeContext';
 import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
 
 const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelectConcentration, calculateTotalUpdates }) => {
-    const { currentTheme, changeTheme, toggleMode } = useTheme();
+    const { currentTheme } = useTheme();
 
     const [concentrations, setConcentrations] = useState([]);
     const [newConcentration, setNewConcentration] = useState({

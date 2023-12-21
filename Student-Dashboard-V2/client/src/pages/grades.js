@@ -1,10 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion/dist/framer-motion';
-import { useTheme } from '../context/ThemeContext';
-import './grades.css';
+import { useTheme } from '../context/theme/ThemeContext';
+import '../styles/grades.css';
 
 const Grades = () => {
-    const { currentTheme, changeTheme, toggleMode } = useTheme();
+    const { currentTheme } = useTheme();
 
     // TODO: Connect Assignments and assignments api to add grades
 

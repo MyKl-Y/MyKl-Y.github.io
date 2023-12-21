@@ -1,23 +1,12 @@
 import React, { useState } from 'react';
 import "bootstrap/dist/css/bootstrap.css";
 import { Link, useLocation } from 'react-router-dom';
-import './sidebar.css';
-import { useTheme } from '../context/ThemeContext';
-import { useAuth } from '../context/AuthContext';
+import '../../styles/sidebar.css';
+import { useTheme } from '../../context/theme/ThemeContext';
+import { useAuth } from '../../context/authentication/AuthContext';
 import { 
-    FaTachometerAlt, 
-    FaCog, 
-    FaBook, 
-    FaTasks, 
-    FaPencilRuler, 
     FaChevronLeft, 
     FaChevronCircleRight,
-    FaClipboardList,
-    FaGraduationCap,
-    FaUserAstronaut,
-    FaQuestion,
-    FaAward,
-    FaCalendarAlt,
 } from 'react-icons/fa';
 import { motion } from 'framer-motion/dist/framer-motion'
 import { 
@@ -37,8 +26,6 @@ import {
     CalculateTwoTone,
 } from '@mui/icons-material';
 import { Avatar, Tooltip } from '@mui/material';
-import { deepOrange } from '@mui/material/colors';
-
 
 const Sidebar = () => {
     const { currentTheme } = useTheme();

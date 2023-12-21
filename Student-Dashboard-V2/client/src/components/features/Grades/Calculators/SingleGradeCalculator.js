@@ -1,17 +1,15 @@
 // SingleGradeCalculator.js
 import React, { useState, useEffect } from "react";
 import { motion } from 'framer-motion/dist/framer-motion';
-import { useTheme } from '../context/ThemeContext';
-import { useAuth } from "../context/AuthContext";
-import { useLocation } from "react-router-dom";
+import { useTheme } from '../../../../context/theme/ThemeContext';
 import { 
     RemoveCircleTwoTone,
     AddCircleTwoTone,
 } from '@mui/icons-material';
-import '../pages/grades.css';
+import '../../../../styles/grades.css';
 
 const SingleGradeCalculator = ({ id, onDelete }) => {
-    const { currentTheme, changeTheme, toggleMode } = useTheme();
+    const { currentTheme } = useTheme();
 
     const [assignments, setAssignments] = useState([
         { id: 1, name: "", grade: null, weight: null },

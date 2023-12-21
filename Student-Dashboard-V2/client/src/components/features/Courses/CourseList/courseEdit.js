@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../context/AuthContext";
-import { useTheme } from '../context/ThemeContext';
-import "./courseEdit.css";
+import { useAuth } from "../../../../context/authentication/AuthContext";
+import "../../../../styles/courseEdit.css";
 
 function CourseEdit({ course, onUpdateCourse }) {
     const [editedCourse, setEditedCourse] = useState(course);
     const { user } = useAuth();
-    const { currentTheme, changeTheme, toggleMode } = useTheme();
 
     useEffect(() => {
         // Update the edited course whenever the course prop changes

@@ -1,11 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion/dist/framer-motion';
-import { useTheme, themes } from '../context/ThemeContext';
+import { useTheme, themes } from '../context/theme/ThemeContext';
 import { 
     LightModeTwoTone, 
     DarkModeTwoTone,
 } from '@mui/icons-material';
-import './settings.css';
+import '../styles/settings.css';
 
 const Settings = () => {
     const { currentTheme, changeTheme, toggleMode, mode, style } = useTheme();
@@ -29,6 +29,8 @@ const Settings = () => {
             e.currentTarget.style.boxShadow = null;
         }
     };
+
+    //TODO: Settings to change GPA calculations, etc.
 
     return (
         <motion.div

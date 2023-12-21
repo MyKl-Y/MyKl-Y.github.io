@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useTheme } from '../context/ThemeContext';
-import { useAuth } from '../context/AuthContext';
-import './landingPage.css';
+import { useTheme } from '../context/theme/ThemeContext';
+import { useAuth } from '../context/authentication/AuthContext';
+import '../styles/landingPage.css';
 import { motion } from 'framer-motion/dist/framer-motion'
 
 function LandingPage({ onEnterClick }) {

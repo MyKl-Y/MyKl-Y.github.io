@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 //import { useNavigate } from "react-router";
 import "bootstrap/dist/css/bootstrap.css";
-import { useAuth } from "../context/AuthContext";
-import { useTheme } from '../context/ThemeContext';
-import "./courseCreate.css";
+import { useAuth } from "../../../../context/authentication/AuthContext";
+import { useTheme } from '../../../../context/theme/ThemeContext';
+import "../../../../styles/courseCreate.css";
 import { motion } from "framer-motion/dist/framer-motion";
 
 export default function CreateTask({ onCourseCreate, onCancel }) {
