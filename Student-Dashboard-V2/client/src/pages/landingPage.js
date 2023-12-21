@@ -8,7 +8,7 @@ import { motion } from 'framer-motion/dist/framer-motion'
 function LandingPage({ onEnterClick }) {
     const { currentTheme, mode, toggleMode } = useTheme();
     const [isRotated, setIsRotated] = useState(false);
-    const [animationComplete, setAnimationComplete] = useState();
+    //const [animationComplete, setAnimationComplete] = useState();
 
     const { user } = useAuth();
     const isLoggedIn = !!user;
@@ -29,7 +29,7 @@ function LandingPage({ onEnterClick }) {
     const handleEnterClick = () => {
         onEnterClick();
         setTimeout(() => {
-            setAnimationComplete(true);
+            //setAnimationComplete(true);
             if (isLoggedIn) {
                 navigate("/dashboard")
             } else {

@@ -1,11 +1,10 @@
 // CourseComponent.js
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion/dist/framer-motion";
 import { useTheme } from '../../../../context/theme/ThemeContext';
-import { AddCircleTwoTone, CheckCircleTwoTone, CircleTwoTone, CancelTwoTone } from '@mui/icons-material';
+import { AddCircleTwoTone, CheckCircleTwoTone, CancelTwoTone } from '@mui/icons-material';
 
 const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequirement, onCreateCourse, isRequirementDone, calculateTotalUpdates }) => {
-    const { currentTheme, changeTheme, toggleMode } = useTheme();
+    const { currentTheme } = useTheme();
 
     const [courses, setCourses] = useState([]);
     const [newCourse, setNewCourse] = useState({

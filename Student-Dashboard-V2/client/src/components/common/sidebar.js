@@ -159,7 +159,7 @@ const Sidebar = () => {
                                         ? 'active-link' 
                                         : location.pathname === '/grade-calculator' 
                                             ? 'active-link' 
-                                            : location.pathname == '/gpa-calculator'
+                                            : location.pathname === '/gpa-calculator'
                                                 ? 'active-link'
                                                 : ''
                                     }
@@ -167,7 +167,7 @@ const Sidebar = () => {
                                 <div className='vl'></div>
                                 {location.pathname === '/gpa-calculator' 
                                     ? <CalculateTwoTone/>
-                                    : location.pathname == '/grade-calculator'
+                                    : location.pathname === '/grade-calculator'
                                         ? <CalculateTwoTone/>
                                         : <WorkspacePremiumTwoTone/>
                                 }

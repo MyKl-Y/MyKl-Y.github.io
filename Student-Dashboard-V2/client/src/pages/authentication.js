@@ -9,7 +9,6 @@ import {
     FaHashtag,
     FaLock,
     FaCheck,
-    FaInfoCircle,
     FaEye,
     FaEyeSlash,
 } from 'react-icons/fa';
@@ -162,7 +161,7 @@ const Authentication = () => {
         }
     }
 
-    const { currentTheme, toggleMode } = useTheme();
+    const { currentTheme } = useTheme();
 
     async function login(user) {
         try {
@@ -273,7 +272,7 @@ const Authentication = () => {
                             <div className='search'>
                                 <input
                                     type="email"
-                                    className="login-email ${emailError ? 'input-error' : 'input-normal'}"
+                                    className={`login-email ${emailError ? 'input-error' : 'input-normal'}`}
                                     name="email"
                                     value={user.email}
                                     onChange={handleChange}
