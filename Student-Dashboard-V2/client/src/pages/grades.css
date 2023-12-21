@@ -245,6 +245,7 @@
     padding-top: 3px;
     box-shadow: var(--background-outset);
     backdrop-filter: var(--background-blur);
+    color: var(--text-color);
 }
 
 .grade-calculator .additional-parameters .radio input:checked+label, .gpa-calculator .additional-parameters .radio input:checked+label {

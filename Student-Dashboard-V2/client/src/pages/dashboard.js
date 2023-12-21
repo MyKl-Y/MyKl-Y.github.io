@@ -2,6 +2,8 @@
 import React from 'react';
 import { motion } from 'framer-motion/dist/framer-motion'
 
+// TODO: heat map, line graph, sankey diagram, pie chart, bar graph
+
 const Dashboard = () => {
     return (
         <motion.div

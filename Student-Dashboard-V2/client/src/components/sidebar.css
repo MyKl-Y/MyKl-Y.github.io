@@ -11,7 +11,7 @@
     display: flex;
     flex-direction: column;
     border-bottom-right-radius: 15px;
-    box-shadow: var(--background-outset);
+    box-shadow: var(--header-outset);
     backdrop-filter: var(--background-blur);
 }
 /* Toggle Button */
@@ -156,6 +156,9 @@
     padding: .5rem;
     margin: 1rem;
     box-shadow: var(--primary-outset);
+}
+.account-container .button:hover {
+    box-shadow: var(--primary-inset);
 }
 .account-container .button:active {
     box-shadow: var(--primary-inset);
