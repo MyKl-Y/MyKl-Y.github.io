@@ -102,7 +102,7 @@
       right: 0;
       bottom: 0;
       width: 100vw;
-      height: calc(100vh - 116px);
+      height: calc(100vh - 114px);
   }
 }
 
@@ -111,7 +111,7 @@
       right: 0;
       bottom: 0;
       width: calc(100vw - 150px);
-      height: calc(100vh - 116px);
+      height: calc(100vh - 114px);
   }
 }
 
@@ -120,6 +120,6 @@
       right: 0;
       bottom: 0;
       width: calc(100vw - 300px);
-      height: calc(100vh - 116px);
+      height: calc(100vh - 114px);
   }
 }

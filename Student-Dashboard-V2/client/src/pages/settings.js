@@ -9,6 +9,7 @@ import './settings.css';
 
 const Settings = () => {
     const { currentTheme, changeTheme, toggleMode, mode, style } = useTheme();
+    const switchPositionClass = mode === 'dark' ? 'dark' : 'light';
     
     // Function to generate inline styles for each theme button
     const getButtonStyle = (themeName) => ({
@@ -36,29 +37,33 @@ const Settings = () => {
             exit={{ opacity: 0 }}
             transition={{ duration: .5 }}
             style={currentTheme}
+            className="settings"
         >
             <div className="theme-container">
                 <h3>Theme</h3>
                 <button 
                     onClick={toggleMode} 
-                    className='toggle-mode'
+                    className={`toggle-mode ${switchPositionClass}`}
                 >
-                    {mode === 'dark' ? <LightModeTwoTone /> : <DarkModeTwoTone />}
+                    {mode === 'dark' 
+                        ? <><DarkModeTwoTone /><span className="switch-indicator"/></>
+                        : <><span className="switch-indicator"/><LightModeTwoTone /></>}
                 </button>
-                <div className="style-container">
-                    {Object.keys(themes).map((themeName) => (
-                        <button 
-                            key={themeName}
-                            className={themeName}
-                            onClick={() => changeTheme(themeName, mode)}
-                            style={getButtonStyle(themeName)}
-                            onMouseEnter={(e) => handleMouseEnter(themeName, e)}
-                            onMouseLeave={(e) => handleMouseLeave(themeName, e)}
-                        >
-                            {themeName.charAt(0).toUpperCase() + themeName.slice(1)}
-                        </button>
-                    ))}
-                </div>
+            </div>
+            <div className="style-container">
+                <h3>Style</h3>
+                {Object.keys(themes).map((themeName) => (
+                    <button 
+                        key={themeName}
+                        className={themeName}
+                        onClick={() => changeTheme(themeName, mode)}
+                        style={getButtonStyle(themeName)}
+                        onMouseEnter={(e) => handleMouseEnter(themeName, e)}
+                        onMouseLeave={(e) => handleMouseLeave(themeName, e)}
+                    >
+                        {themeName.charAt(0).toUpperCase() + themeName.slice(1)}
+                    </button>
+                ))}
             </div>
         </motion.div>
     );

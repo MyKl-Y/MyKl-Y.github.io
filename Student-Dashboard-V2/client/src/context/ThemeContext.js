@@ -7,6 +7,7 @@ export const useTheme = () => {
 };
 
 export const themes = {
+    //TODO: Fix all themes so that it doesn't use var() function to avoid errors
     neumorphism: {
         light: {
             '--background': 'linear-gradient(60deg, var(--background-color), var(--background-color))',

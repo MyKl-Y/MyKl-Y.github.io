@@ -53,7 +53,7 @@
     align-self: center;
     border-radius: 10px 20px 10px 20px !important;
     background: var(--primary);
-    color: var(--text-color);
+    color: var(--background-color);
     box-shadow: var(--primary-outset);
     border: none;
     outline: none;
@@ -235,7 +235,7 @@
         polygon(0 0,100% 0,100% calc(100% - var(--f)),calc(100% - var(--f)) 100%,
         calc(100% - var(--f)) calc(100% - var(--f)),0 calc(100% - var(--f)),
         var(--r) calc(50% - var(--f)/2));
-    background: #BD1550;
+    background: var(--remove-primary);
     box-shadow: 0 calc(-1*var(--f)) 0 inset #0005;
     border: none;
     transform-origin: 'center';
@@ -262,7 +262,7 @@
         polygon(0 0,100% 0,100% calc(100% - var(--f)),calc(100% - var(--f)) 100%,
         calc(100% - var(--f)) calc(100% - var(--f)),0 calc(100% - var(--f)),
         var(--r) calc(50% - var(--f)/2));
-    background: #BD1550;
+    background: var(--remove-primary);
     box-shadow: 0 calc(-1*var(--f)) 0 inset #0005;
     border: none;
     transform: rotateY(-1);
