@@ -52,3 +52,37 @@
     color: var(--text-color);
     margin: 0 0 0 .25rem;
 }
+
+.tag-selector {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    margin: .5rem 0 .5rem 0;
+}
+
+.tag {
+    padding: 0.25rem 0.5rem;
+    border-radius: 15px;
+    background-color: var(--primary);
+    color: var(--background-color);
+    cursor: pointer;
+    user-select: none;
+    box-shadow: var(--primary-outset);
+}
+
+.tag.selected {
+    background-color: var(--selected-color);
+    box-shadow: var(--selected-inset);
+    color: var(--text-color);
+}
+
+.tag:hover {
+    box-shadow: var(--primary-inset);
+}
+
+.tag.selected:hover {
+    box-shadow: var(--selected-outset);
+}

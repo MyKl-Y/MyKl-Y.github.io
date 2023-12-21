@@ -94,3 +94,39 @@
     border-radius: 1rem;
     border: none;
 }
+
+.chip-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    margin: .25rem 0 .15rem .75rem;
+    width: calc(100% - 1.25rem);
+}
+
+.chip {
+    width: fit-content;
+    padding: 0.25rem 0.5rem;
+    border-radius: 15px;
+    background-color: var(--primary);
+    color: var(--background-color);
+    cursor: pointer;
+    user-select: none;
+    box-shadow: var(--primary-outset);
+}
+
+.chip.selected {
+    background-color: var(--selected-color);
+    box-shadow: var(--selected-inset);
+    color: var(--text-color);
+}
+
+.chip:hover {
+    box-shadow: var(--primary-inset);
+}
+
+.chip.selected:hover {
+    box-shadow: var(--selected-outset);
+}

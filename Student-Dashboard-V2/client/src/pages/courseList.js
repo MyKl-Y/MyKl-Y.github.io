@@ -259,6 +259,24 @@ function Courses() {
         setIsCourseInfoVisible(false);
     };
 
+    function getImageURL(courseTag) {
+        // Adjust these paths to match your actual image file locations
+        const imagePaths = {
+            'Computing': '/images/computing.jpg',
+            'Engineering': '/images/engineering.jpeg',
+            'Math': '/images/math.jpg',
+            'Science': '/images/science.jpg',
+            'Business': '/images/business.jpg',
+            'Social Science': '/images/social-science.jpg',
+            'Foreign Language': '/images/foreign-language.jpg',
+            // Add paths for other tags
+            'default': '/images/bookshelf.jpg', // Default image if no tag matches
+        };
+    
+        return imagePaths[courseTag] || imagePaths['default'];
+    }
+    
+
     return (
             <motion.div 
                 className="courses-container" 
@@ -335,9 +353,11 @@ function Courses() {
                                 />
                             ) : (
                                 <div>
-                                    {
-                                        //TODO: Image Header
-                                    }
+                                    <img 
+                                        src={process.env.PUBLIC_URL + getImageURL(course.tag)} 
+                                        alt={course.title}
+                                        className="course-image"
+                                    />
                                     <h3>{course.courseName}</h3>
                                     <h5>{course.courseNumber}</h5>
                                     <div 

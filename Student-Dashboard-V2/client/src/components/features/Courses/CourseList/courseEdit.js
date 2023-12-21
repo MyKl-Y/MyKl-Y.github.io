@@ -5,11 +5,28 @@ import "../../../../styles/courseEdit.css";
 function CourseEdit({ course, onUpdateCourse }) {
     const [editedCourse, setEditedCourse] = useState(course);
     const { user } = useAuth();
+    const defaultTags = [
+        "Math", 
+        "Science", 
+        "Engineering", 
+        "Computing",
+        "Business", 
+        "English", 
+        "Social Science", 
+        "Foreign Language", 
+        "Other"
+    ];
+
 
     useEffect(() => {
+        const updatedCourse = { ...course, tag: course.tag || "Other" };
         // Update the edited course whenever the course prop changes
-        setEditedCourse(course);
+        setEditedCourse(updatedCourse);
     }, [course]);
+
+    const handleTagSelect = (tag) => {
+        setEditedCourse(prevCourse => ({ ...prevCourse, tag: tag }));
+    };
 
     const handleUpdateCourse = () => {
         // Set the user property of the newCourse object
@@ -77,15 +94,18 @@ function CourseEdit({ course, onUpdateCourse }) {
                         setEditedCourse({ ...editedCourse, meetingTimes: e.target.value })
                     }
                 />
-                <label>Tags</label>
-                <input
-                    type="text"
-                    placeholder="e.g., Mathematics, Calculus, STEM"
-                    value={editedCourse.tag}
-                    onChange={(e) =>
-                        setEditedCourse({ ...editedCourse, tag: e.target.value })
-                    }
-                />
+                <label>Tag</label>
+                <div className="tag-selector">
+                    {defaultTags.map((tag) => (
+                        <div
+                            key={tag}
+                            className={`tag ${editedCourse.tag === tag ? 'selected' : ''}`}
+                            onClick={() => handleTagSelect(tag)}
+                        >
+                            {tag}
+                        </div>
+                    ))}
+                </div>
                 <label>Links</label>
                 <input
                     type="text"

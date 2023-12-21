@@ -10,13 +10,26 @@ export default function CreateTask({ onCourseCreate, onCancel }) {
     const { user } = useAuth();
     const { currentTheme } = useTheme();
 
+    const defaultTags = [
+        "Math", 
+        "Science",
+        "Engineering", 
+        "Computing", 
+        "Business",
+        "English", 
+        "Social Science", 
+        "Foreign Language", 
+        "Other"
+    ];
+    const [selectedTag, setSelectedTag] = useState("Other");
+
     const [newCourse, setNewCourse] = useState({
         courseNumber: "",
         courseName: "",
         professor: "",
         semester: "",
         // Add other course properties here
-        tag: "",
+        tag: "Other",
         professorContact: "",
         links: "",
         meetingTimes: "",
@@ -37,12 +50,18 @@ export default function CreateTask({ onCourseCreate, onCancel }) {
             professor: "",
             semester: "",
             // Reset other properties
-            tag: "",
+            tag: "Other",
             professorContact: "",
             links: "",
             meetingTimes: "",
             user: user.name,
         });
+    };
+
+    const handleTagSelect = (tag) => {
+        console.log(tag);
+        setSelectedTag(tag);
+        setNewCourse(prevCourse => ({ ...prevCourse, tag: tag }));
     };
 
     return (
@@ -138,16 +157,26 @@ export default function CreateTask({ onCourseCreate, onCancel }) {
                     }
                 />
                 <label htmlFor="tag">
-                    Tags
+                    Tag
                 </label>
-                <input
+                {/*<input
                     type="text"
                     placeholder="e.g., Mathematics, Calculus, STEM"
                     value={newCourse.tag}
                     onChange={(e) =>
                         setNewCourse({ ...newCourse, tag: e.target.value })
                     }
-                />
+                />*/}
+                <div className="chip-container">
+                    {defaultTags.map((tag) => (
+                        <div 
+                            className={`chip ${selectedTag === tag ? 'selected' : ''}`}
+                            onClick={() => handleTagSelect(tag)}
+                        >
+                            {tag}
+                        </div>
+                    ))}
+                </div>
                 <div className="create-course-buttons">
                     <button className="Add-Course" type="button" onClick={handleAddCourse}>
                         Add 

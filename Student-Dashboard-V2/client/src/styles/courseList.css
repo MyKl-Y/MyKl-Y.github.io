@@ -181,9 +181,10 @@ button.create-course:hover {
 }
 @media screen and (min-width: 64em) {
     .custom-modal {
-        left: 14.9rem;
-        top: 5.75rem;
-        width: calc(75% - 300px);
+        right: 150px;
+        bottom: 20%;
+        top: 25%;
+        width: calc(75% - 150px);
         height: fit-content;
     }
 }
@@ -209,4 +210,11 @@ button.create-course:hover {
 .course-info.show .button-holder * {
     transform: scale(1);
     transition: all .5s ease-in-out;
+}
+
+.course-image {
+    width: 100%; /* Set your desired width */
+    height: 10rem; /* Set your desired height */
+    object-fit: cover; /* This will ensure the image covers the area without distorting aspect ratio */
+    border-radius: 5px; /* Optional: for rounded corners */
 }
