@@ -1,0 +1,184 @@
+.task-list-table {
+    width: 100%;
+    margin-bottom: 1rem;
+    border-radius: 1rem;
+    box-shadow: var(--background-outset);
+    border-collapse: separate;
+    border-spacing: .6rem;
+}
+
+.task-list-table thead {
+    background-color: var(--primary);
+    color: var(--background-color);
+}
+
+.task-list-table thead th {
+    padding: 1rem;
+    text-align: center;
+    box-shadow: var(--primary-outset);
+}
+
+.task-list-table thead th:first-child {
+    border-radius: 1rem 0 0 1rem;
+}
+
+.task-list-table thead th:last-child {
+    border-radius: 0 1rem 1rem 0;
+}
+
+.task-list-table tbody tr {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.task-list-table tbody tr:nth-child(odd) {
+    background-color: rgb(from var(--primary) r g b / 20%);
+}
+
+.task-list-table tbody tr:last-child {
+    background-color: var(--background-color);
+}
+
+.task-list-table tbody tr td {
+    padding: .5rem;
+    text-align: center;
+    box-shadow: var(--background-outset);
+}
+
+.task-list-table tbody tr:first-child td:first-child {
+    border-radius: 1rem 0 0 0;
+}
+
+.task-list-table tbody tr:first-child td:last-child {
+    border-radius: 0 1rem 0 0;
+}
+
+.task-list-table tbody tr:last-child td:first-child {
+    border-radius: 0 0 0 1rem;
+}
+
+.task-list-table tbody tr:last-child td:last-child {
+    border-radius: 0 0 1rem 0;
+}
+
+.edit-task-button {
+    background: var(--primary);
+    color: var(--background-color);
+    border: none;
+    border-radius: 50%;
+    padding: .5rem .5rem .75rem .5rem;
+}
+
+.edit-task-button:hover {
+    box-shadow: var(--primary-inset);
+}
+
+.delete-task-button {
+    background: var(--remove-primary);
+    color: var(--background-color);
+    border: none;
+    border-radius: 50%;
+    padding: .5rem;
+}
+
+.delete-task-button:hover {
+    box-shadow: var(--remove-inset);
+}
+
+.create-task-button {
+    background: var(--add-primary);
+    color: var(--background-color);
+    border: none;
+    border-radius: 5rem;
+    padding: .5rem .5rem .75rem .5rem;
+}
+
+.task-create-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem;
+    box-shadow: var(--background-outset);
+    border-radius: 1rem;
+    padding: 1rem;
+    overflow: scroll;
+}
+
+.task-create-container .chip-container {
+    margin-left: 0 !important;
+}
+
+.task-create-container label {
+    color: var(--text-color);
+}
+
+.task-create-container input:not([type="radio"],[type="checkbox"]) {
+    width: 100%;
+    margin: .5rem 0;
+    padding: .5rem;
+    border: none;
+    border-radius: 1rem;
+    box-shadow: var(--background-outset);
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
+
+.task-create-container input:not([type="radio"],[type="checkbox"]):focus {
+    outline: none;
+    box-shadow: var(--background-inset);
+}
+
+.task-create-container input[type="radio"],.task-create-container input[type="checkbox"] {
+    /* Add if not using auto pre-fixer */
+    -webkit-appearance: none;
+    appearance: none;
+    /* Not removed via appearance */
+    margin: 0 .25rem 0 0;
+    font: inherit;
+    color: var(--text-color);
+    width: .75em;
+    height: .75em;
+    border: 0.15em solid currentColor;
+}
+
+.task-create-container input[type="radio"]:checked,.task-create-container input[type="checkbox"]:checked {
+    background: var(--accent-gradient);
+}
+
+.task-create-container input[type="radio"] {
+    border-radius: 50%;
+}
+
+.task-create-container input[type="checkbox"],.task-create-container input[type="radio"] {
+    margin-left: 1rem;
+}
+
+.task-create-container #isCompleteNo {
+    margin-left: 0 !important;
+}
+
+.task-create-container .recurrence-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.task-create-container .recurrence {
+    margin-right: .5rem;
+}
+
+.task-create-container .recurrence:last-child {
+    margin-right: 0;
+}
+
+.task-create-container button[type="submit"] {
+    background: var(--add-primary);
+    color: var(--background-color);
+    border: none;
+    border-radius: 1rem;
+    padding: .5rem;
+    margin: 1rem 0;
+    width: 100%;
+}

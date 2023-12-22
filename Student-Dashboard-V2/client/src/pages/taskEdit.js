@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router"
-import "bootstrap/dist/css/bootstrap.css";
+import "../styles/tasks.css"
 
 export default function editTask() {
     const [form, setForm] = useState({
+        category: "",
         name: "",
         description: "",
+        startDate: "",
         dueDate: "",
         isComplete: "",
-        isPriority: false,
+        priority: 0,
         isArchived: false,
         isDeleted: false,
         isRecurring: false,
@@ -60,11 +62,13 @@ export default function editTask() {
     async function onSubmit(e) {
         e.preventDefault();
         const editedTask = {
+            category: form.category,
             name: form.name,
             description: form.description,
+            startDate: form.startDate,
             dueDate: form.dueDate,
             isComplete: form.isComplete,
-            isPriority: form.isPriority,
+            priority: form.priority,
             isArchived: form.isArchived,
             isDeleted: form.isDeleted,
             isRecurring: form.isRecurring,
@@ -89,6 +93,7 @@ export default function editTask() {
         navigate("/tasks");
     }
 
+    // TODO: Category input using chips refer to courseEdit.js for help
     // This following section will display the form that takes input from the user to update the data.
     return (
         <div className="container">
@@ -181,13 +186,13 @@ export default function editTask() {
                 <div className="form-group">
                     <div className="form-check form-check-inline">
                         <input
-                            type="checkbox"
+                            type="number"
                             className="form-check-input"
-                            id="isPriority"
-                            value={form.isPriority}
-                            onChange={(e) => updateForm({ isPriority: e.target.value })}
+                            id="priority"
+                            value={form.priority}
+                            onChange={(e) => updateForm({ priority: e.target.value })}
                         />
-                        <label className="form-check-label" htmlFor="isPriority">
+                        <label className="form-check-label" htmlFor="priority">
                             Priority
                         </label>
                     </div>

@@ -1,35 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.css";
-
-const Task = (props) => (
-    <tr>
-        <td>{props.task.isPriority}</td>
-        <td>{props.task.isComplete}</td>
-        <td>{props.task.name}</td>
-        <td>{props.task.description}</td>
-        <td>{props.task.dueDate}</td>
-        <td>{props.task.isRecurring}</td>
-        <td>{props.task.recurrenceInterval}</td>
-        <td>{props.task.recurrenceCount}</td>
-        <td>
-            <Link className="btn btn-link" 
-                to={`/edit-task/${props.task._id}`}
-            >
-                Edit
-            </Link> |
-            <button className="btn btn-link"
-                onClick={() => {
-                    props.deleteTask(props.task._id);
-                }}
-            >
-                Delete
-            </button>
-        </td>
-    </tr>
-);
+import { useTheme } from "../context/theme/ThemeContext";
+import Task from "../components/features/Tasks/Task/Task";
+import "../styles/tasks.css";
+import {
+    AddCircleTwoTone,
+} from '@mui/icons-material';
 
 export default function TaskList() {
+    const { currentTheme } = useTheme();
     const [tasks, setTasks] = useState([]);
 
     // This method fetches the records from the database.
@@ -78,25 +57,23 @@ export default function TaskList() {
     // This following section will display the table with the records of individuals.
     return (
         <div>
-            <h3>Task List</h3>
-            <table className="table table-striped" style={{ marginTop: 20 }}>
+            <table className="task-list-table" style={currentTheme}>
                 <thead>
                     <tr>
-                        <th>Is Priority</th>
-                        <th>Is Complete</th>
+                        <th>Category</th>
+                        <th>Priority</th>
+                        <th>Status</th>
                         <th>Name</th>
                         <th>Description</th>
+                        <th>Start Date</th>
                         <th>Due Date</th>
-                        <th>Is Recurring</th>
-                        <th>Recurrence Interval</th>
-                        <th>Recurrence Count</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>{taskList()}</tbody>
             </table>
-            <Link className="nav-link" to="/create-task">
-                Create Task
+            <Link className="create-task-button" to="/create-task">
+                <AddCircleTwoTone />
             </Link>
         </div>
     );

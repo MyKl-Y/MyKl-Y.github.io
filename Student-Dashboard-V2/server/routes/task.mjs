@@ -25,11 +25,13 @@ router.get("/:id", async (req, res) => {
 // Help create a new task.
 router.post("/", async (req, res) => {
     let newDocument = {
+        category: req.body.category,
         name: req.body.name,
         description: req.body.description,
+        startDate: req.body.startDate,
         dueDate: req.body.dueDate,
         isComplete: req.body.isComplete,
-        isPriority: req.body.isPriority,
+        priority: req.body.isPriority,
         isArchived: req.body.isArchived,
         isDeleted: req.body.isDeleted,
         isRecurring: req.body.isRecurring,
@@ -52,11 +54,13 @@ router.patch("/:id", async (req, res) => {
     const query = { _id: new ObjectId(req.params.id) };
     const updates = {
         $set: {
+            category: req.body.category,
             name: req.body.name,
             description: req.body.description,
+            startDate: req.body.startDate,
             dueDate: req.body.dueDate,
             isComplete: req.body.isComplete,
-            isPriority: req.body.isPriority,
+            priority: req.body.isPriority,
             isArchived: req.body.isArchived,
             isDeleted: req.body.isDeleted,
             isRecurring: req.body.isRecurring,

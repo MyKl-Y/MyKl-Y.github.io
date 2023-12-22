@@ -60,7 +60,6 @@ export default function CreateTask({ onCourseCreate, onCancel }) {
     };
 
     const handleTagSelect = (tag) => {
-        console.log(tag);
         setSelectedTag(tag);
         setNewCourse(prevCourse => ({ ...prevCourse, tag: tag }));
     };
