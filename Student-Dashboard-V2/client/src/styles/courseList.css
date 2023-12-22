@@ -212,9 +212,25 @@ button.create-course:hover {
     transition: all .5s ease-in-out;
 }
 
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10rem;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 5px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: var(--background-color);
+    backdrop-filter: var(--background-blur);
+    box-shadow: var(--background-inset);
+}
+
 .course-image {
     width: 100%; /* Set your desired width */
-    height: 10rem; /* Set your desired height */
+    height: 8rem; /* Set your desired height */
     object-fit: cover; /* This will ensure the image covers the area without distorting aspect ratio */
     border-radius: 5px; /* Optional: for rounded corners */
+    box-shadow: var(--background-outset);
 }

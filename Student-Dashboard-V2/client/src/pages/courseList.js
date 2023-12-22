@@ -259,6 +259,8 @@ function Courses() {
         setIsCourseInfoVisible(false);
     };
 
+    //TODO: more tags
+
     function getImageURL(courseTag) {
         // Adjust these paths to match your actual image file locations
         const imagePaths = {
@@ -269,6 +271,7 @@ function Courses() {
             'Business': '/images/business.jpg',
             'Social Science': '/images/social-science.jpg',
             'Foreign Language': '/images/foreign-language.jpg',
+            'English': '/images/bookshelf.jpg',
             // Add paths for other tags
             'default': '/images/bookshelf.jpg', // Default image if no tag matches
         };
@@ -277,6 +280,7 @@ function Courses() {
     }
     
 
+    //TODO: Redo format of information
     return (
             <motion.div 
                 className="courses-container" 
@@ -353,11 +357,13 @@ function Courses() {
                                 />
                             ) : (
                                 <div>
-                                    <img 
-                                        src={process.env.PUBLIC_URL + getImageURL(course.tag)} 
-                                        alt={course.title}
-                                        className="course-image"
-                                    />
+                                    <div className="image-container">
+                                        <img 
+                                            src={process.env.PUBLIC_URL + getImageURL(course.tag)} 
+                                            alt={course.title}
+                                            className="course-image"
+                                        />
+                                    </div>
                                     <h3>{course.courseName}</h3>
                                     <h5>{course.courseNumber}</h5>
                                     <div 
