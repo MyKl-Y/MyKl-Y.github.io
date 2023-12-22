@@ -3,17 +3,22 @@ import '../../styles/waveAnimation.css';
 import { useTheme } from '../../context/theme/ThemeContext';
 
 function WaveAnimation() {
-    const { mode } = useTheme();
+    const { currentTheme } = useTheme();
 
     const componentStyle = {
+        ...currentTheme,
         '--wave1': 
-            mode==='dark' ? 'rgba(12,15,19,0.7)' : 'rgba(236,240,243, 0.7)',
+            //mode==='dark' ? 'rgba(12,15,19,0.7)' : 'rgba(236,240,243, 0.7)',
+            'rgb(from var(--background-color) r g b / 70%)',
         '--wave2': 
-            mode==='dark' ? 'rgba(12,15,19,0.5)' : 'rgba(236,240,243, 0.5)',
+            //mode==='dark' ? 'rgba(12,15,19,0.5)' : 'rgba(236,240,243, 0.5)',
+            'rgb(from var(--background-color) r g b / 50%)',
         '--wave3': 
-            mode==='dark' ? 'rgba(12,15,19,0.3)' : 'rgba(236,240,243, 0.3)',
+            //mode==='dark' ? 'rgba(12,15,19,0.3)' : 'rgba(236,240,243, 0.3)',
+            'rgb(from var(--background-color) r g b / 30%)',
         '--wave4': 
-            mode==='dark' ? 'rgba(12,15,19,1)' : 'rgba(236,240,243, 1)',
+            //mode==='dark' ? 'rgba(12,15,19,1)' : 'rgba(236,240,243, 1)',
+            'rgb(from var(--background-color) r g b / 100%)',
     };
 
     return (
