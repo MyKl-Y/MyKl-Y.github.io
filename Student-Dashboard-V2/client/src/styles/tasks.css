@@ -93,7 +93,7 @@
     padding: .5rem .5rem .75rem .5rem;
 }
 
-.task-create-container {
+.task-create-container, .task-edit-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -105,15 +105,15 @@
     overflow: scroll;
 }
 
-.task-create-container .chip-container {
+.task-create-container .chip-container, .task-edit-container .chip-container {
     margin-left: 0 !important;
 }
 
-.task-create-container label {
+.task-create-container label, .task-edit-container label {
     color: var(--text-color);
 }
 
-.task-create-container input:not([type="radio"],[type="checkbox"]) {
+.task-create-container input:not([type="radio"],[type="checkbox"]), .task-edit-container input:not([type="radio"],[type="checkbox"]) {
     width: 100%;
     margin: .5rem 0;
     padding: .5rem;
@@ -124,12 +124,12 @@
     background-color: var(--background-color);
 }
 
-.task-create-container input:not([type="radio"],[type="checkbox"]):focus {
+.task-create-container input:not([type="radio"],[type="checkbox"]):focus, .task-edit-container input:not([type="radio"],[type="checkbox"]):focus {
     outline: none;
     box-shadow: var(--background-inset);
 }
 
-.task-create-container input[type="radio"],.task-create-container input[type="checkbox"] {
+.task-create-container input[type="radio"],.task-create-container input[type="checkbox"], .task-edit-container input[type="radio"],.task-edit-container input[type="checkbox"] {
     /* Add if not using auto pre-fixer */
     -webkit-appearance: none;
     appearance: none;
@@ -142,39 +142,39 @@
     box-shadow: var(--background-inset);
 }
 
-.task-create-container input[type="radio"]:checked,.task-create-container input[type="checkbox"]:checked {
+.task-create-container input[type="radio"]:checked,.task-create-container input[type="checkbox"]:checked, .task-edit-container input[type="radio"]:checked,.task-edit-container input[type="checkbox"]:checked {
     background: var(--accent-gradient);
     box-shadow: var(--background-outset);
 }
 
-.task-create-container input[type="radio"] {
+.task-create-container input[type="radio"], .task-edit-container input[type="radio"] {
     border-radius: 50%;
 }
 
-.task-create-container input[type="checkbox"],.task-create-container input[type="radio"] {
+.task-create-container input[type="checkbox"],.task-create-container input[type="radio"], .task-edit-container input[type="checkbox"],.task-edit-container input[type="radio"] {
     margin-left: 1rem;
 }
 
-.task-create-container #isCompleteNo {
+.task-create-container #isCompleteNo, .task-edit-container #isCompleteNo {
     margin-left: 0 !important;
 }
 
-.task-create-container .recurrence-container {
+.task-create-container .recurrence-container, .task-edit-container .recurrence-container {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
 }
 
-.task-create-container .recurrence {
+.task-create-container .recurrence, .task-edit-container .recurrence {
     margin-right: .5rem;
 }
 
-.task-create-container .recurrence:last-child {
+.task-create-container .recurrence:last-child, .task-edit-container .recurrence:last-child {
     margin-right: 0;
 }
 
-.task-create-container button[type="submit"] {
+.task-create-container button[type="submit"], .task-edit-container button[type="submit"] {
     background: var(--add-primary);
     color: var(--background-color);
     border: none;

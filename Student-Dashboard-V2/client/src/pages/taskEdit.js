@@ -126,7 +126,6 @@ export default function editTask() {
         navigate("/tasks");
     }
 
-    // TODO: Category input using chips refer to courseEdit.js for help
     // This following section will display the form that takes input from the user to update the data.
     return (
         <div

@@ -54,6 +54,7 @@ export default function TaskList() {
         });
     }
 
+    // TODO: Sort table by priority then by due date
     // This following section will display the table with the records of individuals.
     return (
         <div>
