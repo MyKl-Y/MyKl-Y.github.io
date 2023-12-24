@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router"
+import { useTheme } from "../context/theme/ThemeContext";
 import "../styles/tasks.css"
 
 export default function editTask() {
+    const { currentTheme } = useTheme();
+
     const [form, setForm] = useState({
         category: "",
         name: "",
@@ -23,8 +26,37 @@ export default function editTask() {
         recurrenceMonths: "",
         recurrenceYears: "",
     });
+
+    const defaultTags = [
+        "General",
+        "Habit", 
+        "Homework",
+        "Project",
+        "Quiz",
+        "Exam",
+        "Paper",
+        "Presentation",
+        "School",
+        "Work",
+        "Event",
+        "Other",
+    ];
+    const [selectedTag, setSelectedTag] = useState("General");
+    function handleTagSelect(tag) {
+        setSelectedTag(tag);
+
+        setForm(prevForm => ({
+            ...prevForm,
+            category: tag,
+            isRecurring: tag === "Habit"
+        }))
+
+        setShowRecurrenceFields(tag === "Habit");
+    };
+
     const params = useParams();
     const navigate = useNavigate();
+    const [showRecurrenceFields, setShowRecurrenceFields] = useState(false); // New state variable
 
     useEffect(() => {
         async function fetchData() {
@@ -90,240 +122,206 @@ export default function editTask() {
             },
         });
 
+        setShowRecurrenceFields(false); // Hide recurrence fields
         navigate("/tasks");
     }
 
     // TODO: Category input using chips refer to courseEdit.js for help
     // This following section will display the form that takes input from the user to update the data.
     return (
-        <div className="container">
-            <h3>Edit Task</h3>
+        <div
+            className="task-edit-container"
+            style={currentTheme}
+        >
+            <h3>Edit a task</h3>
             <form onSubmit={onSubmit}>
-            <div className="form-group">
-                    <label htmlFor="name">Name: </label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="name"
-                        value={form.name}
-                        onChange={(e) => updateForm({ name: e.target.value })}
-                    />
+                <label htmlFor="category">Category: </label>
+                <div className="chip-container">
+                    {defaultTags.map((tag) => (
+                        <div 
+                            className={`tag ${
+                                selectedTag === tag ? "selected" : ""
+                            }`} 
+                            key={tag} 
+                            onClick={() => {handleTagSelect(tag)}}
+                        >
+                            {tag}
+                        </div>
+                    ))}
                 </div>
-                <div className="form-group">
-                    <label htmlFor="description">Description: </label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="description"
-                        value={form.description}
-                        onChange={(e) => updateForm({ description: e.target.value })}
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="dueDate">Due Date: </label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="dueDate"
-                        value={form.dueDate}
-                        onChange={(e) => updateForm({ dueDate: e.target.value })}
-                    />
-                </div>
-                <div className="form-group">
-                    <div className="form-check form-check-inline">
-                        <input
-                            type="radio"
-                            className="form-check-input"
-                            id="isCompleteNo"
-                            value="No"
-                            checked={form.isComplete === "No"}
-                            onChange={(e) => updateForm({ isComplete: e.target.value })}
-                        />
-                        <label className="form-check-label" htmlFor="isCompleteNo">
-                            No
-                        </label>    
-                    </div>
-                    <div className="form-check form-check-inline">
-                        <input
-                            type="radio"
-                            className="form-check-input"
-                            id="isCompleteYes"
-                            value="Yes"
-                            checked={form.isComplete === "Yes"}
-                            onChange={(e) => updateForm({ isComplete: e.target.value })}
-                        />
-                        <label className="form-check-label" htmlFor="isCompleteYes">
-                            Yes
-                        </label>    
-                    </div>
-                    <div className="form-check form-check-inline">
-                        <input
-                            type="radio"
-                            className="form-check-input"
-                            id="isCompleteIP"
-                            value="IP"
-                            checked={form.isComplete === "IP"}
-                            onChange={(e) => updateForm({ isComplete: e.target.value })}
-                        />
-                        <label className="form-check-label" htmlFor="isCompleteIP">
-                            In-Progress
-                        </label>    
-                    </div>
-                    <div className="form-check form-check-inline">
-                        <input
-                            type="radio"
-                            className="form-check-input"
-                            id="isCompleteNA"
-                            value="NA"
-                            checked={form.isComplete === "NA"}
-                            onChange={(e) => updateForm({ isComplete: e.target.value })}
-                        />
-                        <label className="form-check-label" htmlFor="isCompleteNA">
-                            Not Applicable
-                        </label>    
-                    </div>
-                </div>
-                <div className="form-group">
-                    <div className="form-check form-check-inline">
-                        <input
-                            type="number"
-                            className="form-check-input"
-                            id="priority"
-                            value={form.priority}
-                            onChange={(e) => updateForm({ priority: e.target.value })}
-                        />
-                        <label className="form-check-label" htmlFor="priority">
-                            Priority
-                        </label>
-                    </div>
-                </div>
-                <div className="form-group">
-                    <div className="form-check form-check-inline">
-                        <input
-                            type="checkbox"
-                            className="form-check-input"
-                            id="isArchived"
-                            value={form.isArchived}
-                            onChange={(e) => updateForm({ isArchived: e.target.value })}
-                        />
-                        <label className="form-check-label" htmlFor="isArchived">
-                            Archived
-                        </label>
-                    </div>
-                </div>
-                <div className="form-group">
-                    <div className="form-check form-check-inline">
-                        <input
-                            type="checkbox"
-                            className="form-check-input"
-                            id="isDeleted"
-                            value={form.isDeleted}
-                            onChange={(e) => updateForm({ isDeleted: e.target.value })}
-                        />
-                        <label className="form-check-label" htmlFor="isDeleted">
-                            Deleted
-                        </label>
-                    </div>
-                </div>
-                <div className="form-group">
-                    <div className="form-check form-check-inline">
-                        <input
-                            type="checkbox"
-                            className="form-check-input"
-                            id="isRecurring"
-                            value={form.isRecurring}
-                            onChange={(e) => updateForm({ isRecurring: e.target.value })}
-                        />
-                        <label className="form-check-label" htmlFor="isRecurring">
-                            Recurring
-                        </label>
-                    </div>
-                </div>
-                <div className="form-group">
+                <label htmlFor="isComplete">Status: </label>
+                <br/>
+                <input
+                    type="radio"
+                    id="isCompleteNo"
+                    value="No"
+                    checked={form.isComplete === "No"}
+                    onChange={(e) => updateForm({ isComplete: e.target.value })}
+                />
+                <label htmlFor="isCompleteNo">
+                    No
+                </label>    
+                <input
+                    type="radio"
+                    id="isCompleteYes"
+                    value="Yes"
+                    checked={form.isComplete === "Yes"}
+                    onChange={(e) => updateForm({ isComplete: e.target.value })}
+                />
+                <label htmlFor="isCompleteYes">
+                    Yes
+                </label>    
+                <input
+                    type="radio"
+                    id="isCompleteIP"
+                    value="IP"
+                    checked={form.isComplete === "IP"}
+                    onChange={(e) => updateForm({ isComplete: e.target.value })}
+                />
+                <label htmlFor="isCompleteIP">
+                    In-Progress
+                </label>    
+                <input
+                    type="radio"
+                    id="isCompleteNA"
+                    value="NA"
+                    checked={form.isComplete === "NA"}
+                    onChange={(e) => updateForm({ isComplete: e.target.value })}
+                />
+                <label htmlFor="isCompleteNA">
+                    Not Applicable
+                </label>
+                <input
+                    type="checkbox"
+                    id="isArchived"
+                    value={form.isArchived}
+                    onChange={(e) => updateForm({ isArchived: e.target.value })}
+                />
+                <label htmlFor="isArchived">Archived</label>
+                <input
+                    type="checkbox"
+                    id="isDeleted"
+                    value={form.isDeleted}
+                    onChange={(e) => updateForm({ isDeleted: e.target.value })}
+                />
+                <label htmlFor="isDeleted">Deleted</label>
+                <br/>
+                <label htmlFor="priority">Priority:</label>
+                <input
+                    type="number"
+                    id="priority"
+                    value={form.priority}
+                    onChange={(e) => updateForm({ priority: e.target.value })}
+                />
+                <label htmlFor="name">Name: </label>
+                <input
+                    type="text"
+                    id="name"
+                    value={form.name}
+                    onChange={(e) => updateForm({ name: e.target.value })}
+                />
+                <label htmlFor="description">Description: </label>
+                <input
+                    type="text"
+                    id="description"
+                    value={form.description}
+                    onChange={(e) => updateForm({ description: e.target.value })}
+                />
+                <label htmlFor="dueDate">Start Date: </label>
+                <input
+                    type="datetime-local"
+                    id="startDate"
+                    value={form.startDate}
+                    onChange={(e) => updateForm({ startDate: e.target.value })}
+                />
+                <label htmlFor="dueDate">Due Date: </label>
+                <input
+                    type="datetime-local"
+                    id="dueDate"
+                    value={form.dueDate}
+                    onChange={(e) => updateForm({ dueDate: e.target.value })}
+                />
+            {/* Conditionally render recurrence fields based on the checkbox */}
+            {showRecurrenceFields ? (
+                <>
                     <label htmlFor="recurrence">Recurrence: </label>
                     <input
                         type="text"
-                        className="form-control"
                         id="recurrence"
                         value={form.recurrence}
                         onChange={(e) => updateForm({ recurrence: e.target.value })}
                     />
-                </div>
-                <div className="form-group">
                     <label htmlFor="recurrenceInterval">Recurrence Interval: </label>
                     <input
                         type="text"
-                        className="form-control"
                         id="recurrenceInterval"
                         value={form.recurrenceInterval}
                         onChange={(e) => updateForm({ recurrenceInterval: e.target.value })}
                     />
-                </div>
-                <div className="form-group">
                     <label htmlFor="recurrenceEndDate">Recurrence End Date: </label>
                     <input
-                        type="text"
-                        className="form-control"
+                        type="datetime-local"
                         id="recurrenceEndDate"
                         value={form.recurrenceEndDate}
                         onChange={(e) => updateForm({ recurrenceEndDate: e.target.value })}
                     />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="recurrenceCount">Recurrence Count: </label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="recurrenceCount"
-                        value={form.recurrenceCount}
-                        onChange={(e) => updateForm({ recurrenceCount: e.target.value })}
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="recurrenceDays">Recurrence Days: </label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="recurrenceDays"
-                        value={form.recurrenceDays}
-                        onChange={(e) => updateForm({ recurrenceDays: e.target.value })}
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="recurrenceWeeks">Recurrence Weeks: </label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="recurrenceWeeks"
-                        value={form.recurrenceWeeks}
-                        onChange={(e) => updateForm({ recurrenceWeeks: e.target.value })}
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="recurrenceMonths">Recurrence Months: </label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="recurrenceMonths"
-                        value={form.recurrenceMonths}
-                        onChange={(e) => updateForm({ recurrenceMonths: e.target.value })}
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="recurrenceYears">Recurrence Years: </label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="recurrenceYears"
-                        value={form.recurrenceYears}
-                        onChange={(e) => updateForm({ recurrenceYears: e.target.value })}
-                    />
-                </div>
-                <div className="form-group">
-                    <button type="submit" className="btn btn-primary">
-                        Create Task
-                    </button>
-                </div>
+                    <div className="recurrence-container">
+                        <div className="recurrence">
+                            <label htmlFor="recurrenceCount">Recurrence Count: </label>
+                            <br/>
+                            <input
+                                type="text"
+                                id="recurrenceCount"
+                                value={form.recurrenceCount}
+                                onChange={(e) => updateForm({ recurrenceCount: e.target.value })}
+                            />
+                        </div>
+                        <div className="recurrence">
+                            <label htmlFor="recurrenceDays">Recurrence Days: </label>
+                            <br/>
+                            <input
+                                type="text"
+                                id="recurrenceDays"
+                                value={form.recurrenceDays}
+                                onChange={(e) => updateForm({ recurrenceDays: e.target.value })}
+                            />
+                        </div>
+                        <div className="recurrence">
+                            <label htmlFor="recurrenceWeeks">Recurrence Weeks: </label>
+                            <br/>
+                            <input
+                                type="text"
+                                id="recurrenceWeeks"
+                                value={form.recurrenceWeeks}
+                                onChange={(e) => updateForm({ recurrenceWeeks: e.target.value })}
+                            />
+                        </div>
+                        <div className="recurrence">
+                            <label htmlFor="recurrenceMonths">Recurrence Months: </label>
+                            <br/>
+                            <input
+                                type="text"
+                                id="recurrenceMonths"
+                                value={form.recurrenceMonths}
+                                onChange={(e) => updateForm({ recurrenceMonths: e.target.value })}
+                            />
+                        </div>
+                        <div className="recurrence">
+                            <label htmlFor="recurrenceYears">Recurrence Years: </label>
+                            <br/>
+                            <input
+                                type="text"
+                                id="recurrenceYears"
+                                value={form.recurrenceYears}
+                                onChange={(e) => updateForm({ recurrenceYears: e.target.value })}
+                            />
+                        </div>
+                    </div>
+                </>
+            ) : null}
+                <button type="submit">
+                    Submit Edit to Task
+                </button>
             </form>
         </div>
     );

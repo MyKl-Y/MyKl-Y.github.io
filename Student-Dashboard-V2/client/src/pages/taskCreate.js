@@ -7,7 +7,7 @@ export default function CreateTask() {
     const { currentTheme } = useTheme();
 
     const [form, setForm] = useState({
-        category: "",
+        category: "General",
         name: "",
         description: "",
         startDate: "",
@@ -42,9 +42,16 @@ export default function CreateTask() {
         "Other",
     ];
     const [selectedTag, setSelectedTag] = useState("General");
-    const handleTagSelect = (tag) => {
+    function handleTagSelect(tag) {
         setSelectedTag(tag);
-        updateForm(prev => ({ ...prev, category: tag }));
+
+        setForm(prevForm => ({
+            ...prevForm,
+            category: tag,
+            isRecurring: tag === "Habit"
+        }))
+
+        setShowRecurrenceFields(tag === "Habit");
     };
 
     const navigate = useNavigate();
@@ -61,20 +68,12 @@ export default function CreateTask() {
     async function onSubmit(e) {
         e.preventDefault();
 
-        //When a post request is sent to the create url, we'll add a new task to the database.
-        const newTask = { 
-            ...form,
-            isArchived: form.isArchived === "on", // Convert checkbox value to boolean
-            isDeleted: form.isDeleted === "on", // Convert checkbox value to boolean
-            isRecurring: form.isRecurring === "on", // Convert checkbox value to boolean
-        };
-
         await fetch("http://localhost:5050/task", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(newTask),
+            body: JSON.stringify(form),
         })
         .catch(error => {
             window.alert(error);
@@ -82,7 +81,7 @@ export default function CreateTask() {
         });
 
         setForm({
-            category: "",
+            category: "General",
             name: "",
             description: "",
             startDate: "",
@@ -102,32 +101,8 @@ export default function CreateTask() {
             recurrenceYears: "",
         });
         setShowRecurrenceFields(false); // Hide recurrence fields
+        console.log(form);
         navigate("/tasks");
-    }
-
-    // Toggle the visibility of recurrence fields when the checkbox changes
-    function handleRecurringCheckboxChange(category) {
-        if (category === "Habit") {
-            setForm({
-                ...form,
-                isRecurring: true,
-            })
-            setShowRecurrenceFields(true);
-        } else {
-            setForm((prev) => ({
-                ...prev,
-                isRecurring: false,
-                recurrence: "",
-                recurrenceInterval: "",
-                recurrenceEndDate: "",
-                recurrenceCount: "",
-                recurrenceDays: "",
-                recurrenceWeeks: "",
-                recurrenceMonths: "",
-                recurrenceYears: "",
-            }));
-            setShowRecurrenceFields(false);
-        }
     }
 
     // This following section will display the form that takes the input from the user.
@@ -146,11 +121,7 @@ export default function CreateTask() {
                                 selectedTag === tag ? "selected" : ""
                             }`} 
                             key={tag} 
-                            onLoad={handleRecurringCheckboxChange}
-                            onClick={() => {
-                                handleTagSelect(tag); 
-                                handleRecurringCheckboxChange(tag);
-                            }}
+                            onClick={() => handleTagSelect(tag)}
                         >
                             {tag}
                         </div>
@@ -201,15 +172,15 @@ export default function CreateTask() {
                 <input
                     type="checkbox"
                     id="isArchived"
-                    value={form.isArchived}
-                    onChange={(e) => updateForm({ isArchived: e.target.value })}
+                    checked={form.isArchived}
+                    onChange={(e) => {updateForm({ isArchived: e.target.checked })}}
                 />
                 <label htmlFor="isArchived">Archived</label>
                 <input
                     type="checkbox"
                     id="isDeleted"
-                    value={form.isDeleted}
-                    onChange={(e) => updateForm({ isDeleted: e.target.value })}
+                    checked={form.isDeleted}
+                    onChange={(e) => updateForm({ isDeleted: e.target.checked })}
                 />
                 <label htmlFor="isDeleted">Deleted</label>
                 <br/>
@@ -273,56 +244,56 @@ export default function CreateTask() {
                         onChange={(e) => updateForm({ recurrenceEndDate: e.target.value })}
                     />
                     <div className="recurrence-container">
-                    <div className="recurrence">
-                    <label htmlFor="recurrenceCount">Recurrence Count: </label>
-                    <br/>
-                    <input
-                        type="text"
-                        id="recurrenceCount"
-                        value={form.recurrenceCount}
-                        onChange={(e) => updateForm({ recurrenceCount: e.target.value })}
-                    />
-                    </div>
-                    <div className="recurrence">
-                    <label htmlFor="recurrenceDays">Recurrence Days: </label>
-                    <br/>
-                    <input
-                        type="text"
-                        id="recurrenceDays"
-                        value={form.recurrenceDays}
-                        onChange={(e) => updateForm({ recurrenceDays: e.target.value })}
-                    />
-                    </div>
-                    <div className="recurrence">
-                    <label htmlFor="recurrenceWeeks">Recurrence Weeks: </label>
-                    <br/>
-                    <input
-                        type="text"
-                        id="recurrenceWeeks"
-                        value={form.recurrenceWeeks}
-                        onChange={(e) => updateForm({ recurrenceWeeks: e.target.value })}
-                    />
-                    </div>
-                    <div className="recurrence">
-                    <label htmlFor="recurrenceMonths">Recurrence Months: </label>
-                    <br/>
-                    <input
-                        type="text"
-                        id="recurrenceMonths"
-                        value={form.recurrenceMonths}
-                        onChange={(e) => updateForm({ recurrenceMonths: e.target.value })}
-                    />
-                    </div>
-                    <div className="recurrence">
-                    <label htmlFor="recurrenceYears">Recurrence Years: </label>
-                    <br/>
-                    <input
-                        type="text"
-                        id="recurrenceYears"
-                        value={form.recurrenceYears}
-                        onChange={(e) => updateForm({ recurrenceYears: e.target.value })}
-                    />
-                    </div>
+                        <div className="recurrence">
+                            <label htmlFor="recurrenceCount">Recurrence Count: </label>
+                            <br/>
+                            <input
+                                type="text"
+                                id="recurrenceCount"
+                                value={form.recurrenceCount}
+                                onChange={(e) => updateForm({ recurrenceCount: e.target.value })}
+                            />
+                        </div>
+                        <div className="recurrence">
+                            <label htmlFor="recurrenceDays">Recurrence Days: </label>
+                            <br/>
+                            <input
+                                type="text"
+                                id="recurrenceDays"
+                                value={form.recurrenceDays}
+                                onChange={(e) => updateForm({ recurrenceDays: e.target.value })}
+                            />
+                        </div>
+                        <div className="recurrence">
+                            <label htmlFor="recurrenceWeeks">Recurrence Weeks: </label>
+                            <br/>
+                            <input
+                                type="text"
+                                id="recurrenceWeeks"
+                                value={form.recurrenceWeeks}
+                                onChange={(e) => updateForm({ recurrenceWeeks: e.target.value })}
+                            />
+                        </div>
+                        <div className="recurrence">
+                            <label htmlFor="recurrenceMonths">Recurrence Months: </label>
+                            <br/>
+                            <input
+                                type="text"
+                                id="recurrenceMonths"
+                                value={form.recurrenceMonths}
+                                onChange={(e) => updateForm({ recurrenceMonths: e.target.value })}
+                            />
+                        </div>
+                        <div className="recurrence">
+                            <label htmlFor="recurrenceYears">Recurrence Years: </label>
+                            <br/>
+                            <input
+                                type="text"
+                                id="recurrenceYears"
+                                value={form.recurrenceYears}
+                                onChange={(e) => updateForm({ recurrenceYears: e.target.value })}
+                            />
+                        </div>
                     </div>
                 </>
             ) : null}

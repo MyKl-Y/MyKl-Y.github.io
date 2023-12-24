@@ -139,11 +139,12 @@
     color: var(--text-color);
     width: .75em;
     height: .75em;
-    border: 0.15em solid currentColor;
+    box-shadow: var(--background-inset);
 }
 
 .task-create-container input[type="radio"]:checked,.task-create-container input[type="checkbox"]:checked {
     background: var(--accent-gradient);
+    box-shadow: var(--background-outset);
 }
 
 .task-create-container input[type="radio"] {
