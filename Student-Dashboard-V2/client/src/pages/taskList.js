@@ -12,7 +12,7 @@ import {
 export default function TaskList() {
     const { currentTheme } = useTheme();
     const [tasks, setTasks] = useState([]);
-    const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
+    const [sortConfig, setSortConfig] = useState({ key: 'priority', direction: 'descending' });
 
     // This method fetches the records from the database.
     useEffect(() => {
