@@ -5,7 +5,6 @@ import '../../styles/sidebar.css';
 import { useTheme } from '../../context/theme/ThemeContext';
 import { useAuth } from '../../context/authentication/AuthContext';
 import { 
-    FaChevronLeft, 
     FaChevronCircleRight,
 } from 'react-icons/fa';
 import { motion } from 'framer-motion/dist/framer-motion'
@@ -24,6 +23,8 @@ import {
     HelpTwoTone,
     AccountCircleTwoTone,
     CalculateTwoTone,
+    Close,
+    WidgetsTwoTone
 } from '@mui/icons-material';
 import { Avatar, Tooltip } from '@mui/material';
 
@@ -46,7 +47,7 @@ const Sidebar = () => {
         >
             <button className={`toggle-button ${isOpen ? 'open' : ''}`} 
             onClick={toggleSidebar}>
-                {isOpen ? <FaChevronLeft /> : <FaChevronCircleRight />}
+                {isOpen ? <Close /> : <WidgetsTwoTone />}
             </button>
             <motion.div 
                 key='sidebar'
