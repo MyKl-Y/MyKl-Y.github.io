@@ -7,6 +7,7 @@ import CreateTask from './pages/taskCreate';
 import LandingPage from './pages/landingPage';
 import Dashboard from './pages/dashboard';
 import Assignments from './pages/assignments';
+import Habits from './pages/habits';
 //import EditAssignment from './pages/editAssignment';
 //import CreateAssignment from './pages/createAssignment';
 import Calendar from './pages/calendar';
@@ -78,6 +79,7 @@ function App() {
                 <Route path="/edit-task/:id" element={<EditTask />} />
                 <Route path="/create-task" element={<CreateTask />} />
                 <Route path="/assignments" element={<Assignments />} />
+                <Route path="/habits" element={<Habits />} />
                 {/*<Route path="/edit-assignment/:id" element={<EditAssignment />} />*/}
                 {/*<Route path="/create-assignment" element={<CreateAssignment />} />*/}
                 <Route path="/calendar" element={<Calendar />} />

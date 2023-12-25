@@ -10,19 +10,28 @@ export default function Navbar() {
 
     const { currentTheme } = useTheme();
 
-    const isDashboardRoute = location.pathname.startsWith('/dashboard');
-    const isCoursesRoute = location.pathname.startsWith("/courses");
-    const isDegreeRoute = location.pathname.startsWith("/graduation");
-    const isTasksRoute = location.pathname.startsWith("/tasks");
-    //const isAssignmentsRoute = location.pathname.startsWith("/assignments");
-    const isApplicationsRoute = location.pathname.startsWith("/applications");
-    const isCalendarRoute = location.pathname.startsWith("/calendar");
-    const isGradesRoute = location.pathname.startsWith("/grades");
-    const isGradeCalculatorRoute = location.pathname.startsWith("/grade-calculator");
-    const isGPACalculatorRoute = location.pathname.startsWith("/gpa-calculator");
-    const isSettingsRoute = location.pathname.startsWith("/settings");
-    const isHelpRoute = location.pathname.startsWith("/help");
-    const isAccountRoute = location.pathname.startsWith("/account");
+    // Define a helper function to check if the current path starts with a given route
+    const startsWithRoute = (route) => location.pathname.startsWith(route);
+
+    // Define the navigation items
+    const navItems = [
+        { path: '/dashboard', label: 'Dashboard', condition: startsWithRoute('/dashboard') },
+        { path: '/courses', label: 'My Courses', condition: startsWithRoute('/courses') || startsWithRoute('/graduation') },
+        { path: '/graduation', label: 'Graduation Requirements', condition: startsWithRoute('/courses') || startsWithRoute('/graduation') },
+        { path: '/tasks', label: 'All Tasks', condition: startsWithRoute('/tasks') || startsWithRoute('/assignments') || startsWithRoute('/habits') || startsWithRoute('/create-task') || startsWithRoute('/edit-task') },
+        { path: '/assignments', label: 'Assignments', condition: startsWithRoute('/tasks') || startsWithRoute('/assignments') || startsWithRoute('/habits') || startsWithRoute('/create-task') || startsWithRoute('/edit-task') },
+        { path: '/habits', label: 'Habits', condition: startsWithRoute('/tasks') || startsWithRoute('/assignments') || startsWithRoute('/habits') || startsWithRoute('/create-task') || startsWithRoute('/edit-task') },
+        { path: '/applications', label: 'All', condition: startsWithRoute('/applications') || startsWithRoute('/applications/jobs') || startsWithRoute('/applications/internships') },
+        { path: '/applications/jobs', label: 'Jobs', condition: startsWithRoute('/applications') || startsWithRoute('/applications/jobs') || startsWithRoute('/applications/internships') },
+        { path: '/applications/internships', label: 'Internships', condition: startsWithRoute('/applications') || startsWithRoute('/applications/jobs') || startsWithRoute('/applications/internships') },
+        { path: '/calendar', label: 'Calendar', condition: startsWithRoute('/calendar') },
+        { path: '/grades', label: 'Grades', condition: startsWithRoute('/grades') || startsWithRoute('/grade-calculator') || startsWithRoute('/gpa-calculator') },
+        { path: '/grade-calculator', label: 'Grade Calculator', condition: startsWithRoute('/grades') || startsWithRoute('/grade-calculator') || startsWithRoute('/gpa-calculator') },
+        { path: '/gpa-calculator', label: 'GPA Calculator', condition: startsWithRoute('/grades') || startsWithRoute('/grade-calculator') || startsWithRoute('/gpa-calculator') },
+        { path: '/settings', label: 'Settings', condition: startsWithRoute('/settings') },
+        { path: '/help', label: 'Help', condition: startsWithRoute('/help') },
+        { path: '/account', label: 'Account', condition: startsWithRoute('/account') },
+    ];
 
     return (
         <motion.div 
@@ -36,174 +45,15 @@ export default function Navbar() {
         >
             <nav className="navbar">
                     <ul className="navbar-nav">
-                        {isDashboardRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/dashboard" activeClassName="active-link">
-                                    Dashboard
-                                </NavLink>
-                            </li>
-                        )}
-                        {isCoursesRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/courses" activeClassName="active-link">
-                                    My Courses
-                                </NavLink>
-                            </li>
-                        )}
-                        {isCoursesRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/graduation" activeClassName="active-link">
-                                    Graduation Requirements
-                                </NavLink>
-                            </li>
-                        )}
-                        {isDegreeRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/courses" activeClassName="active-link">
-                                    My Courses
-                                </NavLink>
-                            </li>
-                        )}
-                        {isDegreeRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/graduation" activeClassName="active-link">
-                                    Graduation Requirements
-                                </NavLink>
-                            </li>
-                        )}
-                        {isTasksRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/tasks" activeClassName="active-link">
-                                    All Tasks
-                                </NavLink>
-                            </li>
-                        )}
-                        {isTasksRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/assignments" activeClassName="active-link">
-                                    Assignments
-                                </NavLink>
-                            </li>
-                        )}
-                        {isTasksRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/habits" activeClassName="active-link">
-                                    Habits
-                                </NavLink>
-                            </li>
-                        )}
-                        {isApplicationsRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/applications" activeClassName="active-link">
-                                    All
-                                </NavLink>
-                            </li>
-                        )}
-                        {isApplicationsRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/applications/jobs" activeClassName="active-link">
-                                    Jobs
-                                </NavLink>
-                            </li>
-                        )}
-                        {isApplicationsRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/applications/internships" activeClassName="active-link">
-                                    Internships
-                                </NavLink>
-                            </li>
-                        )}
-                        {isCalendarRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/calendar" activeClassName="active-link">
-                                    Calendar
-                                </NavLink>
-                            </li>
-                        )}
-                        {isGradesRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/grades" activeClassName="active-link">
-                                    Grades
-                                </NavLink>
-                            </li>
-                        )}
-                        {isGradesRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/grade-calculator" activeClassName="active-link">
-                                    Grade Calculator
-                                </NavLink>
-                            </li>
-                        )}
-                        {isGradesRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/gpa-calculator" activeClassName="active-link">
-                                    GPA Calculator
-                                </NavLink>
-                            </li>
-                        )}
-                        {isGradeCalculatorRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/grades" activeClassName="active-link">
-                                    Grades
-                                </NavLink>
-                            </li>
-                        )}
-                        {isGradeCalculatorRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/grade-calculator" activeClassName="active-link">
-                                    Grade Calculator
-                                </NavLink>
-                            </li>
-                        )}
-                        {isGradeCalculatorRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/gpa-calculator" activeClassName="active-link">
-                                    GPA Calculator
-                                </NavLink>
-                            </li>
-                        )}
-                        {isGPACalculatorRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/grades" activeClassName="active-link">
-                                    Grades
-                                </NavLink>
-                            </li>
-                        )}
-                        {isGPACalculatorRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/grade-calculator" activeClassName="active-link">
-                                    Grade Calculator
-                                </NavLink>
-                            </li>
-                        )}
-                        {isGPACalculatorRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/gpa-calculator" activeClassName="active-link">
-                                    GPA Calculator
-                                </NavLink>
-                            </li>
-                        )}
-                        {isSettingsRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/settings" activeClassName="active-link">
-                                    Settings
-                                </NavLink>
-                            </li>
-                        )}
-                        {isHelpRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/help" activeClassName="active-link">
-                                    Help
-                                </NavLink>
-                            </li>
-                        )}
-                        {isAccountRoute && (
-                            <li className="nav-item">
-                                <NavLink to="/account" activeClassName="active-link">
-                                    Account
-                                </NavLink>
-                            </li>
-                        )}
+                        {navItems.map((item) => (
+                            item.condition && (
+                                <li className="nav-item" key={item.path}>
+                                    <NavLink to={item.path} activeClassName="active-link">
+                                        {item.label}
+                                    </NavLink>
+                                </li>
+                            )
+                        ))}
                     </ul>
             </nav>
         </motion.div>
