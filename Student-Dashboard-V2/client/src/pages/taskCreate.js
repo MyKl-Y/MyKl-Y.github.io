@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
+import { motion } from "framer-motion/dist/framer-motion";
 import { useTheme } from "../context/theme/ThemeContext";
 import "../styles/tasks.css";
 
@@ -107,9 +108,14 @@ export default function CreateTask() {
 
     // This following section will display the form that takes the input from the user.
     return (
-        <div
+        <motion.div
             className="task-create-container"
             style={currentTheme}
+            key='task-create'
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: .5 }}
         >
             <h3>Create a new task</h3>
             <form onSubmit={onSubmit}>
@@ -301,6 +307,6 @@ export default function CreateTask() {
                     Create Task
                 </button>
             </form>
-        </div>
+        </motion.div>
     );
 }

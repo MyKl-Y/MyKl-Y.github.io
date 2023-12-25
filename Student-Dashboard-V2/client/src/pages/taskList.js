@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion/dist/framer-motion";
 import { useTheme } from "../context/theme/ThemeContext";
 import Task from "../components/features/Tasks/Task/Task";
 import "../styles/tasks.css";
@@ -87,7 +88,14 @@ export default function TaskList() {
     // TODO: Sort table by priority then by due date
     // This following section will display the table with the records of individuals.
     return (
-        <div>
+        <motion.div 
+            style={currentTheme}
+            key='task-list'
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: .5 }}
+        >
             <table className="task-list-table" style={currentTheme}>
                 <thead>
                     <tr>
@@ -147,6 +155,6 @@ export default function TaskList() {
             <Link className="create-task-button" to="/create-task">
                 <AddCircleTwoTone />
             </Link>
-        </div>
+        </motion.div>
     );
 }

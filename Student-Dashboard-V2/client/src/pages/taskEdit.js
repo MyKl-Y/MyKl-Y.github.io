@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router"
+import { motion } from "framer-motion/dist/framer-motion";
 import { useTheme } from "../context/theme/ThemeContext";
 import "../styles/tasks.css"
 
@@ -128,9 +129,14 @@ export default function editTask() {
 
     // This following section will display the form that takes input from the user to update the data.
     return (
-        <div
+        <motion.div
             className="task-edit-container"
             style={currentTheme}
+            key='task-edit'
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: .5 }}
         >
             <h3>Edit a task</h3>
             <form onSubmit={onSubmit}>
@@ -322,6 +328,6 @@ export default function editTask() {
                     Submit Edit to Task
                 </button>
             </form>
-        </div>
+        </motion.div>
     );
 }
