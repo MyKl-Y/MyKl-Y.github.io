@@ -13,7 +13,7 @@
 }
 
 .task-list-table thead th {
-    padding: 1rem;
+    padding: .5rem;
     text-align: center;
     box-shadow: var(--primary-outset);
     cursor: pointer;
@@ -37,7 +37,7 @@
 }
 
 .task-list-table tbody tr td {
-    padding: .5rem;
+    padding: .125rem;
     text-align: center;
     box-shadow: var(--background-outset);
 }
@@ -58,12 +58,24 @@
     border-radius: 0 0 1rem 0;
 }
 
+.task-list-table tbody tr td abbr[title=Yes] {
+    color: var(--add-primary);
+}
+
+.task-list-table tbody tr td abbr[title=No] {
+    color: var(--remove-primary);
+}
+
+.task-list-table tbody tr td abbr[title=IP] {
+    color: var(--primary);
+}
+
 .edit-task-button {
     background: var(--primary);
     color: var(--background-color);
     border: none;
-    border-radius: 50%;
-    padding: .5rem .5rem .75rem .5rem;
+    border-radius: 50% 0 0 50%;
+    padding: .2rem .25rem .375rem .5rem;
 }
 
 .edit-task-button:hover {
@@ -74,8 +86,8 @@
     background: var(--remove-primary);
     color: var(--background-color);
     border: none;
-    border-radius: 50%;
-    padding: .5rem;
+    border-radius: 0 50% 50% 0;
+    padding: .125rem .5rem .25rem .25rem;
 }
 
 .delete-task-button:hover {

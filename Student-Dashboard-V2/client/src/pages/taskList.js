@@ -7,6 +7,9 @@ import {
     AddCircleTwoTone,
     ArrowUpward, 
     ArrowDownward,
+    CategoryTwoTone,
+    NewReleasesTwoTone,
+    TimelineTwoTone,
 } from '@mui/icons-material';
 
 export default function TaskList() {
@@ -89,25 +92,52 @@ export default function TaskList() {
                 <thead>
                     <tr>
                         <th onClick={() => requestSort('category')}>
-                            Category {sortConfig.key === 'category' && (sortConfig.direction === 'ascending' ? <ArrowUpward /> : <ArrowDownward />)}
+                            <abbr title="Category">
+                                <CategoryTwoTone />
+                            </abbr> 
+                            {sortConfig.key === 'category' && (sortConfig.direction === 'ascending' 
+                                ? <ArrowUpward /> 
+                                : <ArrowDownward />)}
                         </th>
                         <th onClick={() => requestSort('priority')}>
-                            Priority {sortConfig.key === 'priority' && (sortConfig.direction !== 'ascending' ? <ArrowUpward /> : <ArrowDownward />)}
+                            <abbr title="Priority">
+                                <NewReleasesTwoTone />
+                            </abbr> 
+                            {sortConfig.key === 'priority' && (sortConfig.direction !== 'ascending' 
+                                ? <ArrowUpward /> 
+                                : <ArrowDownward />)}
                         </th>
                         <th onClick={() => requestSort('status')}>
-                            Status {sortConfig.key === 'status' && (sortConfig.direction === 'ascending' ? <ArrowUpward /> : <ArrowDownward />)}
+                            <abbr title="Status">
+                                <TimelineTwoTone />
+                            </abbr>
+                            {sortConfig.key === 'status' && (sortConfig.direction === 'ascending' 
+                                ? <ArrowUpward /> 
+                                : <ArrowDownward />)}
                         </th>
                         <th onClick={() => requestSort('name')}>
-                            Name {sortConfig.key === 'name' && (sortConfig.direction === 'ascending' ? <ArrowUpward /> : <ArrowDownward />)}
+                            Name 
+                            {sortConfig.key === 'name' && (sortConfig.direction === 'ascending' 
+                                ? <ArrowUpward /> 
+                                : <ArrowDownward />)}
                         </th>
                         <th onClick={() => requestSort('description')}>
-                            Description {sortConfig.key === 'description' && (sortConfig.direction === 'ascending' ? <ArrowUpward /> : <ArrowDownward />)}
+                            Info 
+                            {sortConfig.key === 'description' && (sortConfig.direction === 'ascending' 
+                                ? <ArrowUpward /> 
+                                : <ArrowDownward />)}
                         </th>
                         <th onClick={() => requestSort('startDate')}>
-                            Start Date {sortConfig.key === 'startDate' && (sortConfig.direction === 'ascending' ? <ArrowUpward /> : <ArrowDownward />)}
+                            Start Date 
+                            {sortConfig.key === 'startDate' && (sortConfig.direction === 'ascending' 
+                                ? <ArrowUpward /> 
+                                : <ArrowDownward />)}
                         </th>
                         <th onClick={() => requestSort('dueDate')}>
-                            Due Date {sortConfig.key === 'dueDate' && (sortConfig.direction === 'ascending' ? <ArrowUpward /> : <ArrowDownward />)}
+                            Due Date 
+                            {sortConfig.key === 'dueDate' && (sortConfig.direction === 'ascending' 
+                                ? <ArrowUpward /> 
+                                : <ArrowDownward />)}
                         </th>
                         <th>Actions</th>
                     </tr>

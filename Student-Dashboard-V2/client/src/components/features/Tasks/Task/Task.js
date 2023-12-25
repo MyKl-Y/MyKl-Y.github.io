@@ -3,9 +3,16 @@ import { Link } from "react-router-dom";
 import {
     EditTwoTone,
     DeleteTwoTone,
+    CheckCircleTwoTone,
+    CancelTwoTone,
+    PendingTwoTone,
+    CircleTwoTone,
 } from '@mui/icons-material';
 
 function formatDateString(dateString) {
+    if (dateString === "") {
+        return "-";
+    }
     const date = new Date(dateString);
     const months = date.getMonth() + 1; // getMonth() returns month from 0-11
     const days = date.getDate();
@@ -25,11 +32,29 @@ function formatDateString(dateString) {
     return `${formattedMonth}/${formattedDay} ${formattedHours}:${formattedMinutes} ${ampm}`;
 }
 
+function statusIcon(status) {
+    switch (status) {
+        case "Yes":
+            return <CheckCircleTwoTone />;
+        case "No":
+            return <CancelTwoTone />;
+        case "IP":
+            return <PendingTwoTone />;
+        default:
+            return <CircleTwoTone />;
+    }
+
+}
+
 const Task = (props) => (
     <tr>
         <td>{props.task.category}</td>
         <td>{props.task.priority}</td>
-        <td>{props.task.isComplete}</td>
+        <td>
+            <abbr title={`${props.task.isComplete}`}>
+                {statusIcon(props.task.isComplete)}
+            </abbr>
+        </td>
         <td>{props.task.name}</td>
         <td>{props.task.description}</td>
         <td>{formatDateString(props.task.startDate)}</td>
@@ -38,15 +63,14 @@ const Task = (props) => (
             <Link className="edit-task-button" 
                 to={`/edit-task/${props.task._id}`}
             >
-                <EditTwoTone />
+                <EditTwoTone fontSize="small" />
             </Link> 
-            {" | "}
             <button className="delete-task-button"
                 onClick={() => {
                     props.deleteTask(props.task._id);
                 }}
             >
-                <DeleteTwoTone />
+                <DeleteTwoTone fontSize="small" />
             </button>
         </td>
     </tr>
