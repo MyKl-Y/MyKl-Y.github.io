@@ -16,6 +16,7 @@
     padding: 1rem;
     text-align: center;
     box-shadow: var(--primary-outset);
+    cursor: pointer;
 }
 
 .task-list-table thead th:first-child {
@@ -33,10 +34,6 @@
 
 .task-list-table tbody tr:nth-child(odd) {
     background-color: rgb(from var(--primary) r g b / 20%);
-}
-
-.task-list-table tbody tr:last-child {
-    background-color: var(--background-color);
 }
 
 .task-list-table tbody tr td {

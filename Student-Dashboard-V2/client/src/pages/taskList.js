@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useTheme } from "../context/theme/ThemeContext";
 import Task from "../components/features/Tasks/Task/Task";
 import "../styles/tasks.css";
 import {
     AddCircleTwoTone,
+    ArrowUpward, 
+    ArrowDownward,
 } from '@mui/icons-material';
 
 export default function TaskList() {
     const { currentTheme } = useTheme();
     const [tasks, setTasks] = useState([]);
+    const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
 
     // This method fetches the records from the database.
     useEffect(() => {
@@ -43,7 +46,7 @@ export default function TaskList() {
 
     // This method will map out the tasks on the table
     function taskList() {
-        return tasks.map((task) => {
+        return sortedTasks.map((task) => {
             return (
                 <Task 
                     task={task} 
@@ -54,6 +57,30 @@ export default function TaskList() {
         });
     }
 
+    const sortedTasks = useMemo(() => {
+        let sortableTasks = [...tasks];
+        if (sortConfig.key !== null) {
+            sortableTasks.sort((a, b) => {
+                if (a[sortConfig.key] < b[sortConfig.key]) {
+                    return sortConfig.direction === 'ascending' ? -1 : 1;
+                }
+                if (a[sortConfig.key] > b[sortConfig.key]) {
+                    return sortConfig.direction === 'ascending' ? 1 : -1;
+                }
+                return 0;
+            });
+        }
+        return sortableTasks;
+    }, [tasks, sortConfig]);
+
+    const requestSort = (key) => {
+        let direction = 'ascending';
+        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+            direction = 'descending';
+        }
+        setSortConfig({ key, direction });
+    };    
+    
     // TODO: Sort table by priority then by due date
     // This following section will display the table with the records of individuals.
     return (
@@ -61,13 +88,27 @@ export default function TaskList() {
             <table className="task-list-table" style={currentTheme}>
                 <thead>
                     <tr>
-                        <th>Category</th>
-                        <th>Priority</th>
-                        <th>Status</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Start Date</th>
-                        <th>Due Date</th>
+                        <th onClick={() => requestSort('category')}>
+                            Category {sortConfig.key === 'category' && (sortConfig.direction === 'ascending' ? <ArrowUpward /> : <ArrowDownward />)}
+                        </th>
+                        <th onClick={() => requestSort('priority')}>
+                            Priority {sortConfig.key === 'priority' && (sortConfig.direction !== 'ascending' ? <ArrowUpward /> : <ArrowDownward />)}
+                        </th>
+                        <th onClick={() => requestSort('status')}>
+                            Status {sortConfig.key === 'status' && (sortConfig.direction === 'ascending' ? <ArrowUpward /> : <ArrowDownward />)}
+                        </th>
+                        <th onClick={() => requestSort('name')}>
+                            Name {sortConfig.key === 'name' && (sortConfig.direction === 'ascending' ? <ArrowUpward /> : <ArrowDownward />)}
+                        </th>
+                        <th onClick={() => requestSort('description')}>
+                            Description {sortConfig.key === 'description' && (sortConfig.direction === 'ascending' ? <ArrowUpward /> : <ArrowDownward />)}
+                        </th>
+                        <th onClick={() => requestSort('startDate')}>
+                            Start Date {sortConfig.key === 'startDate' && (sortConfig.direction === 'ascending' ? <ArrowUpward /> : <ArrowDownward />)}
+                        </th>
+                        <th onClick={() => requestSort('dueDate')}>
+                            Due Date {sortConfig.key === 'dueDate' && (sortConfig.direction === 'ascending' ? <ArrowUpward /> : <ArrowDownward />)}
+                        </th>
                         <th>Actions</th>
                     </tr>
                 </thead>
