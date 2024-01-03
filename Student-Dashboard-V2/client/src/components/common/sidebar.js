@@ -4,9 +4,6 @@ import { Link, useLocation } from 'react-router-dom';
 import '../../styles/sidebar.css';
 import { useTheme } from '../../context/theme/ThemeContext';
 import { useAuth } from '../../context/authentication/AuthContext';
-import { 
-    FaChevronCircleRight,
-} from 'react-icons/fa';
 import { motion } from 'framer-motion/dist/framer-motion'
 import { 
     SchoolTwoTone, 
