@@ -37,12 +37,7 @@ router.post("/", async (req, res) => {
         isRecurring: req.body.isRecurring,
         recurrence: req.body.recurrence,
         recurrenceInterval: req.body.recurrenceInterval,
-        recurrenceEndDate: req.body.recurrenceEndDate,
         recurrenceCount: req.body.recurrenceCount,
-        recurrenceDays: req.body.recurrenceDays,
-        recurrenceWeeks: req.body.recurrenceWeeks,
-        recurrenceMonths: req.body.recurrenceMonths,
-        recurrenceYears: req.body.recurrenceYears,
     };
     let collection = await db.collection("tasks");
     let result = await collection.insertOne(newDocument);
@@ -66,12 +61,7 @@ router.patch("/:id", async (req, res) => {
             isRecurring: req.body.isRecurring,
             recurrence: req.body.recurrence,
             recurrenceInterval: req.body.recurrenceInterval,
-            recurrenceEndDate: req.body.recurrenceEndDate,
             recurrenceCount: req.body.recurrenceCount,
-            recurrenceDays: req.body.recurrenceDays,
-            recurrenceWeeks: req.body.recurrenceWeeks,
-            recurrenceMonths: req.body.recurrenceMonths,
-            recurrenceYears: req.body.recurrenceYears,
         }
     };
 

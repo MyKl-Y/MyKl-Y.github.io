@@ -85,7 +85,6 @@ export default function TaskList() {
         setSortConfig({ key, direction });
     };    
     
-    // TODO: Sort table by priority then by due date
     // This following section will display the table with the records of individuals.
     return (
         <motion.div 
