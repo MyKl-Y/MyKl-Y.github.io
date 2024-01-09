@@ -245,7 +245,6 @@ export default function editTask() {
                         value={form.recurrenceInterval}
                         onChange={(e) => updateForm({ recurrenceInterval: e.target.value })}
                     />
-                    <label htmlFor="recurrenceEndDate">Recurrence End Date: </label>
                     <label htmlFor="recurrenceCount">Recurrence Count: </label>
                     <input
                         type="text"

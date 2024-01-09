@@ -39,6 +39,20 @@ export default function Habits() {
         //"All",
     ]
 
+    // Helper function to check if a date falls within the habit's active period
+    const isActiveOnDate = (habit, date) => {
+        const startDate = new Date(habit.startDate);
+        const endDate = habit.dueDate ? new Date(habit.dueDate) : new Date();
+        return date >= startDate && date <= endDate;
+    };
+
+    // Helper function to check if a habit is active on a given day based on recurrenceInterval
+    const isActiveOnDay = (habit, date) => {
+        const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'short' });
+        const activeDays = habit.recurrenceInterval.split(', ');
+        return activeDays.includes(dayOfWeek);
+    };
+
     // This method fetches the records from the database.
     useEffect(() => {
         async function getHabits() {
@@ -50,14 +64,15 @@ export default function Habits() {
                 return;
             }
 
-            const habits = await response.json();
-            setHabits(habits);
+            const habitsData = await response.json();
+
+            setHabits(habitsData);
         }
 
         getHabits();
 
         return;
-    }, [habits.length]);
+    }, [navigateCounter, habits.length]);
 
     // This method will delete a task from the database.
     async function deleteHabit(id) {
@@ -215,25 +230,38 @@ export default function Habits() {
                     <tr key={habit._id}>
                         <td>{habit.name}</td>
                         {weekDays.map(day => (
-                            <td key={day}>
-                                <input 
-                                    type="checkbox"
-                                    checked={
-                                        isHabitChecked(
-                                            habit,
-                                            day
-                                        )
+                                <td
+                                    key={day}
+                                    className={
+                                        day.toLocaleDateString("en-US") 
+                                        === 
+                                        new Date().toLocaleDateString("en-US")
+                                            ? "today"
+                                            : ""
                                     }
-                                    onChange={(e) => 
-                                        handleToggleHabit(
-                                            habit,
-                                            habit._id,
-                                            day,
-                                            e.target.checked
-                                        )
-                                    }
-                                />
-                            </td>
+                                >
+                                    {isActiveOnDay(habit, day) && isActiveOnDate(habit, day) ? (
+                                        <input 
+                                            type="checkbox"
+                                            checked={
+                                                isHabitChecked(
+                                                    habit,
+                                                    day
+                                                )
+                                            }
+                                            onChange={(e) => 
+                                                handleToggleHabit(
+                                                    habit,
+                                                    habit._id,
+                                                    day,
+                                                    e.target.checked
+                                                )
+                                            }
+                                        />
+                                    ) : (
+                                        <></>
+                                    )}
+                                </td>
                         ))}
                     </tr>
                 );
@@ -244,24 +272,37 @@ export default function Habits() {
                     <tr key={habit._id}>
                         <td>{habit.name}</td>
                         {daysInMonth.map(day => (
-                            <td key={day}>
-                                <input 
-                                    type="checkbox"
-                                    checked={
-                                        isHabitChecked(
-                                            habit,
-                                            day
-                                        )
-                                    }
-                                    onChange={(e) => 
-                                        handleToggleHabit(
-                                            habit,
-                                            habit._id,
-                                            day,
-                                            e.target.checked
-                                        )
-                                    }
-                                />
+                            <td 
+                                key={day}
+                                className={
+                                    day.toLocaleDateString("en-US") 
+                                    === 
+                                    new Date().toLocaleDateString("en-US")
+                                        ? "today"
+                                        : ""
+                                }
+                            >
+                                {isActiveOnDay(habit, day) && isActiveOnDate(habit, day) ? (
+                                    <input 
+                                        type="checkbox"
+                                        checked={
+                                            isHabitChecked(
+                                                habit,
+                                                day
+                                            )
+                                        }
+                                        onChange={(e) => 
+                                            handleToggleHabit(
+                                                habit,
+                                                habit._id,
+                                                day,
+                                                e.target.checked
+                                            )
+                                        }
+                                    />
+                                ) : (
+                                    <></>
+                                )}
                             </td>
                         ))}
                     </tr>
@@ -273,23 +314,27 @@ export default function Habits() {
                     <tr key={habit._id}>
                         <td>{habit.name}</td>
                         <td>
-                            <input 
-                                type="checkbox"
-                                checked={
-                                    isHabitChecked(
-                                        habit,
-                                        today[0]
-                                    )
-                                }
-                                onChange={(e) => 
-                                    handleToggleHabit(
-                                        habit,
-                                        habit._id,
-                                        today[0],
-                                        e.target.checked
-                                    )
-                                }
-                            />
+                            {isActiveOnDay(habit, today[0]) && isActiveOnDate(habit, today[0]) ? (
+                                <input 
+                                    type="checkbox"
+                                    checked={
+                                        isHabitChecked(
+                                            habit,
+                                            today[0]
+                                        )
+                                    }
+                                    onChange={(e) => 
+                                        handleToggleHabit(
+                                            habit,
+                                            habit._id,
+                                            today[0],
+                                            e.target.checked
+                                        )
+                                    }
+                                />
+                            ) : (
+                                <></>
+                            )}
                         </td>
                     </tr>
                 );
@@ -307,13 +352,16 @@ export default function Habits() {
         return filteredHabits;
     }, [habits]);
 
-    // TODO: Style, remove habits, edit habits, recurrence intervals, start and end dates, total achieved column, streak counter
+    // TODO: Style fixes
+    // TODO: remove & edit habits buttons
+    // TODO: total achieved column, streak counter (only for day view)
     return (
         <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: .5 }}
+            className={`habit-tracker ${view}`}
         >
             <div className="view-options">
                 {viewOptions.map((option) => (
@@ -362,12 +410,30 @@ export default function Habits() {
                             <tr>
                                 <th rowSpan={2}>Habits</th>
                                 {weekDays.map(day => (
-                                    <th key={day}>{weekDay(day)}</th>
+                                    <th
+                                        key={day}
+                                        className={
+                                            day.toLocaleDateString("en-US") 
+                                            === 
+                                            new Date().toLocaleDateString("en-US")
+                                                ? "today"
+                                                : ""
+                                        }
+                                    >{weekDay(day)}</th>
                                 ))}
                             </tr>
                             <tr>
                                 {weekDays.map(day => (
-                                    <th key={day}>{formatDate(day)}</th>
+                                    <th
+                                        key={day}
+                                        className={
+                                            day.toLocaleDateString("en-US") 
+                                            === 
+                                            new Date().toLocaleDateString("en-US")
+                                                ? "today"
+                                                : ""
+                                        }
+                                    >{formatDate(day)}</th>
                                 ))}
                             </tr>
                         </thead>
@@ -391,12 +457,30 @@ export default function Habits() {
                                 <tr>
                                     <th rowSpan={2}>Habits</th>
                                     {daysInMonth.map(day => (
-                                        <th key={day}>{weekDay(day)}</th>
+                                        <th
+                                            key={day}
+                                            className={
+                                                day.toLocaleDateString("en-US") 
+                                                === 
+                                                new Date().toLocaleDateString("en-US")
+                                                    ? "today"
+                                                    : ""
+                                            }
+                                        >{weekDay(day)}</th>
                                     ))}
                                 </tr>
                                 <tr>
                                     {daysInMonth.map(day => (
-                                        <th key={day}>{formatDate(day)}</th>
+                                        <th
+                                            key={day}
+                                            className={
+                                                day.toLocaleDateString("en-US") 
+                                                === 
+                                                new Date().toLocaleDateString("en-US")
+                                                    ? "today"
+                                                    : ""
+                                            }
+                                        >{formatDate(day)}</th>
                                     ))}
                                 </tr>
                             </thead>

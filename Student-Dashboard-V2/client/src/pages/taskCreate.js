@@ -96,6 +96,8 @@ export default function CreateTask() {
         navigate("/tasks");
     }
 
+    // TODO: Set defaults for recurrenceInterval to "Sun, Mon, Tue, Wed, Thu, Fri", startDate to today at 12 am, dueDate to today at 11:59 pm
+    // TODO: Placeholder or require format for recurrenceInterval so that it only uses "Sun, Mon, Tue, Wed, Thu, Fri"
     // This following section will display the form that takes the input from the user.
     return (
         <motion.div
