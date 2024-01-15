@@ -232,18 +232,83 @@ td.today, th.today {
 }
 
 .habit-tracker input[type='checkbox'] {
-    width: 50%;
-    height: 50%;
+    width: 110%;
+    height: 110%;
+    transform: translate(-1px, 3px);
     margin: 0;
     padding: 0;
     border: none;
     border-radius: 0;
     box-shadow: none;
-    background-color: transparent;
-    accent-color: var(--primary);
+    opacity: 0;
+    cursor: pointer;
 }
 
 .habit-tracker td:has(input:checked) {
-    background-color: var(--primary);
+    background-color: var(--add-primary);
     box-shadow: none;
+}
+
+.habit-tracker td:has(input) {
+    background-color: var(--remove-primary);
+    box-shadow: none;
+}
+
+.habit-tracker .habits-navigator {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem;
+}
+
+.habit-tracker .habits-navigator .view-options {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem;
+    box-shadow: var(--background-outset);
+    border-radius: 1.5rem;
+    padding: .5rem;
+}
+
+.habit-tracker .habits-navigator .view-options .view-option {
+    padding: .5rem;
+    cursor: pointer;
+}
+
+.habit-tracker .habits-navigator .view-options .view-option:hover {
+    box-shadow: var(--background-inset);
+}
+
+.habit-tracker .habits-navigator .view-options .view-option:first-child {
+    border-radius: 1rem 0 0 1rem;
+}
+
+.habit-tracker .habits-navigator .view-options .view-option:last-child {
+    border-radius: 0 1rem 1rem 0;
+}
+
+.habit-tracker .habits-navigator .view-options .view-option.selected {
+    background-color: var(--selected-color);
+    color: var(--text-color);
+    box-shadow: var(--selected-inset);
+}
+
+.habit-tracker .habits-navigator button {
+    box-shadow: var(--primary-outset);
+    border-radius: 50%;
+    padding: .75rem;
+    background-color: var(--primary);
+    color: var(--background-color);
+    border: none;
+}
+
+.habit-tracker .habits-navigator button:hover {
+    box-shadow: var(--primary-inset);
+}
+
+.habit-tracker thead th {
+    cursor: default;
 }

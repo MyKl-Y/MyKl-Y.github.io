@@ -60,6 +60,7 @@ function App() {
     }, 1000);
   };
 
+  // TODO: MAKE ALL SERVER API CALLS ONLY READ AND EDIT DOCUMENTS IF THE USER IS THE SAME
   return (
     <div 
       className={isLandingPage ? 'App center-content' : (isLoginRegister ? 'App auth-center' : 'App flex-end-content')} 

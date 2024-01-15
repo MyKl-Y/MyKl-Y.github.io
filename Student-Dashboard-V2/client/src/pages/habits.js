@@ -352,7 +352,6 @@ export default function Habits() {
         return filteredHabits;
     }, [habits]);
 
-    // TODO: Style fixes
     // TODO: remove & edit habits buttons
     // TODO: total achieved column, streak counter (only for day view)
     return (
@@ -363,25 +362,27 @@ export default function Habits() {
             transition={{ duration: .5 }}
             className={`habit-tracker ${view}`}
         >
-            <div className="view-options">
-                {viewOptions.map((option) => (
-                    <div
-                        className={`view-option ${
-                            view === option ? "selected" : ""
-                        }`}
-                        key={option}
-                        onClick={() => setView(option)}
-                    >
-                        {option}
-                    </div>
-                ))}
+            <div className="habits-navigator">
+                <button>
+                    <ArrowLeft onClick={() => setNavigateCounter(navigateCounter - 1)} />
+                </button>
+                <div className="view-options">
+                    {viewOptions.map((option) => (
+                        <div
+                            className={`view-option ${
+                                view === option ? "selected" : ""
+                            }`}
+                            key={option}
+                            onClick={() => setView(option)}
+                        >
+                            {option}
+                        </div>
+                    ))}
+                </div>
+                <button>
+                    <ArrowRight onClick={() => setNavigateCounter(navigateCounter + 1)} />
+                </button>
             </div>
-            <button>
-                <ArrowLeft onClick={() => setNavigateCounter(navigateCounter - 1)} />
-            </button>
-            <button>
-                <ArrowRight onClick={() => setNavigateCounter(navigateCounter + 1)} />
-            </button>
             {view === "Week" ? (
                 <>
                     <h1>
