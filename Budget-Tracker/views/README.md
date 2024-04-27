@@ -1,0 +1,1 @@
+These HTML files are templates for the pages. They contain the structure of the pages.

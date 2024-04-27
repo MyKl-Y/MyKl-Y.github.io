@@ -1,0 +1,88 @@
+.edit-course-container {
+    cursor: default;
+}
+
+.edit-course-container form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: .5rem 0rem;
+    border-radius: 5px;
+    display: flex;
+    color: var(--text-color);
+    flex: 1 1 50rem stretch;
+}
+
+.edit-course-container input {
+    background-color: var(--background-color);
+    color: var(--primary);
+    margin: .5rem 0 .5rem 0;
+    font-size: 1rem;
+    padding: .5rem;
+    border-radius: 1rem;
+    border: none;
+    box-shadow: var(--background-outset);
+}
+
+.edit-course-container input:focus {
+    outline: none;
+    box-shadow: var(--selected-inset);
+}
+
+.edit-course-container form button {
+    background-color: var(--add-primary);
+    border: none;
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    box-shadow: var(--add-outset);
+    color: var(--background-color);
+    margin: .5rem 0rem 0rem 0rem !important;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    border-radius: .5rem;
+}
+
+.edit-course-container form button:hover {
+    box-shadow: var(--add-inset);
+}
+
+.edit-course-container form label {
+    color: var(--text-color);
+    margin: 0 0 0 .25rem;
+}
+
+.tag-selector {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    margin: .5rem 0 .5rem 0;
+}
+
+.tag {
+    padding: 0.25rem 0.5rem;
+    border-radius: 15px;
+    background-color: var(--primary);
+    color: var(--background-color);
+    cursor: pointer;
+    user-select: none;
+    box-shadow: var(--primary-outset);
+}
+
+.tag.selected {
+    background-color: var(--selected-color);
+    box-shadow: var(--selected-inset);
+    color: var(--text-color);
+}
+
+.tag:hover {
+    box-shadow: var(--primary-inset);
+}
+
+.tag.selected:hover {
+    box-shadow: var(--selected-outset);
+}

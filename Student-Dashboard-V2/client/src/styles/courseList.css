@@ -1,0 +1,238 @@
+.courses-container {
+    overflow-y: scroll;
+    height: 100%;
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+}
+
+.course-toolbar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0rem 1rem 0rem 1rem;
+}
+
+.semester-filters {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: fit-content;
+    margin: 1rem;
+}
+.semester-filters .active-tab {
+    margin-right: .5rem;
+    color: var(--accent);
+    background-color: var(--selected-color);
+    font-weight: bolder;
+    box-shadow: var(--selected-inset);
+    backdrop-filter: var(--background-blur);
+}
+.semester-filters .inactive-tab {
+    margin-right: .5rem;
+    background: none;
+    color: var(--primary);
+    background-color: var(--background-color);
+    box-shadow: var(--background-outset);
+    border: none;
+}
+
+/* Style for the course list */
+.courses-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.single-course {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: var(--background-outset);
+    padding: 1rem;
+    margin: 1rem 1rem;
+    border-radius: 5px;
+    background-color: var(--background-color);
+    backdrop-filter: var(--background-blur);
+    color: var(--text-color);
+    flex: 1 1 50rem stretch;
+    /*cursor: var(--cursor);*/
+    cursor: pointer;
+    height: fit-content;
+    transition: all 0.5s ease-in-out;
+}
+
+.single-course div {
+    transition: all 0.5s ease-in-out;
+}
+
+.single-course div p {
+    transition: all 0.5s ease-in-out;
+}
+
+.single-course h3 {
+    color: var(--primary-light-shadow)
+}
+
+.single-course h5 {
+    color: var(--primary)
+}
+
+/* Style for buttons inside the course list */
+.single-course button {
+    background-color: var(--primary);
+    border: none;
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    box-shadow: var(--primary-outset);
+    color: var(--background-color);
+    margin-right: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    border-radius: .5rem;
+}
+
+/* Style for buttons on hover */
+.single-course button:hover {
+    box-shadow: var(--primary-inset);
+}
+
+.single-course button.delete-course {
+    background-color: var(--remove-primary);
+    border: none;
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    box-shadow: var(--remove-outset);
+    color: var(--background-color);
+    margin-right: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    border-radius: .5rem;
+}
+
+/* Style for buttons on hover */
+.single-course button.delete-course:hover {
+    box-shadow: var(--remove-inset);
+}
+
+/* Style for the create button */
+button.create-course {
+    background-color: var(--add-primary); /* Green color */
+    color: var(--background-color);
+    padding: 0rem 1rem;
+    border: none;
+    border-radius: .5rem;
+    cursor: pointer;
+    margin: 0rem;
+    transition: background-color 0.3s, color 0.3s;
+    box-shadow: var(--add-outset);
+}
+
+button.create-course svg {
+    width: 2rem;
+    height: 2rem;
+}
+
+
+/* Style for the create button on hover */
+button.create-course:hover {
+    box-shadow: var(--add-inset);
+}
+
+/* Style for the modal */
+.custom-modal {
+    /* Modal styles here */
+    position: absolute;
+    /* Add other styles as needed */
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+/* Media query for responsive design */
+@media screen and (max-width: 40em) {
+    .custom-modal {
+        right: 0;
+        bottom: 20%;
+        top: 25%;
+        width: 100%;
+        height: fit-content;
+    }
+}
+@media screen and (min-width: 40em) {
+    .custom-modal {
+        right: 0;
+        bottom: 20%;
+        top: 25%;
+        width: 100%;
+        height: fit-content;
+    }
+}
+@media screen and (min-width: 48em) {
+    .custom-modal {
+        right: 75px;
+        bottom: 20%;
+        top: 25%;
+        width: calc(75% - 150px);
+        height: fit-content;
+    }
+}
+@media screen and (min-width: 64em) {
+    .custom-modal {
+        right: 150px;
+        bottom: 20%;
+        top: 25%;
+        width: calc(75% - 150px);
+        height: fit-content;
+    }
+}
+
+.course-info {
+    transition: all 0.5s ease-in-out;
+}
+
+.course-info.no-show {
+    color: transparent !important;
+    font-size: 0;
+}
+
+.course-info.no-show * {
+    margin: 0;
+}
+
+.course-info.no-show .button-holder * {
+    transform: scale(0);
+    transition: all .5s ease-in-out;
+}
+
+.course-info.show .button-holder * {
+    transform: scale(1);
+    transition: all .5s ease-in-out;
+}
+
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10rem;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 5px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: var(--background-color);
+    backdrop-filter: var(--background-blur);
+    box-shadow: var(--background-inset);
+}
+
+.course-image {
+    width: 100%; /* Set your desired width */
+    height: 8rem; /* Set your desired height */
+    object-fit: cover; /* This will ensure the image covers the area without distorting aspect ratio */
+    border-radius: 5px; /* Optional: for rounded corners */
+    box-shadow: var(--background-outset);
+}

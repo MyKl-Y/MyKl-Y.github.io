@@ -1,0 +1,80 @@
+.settings h3 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.theme-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    align-content: stretch;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+}
+
+.theme-container .toggle-mode {
+    background: var(--accent-gradient); /* Switch background */
+    border: none;
+    box-shadow: var(--background-outset);
+    border-radius: 20px; /* Rounded edges for switch */
+    padding: 0.5rem 2rem; /* Padding inside the switch */
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: background-color 0.3s ease;
+    color: var(--primary);
+}
+
+.theme-container .toggle-mode::content {
+    display: none;
+}
+
+.theme-container .toggle-mode:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50%;
+    height: 1.5rem;
+    border-radius: 5rem;
+    background-color: var(--background-color);
+    transition: transform 0.3s ease;
+    box-shadow: var(--background-inset);
+}
+
+.theme-container .toggle-mode.light:before {
+    left: 0.5rem;
+}
+
+.theme-container .toggle-mode.dark:before {
+    right: 0.5rem;
+    transform: translateY(-50%) translateX(0);
+}
+
+.style-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+}
+
+.style-container button {
+    width: 100%;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.style-container button:hover {
+    /* The box-shadow for hover will be set dynamically in the component */
+}

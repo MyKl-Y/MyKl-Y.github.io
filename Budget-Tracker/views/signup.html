@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../public/styles.css">
+    <title>Sign Up - MYCreationz</title>
+</head>
+<body data-theme class="login-body">
+    <div class="login-box">
+        <h2>Sign Up</h2>
+        <form id="signupForm">
+            <div class="user-box">
+                <input type="text" placeholder="Username" required>
+                <label class="login-label">Username</label>
+            </div>
+            <div class="user-box">
+                <input type="email" placeholder="Email" required>
+                <label class="login-label">Email</label>
+            </div>
+            <div class="user-box">
+                <input type="password" placeholder="Password" required>
+                <label class="login-label">Password</label>
+            </div>
+            <div class="user-box">
+                <input id="confirmPassword" type="password" placeholder="Confirm Password" required>
+                <label class="login-label">Confirm Password</label>
+            </div>
+            <div id="passwordMismatch" class="error-message">Passwords do not match</div>
+            <div class="register">
+                <button class="submit" id="signupButton">Sign Up</button>
+                <label class="switch-container">
+                    <input type="checkbox" id="remember-me">
+                    <span class="checkmark"></span>
+                    Remember me
+                </label>
+            </div>
+            <div id="register">
+                Already have an account ? 
+                <a href="login.html">Login</a>
+            </div>
+        </form>
+        <div class="signup-toggle-container">
+            <label class="switch">
+                <input type="checkbox" id="theme-toggle">
+                <span class="slider round"></span>
+            </label>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="../public/scripts.js"></script>
+</body>
+</html>

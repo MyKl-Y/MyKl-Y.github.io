@@ -1,0 +1,184 @@
+.splashpage {
+    // center everything
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.splashpage__header {
+    z-index: 1;
+    display: flex;
+    flex-grow: 1;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+}
+
+.splashpage__body {
+    z-index: 1;
+}
+
+.waves__inverted {
+    transform: rotate(180deg) !important;
+}
+
+.splashpage__title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.splashpage__subtitle {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.splashpage__button {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.splashpage__button:hover {
+    color: #fff;
+}
+
+.splashpage__button:active {
+    color: #fff;
+}
+
+.splashpage__button:focus {
+    color: #fff;
+}
+
+.splashpage__button:visited {
+    color: #fff;
+}
+
+.splashpage__button:link {
+    color: #fff;
+}
+
+.splashpage__button:disabled {
+    color: #fff;
+}
+
+
+$bgcolor: #FFE9A3;
+$transparent: rgba(255, 255, 255, 0);
+
+$color-1: #E83A25;
+$color-1-t: transparentize($color-1, 1);
+$color-2: #98CC96;
+$color-2-t: transparentize($color-2, 1);
+
+$size: 4em;
+$big-size: $size*2;
+$min: $size*.3;
+$max: $size*.7;
+
+/*
+%splashpage__background {
+    background: 
+    linear-gradient(135deg,
+        $color-1 $min,
+        $color-1-t $min
+    ) 0 #{$size},
+    linear-gradient(-135deg,
+        $color-1 $min,
+        $color-1-t $min
+    ) 0 #{$size},
+    
+    radial-gradient(circle at #{$big-size - $min*.7} $size*1.85,
+        $color-1 $min*.85,
+        $color-1-t $min*.87
+    ) 0 -#{$size},
+    radial-gradient(circle at #{$min*.7} $size*1.85,
+        $color-1 $min*.85,
+        $color-1-t $min*.87
+    ) 0 -#{$size},
+
+
+    linear-gradient(135deg,
+        $color-2 $min,
+        $color-2-t $min
+    ) $size 0,
+    linear-gradient(-135deg,
+        $color-2 $min,
+        $color-2-t $min
+    ) $size 0,
+    
+    radial-gradient(circle at #{$big-size - $min*.7} $size*1.85,
+        $color-2 $min*.85,
+        $color-2-t $min*.87
+    ) $size 0,
+    radial-gradient(circle at #{$min*.7} $size*1.85,
+        $color-2 $min*.85,
+        $color-2-t $min*.87
+    ) $size 0
+    ;
+    background-size:  $big-size $big-size;
+    background-repeat: repeat;
+    font: 16px/2 'Trebuchet MS', Verdana, sans-serif;
+}
+*/
+
+.splashpage__footer {
+    z-index: 1;
+    display: flex;
+    flex-grow: 1;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+    //@extend %pattern_slack_repeating
+    //@extend %splashpage__background
+}
+
+/*
+$slack_cream: rgb(241, 228, 212);
+$slack_yellow: rgba(234, 168, 32, 0.75);
+$slack_green: rgba(63, 185, 146, 0.75);
+$slack_pink: rgba(224, 21, 100, 0.75);
+$slack_blue: rgba(111, 202, 221, 0.75);
+
+// A repeating linear background, which does rotate nicely
+%pattern_slack_repeating {
+    $slack_stop_size: 50px;
+    $slack_rotation: 45deg;
+
+    background-blend-mode: darken;
+    background-color: $slack_cream;
+    background-image:
+        repeating-linear-gradient($slack_rotation,
+            transparent $slack_stop_size,
+            transparent $slack_stop_size * 2,
+            $slack_pink $slack_stop_size * 2,
+            $slack_pink $slack_stop_size * 3,
+            transparent $slack_stop_size * 3,
+            transparent $slack_stop_size * 4,
+            $slack_blue $slack_stop_size * 4,
+            $slack_blue $slack_stop_size * 5,
+            transparent $slack_stop_size * 5
+        ),
+        repeating-linear-gradient($slack_rotation + 90,
+            transparent $slack_stop_size,
+            transparent $slack_stop_size * 2,
+            $slack_yellow $slack_stop_size * 2,
+            $slack_yellow $slack_stop_size * 3,
+            transparent $slack_stop_size * 3,
+            transparent $slack_stop_size * 4,
+            $slack_green $slack_stop_size * 4,
+            $slack_green $slack_stop_size * 5,
+            transparent $slack_stop_size * 5
+        );
+}
+*/
