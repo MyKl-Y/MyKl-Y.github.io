@@ -8,7 +8,6 @@
 }
 
 .task-list-table thead {
-    background-color: var(--primary);
     color: var(--background-color);
 }
 
@@ -21,10 +20,16 @@
 
 .task-list-table thead th:first-child {
     border-radius: 1rem 0 0 1rem;
+    background-color: var(--primary);
 }
 
 .task-list-table thead th:last-child {
     border-radius: 0 1rem 1rem 0;
+    background-color: var(--primary);
+}
+
+.task-list-table thead th:not(:first-child):not(:last-child) {
+    background-color: var(--primary);
 }
 
 .task-list-table tbody tr {

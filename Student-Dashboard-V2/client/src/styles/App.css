@@ -6,6 +6,11 @@
   display: none !important;
 }
 
+* {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
 .App {
   display: flex;
   flex-direction: row;
