@@ -1,43 +1,38 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/experience">Skills</RouterLink>
-        <RouterLink to="/education">Education</RouterLink>
-        <RouterLink to="/projects">Projects</RouterLink>
-        <RouterLink to="/contact">Contact</RouterLink>
-      </nav>
-    </div>
-  </header>
-
+  <!--
+  <RouterView v-slot="{ Component }" >
+    <Transition name="fade">
+      <component :is="Component" />
+    </Transition>
+  </RouterView>
+  -->
   <RouterView />
 </template>
 
 <style scoped>
 header {
   line-height: 1.5;
-  max-height: 100vh;
+  background-color: aqua;
+}
+
+header .wrapper {
+  display: flex;
+  place-items: center;
+  justify-content: space-between;
+  padding: 0 var(--section-gap);
 }
 
 .logo {
   display: block;
-  margin: 0 auto 2rem;
+  margin: 0;
 }
 
 nav {
   width: 100%;
-  font-size: 12px;
+  font-size: 1rem;
   text-align: center;
   margin-top: 2rem;
 }
@@ -60,6 +55,7 @@ nav a:first-of-type {
   border: 0;
 }
 
+/*
 @media (min-width: 1024px) {
   header {
     display: flex;
@@ -86,4 +82,5 @@ nav a:first-of-type {
     margin-top: 1rem;
   }
 }
+*/
 </style>

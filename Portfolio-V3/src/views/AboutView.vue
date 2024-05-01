@@ -1,13 +1,13 @@
 <template>
   <div class="about">
-    <h1>About Me</h1>
+    <h1>🌐 About Me</h1>
     <p>
       Hello, World! Born and raised in the vibrant city of Atlanta, Georgia, where I continue to reside, 
       I am deeply rooted in the community that shaped me. My journey in technology is fueled by an insatiable
       curiosity and a lifelong passion for learning.
     </p>
     <br/>
-    <h1>Passion and Interests</h1>
+    <h1>🔎 Passion and Interests</h1>
     <p>
       My enthusiasm for technology spans several domains, each representing a part of my ongoing exploration and 
       commitment to innovation:
@@ -27,14 +27,14 @@
       </li>
     </ul>
     <br/>
-    <h1>Family and Balance</h1>
+    <h1>👨‍👩‍👦 Family and Balance</h1>
     <p>
       Family is at the core of everything I do. Being a father has not only enriched my life but also honed my abilities 
       to manage time and embrace empathy. These experiences shape how I approach every challenge, ensuring that I carry 
       a balance of perseverance and flexibility in all my endeavors.
     </p>
     <br/>
-    <h1>Looking Forward</h1>
+    <h1>🤝 Looking Forward</h1>
     <p>
       I am always on the lookout for opportunities to apply my skills in practical settings, whether through collaborative 
       projects, community engagements, or initiatives that harness technology for social good. I am particularly excited 
@@ -42,7 +42,7 @@
     </p>
     <br/>
     <p>
-      Let’s connect and explore how we can drive technology forward together! If you're interested in discussing potential 
+      Let's connect and explore how we can drive technology forward together! If you're interested in discussing potential 
       collaborations or if you share a passion for any of my interests, please don't hesitate to reach out.
     </p>
   </div>
@@ -55,5 +55,9 @@
     max-width: 800px;
     padding: 2rem;
   }
+}
+
+b {
+  font-weight: 800;
 }
 </style>

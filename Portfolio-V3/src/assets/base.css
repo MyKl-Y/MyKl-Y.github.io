@@ -85,6 +85,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.circle {
+  z-index: 1000;
+}
+
 .circle.not-hovered {
   --circle-size: 30px;
   position: fixed;
@@ -107,4 +111,8 @@ body {
   top: calc(var(--circle-size) / 2 * -1);
   left: calc(var(--circle-size) / 2 * -1);
   pointer-events: none;
+}
+
+* {
+  cursor: none;
 }

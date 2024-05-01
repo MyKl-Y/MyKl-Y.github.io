@@ -66,7 +66,11 @@ const tick = () => {
     circleElement.style.transform = `${translateTransform} ${rotateTransform} ${scaleTransform}`;
 
     // If hovering over a link, swap the cursor
-    const hovered = document.querySelector('a:hover');
+    const hovered = 
+        document.querySelector('a:hover') || 
+        document.querySelector('button:hover') || 
+        document.querySelector('.cursor-link:hover') || 
+        document.querySelector('.cursor-link-external:hover');
     if (hovered) {
         circleElement.classList.remove('not-hovered');
         circleElement.classList.add('hovered');
