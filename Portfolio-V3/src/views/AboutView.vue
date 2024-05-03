@@ -48,16 +48,5 @@
   </div>
 </template>
 
-<style>
-@media (min-width: 1024px) {
-  .about {
-    margin: 0 auto;
-    max-width: 800px;
-    padding: 2rem;
-  }
-}
-
-b {
-  font-weight: 800;
-}
+<style scoped>
 </style>

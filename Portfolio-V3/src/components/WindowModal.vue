@@ -1,5 +1,6 @@
 <script setup>
-import { RouterView } from 'vue-router'
+import Windows98Window from '@/components/Windows98Window.vue'
+
 
 defineProps({
     title: {
@@ -14,6 +15,7 @@ defineProps({
 </script>
 
 <template>
+    <!--
     <header>
         <div class="wrapper">
             <nav>
@@ -27,114 +29,171 @@ defineProps({
             </nav>
         </div>
     </header>
-    <div :class="'window ' + title.replaceAll(/\s/g,'')">
-        <div class="window-header">
-            <div class="window-controls">
-                <h1 class="window-title">{{ title }}</h1>
-                <button aria-label="Minimize">-</button>
-                <button aria-label="Maximize">+</button>
-                <button aria-label="Close" @click="change('')">x</button>
-            </div>
+    -->
+    <div ref="draggableContainer" :class="'window ' + title.replaceAll(/\s/g,'')">
+        <div v-for="direction in ['n', 'e', 's', 'w', 'ne', 'nw', 'se', 'sw']" 
+            :class="'resize-handle ' + direction" 
+            :key="'resize-handle-' + direction"
+            @mousedown="resizeMouseDown($event, direction)">
         </div>
-        <RouterView />
+        <Windows98Window :title="title" :change="change" :dragMouseDown="dragMouseDown" />
     </div>
 </template>
 
-<style scoped>
+<script>
+export default {
+    name: 'WindowModal',
+    data: function () {
+        return {
+            positions: {
+                clientX: undefined,
+                clientY: undefined,
+                movementX: 0,
+                movementY: 0,
+                startWidth: undefined,
+                startHeight: undefined,
+                resizing: false
+            }
+        }
+    },
+    methods: {
+        dragMouseDown: function (event) {
+            event.preventDefault()
+            // get the mouse cursor position at startup:
+            this.positions.clientX = event.clientX
+            this.positions.clientY = event.clientY
+            document.onmousemove = this.elementDrag
+            document.onmouseup = this.closeDragElement
+        },
+        elementDrag: function (event) {
+            event.preventDefault()
+            this.positions.movementX = this.positions.clientX - event.clientX
+            this.positions.movementY = this.positions.clientY - event.clientY
+            this.positions.clientX = event.clientX
+            this.positions.clientY = event.clientY
+            // set the element's new position:
+            this.$refs.draggableContainer.style.top = (this.$refs.draggableContainer.offsetTop - this.positions.movementY) + 'px'
+            this.$refs.draggableContainer.style.left = (this.$refs.draggableContainer.offsetLeft - this.positions.movementX) + 'px'
+        },
+        closeDragElement () {
+            document.onmouseup = null
+            document.onmousemove = null
+        }, 
+        resizeMouseDown: function (event, direction) {
+            event.preventDefault();
+            this.positions.clientX = event.clientX;
+            this.positions.clientY = event.clientY;
+            this.positions.startWidth = this.$refs.draggableContainer.clientWidth;
+            this.positions.startHeight = this.$refs.draggableContainer.clientHeight;
+            this.positions.resizing = true;
+            document.onmousemove = (e) => this.resizeMove(e, direction);
+            document.onmouseup = this.closeResizeElement;
+        },
+        resizeMove: function (event, direction) {
+            if (!this.positions.resizing) return;
+            this.positions.movementX = this.positions.clientX - event.clientX
+            this.positions.movementY = this.positions.clientY - event.clientY
+            let newWidth = this.positions.startWidth;
+            let newHeight = this.positions.startHeight;
+            if (direction.includes('e')) {
+                newWidth -= this.positions.movementX;
+                this.$refs.draggableContainer.style.width = newWidth + 'px';
+            }
+            if (direction.includes('s')) {
+                newHeight -= this.positions.movementY;
+                this.$refs.draggableContainer.style.height = newHeight + 'px';
+            }
+            if (direction.includes('w')) {
+                newWidth += this.positions.movementX;
+                this.$refs.draggableContainer.style.width = newWidth + 'px';
+                //move window left with resize
+                this.$refs.draggableContainer.style.left = (this.$refs.draggableContainer.offsetLeft - this.positions.movementX) + 'px'
+            }
+            if (direction.includes('n')) {
+                newHeight += this.positions.movementY;
+                this.$refs.draggableContainer.style.height = newHeight + 'px';
+                //move window top with resize
+                this.$refs.draggableContainer.style.top = (this.$refs.draggableContainer.offsetTop - this.positions.movementY) + 'px'
+            }
+            // Update the stored mouse positions for the next movement event
+            this.positions.clientX = event.clientX;
+            this.positions.clientY = event.clientY;
+            this.positions.startWidth = newWidth;
+            this.positions.startHeight = newHeight;
+        },
+        closeResizeElement: function () {
+            document.onmouseup = null;
+            document.onmousemove = null;
+            this.positions.resizing = false;
+        }
+    }
+}
+</script>
 
+<style>
 .window {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: white;
+    top: -5px;
+    left: -5px;
+    width: calc(100% + 10px);
+    height: calc(100% - 45px + 10px);
     z-index: 100;
+    display: grid;
+    grid-template-rows: 5px 1fr 5px;
+    grid-template-columns: 5px 1fr 5px;
+    resize: both;        /* Enable resizing */
+}
+
+.resize-handle.n {
+    grid-area: 1 / 2 / 2 / 3;
+    cursor: n-resize;
+}
+.resize-handle.e {
+    grid-area: 2 / 3 / 3 / 4;
+    cursor: e-resize;
+}
+.resize-handle.s {
+    grid-area: 3 / 2 / 4 / 3;
+    cursor: s-resize;
+}
+.resize-handle.w {
+    grid-area: 2 / 1 / 3 / 2;
+    cursor: w-resize;
+}
+.resize-handle.ne {
+    grid-area: 1 / 3 / 2 / 4;
+    cursor: ne-resize;
+}
+.resize-handle.nw {
+    grid-area: 1 / 1 / 2 / 2;
+    cursor: nw-resize;
+}
+.resize-handle.se {
+    grid-area: 3 / 3 / 4 / 4;
+    cursor: se-resize;
+}
+.resize-handle.sw {
+    grid-area: 3 / 1 / 4 / 2;
+    cursor: sw-resize;
+}
+
+.window-content {
+    grid-area: 2 / 2 / 3 / 3;
     display: flex;
     flex-direction: column;
-}
-
-.window-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-    background-color: lightgray;
-    color: black;
-}
-
-.window-controls {
-    display: flex;
-    align-items: center;
-}
-
-.window-title {
-    margin: 0;
-    font-size: 1.2rem;
-    font-weight: 500;
-    color: black;
-}
-
-button {
-    background-color: transparent;
-    border: 0;
-    cursor: pointer;
-    padding: 0.5rem;
-    margin-left: 0.5rem;
-    color: black;
-}
-
-button:hover {
-    background-color: gray;
-}
-
-button:active {
-    background-color: blue;
-}
-
-button[aria-label="Close"] {
-    color: black;
-}
-
-button[aria-label="Close"]:hover {
-    background-color: red;
-}
-
-button[aria-label="Close"]:active {
-    background-color: darkred;
-}
-
-button[aria-label="Minimize"] {
-    color: black;
-}
-
-button[aria-label="Minimize"]:hover {
-    background-color: yellow;
-}
-
-button[aria-label="Minimize"]:active {
-    background-color: darkgoldenrod;
-}
-
-button[aria-label="Maximize"] {
-    color: black;
-}
-
-button[aria-label="Maximize"]:hover {
-    background-color: green;
-}
-
-button[aria-label="Maximize"]:active {
-    background-color: darkgreen;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    min-width: 750px;
+    min-height: 352px;
 }
 
 @media (min-width: 1024px) {
     .window {
-        width: 50%;
-        height: 50%;
-        top: 25%;
-        left: 25%;
+        width: 750px;
+        height: 352px;
+        top: 10%;
+        left: 10%;
     }
 }
-
 </style>
