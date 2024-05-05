@@ -2,6 +2,11 @@
 import { defineProps, ref } from 'vue';
 import HomeView from '@/views/HomeView.vue';
 import AboutView from '@/views/AboutView.vue';
+import EducationView from '@/views/EducationView.vue';
+import ExperienceView from '@/views/ExperienceView.vue';
+import SkillsViewVue from '@/views/SkillsView.vue';
+import ProjectsView from '@/views/ProjectsView.vue';
+import ContactView from '@/views/ContactView.vue';
 
 let header = ref('');
 
@@ -58,7 +63,7 @@ if (props.title === 'home') {
             <div class="window-top">
                 <div class="window-toolbar">
                     <div class="window-toolbar-buttons">
-                        <div class="separate"></div>
+                        <div v-if="props.title != 'projects'" class="separate"></div>
                         <button><p><u>F</u>ile</p></button>
                         <button v-if="props.title != 'projects'"><p><u>E</u>dit</p></button>
                         <button><p><u>V</u>iew</p></button>
@@ -75,25 +80,45 @@ if (props.title === 'home') {
                         <img src="@/assets/windows98/startButtonLogo.png" height="20" alt="Logo" />
                     </div>
                 </div>
-                <div class="window-navbar">
+                <div v-if="props.title!='projects'" class="window-navbar">
                     <div class="separate"></div>
                     <button><img src="@/assets/windows98/backLogo.png" height="30" /><p>Back</p></button>
                     <button><img src="@/assets/windows98/forwardLogo.png" height="30" /><p>Forward</p></button>
-                    <button><img src="@/assets/windows98/stopLogo.png" height="30" /><p>Stop</p></button>
-                    <button><img src="@/assets/windows98/refreshLogo.png" height="30" /><p>Refresh</p></button>
-                    <button><img src="@/assets/windows98/homeLogo.png" height="30" /><p>Home</p></button>
-                    <button><img src="@/assets/windows98/searchLogo.png" height="30" /><p>Search</p></button>
-                    <button><img src="@/assets/windows98/favoritesLogo.png" height="30" /><p>Favorites</p></button>
-                    <button><img src="@/assets/windows98/historyLogo.png" height="30" /><p>History</p></button>
-                    <button><img src="@/assets/windows98/mailLogo.png" height="30" /><p>Mail</p></button>
-                    <button><img src="@/assets/windows98/printerLogo.png" height="30" /><p>Print</p></button>
+                    <button v-if="props.title==='home'"><img src="@/assets/windows98/stopLogo.png" height="30" /><p>Stop</p></button>
+                    <button v-if="props.title==='home'"><img src="@/assets/windows98/refreshLogo.png" height="30" /><p>Refresh</p></button>
+                    <button v-if="props.title==='home'" class="home"><img src="@/assets/windows98/homeLogo.png" height="30" /><p>Home</p></button>
+                    <button v-if="props.title==='home'"><img src="@/assets/windows98/searchLogo.png" height="30" /><p>Search</p></button>
+                    <button v-if="props.title==='home'"><img src="@/assets/windows98/favoritesLogo.png" height="30" /><p>Favorites</p></button>
+                    <button v-if="props.title==='home'" class="history"><img src="@/assets/windows98/historyLogo.png" height="30" /><p>History</p></button>
+                    <button v-if="props.title==='home'"><img src="@/assets/windows98/mailLogo.png" height="30" /><p>Mail</p></button>
+                    <button v-if="props.title==='home'"><img src="@/assets/windows98/printerLogo.png" height="30" /><p>Print</p></button>
+                    <button v-if="props.title!='home'&&props.title!='contact'" class="up"><img src="@/assets/windows98/upLogo.png" height="30" /><p>Up</p></button>
+                    <button v-if="props.title==='experience'"><img src="@/assets/windows98/updateAllLogo.png" height="30" /><p>Update...</p></button>
+                    <button v-if="props.title==='experience'" class="update"><img src="@/assets/windows98/updateSelectionLogo.png" height="30" /><p>Update...</p></button>
+                    <button v-if="props.title!='home'&&props.title!='contact'"><img src="@/assets/windows98/cutLogo.png" height="30" /><p>Cut</p></button>
+                    <button v-if="props.title!='home'&&props.title!='contact'"><img src="@/assets/windows98/copyLogo.png" height="30" /><p>Copy</p></button>
+                    <button v-if="props.title!='home'&&props.title!='contact'" class="paste"><img src="@/assets/windows98/pasteLogo.png" height="30" /><p>Paste</p></button>
+                    <button v-if="props.title!='home'&&props.title!='contact'" class="undo"><img src="@/assets/windows98/undoLogo.png" height="30" /><p>Undo</p></button>
+                    <button v-if="props.title!='home'&&props.title!='contact'"><img src="@/assets/windows98/deleteLogo.png" height="30" /><p>Delete</p></button>
+                    <button v-if="props.title!='home'&&props.title!='contact'" class="properties"><img src="@/assets/windows98/propertiesLogo.png" height="30" /><p>Properties</p></button>
+                    <button v-if="props.title!='home'&&props.title!='contact'"><img src="@/assets/windows98/viewsLogo.png" height="30" /><p>Views</p></button>
                 </div>
                 <div v-if="props.title != 'contact' && props.title != 'projects'" class="window-searchbar">
                     <div class="separate"></div>
                     <p>A<u>d</u>dress</p>
                     <div class="window-searchbar-input">
-                        <img src="@/assets/windows98/webpageLogoSmall.png" />
-                        <p>http://myportfolio.com/home</p>
+                        <img v-if="props.title==='home'" src="@/assets/windows98/webpageLogoSmall.png" />
+                        <img v-else-if="props.title==='about'" src="@/assets/windows98/myComputerLogoSmall.png" />
+                        <img v-else-if="props.title==='skills'" src="@/assets/windows98/myDocumentsLogoSmall.png" />
+                        <img v-else-if="props.title==='experience'" src="@/assets/windows98/myBriefcaseLogoSmall.png" />
+                        <img v-else-if="props.title==='education'" src="@/assets/windows98/networkNeighborhoodLogoSmall.png" />
+                        <img v-else-if="props.title==='contact'" src="@/assets/windows98/outlookExpressLogoSmall.png" />
+                        <p v-if="props.title==='home'">http://myportfolio.com/home</p>
+                        <p v-else-if="props.title==='about'">My Computer</p>
+                        <p v-else-if="props.title==='skills'">My Documents</p>
+                        <p v-else-if="props.title==='experience'">My Briefcase</p>
+                        <p v-else-if="props.title==='education'">Network Neighborhood</p>
+                        <p v-else-if="props.title==='contact'">Outlook Express</p>
                         <button class="dropdown">▾</button>
                     </div>
                     <button v-if="props.title==='home'" class="go"><img src="@/assets/windows98/goLogo.png" height="20" />Go</button>
@@ -103,12 +128,18 @@ if (props.title === 'home') {
             <div class="window-home">
                 <HomeView v-if="props.title==='home'" type="windows-98" />
                 <AboutView v-else-if="props.title==='about'" type="windows-98" />
+                <EducationView v-else-if="props.title==='education'" type="windows-98" />
+                <ExperienceView v-else-if="props.title==='experience'" type="windows-98" />
+                <SkillsViewVue v-else-if="props.title==='skills'" type="windows-98" />
+                <ProjectsView v-else-if="props.title==='projects'" type="windows-98" />
+                <ContactView v-else-if="props.title==='contact'" type="windows-98" />
             </div>
-            <div class="window-footer">
-                <p><img src="@/assets/windows98/webpageLogoSmall.png" height="20" />Done</p>
-                <p></p>
-                <p></p>
-                <p><img src="@/assets/windows98/myComputerLogoSmall.png" height="20" />My Computer</p>
+            <div v-if="props.title!='projects'" class="window-footer">
+                <p class="status" v-if="props.title==='home'"><img src="@/assets/windows98/webpageLogoSmall.png" height="20" />Done</p>
+                <p class="status" v-if="props.title==='contact'"></p>
+                <p v-if="props.title!='experience'&&props.title!='education'" :class="props.title" ></p>
+                <p :class="props.title" ></p>
+                <p v-if="props.title!='experience'&&props.title!='education'&&props.title!='contact'"><img src="@/assets/windows98/myComputerLogoSmall.png" height="20" />My Computer</p>
             </div>
         </div>
     </div>
@@ -200,7 +231,7 @@ if (props.title === 'home') {
     flex-direction: column;
     justify-content: flex-start;
     align-items: stretch;
-    height: 100%;
+    height: calc(100% - 27px);
     width: 100%;
 }
 .window-top {
@@ -286,7 +317,13 @@ if (props.title === 'home') {
     border: 2px inset #fdffff;
     filter: grayscale(0%);
 }
-.window-navbar button:nth-child(6), .window-navbar button:nth-child(9) {
+.window-navbar button.home, 
+.window-navbar button.history, 
+.window-navbar button.up, 
+.window-navbar button.paste, 
+.window-navbar button.undo, 
+.window-navbar button.properties,
+.window-navbar button.update {
     border-right: 3px groove #fdffff;
 }
 
@@ -372,7 +409,7 @@ if (props.title === 'home') {
     flex-direction: column;
     justify-content: flex-start;
     align-items: stretch;
-    height: calc(100% - 215px);
+    height: calc(100%);
     width: 100%;
     min-height: 100px;
     background-color: #ffffff;
@@ -410,13 +447,13 @@ if (props.title === 'home') {
 .window-footer p img {
     margin: 0 5px;
 }
-.window-footer p:nth-child(1) {
-    flex-grow: 3;
-}
 .window-footer p:not(:last-child) {
     margin-right: 3px;
 }
-.window-footer p:last-child {
+.window-footer p:not(.home) {
     flex-grow: 1;
+}
+.window-footer .status {
+    flex-grow: 3 !important;
 }
 </style>

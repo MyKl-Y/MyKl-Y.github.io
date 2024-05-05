@@ -183,15 +183,15 @@ export default {
     flex-direction: column;
     height: 100%;
     width: 100%;
-    overflow: hidden;
-    min-width: 750px;
-    min-height: 352px;
+    overflow: auto;
+    min-width: 865px;
+    min-height: 330px;
 }
 
 @media (min-width: 1024px) {
     .window {
-        width: 750px;
-        height: 352px;
+        width: 865px;
+        height: 330px;
         top: 10%;
         left: 10%;
     }
