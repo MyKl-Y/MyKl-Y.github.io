@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, ref } from 'vue';
+import { ref } from 'vue';
 import HomeView from '@/views/HomeView.vue';
 import AboutView from '@/views/AboutView.vue';
 import EducationView from '@/views/EducationView.vue';
@@ -80,10 +80,12 @@ if (props.title === 'home') {
                         <img src="@/assets/windows98/startButtonLogo.png" height="20" alt="Logo" />
                     </div>
                 </div>
-                <div v-if="props.title!='projects'" class="window-navbar">
-                    <div class="separate"></div>
-                    <button><img src="@/assets/windows98/backLogo.png" height="30" /><p>Back</p></button>
-                    <button><img src="@/assets/windows98/forwardLogo.png" height="30" /><p>Forward</p></button>
+                <div :class="'window-navbar ' + props.title">
+                    <div v-if="props.title!='projects'" class="separate"></div>
+                    <button v-if="props.title!='projects'"><img src="@/assets/windows98/backLogo.png" height="30" /><p>Back</p></button>
+                    <button v-if="props.title!='projects'"><img src="@/assets/windows98/forwardLogo.png" height="30" /><p>Forward</p></button>
+                    <button v-if="props.title=='projects'"><img src="@/assets/windows98/backLogo.png" height="20" /></button>
+                    <button v-if="props.title=='projects'"><img src="@/assets/windows98/forwardLogo.png" height="20" /></button>
                     <button v-if="props.title==='home'"><img src="@/assets/windows98/stopLogo.png" height="30" /><p>Stop</p></button>
                     <button v-if="props.title==='home'"><img src="@/assets/windows98/refreshLogo.png" height="30" /><p>Refresh</p></button>
                     <button v-if="props.title==='home'" class="home"><img src="@/assets/windows98/homeLogo.png" height="30" /><p>Home</p></button>
@@ -92,16 +94,17 @@ if (props.title === 'home') {
                     <button v-if="props.title==='home'" class="history"><img src="@/assets/windows98/historyLogo.png" height="30" /><p>History</p></button>
                     <button v-if="props.title==='home'"><img src="@/assets/windows98/mailLogo.png" height="30" /><p>Mail</p></button>
                     <button v-if="props.title==='home'"><img src="@/assets/windows98/printerLogo.png" height="30" /><p>Print</p></button>
-                    <button v-if="props.title!='home'&&props.title!='contact'" class="up"><img src="@/assets/windows98/upLogo.png" height="30" /><p>Up</p></button>
+                    <button v-if="props.title!='home'&&props.title!='contact'&&props.title!='projects'" class="up"><img src="@/assets/windows98/upLogo.png" height="30" /><p>Up</p></button>
                     <button v-if="props.title==='experience'"><img src="@/assets/windows98/updateAllLogo.png" height="30" /><p>Update...</p></button>
                     <button v-if="props.title==='experience'" class="update"><img src="@/assets/windows98/updateSelectionLogo.png" height="30" /><p>Update...</p></button>
-                    <button v-if="props.title!='home'&&props.title!='contact'"><img src="@/assets/windows98/cutLogo.png" height="30" /><p>Cut</p></button>
-                    <button v-if="props.title!='home'&&props.title!='contact'"><img src="@/assets/windows98/copyLogo.png" height="30" /><p>Copy</p></button>
-                    <button v-if="props.title!='home'&&props.title!='contact'" class="paste"><img src="@/assets/windows98/pasteLogo.png" height="30" /><p>Paste</p></button>
-                    <button v-if="props.title!='home'&&props.title!='contact'" class="undo"><img src="@/assets/windows98/undoLogo.png" height="30" /><p>Undo</p></button>
-                    <button v-if="props.title!='home'&&props.title!='contact'"><img src="@/assets/windows98/deleteLogo.png" height="30" /><p>Delete</p></button>
-                    <button v-if="props.title!='home'&&props.title!='contact'" class="properties"><img src="@/assets/windows98/propertiesLogo.png" height="30" /><p>Properties</p></button>
-                    <button v-if="props.title!='home'&&props.title!='contact'"><img src="@/assets/windows98/viewsLogo.png" height="30" /><p>Views</p></button>
+                    <button v-if="props.title!='home'&&props.title!='contact'&&props.title!='projects'"><img src="@/assets/windows98/cutLogo.png" height="30" /><p>Cut</p></button>
+                    <button v-if="props.title!='home'&&props.title!='contact'&&props.title!='projects'"><img src="@/assets/windows98/copyLogo.png" height="30" /><p>Copy</p></button>
+                    <button v-if="props.title!='home'&&props.title!='contact'&&props.title!='projects'" class="paste"><img src="@/assets/windows98/pasteLogo.png" height="30" /><p>Paste</p></button>
+                    <button v-if="props.title!='home'&&props.title!='contact'&&props.title!='projects'" class="undo"><img src="@/assets/windows98/undoLogo.png" height="30" /><p>Undo</p></button>
+                    <button v-if="props.title!='home'&&props.title!='contact'&&props.title!='projects'"><img src="@/assets/windows98/deleteLogo.png" height="30" /><p>Delete</p></button>
+                    <button v-if="props.title!='home'&&props.title!='contact'&&props.title!='projects'" class="properties"><img src="@/assets/windows98/propertiesLogo.png" height="30" /><p>Properties</p></button>
+                    <button v-if="props.title!='home'&&props.title!='contact'&&props.title!='projects'"><img src="@/assets/windows98/viewsLogo.png" height="30" /><p>Views</p></button>
+                    <button class="webEvents" v-if="props.title=='projects'"><img src="@/assets/windows98/windowsMediaPlayerLogoSmall.png"/><p>Web Events</p></button>
                 </div>
                 <div v-if="props.title != 'contact' && props.title != 'projects'" class="window-searchbar">
                     <div class="separate"></div>
@@ -403,6 +406,19 @@ if (props.title === 'home') {
     align-items: center;
     font-size: 1.2rem;
 }
+.webEvents {
+    display: flex;
+    flex-direction: row !important;
+    justify-content: flex-end !important;
+    margin-left: auto;
+}
+.webEvents img {
+    margin-right: 5px;
+}
+.window-navbar.projects {
+    height: 40px !important;
+}
+
 
 .window-home {
     display: flex;

@@ -27,7 +27,7 @@ const windows98StyleObject = reactive({
     color: 'black',
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'flex-start',
   },
   b: {

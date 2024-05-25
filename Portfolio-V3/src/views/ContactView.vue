@@ -49,7 +49,27 @@ const styleObject = styleType === 'windows-98' ? windows98StyleObject : styleTyp
 </script>
 
 <template>
-    <div :style="styleObject.container"></div>
+    <div :style="styleObject.container">
+        <h2 :style="styleObject.h2">Contact</h2>
+        <p :style="styleObject.p">
+            <b :style="styleObject.b">Email</b>: 
+            <a href="mailto:michaelyyim@gmail.com" style="color: black;">
+                Email me on Gmail
+            </a>
+        </p>
+        <p :style="styleObject.p">
+            <b :style="styleObject.b">LinkedIn</b>: 
+            <a href="https://www.linkedin.com/in/michaelyyim/" style="color: black;">
+                Connect with Michael Yim-Olmos on LinkedIn
+            </a>
+        </p>
+        <p :style="styleObject.p">
+            <b :style="styleObject.b">GitHub</b>: 
+            <a href="https://github.com/MyKl-Y" style="color: black;">
+                View MyKl-Y's GitHub profile
+            </a>
+        </p>
+    </div>
 </template>
 
 <style scoped>
