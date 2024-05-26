@@ -70,16 +70,16 @@
     justify-content: center;
 }
 
-.tree h3, .tree h4, .tree h5, .tree h6 {
+.tree-container h3, .tree-container h4, .tree-container h5, .tree-container h6 {
     color: var(--text-color);
     font-size: 1rem !important;
     font-weight: 500;
     text-wrap: wrap !important;
 }
-.tree h6 {
+.tree-container h6 {
     white-space: nowrap !important;
 }
-.tree .credit-hours {
+.credit-hours {
     text-wrap: nowrap;
 }
 
@@ -266,88 +266,23 @@
     box-shadow: var(--remove-inset);
 }
 
-.tree li.active-node > .tree-node-content {
+li.active-node > .tree-node-content {
     box-shadow: var(--background-inset);
 }
 
-.tree, .tree ul, .tree li {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    position: relative;
-}
 
-.tree {
-    margin: 0 0 1rem;
+.tree-container {
     text-align: center;
 }
-.tree .tree-node-content {
+.tree-node-content {
     cursor: pointer !important;
 }
-.tree, .tree ul {
-    display: table;
+.tree-node-content, .node-form {
+    box-shadow: var(--background-outset);
+    border-radius: 1rem;
+    display: inline-block;
+    padding: .5rem 1rem;
+    position: relative;
+    color: var(--text-color);
+    background-color: var(--background-color);
 }
-.tree ul {
-    width: 100%;
-}
-    .tree li {
-        display: table-cell;
-        padding: .5rem;
-        vertical-align: top;
-    }
-        /* _________ */
-        .tree li:before {
-            outline: solid 1px var(--primary);
-            content: "";
-            left: 0;
-            position: absolute;
-            right: 0;
-            top: 0;
-        }
-        .tree li:first-child:before {left: 50%;}
-        .tree li:last-child:before {right: 50%;}
-
-        .tree .tree-node-content, .tree span, .tree .node-form {
-            box-shadow: var(--background-outset);
-            border-radius: 1rem;
-            display: inline-block;
-            margin: 0 .2rem .5rem;
-            padding: .5rem 1rem;
-            position: relative;
-            color: var(--text-color);
-            background-color: var(--background-color);
-        }
-        /* If the tree represents DOM structure */
-        .tree code {
-            font-family: monaco, Consolas, 'Lucida Console', monospace;
-        }
-
-            /* | */
-            .tree ul:before,
-            .tree .tree-node-content:before,
-            .tree span:before, 
-            .tree .node-form:before{
-                outline: solid 1px var(--primary);
-                content: "";
-                height: .45rem;
-                left: 50%;
-                position: absolute;
-            }
-            .tree ul:before {
-                top: -.5rem;
-            }
-            .tree .tree-node-content:before,
-            .tree span:before,
-            .tree .node-form:before {
-                top: -.5rem;
-            }
-
-/* The root node doesn't connect upwards */
-.tree > li {margin-top: 0;}
-    .tree > li:before,
-    .tree > li:after,
-    .tree > li > .tree-node-content:before,
-    .tree > li > span:before,
-    .tree > li > .node-form:before {
-        outline: none;
-    }

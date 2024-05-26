@@ -90,6 +90,7 @@ router.post("/course/:degreeId/:concentrationId/:requirementId", async (req, res
             name: req.body.name,
             credits: req.body.credits,
             is_complete: false,
+            prerequisites: req.body.prerequisites || [],
         };
         let collection = await db.collection("graduationRequirements");
         let result = await collection.updateOne(
@@ -152,7 +153,38 @@ router.get("/requirement/:degreeId/:concentrationId", async (req, res) => {
         console.error(error);
         res.status(500).json({"message": error})
     }
-});    
+});
+
+// Read a list of all courses for a degree
+router.get("/courses/:degreeId", async (req, res) => {
+    try {
+        let collection = await db.collection("graduationRequirements");
+        let filter = { _id: new ObjectId(req.params["degreeId"]) };
+
+        const pipeline = [
+            { $match: filter },
+            { $unwind: "$concentrations" },
+            { $unwind: "$concentrations.requirements" },
+            { $unwind: "$concentrations.requirements.courses" },
+            {
+                $project: {
+                    _id: "$concentrations.requirements.courses._id",
+                    code: "$concentrations.requirements.courses.code",
+                    name: "$concentrations.requirements.courses.name",
+                    credits: "$concentrations.requirements.courses.credits",
+                    is_complete: "$concentrations.requirements.courses.is_complete",
+                },
+            },
+        ];
+
+        let result = await collection.aggregate(pipeline).toArray();
+        res.send(result).status(200);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ "message": error });
+    }
+});
+
 
 // Read a list of all courses by degree Id and requirementId
 router.get("/course/:degreeId/:concentrationId/:requirementId", async (req, res) => {

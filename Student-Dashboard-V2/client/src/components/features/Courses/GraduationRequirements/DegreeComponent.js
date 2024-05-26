@@ -5,9 +5,7 @@ import { useAuth } from "../../../../context/authentication/AuthContext";
 import ConcentrationComponent from "./ConcentrationComponent";
 import "../../../../styles/DegreeComponent.css";
 import { AddCircleTwoTone, Refresh, HelpTwoTone } from '@mui/icons-material';
-//import { Select, FormControl, MenuItem, OutlinedInput } from '@mui/material';
 import { Badge, Tooltip } from "@mui/material";
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 const DegreeComponent = ({ onSelectDegree }) => {
     const { user } = useAuth();
@@ -66,6 +64,7 @@ const DegreeComponent = ({ onSelectDegree }) => {
         onSelectDegree(degree);
         setSelectedDegree(degree);
         setShowAddNewForm(false); // Close the Add New forms
+        setSelectedConcentration(null);
     };
 
     const [createdConcentrations, setCreatedConcentrations] = useState([]);
@@ -191,23 +190,8 @@ const DegreeComponent = ({ onSelectDegree }) => {
                         onClick={toggleDropdown}
                     >
                         <span>
-                            {
-                                /*selectedDegree === "addNew" ? "Add New" : (selectedDegree ? selectedDegree.name : "Select a Degree")*/
-                                selectedDegree === "addNew" 
-                                    ? "Add New" 
-                                    : 
-                                        (
-                                            selectedDegree 
-                                                ? 
-                                                    /*<abbr
-                                                        title={selectedDegree.name}
-                                                    >
-                                                        {makeAbbr(selectedDegree.name)}
-                                                    </abbr>*/
-                                                    selectedDegree.name
-                                                : "Select a Degree"
-                                        )
-                            }
+                            {selectedDegree === "addNew" ? "Add New" : 
+                            (selectedDegree ? selectedDegree.name : "Select a Degree")}
                         </span>
                         <span className="dropdown-icon">{showDropdown ? " ▲" : " ▼"}</span>
                     </div>
@@ -262,110 +246,84 @@ const DegreeComponent = ({ onSelectDegree }) => {
                     <HelpTwoTone className="help-icon"/>
                 </Tooltip>
             </div>
-            <TransformWrapper
-                wheel={{step: 100, disabled: false}}
-                options={{limitToBounds: false}}
-                pinch={{step: 50, disabled: false}}
-                doubleClick={{disabled: true}}
-                panning={{step: 50, disabled: false, activationKeys: ["Control"]}}
-                limitToBounds={false}
-                minScale={0.5}
-                initialScale={.65}
-                centerOnInit={true}
-            >
-                <TransformComponent
-                    wrapperStyle={{ width: '100%', display: 'flex' }}
-                    componentStyle={{ flex: 1 }}
-                >
-                        <ul className="tree">
-                            {showAddNewForm ? (
-                            <li>
-                            <div className="node-form">
-                                <h3>Add New Degree</h3>
-                                <label>
-                                    Degree Type
-                                </label>
-                                <input
-                                    type="text"
-                                    placeholder="e.g., Bachelor of Science"
-                                    value={newDegree.type}
-                                    onChange={(e) =>
-                                        setNewDegree({
-                                            ...newDegree,
-                                            type: e.target.value,
-                                        })
-                                    }
-                                />
-                                <label>
-                                    Degree Name
-                                </label>
-                                <input
-                                    type="text"
-                                    placeholder="e.g., Computer Science"
-                                    value={newDegree.name}
-                                    onChange={(e) => 
-                                        setNewDegree({ 
-                                            ...newDegree, 
-                                            name: e.target.value 
-                                        })
-                                    }
-                                />
-                                <label>
-                                    Number of Credits
-                                </label>
-                                <input
-                                    type="number"
-                                    placeholder="#"
-                                    value={newDegree.credits}
-                                    onChange={(e) =>
-                                        setNewDegree({
-                                            ...newDegree,
-                                            credits: parseInt(e.target.value, 10),
-                                        })
-                                    }
-                                />
-                                <button onClick={handleDegreeSubmit}>
-                                    <AddCircleTwoTone />
-                                </button>
-                            </div>
-                            </li>
-                        ) : selectedDegree ? (
-                            <li 
-                                className={`degree-node active-node`} 
-                            >
-                                    <div 
-                                        className={`tree-node-content
-                                            ${
-                                                totalCredits >= selectedDegree.credits 
-                                                    ? "complete-node" 
-                                                    : ""
-                                            }`
-                                        } 
-                                    >
-                                        <h3>
-                                                <abbr title={selectedDegree.type}>
-                                                    {getDegreeTypeAbbreviation(selectedDegree.type)}
-                                                </abbr>
-                                                {" in "} 
-                                                {selectedDegree.name}
-                                        </h3>
-                                        Credit Hours: <b>{`${totalCredits}/${selectedDegree.credits}`}</b>
-                                    </div>
-                                    {selectedDegree &&
-                                        <ConcentrationComponent 
-                                            selectedDegree={selectedDegree} 
-                                            onCreateConcentration={onCreateConcentration}
-                                            onSelectConcentration={(concentration) => setSelectedConcentration(concentration)}
-                                            calculateTotalUpdates={calculateTotalUpdates}
-                                        /> 
-                                    }
-                                </li>
-                        ) : null}
-                        </ul>
-                </TransformComponent>
-            </TransformWrapper>
+            {showAddNewForm ? (
+                <div className="node-form">
+                    <h3>Add New Degree</h3>
+                    <label>
+                        Degree Type
+                    </label>
+                    <input
+                        type="text"
+                        placeholder="e.g., Bachelor of Science"
+                        value={newDegree.type}
+                        onChange={(e) =>
+                            setNewDegree({
+                                ...newDegree,
+                                type: e.target.value,
+                            })
+                        }
+                    />
+                    <label>
+                        Degree Name
+                    </label>
+                    <input
+                        type="text"
+                        placeholder="e.g., Computer Science"
+                        value={newDegree.name}
+                        onChange={(e) => 
+                            setNewDegree({ 
+                                ...newDegree, 
+                                name: e.target.value 
+                            })
+                        }
+                    />
+                    <label>
+                        Number of Credits
+                    </label>
+                    <input
+                        type="number"
+                        placeholder="#"
+                        value={newDegree.credits}
+                        onChange={(e) =>
+                            setNewDegree({
+                                ...newDegree,
+                                credits: parseInt(e.target.value, 10),
+                            })
+                        }
+                    />
+                    <button onClick={handleDegreeSubmit}>
+                        <AddCircleTwoTone />
+                    </button>
+                </div>
+            ) : selectedDegree ? (
+                <div>
+                    <div 
+                        className={`tree-node-content
+                            ${
+                                totalCredits >= selectedDegree.credits 
+                                    ? "complete-node" 
+                                    : ""
+                            }`
+                        } 
+                    >
+                        <h3>
+                                <abbr title={selectedDegree.type}>
+                                    {getDegreeTypeAbbreviation(selectedDegree.type)}
+                                </abbr>
+                                {" in "} 
+                                {selectedDegree.name}
+                        </h3>
+                        Credit Hours: <b>{`${totalCredits}/${selectedDegree.credits}`}</b>
+                    </div>
+                    <ConcentrationComponent 
+                        selectedDegree={selectedDegree} 
+                        onCreateConcentration={onCreateConcentration}
+                        onSelectConcentration={(concentration) => setSelectedConcentration(concentration)}
+                        calculateTotalUpdates={calculateTotalUpdates}
+                    /> 
+                </div>
+            ) : null}
         </div>
-        
     );
 };
 

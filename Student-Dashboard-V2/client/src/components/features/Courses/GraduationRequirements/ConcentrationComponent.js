@@ -11,25 +11,26 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
     const [newConcentration, setNewConcentration] = useState({
         name: "",
     });
-    const [hasConcentrations, setHasConcentrations] = useState(false);
-
-    useEffect(()=>{
-        if (selectedDegree.concentrations.length > 0)
-            setHasConcentrations(true);
-    }
-    ,[selectedDegree]);
+    const [hasConcentrations, setHasConcentrations] = useState(true);
 
     useEffect(() => {
-        if (selectedDegree && hasConcentrations) {
-            // Fetch requirements for the selected degree from the backend
-            // You can use fetch or any other method you prefer
-            // Update the URL as needed
-            fetch(`http://localhost:5050/graduation/concentration/${selectedDegree._id}`)
-                .then((response) => response.json())
-                .then((data) => setConcentrations(data))
-                .catch((error) => console.error(error));
+        if (selectedDegree && selectedDegree.concentrations.length > 0) {
+            setHasConcentrations(true);
+            fetchConcentrations(selectedDegree._id);
+        } else {
+            setHasConcentrations(false);
+            setConcentrations([]);
         }
     }, [selectedDegree]);
+
+    const fetchConcentrations = (degreeId) => {
+        fetch(`http://localhost:5050/graduation/concentration/${degreeId}`)
+            .then((response) => response.json())
+            .then((data) => {
+                setConcentrations(data[0].concentrations);
+            })
+            .catch((error) => console.error(error));
+    };
 
     const handleConcentrationSubmit = () => {
         if (selectedDegree) {
@@ -59,14 +60,13 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
         }
     };
 
+    const [showAddNewForm, setShowAddNewForm] = useState(false);
+
     const handleSelectConcentration = (concentration) => {
-        if (selectedConcentration === concentration) {
-            setSelectedConcentration(null);
-            onSelectConcentration(null);
-        } else {
-            onSelectConcentration(concentration);
-            setSelectedConcentration(concentration);
-        }
+        onSelectConcentration(concentration);
+        setSelectedConcentration(concentration);
+        setSelectedRequirement(null);
+        setShowAddNewForm(false);
     };
 
     const [selectedConcentration, setSelectedConcentration] = useState(null);
@@ -76,6 +76,12 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
     // Function to handle the creation of a new course
     const onCreateRequirement = (newRequirement) => {
         setCreatedRequirements([...createdRequirements, newRequirement]);
+    };
+
+    const [showDropdown, setShowDropdown] = useState(false);
+
+    const toggleDropdown = () => {
+        setShowDropdown(!showDropdown);
     };
 
     // Function to get all credits for a concentration
@@ -104,7 +110,104 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
 
     return (
         <div style={currentTheme}>
-            {/*<h2>Requirements for {selectedDegree.name}</h2>*/}
+            <div className="tree-button-container">
+                <div className="custom-dropdown-container">
+                    <div
+                        className={`custom-dropdown-header ${showDropdown ? "active" : ""}`}
+                        onClick={toggleDropdown}
+                    >
+                        <span>
+                            {selectedConcentration === "addNew" ? "Add New" : 
+                            (selectedConcentration ? selectedConcentration.name : "Select a Concentration")}
+                        </span>
+                        <span className="dropdown-icon">{showDropdown ? " ▲" : " ▼"}</span>
+                    </div>
+                    {showDropdown && (
+                        <div className="custom-dropdown-options">
+                            <div
+                                className={`custom-dropdown-option none-option ${selectedConcentration === null ? "active" : ""}`}
+                                onClick={() => 
+                                    {
+                                        handleSelectConcentration(null)
+                                        setShowAddNewForm(false) // Show the Add New form
+                                        toggleDropdown()
+                                    }
+                                }
+                            >
+
+                            </div>
+                            <div
+                                className={`custom-dropdown-option ${selectedConcentration === "addNew" ? "active" : ""}`}
+                                onClick={() => 
+                                    {
+                                        handleSelectConcentration("addNew")
+                                        setShowAddNewForm(true) // Show the Add New form
+                                        toggleDropdown()
+                                    }
+                                }
+                            >
+                                Add New
+                            </div>
+                            {concentrations.map((concentration) => (
+                                <div
+                                    className={`custom-dropdown-option ${selectedConcentration === concentration ? "active" : ""}`}
+                                    key={concentration._id}
+                                    onClick={() => 
+                                        {
+                                            handleSelectConcentration(concentration)
+                                            toggleDropdown()
+                                        }
+                                    }
+                                >
+                                    {concentration.name}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </div>
+            {showAddNewForm ? (
+                <div className="node-form">
+                <label>
+                    Concentration Name
+                </label>
+                <input
+                    type="text"
+                    placeholder="e.g., Cybersecurity"
+                    value={newConcentration.name}
+                    onChange={(e) =>
+                        setNewConcentration({ ...newConcentration, name: e.target.value })
+                    }
+                />
+                <button onClick={handleConcentrationSubmit}>
+                    <AddCircleTwoToneIcon />
+                </button>
+            </div>
+            ) : selectedConcentration ? (
+                <div>
+                    <div 
+                        className={`tree-node-content
+                            ${
+                                concentrationCompletedCredits(selectedConcentration) === concentrationTotalCredits(selectedConcentration) 
+                                    ? "complete-node" 
+                                    : ""
+                            }`
+                        } 
+                        onClick={() => handleSelectConcentration(selectedConcentration)}
+                    >
+                        <h4>{selectedConcentration.name}</h4>
+                        <b className="credit-hours">{concentrationCompletedCredits(selectedConcentration)} / {concentrationTotalCredits(selectedConcentration)}</b>
+                    </div>
+                    <RequirementComponent
+                        selectedDegree={selectedDegree}
+                        selectedConcentration={selectedConcentration}
+                        onSelectRequirement={(requirement) => setSelectedRequirement(requirement)}
+                        onCreateRequirement={onCreateRequirement}
+                        calculateTotalUpdates={calculateTotalUpdates}
+                    />
+                </div>
+            ) : null}
+            {/*
             {(selectedDegree.concentrations && selectedDegree.concentrations.length > 0) ? (
             <ul>
                 {selectedDegree.concentrations.map((concentration) => (
@@ -181,7 +284,7 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
                         </div>
                     </li>
                 </ul>
-            )}
+            )}*/}
         </div>
     );
 };
