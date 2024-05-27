@@ -106,7 +106,7 @@ const RequirementComponent = ({ selectedDegree, selectedConcentration, onCreateR
     }
 
     return (
-        <div style={currentTheme}>
+        <div className="tree-container" style={currentTheme}>
             <div className="tree-button-container">
                 <div className="custom-dropdown-container">
                     <div
@@ -115,7 +115,10 @@ const RequirementComponent = ({ selectedDegree, selectedConcentration, onCreateR
                     >
                         <span>
                             {selectedRequirement === "addNew" ? "Add New" : 
-                            (selectedRequirement ? selectedRequirement.name : "Select a Requirement")}
+                            (selectedRequirement ? (
+                                `${selectedRequirement.name}
+                                (${requirementTotalCredits(selectedRequirement)}/${selectedRequirement.credits})`
+                            ) : "Select a Requirement")}
                         </span>
                         <span className="dropdown-icon">{showDropdown ? " ▲" : " ▼"}</span>
                     </div>
@@ -195,36 +198,15 @@ const RequirementComponent = ({ selectedDegree, selectedConcentration, onCreateR
                 </button>
             </div>
             ) : selectedRequirement ? (
-                <div>
-                    <div 
-                        className={`tree-node-content
-                            ${
-                                isRequirementDone(selectedRequirement) ? "complete-node" : ""
-                            }`
-                        }
-                        onClick={() => handleSelectRequirement(selectedRequirement)}
-                    >
-                        <h5>{selectedRequirement.name}</h5>
-                        {`
-                            ${
-                                requirementTotalCredits(selectedRequirement)
-                            }
-                        /
-                            ${
-                                selectedRequirement.credits
-                            }
-                        `}
-                    </div>
-                    <CourseComponent 
-                        selectedDegree={selectedDegree}
-                        selectedConcentration={selectedConcentration}
-                        selectedRequirement={selectedRequirement} 
-                        onSelectCourse={(course) => setSelectedCourse(course)}
-                        onCreateCourse={onCreateCourse}
-                        isRequirementDone={isRequirementDone(selectedRequirement)}
-                        calculateTotalUpdates={calculateTotalUpdates}
-                    />
-                </div>
+                <CourseComponent 
+                    selectedDegree={selectedDegree}
+                    selectedConcentration={selectedConcentration}
+                    selectedRequirement={selectedRequirement} 
+                    onSelectCourse={(course) => setSelectedCourse(course)}
+                    onCreateCourse={onCreateCourse}
+                    isRequirementDone={isRequirementDone(selectedRequirement)}
+                    calculateTotalUpdates={calculateTotalUpdates}
+                />
             ) : null}
             {/*
             {(

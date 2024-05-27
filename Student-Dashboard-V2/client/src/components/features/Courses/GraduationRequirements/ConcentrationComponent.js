@@ -109,7 +109,7 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
 
 
     return (
-        <div style={currentTheme}>
+        <div className="tree-container" style={currentTheme}>
             <div className="tree-button-container">
                 <div className="custom-dropdown-container">
                     <div
@@ -118,7 +118,10 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
                     >
                         <span>
                             {selectedConcentration === "addNew" ? "Add New" : 
-                            (selectedConcentration ? selectedConcentration.name : "Select a Concentration")}
+                            (selectedConcentration ? (
+                                `${selectedConcentration.name}
+                                (${concentrationCompletedCredits(selectedConcentration)}/${concentrationTotalCredits(selectedConcentration)})`
+                            ) : "Select a Concentration")}
                         </span>
                         <span className="dropdown-icon">{showDropdown ? " ▲" : " ▼"}</span>
                     </div>
@@ -134,7 +137,6 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
                                     }
                                 }
                             >
-
                             </div>
                             <div
                                 className={`custom-dropdown-option ${selectedConcentration === "addNew" ? "active" : ""}`}
@@ -184,107 +186,14 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
                 </button>
             </div>
             ) : selectedConcentration ? (
-                <div>
-                    <div 
-                        className={`tree-node-content
-                            ${
-                                concentrationCompletedCredits(selectedConcentration) === concentrationTotalCredits(selectedConcentration) 
-                                    ? "complete-node" 
-                                    : ""
-                            }`
-                        } 
-                        onClick={() => handleSelectConcentration(selectedConcentration)}
-                    >
-                        <h4>{selectedConcentration.name}</h4>
-                        <b className="credit-hours">{concentrationCompletedCredits(selectedConcentration)} / {concentrationTotalCredits(selectedConcentration)}</b>
-                    </div>
-                    <RequirementComponent
-                        selectedDegree={selectedDegree}
-                        selectedConcentration={selectedConcentration}
-                        onSelectRequirement={(requirement) => setSelectedRequirement(requirement)}
-                        onCreateRequirement={onCreateRequirement}
-                        calculateTotalUpdates={calculateTotalUpdates}
-                    />
-                </div>
+                <RequirementComponent
+                    selectedDegree={selectedDegree}
+                    selectedConcentration={selectedConcentration}
+                    onSelectRequirement={(requirement) => setSelectedRequirement(requirement)}
+                    onCreateRequirement={onCreateRequirement}
+                    calculateTotalUpdates={calculateTotalUpdates}
+                />
             ) : null}
-            {/*
-            {(selectedDegree.concentrations && selectedDegree.concentrations.length > 0) ? (
-            <ul>
-                {selectedDegree.concentrations.map((concentration) => (
-                    <li 
-                        className={`concentrations-node ${
-                            selectedConcentration === concentration ? "active-node" : ""
-                        }`} 
-                        key={concentration._id} 
-                    >
-                        <div 
-                            className={`tree-node-content
-                                ${
-                                    concentrationCompletedCredits(concentration) === concentrationTotalCredits(concentration) 
-                                        ? "complete-node" 
-                                        : ""
-                                }`
-                            } 
-                            onClick={() => handleSelectConcentration(concentration)}
-                        >
-                            <h4>{concentration.name}</h4>
-                            <b className="credit-hours">{concentrationCompletedCredits(concentration)} / {concentrationTotalCredits(concentration)}</b>
-                        </div>
-                        {selectedConcentration && selectedConcentration._id === concentration._id && (
-                            <RequirementComponent
-                                selectedDegree={selectedDegree}
-                                selectedConcentration={selectedConcentration}
-                                onSelectRequirement={(requirement) => setSelectedRequirement(requirement)}
-                                onCreateRequirement={onCreateRequirement}
-                                calculateTotalUpdates={calculateTotalUpdates}
-                            />
-                        )}
-                    </li>
-                ))}
-                <li>
-                    <div className="node-form">
-                        <label>
-                            Concentration Name
-                        </label>
-                        <input
-                            type="text"
-                            placeholder="e.g., Cybersecurity"
-                            value={newConcentration.name}
-                            onChange={(e) =>
-                                setNewConcentration({ ...newConcentration, name: e.target.value })
-                            }
-                        />
-                        <button onClick={handleConcentrationSubmit}>
-                            <AddCircleTwoToneIcon />
-                        </button>
-                    </div>
-                </li>
-            </ul>
-            ) : (
-                <ul>
-                    <li>
-                        <div className="tree-node-content">No Concentrations Found</div>
-                    </li>
-                    <li>
-                        <div className="node-form">
-                            <label>
-                                Concentration Name
-                            </label>
-                            <input
-                                type="text"
-                                placeholder="e.g., Cybersecurity"
-                                value={newConcentration.name}
-                                onChange={(e) =>
-                                    setNewConcentration({ ...newConcentration, name: e.target.value })
-                                }
-                            />
-                            <button onClick={handleConcentrationSubmit}>
-                                <AddCircleTwoToneIcon />
-                            </button>
-                        </div>
-                    </li>
-                </ul>
-            )}*/}
         </div>
     );
 };

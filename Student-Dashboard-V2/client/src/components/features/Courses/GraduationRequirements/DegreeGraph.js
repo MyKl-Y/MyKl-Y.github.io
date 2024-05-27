@@ -1,8 +1,13 @@
 // DegreeGraph.js
 import React, { useEffect, useState } from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
+import { useTheme } from '../../../../context/theme/ThemeContext';
+
+// TODO: Change Colors
 
 const DegreeGraph = ({ selectedDegree }) => {
+    const { currentTheme } = useTheme();
+
     const [elements, setElements] = useState([]);
 
     useEffect(() => {
@@ -116,7 +121,8 @@ const DegreeGraph = ({ selectedDegree }) => {
     return (
         <CytoscapeComponent
             elements={elements}
-            style={{ width: '100%', height: '600px' }}
+            className='degree-graph'
+            style={currentTheme}
             layout={{ name: 'breadthfirst' }}
             stylesheet={[
                 {

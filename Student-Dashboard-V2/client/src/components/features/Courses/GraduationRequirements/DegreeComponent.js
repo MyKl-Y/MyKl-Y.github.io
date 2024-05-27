@@ -174,8 +174,8 @@ const DegreeComponent = ({ onSelectDegree }) => {
     }
 
     // TODO: Automatically mark course complete if there is a course in the course collection with same code
-    // TODO: Zoom in and out buttons
-    
+    // TODO: Delete degree, concentration, requirement, course
+    // TODO: Format to take less space
     return (
         <div className="tree-container" style={currentTheme}>
             <div className="tree-button-container">
@@ -191,7 +191,11 @@ const DegreeComponent = ({ onSelectDegree }) => {
                     >
                         <span>
                             {selectedDegree === "addNew" ? "Add New" : 
-                            (selectedDegree ? selectedDegree.name : "Select a Degree")}
+                            (selectedDegree ? (
+                                `${getDegreeTypeAbbreviation(selectedDegree.type)}
+                                ${selectedDegree.name}
+                                (${totalCredits}/${selectedDegree.credits})`
+                            ) : "Select a Degree")}
                         </span>
                         <span className="dropdown-icon">{showDropdown ? " ▲" : " ▼"}</span>
                     </div>
@@ -207,7 +211,6 @@ const DegreeComponent = ({ onSelectDegree }) => {
                                     }
                                 }
                             >
-
                             </div>
                             <div
                                 className={`custom-dropdown-option ${selectedDegree === "addNew" ? "active" : ""}`}
@@ -296,32 +299,12 @@ const DegreeComponent = ({ onSelectDegree }) => {
                     </button>
                 </div>
             ) : selectedDegree ? (
-                <div>
-                    <div 
-                        className={`tree-node-content
-                            ${
-                                totalCredits >= selectedDegree.credits 
-                                    ? "complete-node" 
-                                    : ""
-                            }`
-                        } 
-                    >
-                        <h3>
-                                <abbr title={selectedDegree.type}>
-                                    {getDegreeTypeAbbreviation(selectedDegree.type)}
-                                </abbr>
-                                {" in "} 
-                                {selectedDegree.name}
-                        </h3>
-                        Credit Hours: <b>{`${totalCredits}/${selectedDegree.credits}`}</b>
-                    </div>
-                    <ConcentrationComponent 
-                        selectedDegree={selectedDegree} 
-                        onCreateConcentration={onCreateConcentration}
-                        onSelectConcentration={(concentration) => setSelectedConcentration(concentration)}
-                        calculateTotalUpdates={calculateTotalUpdates}
-                    /> 
-                </div>
+                <ConcentrationComponent 
+                    selectedDegree={selectedDegree} 
+                    onCreateConcentration={onCreateConcentration}
+                    onSelectConcentration={(concentration) => setSelectedConcentration(concentration)}
+                    calculateTotalUpdates={calculateTotalUpdates}
+                /> 
             ) : null}
         </div>
     );

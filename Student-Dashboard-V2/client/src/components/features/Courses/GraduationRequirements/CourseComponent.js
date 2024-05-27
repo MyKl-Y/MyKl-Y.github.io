@@ -251,27 +251,38 @@ const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequir
                 </button>
             </div>
             ) : selectedCourse ? (
-                <div>
-                    <div 
-                        className={`tree-node-content
-                            ${
-                                selectedCourse.is_complete ? "complete-node" : ""
-                            }`
-                        } 
-                        onClick={() => handleSelectCourse(selectedCourse)}
-                    >
-                        <h6>{selectedCourse.code}</h6>
-                        <b><i>{selectedCourse.name}</i></b>
-                        <br/>
-                        {`
-                            ${
-                                selectedCourse.is_complete 
-                                    ? selectedCourse.credits+" / "+selectedCourse.credits
-                                    : isRequirementDone
-                                        ? ""
-                                        : 0+" / "+selectedCourse.credits
-                            }`}
-                        {!isRequirementDone
+                <div 
+                    className={`tree-node-content
+                        ${
+                            selectedCourse.is_complete ? "complete-node" : ""
+                        }`
+                    } 
+                    onClick={() => handleSelectCourse(selectedCourse)}
+                >
+                    <h6>{selectedCourse.code}</h6>
+                    <b><i>{selectedCourse.name}</i></b>
+                    <br/>
+                    {`
+                        ${
+                            selectedCourse.is_complete 
+                                ? selectedCourse.credits+" / "+selectedCourse.credits
+                                : isRequirementDone
+                                    ? ""
+                                    : 0+" / "+selectedCourse.credits
+                        }`}
+                    {!isRequirementDone
+                        ? 
+                            <button 
+                                className={`toggle-completion-button 
+                                    ${selectedCourse.is_complete ? "complete" : "incomplete"}`}
+                                onClick={() => toggleCourseCompleteness(selectedCourse)}
+                            >
+                                {selectedCourse.is_complete 
+                                    ? <CancelTwoTone/>
+                                    : <CheckCircleTwoTone/>
+                                }
+                            </button>
+                        : selectedCourse.is_complete
                             ? 
                                 <button 
                                     className={`toggle-completion-button 
@@ -283,235 +294,10 @@ const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequir
                                         : <CheckCircleTwoTone/>
                                     }
                                 </button>
-                            : selectedCourse.is_complete
-                                ? 
-                                    <button 
-                                        className={`toggle-completion-button 
-                                            ${selectedCourse.is_complete ? "complete" : "incomplete"}`}
-                                        onClick={() => toggleCourseCompleteness(selectedCourse)}
-                                    >
-                                        {selectedCourse.is_complete 
-                                            ? <CancelTwoTone/>
-                                            : <CheckCircleTwoTone/>
-                                        }
-                                    </button>
-                                : null
-                        }
-                    </div>
+                            : null
+                    }
                 </div>
             ) : null}
-            {/*
-            {hasSelectedDegree && hasSelectedConcentration && (
-                <div>
-                    {(
-                        hasSelectedRequirement 
-                        && selectedRequirement.courses 
-                        && selectedRequirement.courses.length > 0 
-                    ) ? (
-                        <ul>
-                            {selectedRequirement.courses.map((course) => (
-                                <li 
-                                    className={`course-node 
-                                        ${
-                                            selectedCourse === course ? "active-node" : ""
-                                        }`
-                                    } 
-                                    key={course._id}
-                                >
-                                    <div 
-                                        className={`tree-node-content
-                                            ${
-                                                course.is_complete ? "complete-node" : ""
-                                            }`
-                                        } 
-                                        onClick={() => handleSelectCourse(course)}
-                                    >
-                                        <h6>{course.code}</h6>
-                                        <b><i>{course.name}</i></b>
-                                        <br/>
-                                        {`
-                                            ${
-                                                course.is_complete 
-                                                    ? course.credits+" / "+course.credits
-                                                    : isRequirementDone
-                                                        ? ""
-                                                        : 0+" / "+course.credits
-                                            }`}
-                                        {selectedCourse === course && !isRequirementDone
-                                            ? 
-                                                <button 
-                                                    className={`toggle-completion-button 
-                                                        ${course.is_complete ? "complete" : "incomplete"}`}
-                                                    onClick={() => toggleCourseCompleteness(selectedCourse)}
-                                                >
-                                                    {course.is_complete 
-                                                        ? <CancelTwoTone/>
-                                                        : <CheckCircleTwoTone/>
-                                                    }
-                                                </button>
-                                            : course.is_complete && selectedCourse === course
-                                                ? 
-                                                    <button 
-                                                        className={`toggle-completion-button 
-                                                            ${course.is_complete ? "complete" : "incomplete"}`}
-                                                        onClick={() => toggleCourseCompleteness(selectedCourse)}
-                                                    >
-                                                        {course.is_complete 
-                                                            ? <CancelTwoTone/>
-                                                            : <CheckCircleTwoTone/>
-                                                        }
-                                                    </button>
-                                                : null
-                                        }
-                                    </div>
-                                </li>
-                            ))}
-                            <li>
-                                <div className="node-form">
-                                    <label>
-                                        Course Code
-                                    </label>
-                                    <input
-                                        type="text"
-                                        placeholder="e.g., MATH 1551"
-                                        value={newCourse.code}
-                                        onChange={(e) =>
-                                            setNewCourse({ ...newCourse, code: e.target.value })
-                                        }
-                                    />
-                                    <label>
-                                        Course Name
-                                    </label>
-                                    <input
-                                        type="text"
-                                        placeholder="e.g., Differential Calculus"
-                                        value={newCourse.name}
-                                        onChange={(e) =>
-                                            setNewCourse({ ...newCourse, name: e.target.value })
-                                        }
-                                    />
-                                    <label>
-                                        Credits
-                                    </label>
-                                    <input
-                                        type="number"
-                                        placeholder="#"
-                                        value={newCourse.credits}
-                                        onChange={(e) =>
-                                            setNewCourse({
-                                                ...newCourse,
-                                                credits: parseInt(e.target.value, 10),
-                                            })
-                                        }
-                                    />
-                                    <label>
-                                        Prerequisites
-                                    </label>
-                                    <input
-                                        type="text"
-                                        placeholder="Search for prerequisites..."
-                                        value={searchInput}
-                                        onChange={(e) => setSearchInput(e.target.value)}
-                                    />
-                                    <select
-                                        multiple
-                                        value={newCourse.prerequisites}
-                                        onChange={(e) =>
-                                            setNewCourse({
-                                                ...newCourse,
-                                                prerequisites: Array.from(e.target.selectedOptions, (option) => option.value)
-                                            })
-                                        }
-                                    >
-                                        {filteredCourses.map((course) => (
-                                            <option key={course._id} value={course._id}>
-                                                {course.name} ({course.code})
-                                            </option>
-                                        ))}
-                                    </select>
-                                    <button onClick={handleCourseSubmit}>
-                                        <AddCircleTwoTone/>
-                                    </button>
-                                </div>
-                            </li>
-                        </ul>
-                    ) : (
-                        <ul>
-                            <li>
-                                <div className="tree-node-content">No Courses Found</div>
-                            </li>
-                            <li>
-                                <div className="node-form">
-                                    <label>
-                                        Course Code
-                                    </label>
-                                    <input
-                                        type="text"
-                                        placeholder="e.g., MATH 1551"
-                                        value={newCourse.code}
-                                        onChange={(e) =>
-                                            setNewCourse({ ...newCourse, code: e.target.value })
-                                        }
-                                    />
-                                    <label>
-                                        Course Name
-                                    </label>
-                                    <input
-                                        type="text"
-                                        placeholder="e.g., Differential Calculus"
-                                        value={newCourse.name}
-                                        onChange={(e) =>
-                                            setNewCourse({ ...newCourse, name: e.target.value })
-                                        }
-                                    />
-                                    <label>
-                                        Credits
-                                    </label>
-                                    <input
-                                        type="number"
-                                        placeholder="#"
-                                        value={newCourse.credits}
-                                        onChange={(e) =>
-                                            setNewCourse({
-                                                ...newCourse,
-                                                credits: parseInt(e.target.value, 10),
-                                            })
-                                        }
-                                    />
-                                    <label>
-                                        Prerequisites
-                                    </label>
-                                    <input
-                                        type="text"
-                                        placeholder="Search for prerequisites..."
-                                        value={searchInput}
-                                        onChange={(e) => setSearchInput(e.target.value)}
-                                    />
-                                    <select
-                                        multiple
-                                        value={newCourse.prerequisites}
-                                        onChange={(e) =>
-                                            setNewCourse({
-                                                ...newCourse,
-                                                prerequisites: Array.from(e.target.selectedOptions, (option) => option.v)
-                                            })
-                                        }
-                                    >
-                                        {filteredCourses.map((course) => (
-                                            <option key={course._id} value={course._id}>
-                                                {course.name} ({course.code})
-                                            </option>
-                                        ))}
-                                    </select>
-                                    <button onClick={handleCourseSubmit}>
-                                        <AddCircleTwoTone/>
-                                    </button>
-                                </div>
-                            </li>
-                        </ul>
-                    )}
-                </div>
-            )}*/}
         </div>
     );
 };
