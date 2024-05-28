@@ -178,10 +178,10 @@ const DegreeComponent = ({ onSelectDegree }) => {
     // TODO: Format to take less space
     return (
         <div className="tree-container" style={currentTheme}>
-            <div className="tree-button-container">
+            <div className="tree-button-container first">
                 <Badge color="warning" variant="dot" invisible={1 > updatesCount}>
                     <div className="refresh-button" onClick={refreshPage}>
-                            <Refresh/>
+                        <Refresh/>
                     </div>
                 </Badge>
                 <div className="custom-dropdown-container">

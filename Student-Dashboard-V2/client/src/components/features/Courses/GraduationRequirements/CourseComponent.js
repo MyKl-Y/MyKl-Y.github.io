@@ -128,6 +128,22 @@ const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequir
     return (
         <div style={currentTheme}>
             <div className="tree-button-container">
+                {selectedCourse === "addNew" 
+                    ? <button className="toggle-completion-button complete" disabled><CancelTwoTone/></button> 
+                    : (selectedCourse 
+                        ? (
+                            <button 
+                                className={`toggle-completion-button 
+                                ${selectedCourse.is_complete ? "complete" : "incomplete"}`}
+                                onClick={() => toggleCourseCompleteness(selectedCourse)}
+                            >
+                                {selectedCourse.is_complete 
+                                    ? <CancelTwoTone/>
+                                    : <CheckCircleTwoTone/>
+                                }
+                            </button>)
+                        : <button className="toggle-completion-button complete" disabled><CancelTwoTone/></button>
+                )}
                 <div className="custom-dropdown-container">
                     <div
                         className={`custom-dropdown-header ${showDropdown ? "active" : ""}`}
@@ -135,7 +151,15 @@ const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequir
                     >
                         <span>
                             {selectedCourse === "addNew" ? "Add New" : 
-                            (selectedCourse ? selectedCourse.name : "Select a Course")}
+                            (selectedCourse ? 
+                                `${selectedCourse.code}: ${selectedCourse.name} (${
+                                    selectedCourse.is_complete 
+                                        ? selectedCourse.credits+"/"+selectedCourse.credits
+                                        : isRequirementDone
+                                            ? ""
+                                            : 0+"/"+selectedCourse.credits
+                                })` 
+                                : "Select a Course")}
                         </span>
                         <span className="dropdown-icon">{showDropdown ? " ▲" : " ▼"}</span>
                     </div>
@@ -151,7 +175,6 @@ const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequir
                                     }
                                 }
                             >
-
                             </div>
                             <div
                                 className={`custom-dropdown-option ${selectedCourse === "addNew" ? "active" : ""}`}
@@ -251,51 +274,7 @@ const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequir
                 </button>
             </div>
             ) : selectedCourse ? (
-                <div 
-                    className={`tree-node-content
-                        ${
-                            selectedCourse.is_complete ? "complete-node" : ""
-                        }`
-                    } 
-                    onClick={() => handleSelectCourse(selectedCourse)}
-                >
-                    <h6>{selectedCourse.code}</h6>
-                    <b><i>{selectedCourse.name}</i></b>
-                    <br/>
-                    {`
-                        ${
-                            selectedCourse.is_complete 
-                                ? selectedCourse.credits+" / "+selectedCourse.credits
-                                : isRequirementDone
-                                    ? ""
-                                    : 0+" / "+selectedCourse.credits
-                        }`}
-                    {!isRequirementDone
-                        ? 
-                            <button 
-                                className={`toggle-completion-button 
-                                    ${selectedCourse.is_complete ? "complete" : "incomplete"}`}
-                                onClick={() => toggleCourseCompleteness(selectedCourse)}
-                            >
-                                {selectedCourse.is_complete 
-                                    ? <CancelTwoTone/>
-                                    : <CheckCircleTwoTone/>
-                                }
-                            </button>
-                        : selectedCourse.is_complete
-                            ? 
-                                <button 
-                                    className={`toggle-completion-button 
-                                        ${selectedCourse.is_complete ? "complete" : "incomplete"}`}
-                                    onClick={() => toggleCourseCompleteness(selectedCourse)}
-                                >
-                                    {selectedCourse.is_complete 
-                                        ? <CancelTwoTone/>
-                                        : <CheckCircleTwoTone/>
-                                    }
-                                </button>
-                            : null
-                    }
+                <div>
                 </div>
             ) : null}
         </div>

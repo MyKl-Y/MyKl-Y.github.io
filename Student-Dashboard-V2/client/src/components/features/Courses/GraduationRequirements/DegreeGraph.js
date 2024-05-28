@@ -1,19 +1,17 @@
-// DegreeGraph.js
 import React, { useEffect, useState } from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
 import { useTheme } from '../../../../context/theme/ThemeContext';
 
-// TODO: Change Colors
-
 const DegreeGraph = ({ selectedDegree }) => {
     const { currentTheme } = useTheme();
-
     const [elements, setElements] = useState([]);
+    const [hiddenChildren, setHiddenChildren] = useState({});
 
     useEffect(() => {
         if (selectedDegree) {
             const degreeElements = buildGraphElements(selectedDegree);
             setElements(degreeElements);
+            setHiddenChildren({});
         }
     }, [selectedDegree]);
 
@@ -22,9 +20,8 @@ const DegreeGraph = ({ selectedDegree }) => {
         const edges = [];
         let index = 0;
 
-        // Add degree node
         nodes.push({
-            data: { id: `degree-${index}`, label: `Degree: ${degree.name}` },
+            data: { id: `degree-${index}`, label: `Degree: ${degree.type} in ${degree.name}` },
             classes: 'degree-node',
         });
 
@@ -33,13 +30,11 @@ const DegreeGraph = ({ selectedDegree }) => {
         degree.concentrations.forEach((concentration, cIndex) => {
             const concentrationId = `concentration-${cIndex}`;
 
-            // Add concentration node
             nodes.push({
                 data: { id: concentrationId, label: `Concentration: ${concentration.name}` },
                 classes: 'concentration-node',
             });
 
-            // Add edge from degree to concentration
             edges.push({
                 data: {
                     source: `degree-${index}`,
@@ -50,13 +45,11 @@ const DegreeGraph = ({ selectedDegree }) => {
             concentration.requirements.forEach((requirement, rIndex) => {
                 const requirementId = `requirement-${cIndex}-${rIndex}`;
 
-                // Add requirement node
                 nodes.push({
                     data: { id: requirementId, label: `Requirement: ${requirement.name}\nCredits: ${requirement.credits}` },
                     classes: 'requirement-node',
                 });
 
-                // Add edge from concentration to requirement
                 edges.push({
                     data: {
                         source: concentrationId,
@@ -72,16 +65,13 @@ const DegreeGraph = ({ selectedDegree }) => {
                         Completed: ${course.is_complete ? 'Yes' : 'No'}
                     `.trim();
 
-                    // Add course node
                     nodes.push({
                         data: { id: courseId, label: courseDetails },
                         classes: 'course-node',
                     });
 
-                    // Map MongoDB Object ID to course ID
                     courseIdMap[course._id] = courseId;
 
-                    // Add edge from requirement to course
                     edges.push({
                         data: {
                             source: requirementId,
@@ -92,7 +82,6 @@ const DegreeGraph = ({ selectedDegree }) => {
             });
         });
 
-        // Add edges for prerequisites
         degree.concentrations.forEach((concentration, cIndex) => {
             concentration.requirements.forEach((requirement, rIndex) => {
                 requirement.courses.forEach((course, courseIndex) => {
@@ -118,12 +107,53 @@ const DegreeGraph = ({ selectedDegree }) => {
         return [...nodes, ...edges];
     };
 
+    const layoutOptions = {
+        name: 'breadthfirst',
+        circle: true,
+        directed: true,
+        padding: 10,
+        avoidOverlap: true,
+        spacingFactor: 1,
+    };
+
+    const toggleChildrenVisibility = (node, hide) => {
+        const childEdges = node.connectedEdges().filter((edge) => edge.source().id() === node.id());
+        const childNodes = childEdges.targets();
+
+        if (hide) {
+            childEdges.hide();
+            childNodes.hide();
+        } else {
+            childEdges.show();
+            childNodes.show();
+        }
+
+        childNodes.forEach((childNode) => toggleChildrenVisibility(childNode, hide));
+    };
+
+    function handleNodeClick(event) {
+        const node = event.target;
+        if (node.isNode()) {
+            const nodeId = node.id();
+            const isHidden = hiddenChildren[nodeId];
+
+            if (isHidden) {
+                console.log('Showing children');
+                toggleChildrenVisibility(node, false);
+                setHiddenChildren((prev) => ({ ...prev, [nodeId]: false }));
+            } else {
+                console.log('Hiding children');
+                toggleChildrenVisibility(node, true);
+                setHiddenChildren((prev) => ({ ...prev, [nodeId]: true }));
+            }
+        }
+    }
+
     return (
         <CytoscapeComponent
             elements={elements}
             className='degree-graph'
             style={currentTheme}
-            layout={{ name: 'breadthfirst' }}
             stylesheet={[
                 {
                     selector: 'node',
@@ -181,6 +211,13 @@ const DegreeGraph = ({ selectedDegree }) => {
                     },
                 },
             ]}
+            cy={(cy) => {
+                cy.ready(() => {
+                    cy.fit();
+                    cy.layout(layoutOptions).run();
+                    cy.on('tap', 'node', handleNodeClick);
+                });
+            }}
         />
     );
 };

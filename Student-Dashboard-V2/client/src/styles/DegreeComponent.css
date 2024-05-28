@@ -9,15 +9,16 @@
 
 .degree-graph {
     width: 100%;
-    height: 100%;
+    height: 300px;
     border-radius: 1rem;
     box-shadow: var(--background-outset);
     color: var(--text-color);
+    flex-grow: 1;
 }
 
 .tree-container {
     width: 100%;
-    height: 100%;
+    height: fit-content;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -30,6 +31,10 @@
     align-items: flex-start;
     justify-content: flex-start;
     margin: .5rem 0 .5rem 0;
+}
+
+.tree-button-container.first .custom-dropdown-container {
+    margin-left: 1rem;
 }
 
 .refresh-button {
@@ -65,10 +70,6 @@
 }
 .credit-hours {
     text-wrap: nowrap;
-}
-
-.refresh-button {
-    margin-right: 1rem;
 }
 
 .custom-dropdown-container {
@@ -113,7 +114,7 @@
     border-bottom-left-radius: 1rem;
     border-bottom-right-radius: 1rem;
     display: none;
-    z-index: 2;
+    z-index: 10;
 }
 
 .custom-dropdown-header.active + .custom-dropdown-options {
@@ -170,7 +171,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 1rem;
+    margin: 1rem 0;
+    z-index: 5;
 }
 .node-form input {
     margin: .25rem .5rem .5rem .5rem;
@@ -218,6 +220,9 @@
     border: 1px solid var(--add-primary) !important;
 }
 
+.toggle-completion-button {
+    margin-right: 1rem !important;
+}
 .toggle-completion-button.incomplete {
     margin: auto;
     padding: .5rem;
@@ -227,7 +232,6 @@
     background-color: var(--add-primary);
     color: var(--background-color);
     cursor: pointer;
-    width: 100%;
 }
 .toggle-completion-button.complete {
     margin: auto;
@@ -238,7 +242,6 @@
     background-color: var(--remove-primary);
     color: var(--background-color);
     cursor: pointer;
-    width: 100%;
 }
 .toggle-completion-button.incomplete:hover {
     box-shadow: var(--add-inset);
