@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
 import { useTheme } from '../../../../context/theme/ThemeContext';
 
+// TODO: Change Colors
+
 const DegreeGraph = ({ selectedDegree }) => {
     const { currentTheme } = useTheme();
     const [elements, setElements] = useState([]);
