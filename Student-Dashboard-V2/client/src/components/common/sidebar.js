@@ -109,7 +109,11 @@ const Sidebar = () => {
                                             ? 'active-link' 
                                             : (location.pathname === '/habits')
                                                 ? 'active-link'
-                                                : '')
+                                                : (location.pathname.includes('/edit-task'))
+                                                    ? 'active-link'
+                                                    : (location.pathname === '/create-task')
+                                                        ? 'active-link'
+                                                        : '')
                                     }
                             >
                                 <div className='vl'></div>

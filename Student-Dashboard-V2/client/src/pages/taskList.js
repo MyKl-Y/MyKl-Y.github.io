@@ -6,7 +6,7 @@ import Task from "../components/features/Tasks/Task/Task";
 import "../styles/tasks.css";
 import {
     AddCircleTwoTone,
-    ArrowUpward, 
+    ArrowUpward,
     ArrowDownward,
     CategoryTwoTone,
     NewReleasesTwoTone,
@@ -17,6 +17,7 @@ export default function TaskList() {
     const { currentTheme } = useTheme();
     const [tasks, setTasks] = useState([]);
     const [sortConfig, setSortConfig] = useState({ key: 'priority', direction: 'descending' });
+    const [selectedTask, setSelectedTask] = useState(null);
 
     // This method fetches the records from the database.
     useEffect(() => {
@@ -48,19 +49,6 @@ export default function TaskList() {
         setTasks(newTasks);
     }
 
-    // This method will map out the tasks on the table
-    function taskList() {
-        return sortedTasks.map((task) => {
-            return (
-                <Task 
-                    task={task} 
-                    deleteTask={() => deleteTask(task._id)} 
-                    key={task._id} 
-                />
-            );
-        });
-    }
-
     const sortedTasks = useMemo(() => {
         let sortableTasks = [...tasks];
         if (sortConfig.key !== null) {
@@ -84,6 +72,42 @@ export default function TaskList() {
         }
         setSortConfig({ key, direction });
     };    
+
+    function updateTask(id, data) {
+        fetch(`http://localhost:5050/task/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        })
+        .then(() => {
+            setTasks((prevTasks) =>
+                prevTasks.map((task) => (task._id === id ? { ...task, ...data } : task))
+            );
+        });
+    }
+
+    function categorizedTaskList() {
+        const categories = [...new Set(tasks.map((task) => task.category))];
+        return categories.map((category) => (
+            <div className="task-list-category" key={category}>
+                <h1 className="category-title">{category}</h1>
+                <div className="category-tasks">
+                    {sortedTasks.filter(task => task.category === category).map((task) => (
+                        <Task 
+                            task={task} 
+                            deleteTask={() => deleteTask(task._id)} 
+                            key={task._id} 
+                            onClick={() => selectedTask === task._id ? setSelectedTask(null) : setSelectedTask(task._id)}
+                            selectedTask={selectedTask}
+                            updateTask={updateTask}
+                        />
+                    ))}
+                </div>
+            </div>
+        ));
+    }
     
     // This following section will display the table with the records of individuals.
     return (
@@ -95,7 +119,10 @@ export default function TaskList() {
             exit={{ opacity: 0 }}
             transition={{ duration: .5 }}
         >
-            <table className="task-list-table" style={currentTheme}>
+            <Link className="create-task-button" to="/create-task">
+                <AddCircleTwoTone /> Create Task
+            </Link>
+            {/*<table className="task-list-table" style={currentTheme}>
                 <thead>
                     <tr>
                         <th onClick={() => requestSort('category')}>
@@ -150,10 +177,8 @@ export default function TaskList() {
                     </tr>
                 </thead>
                 <tbody>{taskList()}</tbody>
-            </table>
-            <Link className="create-task-button" to="/create-task">
-                <AddCircleTwoTone />
-            </Link>
+            </table>*/}
+            <div className="task-list-body">{categorizedTaskList()}</div>
         </motion.div>
     );
 }

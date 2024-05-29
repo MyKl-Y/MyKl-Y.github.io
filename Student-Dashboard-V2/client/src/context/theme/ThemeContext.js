@@ -243,8 +243,8 @@ export const themes = {
 }
 
 export const ThemeProvider = ({ children }) => {
-    const [style, setStyle] = useState('glass'); // Default style
-    const [mode, setMode] = useState('light'); // Default mode within the style
+    const [style, setStyle] = useState('minimal'); // Default style
+    const [mode, setMode] = useState('dark'); // Default mode within the style
 
     const changeTheme = (newStyle, newMode) => {
         setStyle(newStyle);

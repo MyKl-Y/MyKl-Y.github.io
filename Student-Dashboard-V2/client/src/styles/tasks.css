@@ -100,11 +100,17 @@
 }
 
 .create-task-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     background: var(--add-primary);
     color: var(--background-color);
     border: none;
     border-radius: 5rem;
     padding: .5rem .5rem .75rem .5rem;
+    margin-bottom: 1rem;
+    text-decoration: none;
 }
 
 .task-create-container, .task-edit-container {
@@ -316,4 +322,85 @@ td.today, th.today {
 
 .habit-tracker thead th {
     cursor: default;
+}
+
+.habits-navigator {
+    color: var(--text-color);
+}
+.habit-tracker h1 {
+    color: var(--text-color);
+}
+
+
+.task-list-body {
+    display: flex;
+    flex-wrap: wrap;
+    color: var(--text-color);
+}
+.task-list-category {
+    margin-right: .5rem;
+    flex-grow: 1;
+    flex-basis: 250px;
+}
+.task-body {
+    color: var(--text-color);
+}
+.task {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    box-shadow: var(--background-outset);
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+}
+.task b {
+    color: var(--primary);
+}
+.task-status {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: .5rem;
+    margin-right: .5rem;
+}
+.task-status-header {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: .5rem 0 0 .5rem;
+    background-color: var(--primary);
+}
+.task-status-header.IP {
+    background-color: var(--selected-color);
+    box-shadow: var(--selected-inset);
+}
+.task-status-header.Yes {
+    background-color: var(--add-primary);
+    box-shadow: var(--add-inset);
+}
+.task-status-header.No {
+    background-color: var(--remove-primary);
+    box-shadow: var(--remove-inset);
+}
+.task-status-options {
+    width: 30px;
+    height: 100%;
+    border-radius: 0 .5rem .5rem 0;
+    box-shadow: var(--background-inset);
+    margin-right: .5rem;
+}
+.task-status-option {
+    width: 100%;
+    height: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.task-status-option.inactive:hover {
+    box-shadow: var(--background-outset);
+    cursor: pointer;
 }
