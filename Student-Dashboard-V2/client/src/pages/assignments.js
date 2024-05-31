@@ -120,6 +120,9 @@ export default function Assignments() {
             exit={{ opacity: 0 }}
             transition={{ duration: .5 }}
         >
+            <button hidden disabled className="sort-button" onClick={() => requestSort('priority')}>
+                Priority
+            </button>
             <Link className="create-task-button" to="/create-task">
                 <AddCircleTwoTone />
             </Link>
