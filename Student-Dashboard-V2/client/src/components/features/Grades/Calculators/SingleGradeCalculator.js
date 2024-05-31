@@ -1,18 +1,18 @@
-// SingleGradeCalculator.js
 import React, { useState, useEffect } from "react";
-import { motion } from 'framer-motion/dist/framer-motion';
+import { motion } from 'framer-motion';
 import { useTheme } from '../../../../context/theme/ThemeContext';
 import { 
     RemoveCircleTwoTone,
     AddCircleTwoTone,
 } from '@mui/icons-material';
 import '../../../../styles/grades.css';
+import axiosInstance from "../../../../axiosConfig";
 
 const SingleGradeCalculator = ({ id, onDelete }) => {
     const { currentTheme } = useTheme();
 
     const [assignments, setAssignments] = useState([
-        { id: 1, name: "", grade: null, weight: null },
+        { _id: 1, name: "", grade: null, weight: null, usePoints: false },
     ]);
     const [desiredAverage, setDesiredAverage] = useState(95); // Default Desired Average
     const [extraCredit, setExtraCredit] = useState(0);
@@ -20,8 +20,21 @@ const SingleGradeCalculator = ({ id, onDelete }) => {
     const [calculatedGrade, setCalculatedGrade] = useState(0);
     const [additionalGradeNeeded, setAdditionalGradeNeeded] = useState(0);
     const [usePoints, setUsePoints] = useState(false);
+    const [courses, setCourses] = useState([]);
+    const [selectedCourse, setSelectedCourse] = useState(null);
+    const [courseId, setCourseId] = useState('');
 
     useEffect(() => {
+        axiosInstance.get('/courses/')
+            .then(response => {
+                const courses = response.data;
+                setCourses(courses);
+            })
+            .catch(error => console.error(error));
+    }, []);
+
+    useEffect(() => {
+        // Calculate grades
         if (usePoints) {
             const totalWeight = assignments.reduce((acc, assignment) => acc + assignment.weight, 0);
             if (totalWeight > 0) {
@@ -71,13 +84,19 @@ const SingleGradeCalculator = ({ id, onDelete }) => {
     const addAssignment = () => {
         setAssignments([
             ...assignments, 
-            { id: assignments.length + 1, name: "", grade: 0, weight: 0 }
+            { id: assignments.length + 1, name: "", grade: 0, weight: 0, usePoints: usePoints}
         ]);
     };
 
     const removeAssignment = (index) => {
         const newAssignments = assignments.filter((_, i) => i !== index);
         setAssignments(newAssignments);
+    };
+
+    const saveAssignments = () => {
+            axiosInstance.post(`/courses/${courseId}/assignments`, { assignments: assignments, usePoints: usePoints })
+                .then(response => console.log('Assignments saved:', response.data))
+                .catch(error => console.error(error));
     };
 
     function roundTo(n, digits) {
@@ -100,7 +119,16 @@ const SingleGradeCalculator = ({ id, onDelete }) => {
 
     const handleToggleGradingSystem = () => {
         setUsePoints(!usePoints);
+        setAssignments(assignments.map(assignment => ({
+            ...assignment,
+            usePoints: usePoints,
+        })));
     };
+
+    function handleCourseChange(event) {
+        setCourseId(event.target.value);
+        setSelectedCourse(courses.find(course => course._id === event.target.value));
+    }
     
     return (
         <motion.div 
@@ -167,6 +195,7 @@ const SingleGradeCalculator = ({ id, onDelete }) => {
                     <input 
                         type="text" 
                         placeholder="Name" 
+                        value={assignment.name}
                         onChange={(event) => handleAssignmentChange(index, "name", event.target.value)} 
                     />
                     {usePoints ? (
@@ -174,25 +203,28 @@ const SingleGradeCalculator = ({ id, onDelete }) => {
                             <input 
                                 type="number" 
                                 placeholder="Grade (%)" 
+                                value={assignment.grade}
                                 onChange={(event) => handleAssignmentChange(index, "grade", event.target.value)} 
                             />
                             <input 
                                 type="number" 
                                 placeholder="Weight (%)" 
+                                value={assignment.weight}
                                 onChange={(event) => handleAssignmentChange(index, "weight", event.target.value)} 
                             />
                         </>
                     ) : (
-                        // Assuming 'grade' in 'points' gradingType means the score achieved
                         <>
                             <input 
                                 type="number" 
                                 placeholder="Points" 
+                                value={assignment.grade}
                                 onChange={(event) => handleAssignmentChange(index, "grade", event.target.value)} 
                             />
                             <input 
                                 type="number" 
                                 placeholder="Max Points" 
+                                value={assignment.weight}
                                 onChange={(event) => handleAssignmentChange(index, "weight", event.target.value)} 
                             />
                         </>
@@ -223,6 +255,19 @@ const SingleGradeCalculator = ({ id, onDelete }) => {
                 <AddCircleTwoTone />
                 Add Assignment
             </button>
+            <div className='add-to-course'>
+                <select onChange={handleCourseChange}>
+                    <option value="">Select a course</option>
+                    {courses.map(course => (
+                        <option key={course._id} value={course._id}>
+                            {course.courseName}
+                        </option>
+                    ))}
+                </select>
+                <button className="save" onClick={saveAssignments}>
+                    Save
+                </button>
+            </div>
             <div className="additional-parameters">
                 {usePoints ? (
                     <>

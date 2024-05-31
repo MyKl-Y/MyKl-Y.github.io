@@ -78,17 +78,31 @@ router.delete("/:id", async (req, res) => {
 // Add an assignment to a course
 router.post("/:id/assignments", async (req, res) => {
     const courseId = new ObjectId(req.params.id);
-    const newAssignment = {
-        _id: new ObjectId(),
-        name: req.body.name,
-        grade: req.body.grade,
-        weight: req.body.weight,
-    };
-
+    
+    // Fetch the existing course
     let collection = await db.collection("courses");
+    let course = await collection.findOne({ _id: courseId });
+
+    if (!course) {
+        return res.status(404).send("Course not found");
+    }
+
+    // Combine existing assignments with new assignments
+    const existingAssignments = course.assignments || [];
+    const newAssignments = req.body.assignments.map((assignment) => ({
+        _id: new ObjectId(),
+        name: assignment.name,
+        grade: assignment.grade,
+        weight: assignment.weight,
+        usePoints: req.body.usePoints,
+    }));
+
+    const updatedAssignments = [...existingAssignments, ...newAssignments];
+
+    // Update the course with the combined list of assignments
     let result = await collection.updateOne(
         { _id: courseId },
-        { $push: { assignments: newAssignment } }
+        { $set: { assignments: updatedAssignments } }
     );
 
     res.status(200).send(result);
@@ -106,7 +120,7 @@ router.patch("/:id/assignments/:assignmentId", async (req, res) => {
 
     let collection = await db.collection("courses");
     let result = await collection.updateOne(
-        { _id: courseId, "assignments.id": assignmentId },
+        { _id: courseId, "assignments._id": assignmentId },
         { $set: updates }
     );
 
@@ -121,21 +135,10 @@ router.delete("/:id/assignments/:assignmentId", async (req, res) => {
     let collection = await db.collection("courses");
     let result = await collection.updateOne(
         { _id: courseId },
-        { $pull: { assignments: { id: assignmentId } } }
+        { $pull: { assignments: { _id: assignmentId } } }
     );
 
     res.status(200).send(result);
-});
-
-// Get assignments for a course
-router.get("/:id/assignments", async (req, res) => {
-    const courseId = new ObjectId(req.params.id);
-
-    let collection = await db.collection("courses");
-    let course = await collection.findOne({ _id: courseId }, { projection: { assignments: 1 } });
-
-    if (!course) res.send("Not found").status(404);
-    else res.send(course.assignments).status(200);
 });
 
 export default router;

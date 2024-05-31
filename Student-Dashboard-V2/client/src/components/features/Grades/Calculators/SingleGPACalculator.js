@@ -1,6 +1,6 @@
 // GPACalculator.js
 import React, { useState, useEffect } from "react";
-import { motion } from 'framer-motion/dist/framer-motion';
+import { motion } from 'framer-motion';
 import { useTheme } from '../../../../context/theme/ThemeContext';
 import { 
     RemoveCircleTwoTone,
