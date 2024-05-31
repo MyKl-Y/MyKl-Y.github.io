@@ -5,11 +5,11 @@ import { useTheme } from "../context/theme/ThemeContext";
 import "../styles/tasks.css";
 import {
     AddCircleTwoTone,
-    ArrowUpward, 
-    ArrowDownward,
-    CategoryTwoTone,
-    NewReleasesTwoTone,
-    TimelineTwoTone,
+    //ArrowUpward, 
+    //ArrowDownward,
+    //CategoryTwoTone,
+    //NewReleasesTwoTone,
+    //TimelineTwoTone,
     ArrowLeft,
     ArrowRight,
 } from '@mui/icons-material';
@@ -75,6 +75,7 @@ export default function Habits() {
     }, [navigateCounter, habits.length]);
 
     // This method will delete a task from the database.
+    /*
     async function deleteHabit(id) {
         await fetch(`http://localhost:5050/task/${id}`, {
             method: "DELETE",
@@ -83,6 +84,7 @@ export default function Habits() {
         const newHabit = habits.filter((el) => el._id !== id);
         setHabits(newHabit);
     }
+    */
 
     const handleToggleHabit = async (habit, habitId, day, status) => {
         try {
@@ -127,7 +129,7 @@ export default function Habits() {
                     return;
                 }
 
-                const updatedHabit = await response.json();
+                //const updatedHabit = await response.json();
             } else {
                 let hashmap = [
                     day.toLocaleDateString(
@@ -161,7 +163,7 @@ export default function Habits() {
                     return;
                 }
 
-                const updatedHabit = await response.json();
+                //const updatedHabit = await response.json();
             }
         }
         catch (err) {

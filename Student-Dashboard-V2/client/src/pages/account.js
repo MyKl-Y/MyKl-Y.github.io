@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion'
 import { useAuth } from '../context/authentication/AuthContext';
@@ -30,6 +30,21 @@ const Account = () => {
 
     const [editingMode, setEditingMode] = useState(false);
 
+    const fetchUserData = useCallback(() => {
+        fetch(`http://localhost:5050/register/account/${user.name}`)
+            .then((response) => response.json())
+            .then((data) => {
+                setCurrentUser({
+                    userName: data.name,
+                    displayName: data.displayName,
+                    email: data.email,
+                    majors: data.majors,
+                    minors: data.minors,
+                });
+            })
+            .catch((error) => console.error(error));
+    }, [user]);
+
     function changeEditingMode() {
         setEditingMode(!editingMode);
     }
@@ -58,7 +73,7 @@ const Account = () => {
                 fetchUserData();
             })
             .catch((error) => console.error(error));
-    }, [user]);
+    }, [user, fetchUserData]);
 
     const handleEditAccount = () => {
         if (isLoggedIn){
@@ -84,22 +99,6 @@ const Account = () => {
             .catch((error) => console.error(error));
         }
     };
-
-    const fetchUserData = () => {
-        fetch(`http://localhost:5050/register/account/${user.name}`)
-            .then((response) => response.json())
-            .then((data) => {
-                setCurrentUser({
-                    userName: data.name,
-                    displayName: data.displayName,
-                    email: data.email,
-                    majors: data.majors,
-                    minors: data.minors,
-                });
-            })
-            .catch((error) => console.error(error));
-    }
-
 
     let creditHours = [0,0];
     let findLargestCreditHour = Math.max(...creditHours);

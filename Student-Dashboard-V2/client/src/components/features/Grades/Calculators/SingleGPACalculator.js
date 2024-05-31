@@ -1,5 +1,5 @@
 // GPACalculator.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { motion } from 'framer-motion';
 import { useTheme } from '../../../../context/theme/ThemeContext';
 import { 
@@ -21,16 +21,6 @@ const SingleGPACalculator = ({ id, onDelete }) => {
     const [previousCredits, setPreviousCredits] = useState(0);
     const [usePercentage, setUsePercentage] = useState(false);
 
-    useEffect(() => {
-        const credits = courses.reduce((acc, course) => acc + course.credits, 0);
-        setTotalCredits(credits + previousCredits);
-        if (totalCredits > 0) {
-            const qualityPoints = courses.reduce((acc, course) => acc + (determinePoints(course.grade) * course.credits), 0);
-            let gpa = (qualityPoints + previousGPA * previousCredits) / (credits + previousCredits);
-            setCalculatedGPA(gpa);
-        }
-    }, [courses, previousCredits, previousGPA]);
-
     const handlePreviousGPAChange = (event) => {
         setPreviousGPA(parseFloat(event) || 0);
     };
@@ -47,7 +37,7 @@ const SingleGPACalculator = ({ id, onDelete }) => {
         setUsePercentage(!usePercentage);
     };
 
-    function determinePoints(grade) {
+    const determinePoints = useCallback((grade) => {
         if (!usePercentage) {
             switch (grade.toLowerCase()) {
                 case "a+":
@@ -106,7 +96,17 @@ const SingleGPACalculator = ({ id, onDelete }) => {
                 return 0.0;
             }
         }
-    }
+    }, [usePercentage]);
+
+    useEffect(() => {
+        const credits = courses.reduce((acc, course) => acc + course.credits, 0);
+        setTotalCredits(credits + previousCredits);
+        if (totalCredits > 0) {
+            const qualityPoints = courses.reduce((acc, course) => acc + (determinePoints(course.grade) * course.credits), 0);
+            let gpa = (qualityPoints + previousGPA * previousCredits) / (credits + previousCredits);
+            setCalculatedGPA(gpa);
+        }
+    }, [courses, previousCredits, previousGPA, totalCredits, determinePoints]);
 
     const handleCourseChange = (index, field, value) => {
         const newCourses = courses.map((course, i) => {

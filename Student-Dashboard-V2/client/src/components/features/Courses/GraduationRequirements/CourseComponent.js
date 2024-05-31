@@ -74,13 +74,6 @@ const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequir
         setShowDropdown(!showDropdown);
     };
 
-    const [updatedCourse, setUpdatedCourse] = useState({
-        code: "",
-        name: "",
-        credits: "",
-        is_complete: false,
-    });
-
     const toggleCourseCompleteness = (course) => {
         let updatedCourse;
 
@@ -109,12 +102,6 @@ const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequir
         })
             .then((response) => response.json())
             .then((data) => {
-                setUpdatedCourse({
-                    code: "",
-                    name: "",
-                    credits: 0,
-                    is_complete: false
-                });
                 calculateTotalUpdates(1);
             })
             .catch((error) => console.error(error));

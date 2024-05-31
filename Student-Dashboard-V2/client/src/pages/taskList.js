@@ -6,11 +6,11 @@ import Task from "../components/features/Tasks/Task/Task";
 import "../styles/tasks.css";
 import {
     AddCircleTwoTone,
-    ArrowUpward,
-    ArrowDownward,
-    CategoryTwoTone,
-    NewReleasesTwoTone,
-    TimelineTwoTone,
+    //ArrowUpward,
+    //ArrowDownward,
+    //CategoryTwoTone,
+    //NewReleasesTwoTone,
+    //TimelineTwoTone,
 } from '@mui/icons-material';
 
 export default function TaskList() {
@@ -71,7 +71,7 @@ export default function TaskList() {
             direction = 'descending';
         }
         setSortConfig({ key, direction });
-    };    
+    };
 
     function updateTask(id, data) {
         fetch(`http://localhost:5050/task/${id}`, {

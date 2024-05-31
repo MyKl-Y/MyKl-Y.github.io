@@ -21,7 +21,6 @@ const SingleGradeCalculator = ({ id, onDelete }) => {
     const [additionalGradeNeeded, setAdditionalGradeNeeded] = useState(0);
     const [usePoints, setUsePoints] = useState(false);
     const [courses, setCourses] = useState([]);
-    const [selectedCourse, setSelectedCourse] = useState(null);
     const [courseId, setCourseId] = useState('');
 
     useEffect(() => {
@@ -57,7 +56,7 @@ const SingleGradeCalculator = ({ id, onDelete }) => {
                 setCalculatedGrade(averageGrade);
             }
         }
-    }, [assignments, desiredAverage, extraCredit]);
+    }, [assignments, desiredAverage, extraCredit, usePoints]);
 
     const handleExtraCreditChange = (event) => {
         setExtraCredit(parseFloat(event.target.value) || 0);
@@ -127,7 +126,6 @@ const SingleGradeCalculator = ({ id, onDelete }) => {
 
     function handleCourseChange(event) {
         setCourseId(event.target.value);
-        setSelectedCourse(courses.find(course => course._id === event.target.value));
     }
     
     return (

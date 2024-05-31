@@ -6,11 +6,11 @@ import Task from "../components/features/Tasks/Task/Task";
 import "../styles/tasks.css";
 import {
     AddCircleTwoTone,
-    ArrowUpward, 
-    ArrowDownward,
-    CategoryTwoTone,
-    NewReleasesTwoTone,
-    TimelineTwoTone,
+    //ArrowUpward, 
+    //ArrowDownward,
+    //CategoryTwoTone,
+    //NewReleasesTwoTone,
+    //TimelineTwoTone,
 } from '@mui/icons-material';
 
 export default function Assignments() {
@@ -18,8 +18,6 @@ export default function Assignments() {
     const [assignments, setAssignments] = useState([]);
     const [sortConfig, setSortConfig] = useState({ key: 'priority', direction: 'descending' });
     const [selectedAssignment, setSelectedAssignment] = useState(null);
-
-    const desiredCategories = ["Homework", "Project", "Quiz", "Exam", "Paper", "Presentation"];
 
     useEffect(() => {
         async function getAssignments() {
@@ -65,6 +63,7 @@ export default function Assignments() {
     };
 
     const sortedAssignments = useMemo(() => {
+        const desiredCategories = ["Homework", "Project", "Quiz", "Exam", "Paper", "Presentation"];
         let filteredAssignments = assignments.filter(assignment => 
             desiredCategories.includes(assignment.category)
         );

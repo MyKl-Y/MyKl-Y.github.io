@@ -14,14 +14,14 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
     const [hasConcentrations, setHasConcentrations] = useState(true);
 
     useEffect(() => {
-        if (selectedDegree && selectedDegree.concentrations.length > 0) {
+        if (selectedDegree && selectedDegree.concentrations.length > 0 && hasConcentrations) {
             setHasConcentrations(true);
             fetchConcentrations(selectedDegree._id);
         } else {
             setHasConcentrations(false);
             setConcentrations([]);
         }
-    }, [selectedDegree]);
+    }, [selectedDegree, hasConcentrations]);
 
     const fetchConcentrations = (degreeId) => {
         fetch(`http://localhost:5050/graduation/concentration/${degreeId}`)
@@ -189,6 +189,7 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
                 <RequirementComponent
                     selectedDegree={selectedDegree}
                     selectedConcentration={selectedConcentration}
+                    selectedRequirement={selectedRequirement}
                     onSelectRequirement={(requirement) => setSelectedRequirement(requirement)}
                     onCreateRequirement={onCreateRequirement}
                     calculateTotalUpdates={calculateTotalUpdates}

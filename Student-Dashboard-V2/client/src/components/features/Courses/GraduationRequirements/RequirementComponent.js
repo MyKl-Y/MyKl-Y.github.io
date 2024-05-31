@@ -202,6 +202,7 @@ const RequirementComponent = ({ selectedDegree, selectedConcentration, onCreateR
                     selectedDegree={selectedDegree}
                     selectedConcentration={selectedConcentration}
                     selectedRequirement={selectedRequirement} 
+                    selectedCourse={selectedCourse}
                     onSelectCourse={(course) => setSelectedCourse(course)}
                     onCreateCourse={onCreateCourse}
                     isRequirementDone={isRequirementDone(selectedRequirement)}

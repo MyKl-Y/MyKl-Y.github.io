@@ -114,6 +114,7 @@ export default function Job(props) {
 
         if (!response.ok) {
             const message = `An error has occurred: ${response.statusText}`;
+            console.log(message);
             return;
         }
 
@@ -142,7 +143,7 @@ export default function Job(props) {
             className="job-container"
             key={props.job._id}
         >
-            {props.isEditing && props.selectedJob === props.job._id || props.job === 'add' ? (
+            {(props.isEditing && props.selectedJob === props.job._id) || props.job === 'add' ? (
                 <form onSubmit={onSubmit}>
                     <div className="job-top">
                         <div className="job-header-container">

@@ -300,6 +300,7 @@ const DegreeComponent = ({ onSelectDegree }) => {
             ) : selectedDegree ? (
                 <ConcentrationComponent 
                     selectedDegree={selectedDegree} 
+                    selectedConcentration={selectedConcentration}
                     onCreateConcentration={onCreateConcentration}
                     onSelectConcentration={(concentration) => setSelectedConcentration(concentration)}
                     calculateTotalUpdates={calculateTotalUpdates}

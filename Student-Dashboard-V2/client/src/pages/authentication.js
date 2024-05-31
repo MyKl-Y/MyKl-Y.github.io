@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useTheme } from '../context/theme/ThemeContext';
 import { useAuth } from '../context/authentication/AuthContext';
@@ -45,7 +45,7 @@ const Authentication = () => {
         minors: [],
     });
 
-    const { currentUser, authLogin } = useAuth();
+    const { authLogin } = useAuth();
 
     const [isLoginTab, setIsLoginTab] = useState(true); // State to switch between Login and Register
     const [passwordError, setPasswordError] = useState('');
@@ -65,7 +65,7 @@ const Authentication = () => {
         setShowPassword(!showPassword);
     };      
 
-    const validatePassword = () => {
+    const validatePassword = useCallback(() => {
         const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[.!@#$%^&*-_])[A-Za-z0-9.!@#$%^&*]{8,}$/;
         if (!user.password.match(passwordRegex) && (user.password !== '')) {
             setPasswordError(
@@ -81,7 +81,7 @@ const Authentication = () => {
             setPasswordError('');
             setPasswordError0('');
         }
-    };
+    }, [user.password, user.confirmPassword]);
 
     // Function to check username availability
     const checkUsernameAvailability = async (username) => {
@@ -125,7 +125,7 @@ const Authentication = () => {
 
     useEffect(() => {
         validatePassword();
-    }, [user.password, user.confirmPassword]);
+    }, [user.password, user.confirmPassword, validatePassword]);
 
     const updateUser = (updatedFields) => {
         setUser((prev) => {
