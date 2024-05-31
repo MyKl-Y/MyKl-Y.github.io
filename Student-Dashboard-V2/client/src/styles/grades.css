@@ -2,6 +2,7 @@
     overflow: scroll;
     -ms-overflow-style: none !important;
     scrollbar-width: none !important;
+    color: var(--text-color);
 }
 .grades-container input {
     width: 100%;
@@ -61,7 +62,7 @@
     justify-content: space-between;
 }
 .course-grade {
-    flex-basis: calc(50% - 1rem);
+    flex-basis: calc(33% - 1rem);
     width: 100%;
     padding: 2rem 2rem 2rem 2rem;
     margin: 1rem 0;
@@ -80,6 +81,7 @@
 }
 .course-grade ul {
     list-style-type: circle;
+    padding: 0 1rem;
     margin: 0;
 }
 .course-grade li {
