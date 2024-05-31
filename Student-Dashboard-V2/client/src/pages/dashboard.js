@@ -1,6 +1,6 @@
 // Dashboard.js
 import React from 'react';
-import { motion } from 'framer-motion/dist/framer-motion'
+import { motion } from 'framer-motion'
 
 // TODO: heat map, line graph, sankey diagram, pie chart, bar graph
 

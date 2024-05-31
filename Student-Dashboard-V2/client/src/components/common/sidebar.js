@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import '../../styles/sidebar.css';
 import { useTheme } from '../../context/theme/ThemeContext';
 import { useAuth } from '../../context/authentication/AuthContext';
-import { motion } from 'framer-motion/dist/framer-motion'
+import { motion } from 'framer-motion'
 import { 
     SchoolTwoTone, 
     DashboardTwoTone,

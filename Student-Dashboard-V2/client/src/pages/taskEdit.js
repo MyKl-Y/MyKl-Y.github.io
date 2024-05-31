@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router"
-import { motion } from "framer-motion/dist/framer-motion";
+import { motion } from "framer-motion";
 import { useTheme } from "../context/theme/ThemeContext";
 import "../styles/tasks.css"
 
-export default function editTask() {
+export default function EditTask() {
     const { currentTheme } = useTheme();
 
     const [form, setForm] = useState({

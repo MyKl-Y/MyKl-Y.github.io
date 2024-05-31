@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import { NavLink, useLocation } from "react-router-dom";
 import "../../styles/navbar.css";
 import { useTheme } from '../../context/theme/ThemeContext';
-import { motion } from "framer-motion/dist/framer-motion";
+import { motion } from "framer-motion";
 
 export default function Navbar() {
     const location = useLocation();

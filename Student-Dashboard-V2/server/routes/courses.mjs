@@ -75,4 +75,67 @@ router.delete("/:id", async (req, res) => {
     res.send(result).status(200);
 });
 
+// Add an assignment to a course
+router.post("/:id/assignments", async (req, res) => {
+    const courseId = new ObjectId(req.params.id);
+    const newAssignment = {
+        _id: new ObjectId(),
+        name: req.body.name,
+        grade: req.body.grade,
+        weight: req.body.weight,
+    };
+
+    let collection = await db.collection("courses");
+    let result = await collection.updateOne(
+        { _id: courseId },
+        { $push: { assignments: newAssignment } }
+    );
+
+    res.status(200).send(result);
+});
+
+// Update an assignment in a course
+router.patch("/:id/assignments/:assignmentId", async (req, res) => {
+    const courseId = new ObjectId(req.params.id);
+    const assignmentId = new ObjectId(req.params.assignmentId);
+    const updates = {
+        "assignments.$.name": req.body.name,
+        "assignments.$.grade": req.body.grade,
+        "assignments.$.weight": req.body.weight,
+    };
+
+    let collection = await db.collection("courses");
+    let result = await collection.updateOne(
+        { _id: courseId, "assignments.id": assignmentId },
+        { $set: updates }
+    );
+
+    res.status(200).send(result);
+});
+
+// Delete an assignment from a course
+router.delete("/:id/assignments/:assignmentId", async (req, res) => {
+    const courseId = new ObjectId(req.params.id);
+    const assignmentId = new ObjectId(req.params.assignmentId);
+
+    let collection = await db.collection("courses");
+    let result = await collection.updateOne(
+        { _id: courseId },
+        { $pull: { assignments: { id: assignmentId } } }
+    );
+
+    res.status(200).send(result);
+});
+
+// Get assignments for a course
+router.get("/:id/assignments", async (req, res) => {
+    const courseId = new ObjectId(req.params.id);
+
+    let collection = await db.collection("courses");
+    let course = await collection.findOne({ _id: courseId }, { projection: { assignments: 1 } });
+
+    if (!course) res.send("Not found").status(404);
+    else res.send(course.assignments).status(200);
+});
+
 export default router;

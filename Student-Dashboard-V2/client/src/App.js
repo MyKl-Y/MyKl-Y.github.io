@@ -33,9 +33,8 @@ import WaveAnimation from './components/common/waveAnimation.js';
 //import AnimatedRoutes from './components/AnimatedRoutes';
 import { useTheme } from './context/theme/ThemeContext.js';
 //import { useAuth } from './context/AuthContext';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/App.css'
-import { AnimatePresence } from 'framer-motion/dist/framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import Applications from './pages/applications';
 
 function App() {
@@ -66,7 +65,7 @@ function App() {
       className={isLandingPage ? 'App center-content' : (isLoginRegister ? 'App auth-center' : 'App flex-end-content')} 
       style={currentTheme}
     >
-      <AnimatePresence exitBeforeEnter>
+      <AnimatePresence mode='wait'>
         {renderSidebar && <Sidebar />}
         {renderSidebar && <Navbar />}
         <div 

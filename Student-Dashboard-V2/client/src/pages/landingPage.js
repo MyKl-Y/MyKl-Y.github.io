@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/theme/ThemeContext';
 import { useAuth } from '../context/authentication/AuthContext';
 import '../styles/landingPage.css';
-import { motion } from 'framer-motion/dist/framer-motion'
+import { motion } from 'framer-motion'
 
 function LandingPage({ onEnterClick }) {
     const { currentTheme, mode, toggleMode } = useTheme();

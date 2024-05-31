@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion/dist/framer-motion";
+import { motion } from "framer-motion";
 import { useTheme } from "../context/theme/ThemeContext";
 import Task from "../components/features/Tasks/Task/Task";
 import "../styles/tasks.css";
@@ -122,62 +122,6 @@ export default function TaskList() {
             <Link className="create-task-button" to="/create-task">
                 <AddCircleTwoTone /> Create Task
             </Link>
-            {/*<table className="task-list-table" style={currentTheme}>
-                <thead>
-                    <tr>
-                        <th onClick={() => requestSort('category')}>
-                            <abbr title="Category">
-                                <CategoryTwoTone />
-                            </abbr> 
-                            {sortConfig.key === 'category' && (sortConfig.direction === 'ascending' 
-                                ? <ArrowUpward /> 
-                                : <ArrowDownward />)}
-                        </th>
-                        <th onClick={() => requestSort('priority')}>
-                            <abbr title="Priority">
-                                <NewReleasesTwoTone />
-                            </abbr> 
-                            {sortConfig.key === 'priority' && (sortConfig.direction !== 'ascending' 
-                                ? <ArrowUpward /> 
-                                : <ArrowDownward />)}
-                        </th>
-                        <th onClick={() => requestSort('status')}>
-                            <abbr title="Status">
-                                <TimelineTwoTone />
-                            </abbr>
-                            {sortConfig.key === 'status' && (sortConfig.direction === 'ascending' 
-                                ? <ArrowUpward /> 
-                                : <ArrowDownward />)}
-                        </th>
-                        <th onClick={() => requestSort('name')}>
-                            Name 
-                            {sortConfig.key === 'name' && (sortConfig.direction === 'ascending' 
-                                ? <ArrowUpward /> 
-                                : <ArrowDownward />)}
-                        </th>
-                        <th onClick={() => requestSort('description')}>
-                            Info 
-                            {sortConfig.key === 'description' && (sortConfig.direction === 'ascending' 
-                                ? <ArrowUpward /> 
-                                : <ArrowDownward />)}
-                        </th>
-                        <th onClick={() => requestSort('startDate')}>
-                            Start Date 
-                            {sortConfig.key === 'startDate' && (sortConfig.direction === 'ascending' 
-                                ? <ArrowUpward /> 
-                                : <ArrowDownward />)}
-                        </th>
-                        <th onClick={() => requestSort('dueDate')}>
-                            Due Date 
-                            {sortConfig.key === 'dueDate' && (sortConfig.direction === 'ascending' 
-                                ? <ArrowUpward /> 
-                                : <ArrowDownward />)}
-                        </th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>{taskList()}</tbody>
-            </table>*/}
             <div className="task-list-body">{categorizedTaskList()}</div>
         </motion.div>
     );

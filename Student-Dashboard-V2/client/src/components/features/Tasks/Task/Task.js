@@ -135,33 +135,6 @@ const Task = (props) => (
             ) : null}
         </div>
     </div>
-    /*<tr>
-        <td>{props.task.category}</td>
-        <td>{props.task.priority}</td>
-        <td>
-            <abbr title={`${props.task.isComplete}`}>
-                {statusIcon(props.task.isComplete)}
-            </abbr>
-        </td>
-        <td>{props.task.name}</td>
-        <td>{props.task.description}</td>
-        <td>{formatDateString(props.task.startDate)}</td>
-        <td>{formatDateString(props.task.dueDate)}</td>
-        <td>
-            <Link className="edit-task-button" 
-                to={`/edit-task/${props.task._id}`}
-            >
-                <EditTwoTone fontSize="small" />
-            </Link> 
-            <button className="delete-task-button"
-                onClick={() => {
-                    props.deleteTask(props.task._id);
-                }}
-            >
-                <DeleteTwoTone fontSize="small" />
-            </button>
-        </td>
-    </tr>*/
 );
 
 export default Task;

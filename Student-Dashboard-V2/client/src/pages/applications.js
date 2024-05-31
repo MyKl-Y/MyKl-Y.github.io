@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion/dist/framer-motion'
+import { motion } from 'framer-motion'
 import Job from '../components/features/Jobs/Job'
 import { useTheme } from "../context/theme/ThemeContext";
 import "../styles/jobs.css";
+
+//TODO: Add filtering and sorting
+//TODO: Add semester showing based on start date
 
 export default function Applications() {
     const { currentTheme } = useTheme();

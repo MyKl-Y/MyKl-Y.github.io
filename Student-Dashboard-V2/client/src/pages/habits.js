@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion/dist/framer-motion";
+import { motion } from "framer-motion";
 import { useTheme } from "../context/theme/ThemeContext";
 import "../styles/tasks.css";
 import {

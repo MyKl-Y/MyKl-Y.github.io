@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import { useAuth } from "../../../../context/authentication/AuthContext";
 import { useTheme } from '../../../../context/theme/ThemeContext';
 import "../../../../styles/courseCreate.css";
-import { motion } from "framer-motion/dist/framer-motion";
+import { motion } from "framer-motion";
 
 export default function CreateTask({ onCourseCreate, onCancel }) {
     const { user } = useAuth();

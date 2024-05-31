@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useTheme } from '../context/theme/ThemeContext';
 import { useAuth } from '../context/authentication/AuthContext';
-import { motion } from 'framer-motion/dist/framer-motion';
+import { motion } from 'framer-motion';
 import '../styles/authentication.css';
 import { 
     FaEnvelope,
