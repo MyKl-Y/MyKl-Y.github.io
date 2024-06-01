@@ -7,9 +7,18 @@ import '../styles/calendar.css';
 
 // Define default semester dates
 const defaultSemesters = {
-    Spring: { start: new Date(new Date().getFullYear(), 0, 8), end: new Date(new Date().getFullYear(), 4, 7) },
-    Summer: { start: new Date(new Date().getFullYear(), 4, 8), end: new Date(new Date().getFullYear(), 6, 28) },
-    Fall: { start: new Date(new Date().getFullYear(), 7, 21), end: new Date(new Date().getFullYear(), 11, 14) }
+    Spring: {
+        start: new Date(new Date().getFullYear(), 0, ((14 - new Date(new Date().getFullYear(), 0, 1).getDay()) % 7) + 8),
+        end: new Date(new Date().getFullYear(), 4, ((5 - new Date(new Date().getFullYear(), 4, 1).getDay() + 1) % 7) + 1)
+    },
+    Summer: {
+        start: new Date(new Date().getFullYear(), 4, ((14 - new Date(new Date().getFullYear(), 4, 1).getDay()) % 7) + 8),
+        end: new Date(new Date().getFullYear(), 7, ((5 - new Date(new Date().getFullYear(), 7, 1).getDay() + 1) % 7) + 1)
+    },
+    Fall: {
+        start: new Date(new Date().getFullYear(), 7, ((14 - new Date(new Date().getFullYear(), 7, 1).getDay()) % 7) + 15),
+        end: new Date(new Date().getFullYear(), 11, ((5 - new Date(new Date().getFullYear(), 11, 1).getDay() + 1) % 7) + 2)
+    }
 };
 
 export default function CalendarView({ semesters = defaultSemesters }) {
