@@ -116,7 +116,7 @@ export default function CreateTask({ onCourseCreate, onCancel }) {
                 </label>
                 <input
                     type="text"
-                    placeholder="e.g., TR 10:20 am-11:35 am, W 3:00 pm-4:00 pm"
+                    placeholder="e.g., Thu 10:20 am-11:35 am, Wed 3:00 pm-4:00 pm (Sun, Mon, Tue, Wed, Thu, Fri, Sat)"
                     pattern="^([A-Za-z, ]+)\s+(\d{1,2}:\d{2} [ap]m-\d{1,2}:\d{2} [ap]m, )*[A-Za-z, ]+\s+(\d{1,2}:\d{2} [ap]m-\d{1,2}:\d{2} [ap]m)$"
                     value={newCourse.meetingTimes}
                     onChange={(e) =>
