@@ -70,7 +70,8 @@ export default function CalendarView({ semesters = defaultSemesters }) {
 
         // Add course meeting times
         courses.forEach(course => {
-            const meetingDays = course.meetingTimes.split(', ');
+            const meetingDaysAndTimes = course.meetingTimes.split(', ');
+            const meetingDays = meetingDaysAndTimes.map(meeting => meeting.split(' ')[0]);
             const [semester, semesterYear] = course.semester.split(' ');
 
             const startDate = new Date(semesters[semester].start);
@@ -86,7 +87,6 @@ export default function CalendarView({ semesters = defaultSemesters }) {
                         type: 'course',
                         details: {
                             course: course,
-                            timeRange: course.timeRange
                         }
                     };
                     events.push(event);
@@ -172,6 +172,15 @@ export default function CalendarView({ semesters = defaultSemesters }) {
                                 <>
                                     <h3>Course</h3>
                                     <p><b>{event.details.course.courseNumber}</b>: {event.details.course.courseName}</p>
+                                    <p><b>Times</b>:
+                                        {
+                                            event.details.course.meetingTimes.split(', ')
+                                                .map(meetingDaysAndTimes => meetingDaysAndTimes.includes(date.toLocaleDateString('en-US', {weekday: 'short'})) ? meetingDaysAndTimes.split(' ')
+                                                    .map(time => time != date.toLocaleDateString('en-US', {weekday: 'short'}) && (
+                                                        <span key={time}><br/>- {time}</span>
+                                                    )) : null)
+                                        }
+                                    </p>
                                 </>
                             )}
                         </div>
