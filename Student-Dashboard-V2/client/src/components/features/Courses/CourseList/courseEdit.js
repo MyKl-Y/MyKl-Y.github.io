@@ -90,7 +90,8 @@ function CourseEdit({ course, onUpdateCourse }) {
                 <label>Meeting Times</label>
                 <input
                     type="text"
-                    placeholder="e.g., Thu 10:20 am-11:35 am, Wed 3:00 pm-4:00 pm (Sun, Mon, Tue, Wed, Thu, Fri, Sat)"
+                    placeholder="e.g., Thu 10:20am-11:35am, Wed 3:00pm-4:00pm (Sun, Mon, Tue, Wed, Thu, Fri, Sat)"
+                    pattern="^(Sun|Mon|Tue|Wed|Thu|Fri|Sat)\s+\d{1,2}:\d{2}[ap]m-\d{1,2}:\d{2}[ap]m(, (Sun|Mon|Tue|Wed|Thu|Fri|Sat)\s+\d{1,2}:\d{2}[ap]m-\d{1,2}:\d{2}[ap]m)*$"
                     value={editedCourse.meetingTimes}
                     onChange={(e) =>
                         setEditedCourse({ ...editedCourse, meetingTimes: e.target.value })
