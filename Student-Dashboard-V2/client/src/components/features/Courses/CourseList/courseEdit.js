@@ -59,6 +59,15 @@ function CourseEdit({ course, onUpdateCourse }) {
                         setEditedCourse({ ...editedCourse, courseNumber: e.target.value })
                     }
                 />
+                <label>Credit Hours</label>
+                <input
+                    type="number"
+                    placeholder="e.g., 3"
+                    value={editedCourse.creditHours}
+                    onChange={(e) =>
+                        setEditedCourse({ ...editedCourse, creditHours: e.target.value })
+                    }
+                />
                 <label>Professor</label>
                 <input
                     type="text"

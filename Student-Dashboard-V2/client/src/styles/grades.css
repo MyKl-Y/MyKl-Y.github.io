@@ -435,3 +435,10 @@
     box-shadow: var(--background-outset);
     backdrop-filter: var(--background-blur);
 }
+
+.gpa {
+    margin-bottom: 1.5rem;
+}
+.gpa h2 b{
+    text-decoration: wavy underline var(--primary);
+}

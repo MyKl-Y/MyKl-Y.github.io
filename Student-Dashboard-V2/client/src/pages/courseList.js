@@ -373,6 +373,9 @@ function Courses() {
                                                 : 'no-show'}`}
                                     >
                                         <p>
+                                            <b>Credit Hours</b>: <i>{course.creditHours}</i>
+                                        </p>
+                                        <p>
                                             <b>Professor</b>: <i>{course.professor}</i>
                                         </p>
                                         <p>

@@ -3,9 +3,11 @@ import { motion } from 'framer-motion';
 import { useTheme } from '../context/theme/ThemeContext';
 import '../styles/grades.css';
 import axiosInstance from '../axiosConfig';
+import { useSettings } from '../context/settings/SettingsContext';
 
 export default function Grades() {
     const { currentTheme } = useTheme();
+    const { getGrade } = useSettings();
 
     const [courses, setCourses] = useState([]);
     const [search, setSearch] = useState('');
@@ -19,6 +21,7 @@ export default function Grades() {
         weight: '',
         usePoints: false
     });
+    const [gpa, setGpa] = useState(0);
 
     useEffect(() => {
         axiosInstance.get('/courses')
@@ -29,6 +32,26 @@ export default function Grades() {
                 console.error(err);
             });
     }, []);
+
+    useEffect(() => {
+        let curr = 0;
+        let totalCredits = 0;
+        courses.map(course => {
+            if (course.assignments.length > 0) {
+                totalCredits += parseInt(course.creditHours);
+                let grades = 0;
+                course.assignments.map(assignment => {
+                    if (!assignment.usePoints) {
+                        grades += (assignment.grade / assignment.weight) * 100;
+                    } else {
+                        grades += (assignment.grade / 100) * assignment.weight;
+                    }
+                });
+                curr += getGrade(grades) * course.creditHours;
+            }
+        });
+        setGpa(curr / totalCredits);
+    }, [courses, getGrade]);
 
     function deleteAssignment(courseId, assignmentId) {
         axiosInstance.delete(`/courses/${courseId}/assignments/${assignmentId}`)
@@ -109,6 +132,9 @@ export default function Grades() {
             className='grades-container'
             style={currentTheme}
         >
+            <div className='gpa'>
+                <h2><b>GPA</b>: {gpa.toFixed(2)}</h2>
+            </div>
             <input type='text' placeholder='Search for a course...'
                 value={search} onChange={e => setSearch(e.target.value)}
             />

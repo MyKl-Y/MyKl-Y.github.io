@@ -4,6 +4,7 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from './context/theme/ThemeContext'; // Import your ThemeProvider
 import { AuthProvider } from './context/authentication/AuthContext';
+import { SettingsProvider } from './context/settings/SettingsContext';
 import reportWebVitals from './reportWebVitals';
 import './styles/index.css';
 
@@ -12,11 +13,13 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <AuthProvider>
-      <ThemeProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </ThemeProvider>
+      <SettingsProvider>
+        <ThemeProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </ThemeProvider>
+      </SettingsProvider>
     </AuthProvider>
   </React.StrictMode>
 );

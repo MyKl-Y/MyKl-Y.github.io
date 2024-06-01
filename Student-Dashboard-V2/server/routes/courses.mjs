@@ -26,6 +26,7 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
     let newDocument = {
         courseNumber: req.body.courseNumber,
+        creditHours: req.body.creditHours,
         tag: req.body.tag,
         professor: req.body.professor,
         professorContact: req.body.professorContact,
@@ -48,6 +49,7 @@ router.patch("/:id", async (req, res) => {
     const updates = {
         $set: {
             courseNumber: req.body.courseNumber,
+            creditHours: req.body.creditHours,
             tag: req.body.tag,
             professor: req.body.professor,
             professorContact: req.body.professorContact,

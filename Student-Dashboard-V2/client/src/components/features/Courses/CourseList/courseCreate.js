@@ -27,6 +27,7 @@ export default function CreateTask({ onCourseCreate, onCancel }) {
     const [newCourse, setNewCourse] = useState({
         courseNumber: "",
         courseName: "",
+        creditHours: 0,
         professor: "",
         semester: "",
         // Add other course properties here
@@ -48,6 +49,7 @@ export default function CreateTask({ onCourseCreate, onCancel }) {
         setNewCourse({
             courseNumber: "",
             courseName: "",
+            creditHours: 0,
             professor: "",
             semester: "",
             // Reset other properties
@@ -97,6 +99,17 @@ export default function CreateTask({ onCourseCreate, onCancel }) {
                     value={newCourse.courseName}
                     onChange={(e) =>
                         setNewCourse({ ...newCourse, courseName: e.target.value })
+                    }
+                />
+                <label htmlFor="creditHours">
+                    Credit Hours
+                </label>
+                <input
+                    type="number"
+                    placeholder="e.g., 3"
+                    value={newCourse.creditHours}
+                    onChange={(e) =>
+                        setNewCourse({ ...newCourse, creditHours: e.target.value })
                     }
                 />
                 <label htmlFor="semester">
