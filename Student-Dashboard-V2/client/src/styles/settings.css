@@ -66,7 +66,9 @@
     align-content: center;
     flex-wrap: wrap;
 }
-
+.style-container h3 {
+    margin-top: 1rem;
+}
 .style-container button {
     width: 100%;
     border: none;
@@ -77,4 +79,50 @@
 
 .style-container button:hover {
     /* The box-shadow for hover will be set dynamically in the component */
+}
+
+.gpa-settings-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    align-content: stretch;
+    width: 100%;
+}
+.gpa-settings-container input {
+    width: 100%;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    box-shadow: var(--background-outset);
+}
+.gpa-settings-container input:focus {
+    outline: none;
+    box-shadow: var(--background-inset);
+}
+
+.grade-scale-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    align-content: stretch;
+    width: 100%;
+}
+.grade-scale-container select {
+    width: 100%;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    box-shadow: var(--background-outset);
+}
+.grade-scale-container select:focus {
+    outline: none;
+    box-shadow: var(--background-inset);
 }

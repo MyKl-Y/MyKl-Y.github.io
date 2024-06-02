@@ -1,5 +1,6 @@
 import express from "express";
 import db from "../db/conn.mjs"
+import { ObjectId } from "mongodb";
 
 const router = express.Router();
 
@@ -26,6 +27,16 @@ router.post("/", async (req,res) => {
                 password,
                 majors: [],
                 minors: [],
+                settings: {
+                    gpaSettings: {
+                        scale: 4.0,
+                        gradeScale: 'plus-minus'
+                    },
+                    themeSettings: {
+                        mode: "light",
+                        style: "minimal",
+                    },
+                },
             };
 
             const insertedUserId = await collection.insertOne(newUser);
@@ -113,6 +124,66 @@ router.patch("/account/:userName", async (req, res) => {
         console.error("Error updating user:", error);
         res.status(500).json({ message: "Internal Server Error" });
     }
+});
+
+router.get("/:userId/settings", async (req, res) => {
+    let collection = await db.collection("users");
+    let userId = req.params.userId;
+    let query = await collection.findOne({ name: userId });
+    let result = await collection.findOne(query);
+
+    if (!result) res.send("Not found").status(404);
+    else res.send(result.settings).status(200);
+});
+
+router.post("/:userId/settings", async (req, res) => {
+    let collection = await db.collection("users");
+    let userId = req.params.userId;
+    let newSettings = {
+        gpaSettings: {
+            scale: req.body.gpaSettings.scale,
+            gradeScale: req.body.gpaSettings.gradeScale,
+        },
+        themeSettings: {
+            mode: req.body.themeSettings.mode,
+            style: req.body.themeSettings.style,
+        },
+    }
+
+    let query = await collection.findOne({  name: userId });
+    let result = await collection.updateOne(query, { $set: { settings: newSettings } });
+    if (!result) res.send("Not found").status(404);
+    else res.send(result).status(200);
+});
+
+router.patch("/:userId/settings", async (req, res) => {
+    let collection = await db.collection("users");
+    let userId = req.params.userId;
+    let updatedSettings = {
+        gpaSettings: {
+            scale: req.body.gpaSettings.scale,
+            gradeScale: req.body.gpaSettings.gradeScale,
+        },
+        themeSettings: {
+            mode: req.body.themeSettings.mode,
+            style: req.body.themeSettings.style,
+        },
+    }
+
+    let query = await collection.findOne({ name: userId });
+    let result = await collection.updateOne(query, { $set: { settings: updatedSettings } });
+    if (!result) res.send("Not found").status(404);
+    else res.send(result).status(200);
+});
+
+router.delete("/:userId/settings", async (req, res) => {
+    let collection = await db.collection("users");
+    let userId = req.params.userId;
+    let query = await collection.findOne({ name: userId });
+    let result = await collection.updateOne(query, { $unset: { settings: {} } });
+
+    if (!result) res.send("Not found").status(404);
+    else res.send(result).status(200);
 });
 
 export default router;

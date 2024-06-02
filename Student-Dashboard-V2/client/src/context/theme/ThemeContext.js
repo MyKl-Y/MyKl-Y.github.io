@@ -1,4 +1,6 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useAuth } from '../authentication/AuthContext';
+import axiosInstance from '../../axiosConfig';
 
 const ThemeContext = createContext();
 
@@ -245,14 +247,48 @@ export const themes = {
 export const ThemeProvider = ({ children }) => {
     const [style, setStyle] = useState('minimal'); // Default style
     const [mode, setMode] = useState('dark'); // Default mode within the style
+    const { user } = useAuth();
 
-    const changeTheme = (newStyle, newMode) => {
+    console.log('User:', user);
+
+    useEffect(() => {
+        const fetchSettings = async () => {
+            try {
+                const response = await axiosInstance.get(`/register/${user.name}/settings`);
+                console.log('GPA settings:', response.data);
+                setStyle(response.data.themeSettings.style);
+                setMode(response.data.themeSettings.mode);
+            } catch (error) {
+                console.error('Error fetching GPA settings:', error);
+            }
+        }
+        fetchSettings();
+    }, [user]);
+
+    const changeTheme = async (newStyle, newMode) => {
         setStyle(newStyle);
         setMode(newMode);
+        await axiosInstance.post(`/register/${user.name}/settings`, {
+            ...user.settings,
+            themeSettings: {
+                mode: newMode,
+                style: newStyle,
+            }
+        });
+        window.location.reload();
     };
 
-    const toggleMode = () => {
+    const toggleMode = async () => {
         setMode(mode === 'light' ? 'dark' : 'light');
+        console.log('Mode:', mode);
+        await axiosInstance.post(`/register/${user.name}/settings`, {
+            ...user.settings,
+            themeSettings: {
+                mode: mode === 'light' ? 'dark' : 'light',
+                style: user.settings.themeSettings.style,
+            }
+        });
+        window.location.reload();
     };
 
     // Get the current theme object based on the style and mode

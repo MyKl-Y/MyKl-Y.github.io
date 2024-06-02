@@ -1,17 +1,17 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useTheme, themes } from '../context/theme/ThemeContext';
-import { 
-    LightModeTwoTone, 
-    DarkModeTwoTone,
-} from '@mui/icons-material';
+import { LightModeTwoTone, DarkModeTwoTone } from '@mui/icons-material';
+import { useSettings } from '../context/settings/SettingsContext';
 import '../styles/settings.css';
+import { useAuth } from '../context/authentication/AuthContext';
 
 const Settings = () => {
     const { currentTheme, changeTheme, toggleMode, mode, style } = useTheme();
+    const { gpaScale, gradeScale, changeGpaScale, changeGradeScale } = useSettings();
+    const { user } = useAuth();
     const switchPositionClass = mode === 'dark' ? 'dark' : 'light';
     
-    // Function to generate inline styles for each theme button
     const getButtonStyle = (themeName) => ({
         boxShadow: style === themeName ? themes[themeName][mode]['--selected-inset'] : null,
         backgroundColor: style === themeName ? themes[themeName][mode]['--selected-color'] : themes[themeName][mode]['--primary'],
@@ -29,8 +29,6 @@ const Settings = () => {
             e.currentTarget.style.boxShadow = null;
         }
     };
-
-    //TODO: Settings to change GPA calculations, etc.
 
     return (
         <motion.div
@@ -66,6 +64,28 @@ const Settings = () => {
                         {themeName.charAt(0).toUpperCase() + themeName.slice(1)}
                     </button>
                 ))}
+            </div>
+            <div className="gpa-settings-container">
+                <h3>GPA Scale</h3>
+                <input 
+                    type="number" 
+                    value={gpaScale.toFixed(1)}
+                    onChange={(e) => changeGpaScale(parseFloat(e.target.value))}
+                />
+            </div>
+            <div className="grade-scale-container">
+                <h3>Grade Scale</h3>
+                <select
+                    value={gradeScale}
+                    onChange={(e) => changeGradeScale(e.target.value)}
+                >
+                    <option key='plus-minus-scale' value='plus-minus'>
+                        +/- Scale
+                    </option>
+                    <option key='letter-scale' value='letter'>
+                        Letter Scale
+                    </option>
+                </select>
             </div>
         </motion.div>
     );
