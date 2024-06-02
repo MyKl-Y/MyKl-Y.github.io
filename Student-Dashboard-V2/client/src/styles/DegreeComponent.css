@@ -7,6 +7,32 @@
     width: 100%;
 }
 
+.GraduationRequirement .edit-button {
+    padding: .5rem;
+    border-radius: .5rem;
+    border: none;
+    box-shadow: var(--primary-outset);
+    background-color: var(--primary);
+    color: var(--text-color);
+    cursor: pointer;
+}
+.GraduationRequirement .edit-button:hover {
+    box-shadow: var(--primary-inset);
+}
+.GraduationRequirement .delete-button {
+    padding: .5rem;
+    border-radius: .5rem;
+    border: none;
+    box-shadow: var(--remove-outset);
+    background-color: var(--remove-primary);
+    color: var(--text-color);
+    cursor: pointer;
+    margin-right: .5rem;
+}
+.GraduationRequirement .delete-button:hover {
+    box-shadow: var(--remove-inset);
+}
+
 .degree-graph {
     width: 100%;
     height: 300px;
@@ -33,8 +59,12 @@
     margin: .5rem 0 .5rem 0;
 }
 
-.tree-button-container.first .custom-dropdown-container {
+.tree-button-container .custom-dropdown-container {
     margin-left: 1rem;
+}
+
+.tree-button-container.first .delete-button {
+    margin-left: .5rem;
 }
 
 .refresh-button {
@@ -221,7 +251,7 @@
 }
 
 .toggle-completion-button {
-    margin-right: 1rem !important;
+    margin-right: .5rem !important;
 }
 .toggle-completion-button.incomplete {
     margin: auto;
@@ -230,7 +260,7 @@
     border: none;
     box-shadow: var(--add-outset);
     background-color: var(--add-primary);
-    color: var(--background-color);
+    color: var(--text-color);
     cursor: pointer;
 }
 .toggle-completion-button.complete {
@@ -267,4 +297,24 @@
     position: relative;
     color: var(--text-color);
     background-color: var(--background-color);
+}
+
+.node-form select {
+    margin: .25rem .5rem .5rem .5rem;
+    padding: .5rem;
+    border-radius: .5rem;
+    border: none;
+    box-shadow: var(--background-outset);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    width: 100%;
+    font-size: .75rem !important;
+
+}
+.node-form option {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-size: .75rem !important;
+    border-radius: .5rem;
+    border: none !important;
 }

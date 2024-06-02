@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import CourseComponent from "./CourseComponent";
 import { useTheme } from '../../../../context/theme/ThemeContext';
-import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
+import { AddCircleTwoTone, DeleteTwoTone, EditTwoTone } from '@mui/icons-material';
 
 const RequirementComponent = ({ selectedDegree, selectedConcentration, onCreateRequirement, onSelectRequirement, calculateTotalUpdates }) => {
     const { currentTheme } = useTheme();
@@ -12,6 +12,8 @@ const RequirementComponent = ({ selectedDegree, selectedConcentration, onCreateR
         name: "",
         credits: 0,
     });
+    const [editMode, setEditMode] = useState(false);
+    const [requirementToEdit, setRequirementToEdit] = useState(null);
     const [selectedRequirement, setSelectedRequirement] = useState(false);
     const hasSelectedDegree = !!selectedDegree;
     const hasSelectedConcentration = !!selectedConcentration;
@@ -33,30 +35,55 @@ const RequirementComponent = ({ selectedDegree, selectedConcentration, onCreateR
 
     const handleRequirementSubmit = () => {
         if (hasSelectedConcentration && hasSelectedDegree) {
+            const url = editMode
+                ? `http://localhost:5050/graduation/requirement/${selectedDegree._id}/${selectedConcentration._id}/${requirementToEdit._id}`
+                : `http://localhost:5050/graduation/requirement/${selectedDegree._id}/${selectedConcentration._id}`;
+            const method = editMode ? "PUT" : "POST";
+            fetch(url, {
+            method: method,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newRequirement),
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                if (editMode) {
+                    setRequirements(requirements.map((requirement) => requirement._id === requirementToEdit._id ? data : requirement));
+                    setEditMode(false);
+                    setRequirementToEdit(null);
+                } else {
+                    onCreateRequirement(data);
+                    setRequirements([...requirements, data]);
+                }
+                setNewRequirement({name: "", credits: 0});
 
-        // Send a POST request to create a new requirement for the selected degree
-        // You can use fetch or any other method you prefer
-        // Update the URL and request body as needed
-        fetch(`http://localhost:5050/graduation/requirement/${selectedDegree._id}/${selectedConcentration._id}`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newRequirement),
+                // Delay for 2 seconds, then reload the page on success
+                //setTimeout(() => {
+                //    window.location.reload();
+                //}, 500);
+                calculateTotalUpdates(1);
+            })
+            .catch((error) => console.error(error));
+        }
+    };
+
+    const handleEdit = (requirement) => {
+        setEditMode(true);
+        setRequirementToEdit(requirement);
+        setNewRequirement(requirement);
+    };
+
+    const handleDelete = (requirementId) => {
+        fetch(`http://localhost:5050/graduation/requirement/${selectedDegree._id}/${selectedConcentration._id}/${requirementId}`, {
+            method: "DELETE",
         })
         .then((response) => response.json())
         .then((data) => {
-            onCreateRequirement(data);
-            setNewRequirement({name: "", credits: 0});
-
-            // Delay for 2 seconds, then reload the page on success
-            //setTimeout(() => {
-            //    window.location.reload();
-            //}, 500);
+            setRequirements(requirements.filter((requirement) => requirement._id !== requirementId));
             calculateTotalUpdates(1);
         })
         .catch((error) => console.error(error));
-        }
     };
 
     const [showAddNewForm, setShowAddNewForm] = useState(false);
@@ -108,6 +135,16 @@ const RequirementComponent = ({ selectedDegree, selectedConcentration, onCreateR
     return (
         <div className="tree-container" style={currentTheme}>
             <div className="tree-button-container">
+                {selectedRequirement && (
+                    <>
+                        <button className="delete-button" onClick={() => handleDelete(selectedRequirement._id)}>
+                            <DeleteTwoTone />
+                        </button>
+                        <button className="edit-button" onClick={() => handleEdit(selectedRequirement)}>
+                            <EditTwoTone />
+                        </button>
+                    </>
+                )}
                 <div className="custom-dropdown-container">
                     <div
                         className={`custom-dropdown-header ${showDropdown ? "active" : ""}`}
@@ -166,8 +203,9 @@ const RequirementComponent = ({ selectedDegree, selectedConcentration, onCreateR
                     )}
                 </div>
             </div>
-            {showAddNewForm ? (
+            {showAddNewForm || editMode ? (
                 <div className="node-form">
+                    <h3>{editMode ? "Edit Requirement" : "Add New Requirement"}</h3>
                 <label>
                     Requirement Name
                 </label>
@@ -194,7 +232,7 @@ const RequirementComponent = ({ selectedDegree, selectedConcentration, onCreateR
                     }
                 />
                 <button onClick={handleRequirementSubmit}>
-                    <AddCircleTwoToneIcon />
+                    <AddCircleTwoTone />
                 </button>
             </div>
             ) : selectedRequirement ? (

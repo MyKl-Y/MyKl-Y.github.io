@@ -4,7 +4,7 @@ import { useTheme } from '../../../../context/theme/ThemeContext';
 import { useAuth } from "../../../../context/authentication/AuthContext";
 import ConcentrationComponent from "./ConcentrationComponent";
 import "../../../../styles/DegreeComponent.css";
-import { AddCircleTwoTone, Refresh, HelpTwoTone } from '@mui/icons-material';
+import { AddCircleTwoTone, Refresh, HelpTwoTone, DeleteTwoTone, EditTwoTone } from '@mui/icons-material';
 import { Badge, Tooltip } from "@mui/material";
 
 const DegreeComponent = ({ onSelectDegree }) => {
@@ -19,6 +19,10 @@ const DegreeComponent = ({ onSelectDegree }) => {
         type: "",
     });
 
+    const [editMode, setEditMode] = useState(false);
+    const [degreeToEdit, setDegreeToEdit] = useState(null);
+
+
     useEffect(() => {
         fetch("http://localhost:5050/graduation/degree")
             .then((res) => res.json())
@@ -30,8 +34,12 @@ const DegreeComponent = ({ onSelectDegree }) => {
     }, [user]);
 
     const handleDegreeSubmit = () => {
-        fetch("http://localhost:5050/graduation/degree", {
-            method: "POST",
+        const url = editMode 
+            ? `http://localhost:5050/graduation/degree/${degreeToEdit._id}`
+            : "http://localhost:5050/graduation/degree";
+        const method = editMode ? "PUT" : "POST";
+        fetch(url, {
+            method: method,
             headers: {
                 "Content-Type": "application/json",
             },
@@ -44,7 +52,13 @@ const DegreeComponent = ({ onSelectDegree }) => {
         })
             .then((res) => res.json())
             .then((data) => {
-                setDegrees([...degrees, data]);
+                if (editMode) {
+                    setDegrees(degrees.map((degree) => degree._id === degreeToEdit._id ? data : degree));
+                    setEditMode(false);
+                    setDegreeToEdit(null);
+                } else {
+                    setDegrees([...degrees, data]);
+                }
                 setNewDegree({name: "", credits: 0, type: "", user: ""});
 
                 // Delay for 2 seconds, then reload the page on success
@@ -55,6 +69,24 @@ const DegreeComponent = ({ onSelectDegree }) => {
             })
             .catch((error) => console.error(error));
 
+    };
+
+    const handleEdit = (degree) => {
+        setEditMode(true);
+        setDegreeToEdit(degree);
+        setNewDegree(degree);
+    };
+
+    const handleDelete = (degreeId) => {
+        fetch(`http://localhost:5050/graduation/degree/${degreeId}`, {
+            method: "DELETE",
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                setDegrees(degrees.filter((degree) => degree._id !== degreeId));
+                calculateTotalUpdates(1);
+            })
+            .catch((error) => console.error(error));
     };
 
     const [showAddNewForm, setShowAddNewForm] = useState(false); // Add state for Add New form
@@ -183,6 +215,16 @@ const DegreeComponent = ({ onSelectDegree }) => {
                         <Refresh/>
                     </div>
                 </Badge>
+                {selectedDegree && (
+                    <>
+                        <button className="delete-button" onClick={() => handleDelete(selectedDegree._id)}>
+                            <DeleteTwoTone />
+                        </button>
+                        <button className="edit-button" onClick={() => handleEdit(selectedDegree)}>
+                            <EditTwoTone />
+                        </button>
+                    </>
+                )}
                 <div className="custom-dropdown-container">
                     <div
                         className={`custom-dropdown-header ${showDropdown ? "active" : ""}`}
@@ -248,9 +290,9 @@ const DegreeComponent = ({ onSelectDegree }) => {
                     <HelpTwoTone className="help-icon"/>
                 </Tooltip>
             </div>
-            {showAddNewForm ? (
+            {showAddNewForm || editMode ? (
                 <div className="node-form">
-                    <h3>Add New Degree</h3>
+                    <h3>{editMode ? "Edit Degree" : "Add New Degree"}</h3>
                     <label>
                         Degree Type
                     </label>

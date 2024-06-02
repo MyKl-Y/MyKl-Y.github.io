@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import RequirementComponent from "./RequirementComponent";
 import { useTheme } from '../../../../context/theme/ThemeContext';
-import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
+import { AddCircleTwoTone, DeleteTwoTone, EditTwoTone } from '@mui/icons-material';
 
 const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelectConcentration, calculateTotalUpdates }) => {
     const { currentTheme } = useTheme();
@@ -11,6 +11,8 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
     const [newConcentration, setNewConcentration] = useState({
         name: "",
     });
+    const [editMode, setEditMode] = useState(false);
+    const [concentrationToEdit, setConcentrationToEdit] = useState(null);
     const [hasConcentrations, setHasConcentrations] = useState(true);
 
     useEffect(() => {
@@ -34,30 +36,55 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
 
     const handleConcentrationSubmit = () => {
         if (selectedDegree) {
+            const url = editMode
+                ? `http://localhost:5050/graduation/concentration/${selectedDegree._id}/${concentrationToEdit._id}`
+                : `http://localhost:5050/graduation/concentration/${selectedDegree._id}`;
+            const method = editMode ? "PUT" : "POST";
+            fetch(url, {
+            method: method,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newConcentration),
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                if (editMode) {
+                    setConcentrations(concentrations.map((concentration) => concentration._id === concentrationToEdit._id ? data : concentration));
+                    setEditMode(false);
+                    setConcentrationToEdit(null);
+                } else {
+                    onCreateConcentration(data);
+                    setConcentrations([...concentrations, data]);
+                }
+                setNewConcentration({name: ""});
 
-        // Send a POST request to create a new requirement for the selected degree
-        // You can use fetch or any other method you prefer
-        // Update the URL and request body as needed
-        fetch(`http://localhost:5050/graduation/concentration/${selectedDegree._id}`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newConcentration),
+                // Delay for 2 seconds, then reload the page on success
+                //setTimeout(() => {
+                //    window.location.reload();
+                //}, 500);
+                calculateTotalUpdates(1);
+            })
+            .catch((error) => console.error(error));
+        }
+    };
+
+    const handleEdit = (concentration) => {
+        setEditMode(true);
+        setConcentrationToEdit(concentration);
+        setNewConcentration(concentration);
+    };
+
+    const handleDelete = (concentrationId) => {
+        fetch(`http://localhost:5050/graduation/concentration/${selectedDegree._id}/${concentrationId}`, {
+            method: "DELETE",
         })
         .then((response) => response.json())
         .then((data) => {
-            onCreateConcentration(data);
-            setNewConcentration({name: ""});
-
-            // Delay for 2 seconds, then reload the page on success
-            //setTimeout(() => {
-            //    window.location.reload();
-            //}, 500);
+            setConcentrations(concentrations.filter((concentration) => concentration._id !== concentrationId));
             calculateTotalUpdates(1);
         })
         .catch((error) => console.error(error));
-        }
     };
 
     const [showAddNewForm, setShowAddNewForm] = useState(false);
@@ -111,6 +138,16 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
     return (
         <div className="tree-container" style={currentTheme}>
             <div className="tree-button-container">
+                {selectedConcentration && (
+                    <>
+                        <button className="delete-button" onClick={() => handleDelete(selectedConcentration._id)}>
+                            <DeleteTwoTone />
+                        </button>
+                        <button className="edit-button" onClick={() => handleEdit(selectedConcentration)}>
+                            <EditTwoTone />
+                        </button>
+                    </>
+                )}
                 <div className="custom-dropdown-container">
                     <div
                         className={`custom-dropdown-header ${showDropdown ? "active" : ""}`}
@@ -168,8 +205,9 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
                     )}
                 </div>
             </div>
-            {showAddNewForm ? (
+            {showAddNewForm || editMode ? (
                 <div className="node-form">
+                <h3>{editMode ? "Edit Concentration" : "Add New Concentration"}</h3>
                 <label>
                     Concentration Name
                 </label>
@@ -182,7 +220,7 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
                     }
                 />
                 <button onClick={handleConcentrationSubmit}>
-                    <AddCircleTwoToneIcon />
+                    <AddCircleTwoTone />
                 </button>
             </div>
             ) : selectedConcentration ? (

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from '../../../../context/theme/ThemeContext';
-import { AddCircleTwoTone, CheckCircleTwoTone, CancelTwoTone } from '@mui/icons-material';
+import { AddCircleTwoTone, CheckCircleTwoTone, CancelTwoTone, DeleteTwoTone, EditTwoTone } from '@mui/icons-material';
 
 const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequirement, onCreateCourse, onSelectCourse, isRequirementDone, calculateTotalUpdates }) => {
     const { currentTheme } = useTheme();
@@ -15,6 +15,9 @@ const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequir
     const [selectedCourse, setSelectedCourse] = useState(null);
     const [allCourses, setAllCourses] = useState([]);
     const [searchInput, setSearchInput] = useState("");
+
+    const [editMode, setEditMode] = useState(false);
+    const [courseToEdit, setCourseToEdit] = useState(null);
 
     const hasSelectedDegree = !!selectedDegree;
     const hasSelectedConcentration = !!selectedConcentration;
@@ -43,8 +46,12 @@ const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequir
 
     const handleCourseSubmit = () => {
         if (hasSelectedDegree && hasSelectedConcentration && hasSelectedRequirement) {
-            fetch(`http://localhost:5050/graduation/course/${selectedDegree._id}/${selectedConcentration._id}/${selectedRequirement._id}`, {
-                method: "POST",
+            const url = editMode
+                ? `http://localhost:5050/graduation/course/${selectedDegree._id}/${selectedConcentration._id}/${selectedRequirement._id}/${courseToEdit._id}`
+                : `http://localhost:5050/graduation/course/${selectedDegree._id}/${selectedConcentration._id}/${selectedRequirement._id}`;
+            const method = editMode ? "PUT" : "POST";
+            fetch(url, {
+                method: method,
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -52,12 +59,37 @@ const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequir
             })
                 .then((response) => response.json())
                 .then((data) => {
-                    onCreateCourse(data);
+                    if (editMode) {
+                        setCourses(courses.map((course) => course._id === courseToEdit._id ? data : course));
+                        setEditMode(false);
+                        setCourseToEdit(null);
+                    } else {
+                        onCreateCourse(data);
+                        setCourses([...courses, data]);
+                    }
                     setNewCourse({ code: "", name: "", credits: 0, prerequisites: [] });
                     calculateTotalUpdates(1);
                 })
                 .catch((error) => console.error(error));
         }
+    };
+
+    const handleEdit = (course) => {
+        setEditMode(true);
+        setCourseToEdit(course);
+        setNewCourse(course);
+    };
+
+    const handleDelete = (courseId) => {
+        fetch(`http://localhost:5050/graduation/course/${selectedDegree._id}/${selectedConcentration._id}/${selectedRequirement._id}/${courseId}`, {
+            method: "DELETE",
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                setCourses(courses.filter((course) => course._id !== courseId));
+                calculateTotalUpdates(1);
+            })
+            .catch((error) => console.error(error));
     };
 
     const [showAddNewForm, setShowAddNewForm] = useState(false);
@@ -119,16 +151,36 @@ const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequir
                     ? <button className="toggle-completion-button complete" disabled><CancelTwoTone/></button> 
                     : (selectedCourse 
                         ? (
-                            <button 
-                                className={`toggle-completion-button 
-                                ${selectedCourse.is_complete ? "complete" : "incomplete"}`}
-                                onClick={() => toggleCourseCompleteness(selectedCourse)}
-                            >
-                                {selectedCourse.is_complete 
-                                    ? <CancelTwoTone/>
-                                    : <CheckCircleTwoTone/>
-                                }
-                            </button>)
+                            <>
+                                <button 
+                                    className={`toggle-completion-button 
+                                    ${selectedCourse.is_complete ? "complete" : "incomplete"}`}
+                                    onClick={() => toggleCourseCompleteness(selectedCourse)}
+                                >
+                                    {selectedCourse.is_complete 
+                                        ? <CancelTwoTone/>
+                                        : <CheckCircleTwoTone/>
+                                    }
+                                </button>
+                                <button
+                                    className="delete-button"
+                                    onClick={() => {
+                                        handleDelete(selectedCourse._id);
+                                        setSelectedCourse(null);
+                                    }}
+                                >
+                                    <DeleteTwoTone/>
+                                </button>
+                                <button
+                                    className="edit-button"
+                                    onClick={() => {
+                                        handleEdit(selectedCourse);
+                                        setShowAddNewForm(true);
+                                    }}
+                                >
+                                    <EditTwoTone/>
+                                </button>
+                            </>)
                         : <button className="toggle-completion-button complete" disabled><CancelTwoTone/></button>
                 )}
                 <div className="custom-dropdown-container">
@@ -195,6 +247,7 @@ const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequir
             </div>
             {showAddNewForm ? (
                 <div className="node-form">
+                    <h3>{editMode ? "Edit Course" : "Add New Course"}</h3>
                 <label>
                     Course Code
                 </label>

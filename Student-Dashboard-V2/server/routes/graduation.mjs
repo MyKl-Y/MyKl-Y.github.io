@@ -227,9 +227,8 @@ router.put("/degree/:degreeId", async (req, res) => {
         const updates = req.body;
         let collection = await db.collection("graduationRequirements");
         const updateResult = await collection.updateOne(
-            { _id: new ObjectId(req.params["degreeId"]) },
-            { $set: { "degree.$[elem]": updates } },
-            { arrayFilters: [{ "elem._id": new ObjectId(req.params["degreeId"]) }] }
+            { _id: new ObjectId(req.params.degreeId) },
+            { $set: updates }
         );
         res.send(updateResult).status(200);
     } catch (error) {
@@ -254,8 +253,8 @@ router.put("/concentration/:degreeId/:concentrationId", async (req, res) => {
         const updates = {
             $set: {
                 "concentrations.$": {
-                    _id: courseId,
-                    requirements: req.body.courses,
+                    _id: new ObjectId(concentrationId),
+                    requirements: req.body.requirements,
                     name: req.body.name,
                     is_complete: req.body.is_complete,
                 }
@@ -299,7 +298,7 @@ router.put("/requirement/:degreeId/:concentrationId/:requirementId", async (req,
         const updates = {
             $set: {
                 "concentrations.$.requirements.$[reqElem]": {
-                    _id: courseId,
+                    _id: requirementId,
                     courses: req.body.courses,
                     name: req.body.name,
                     credits: req.body.credits,
@@ -385,7 +384,7 @@ router.delete("/degree/:degreeId", async (req, res) => {
     try {
         let collection = await db.collection("graduationRequirements");
         const deleteResult = await collection.deleteOne(
-            { _id: req.params.degreeId }
+            { _id: new ObjectId(req.params.degreeId) }
         );
         res.send(deleteResult).status(200);
     } catch (error) {
@@ -399,9 +398,8 @@ router.delete("/concentration/:degreeId/:concentrationId", async (req, res) => {
     try {
         let collection = await db.collection("graduationRequirements");
         const deleteResult = await collection.updateOne(
-            { "_id": req.params.degreeId },
-            { $pull: { "degree.$[degreeElem].concentrations": { _id: req.params.concentrationId } } },
-            { arrayFilters: [{ "degreeElem._id": req.params.degreeId }] }
+            { "_id": new ObjectId(req.params.degreeId) },
+            { $pull: { "concentrations": { _id: new ObjectId(req.params.concentrationId) } } },
         );
         res.send(deleteResult).status(200);
     } catch (error) {
@@ -415,9 +413,9 @@ router.delete("/requirement/:degreeId/:concentrationId/:requirementId", async (r
     try {
         let collection = await db.collection("graduationRequirements");
         const deleteResult = await collection.updateOne(
-            { "_id": req.params.degreeId, "degree.concentrations._id": req.params.concentrationId },
-            { $pull: { "degree.$[degreeElem].concentrations.$[concElem].concentrations": { _id: req.params.requirementId } } },
-            { arrayFilters: [{ "degreeElem._id": req.params.degreeId }, { "concElem._id": req.params.concentrationId }] }
+            { "_id": new ObjectId(req.params.degreeId), "concentrations._id": new ObjectId(req.params.concentrationId) },
+            { $pull: { "concentrations.$[concElem].requirements": { _id: new ObjectId(req.params.requirementId) } } },
+            { arrayFilters: [{ "concElem._id": new ObjectId(req.params.concentrationId) }] }
         );
         res.send(deleteResult).status(200);
     } catch (error) {
@@ -431,11 +429,18 @@ router.delete("/course/:degreeId/:concentrationId/:requirementId/:courseId", asy
     try {
         let collection = await db.collection("graduationRequirements");
         const deleteResult = await collection.updateOne(
-            { "_id": req.params.degreeId, "degree.concentrations._id": req.params.concentrationId, "degree.concentrations.requirements._id": req.params.requirementId },
-            { $pull: { "degree.$[degreeElem].concentrations.$[concElem].requirements.$[reqElem].courses": { _id: req.params.courseId } } },
-            { arrayFilters: [{ "degreeElem._id": req.params.degreeId }, { "concElem._id": req.params.concentrationId }, { "reqElem._id": req.params.requirementId }] }
+            { "_id": new ObjectId(req.params.degreeId), "concentrations._id": new ObjectId(req.params.concentrationId), "concentrations.requirements._id": new ObjectId(req.params.requirementId) },
+            { $pull: { "concentrations.$[concElem].requirements.$[reqElem].courses": { _id: new ObjectId(req.params.courseId) } } },
+            { arrayFilters: [{ "concElem._id": new ObjectId(req.params.concentrationId) }, { "reqElem._id": new ObjectId(req.params.requirementId) }] }
         );
-        res.send(deleteResult).status(200);
+
+        const updatePrerequisites = await collection.updateMany(
+            { "_id": new ObjectId(req.params.degreeId), "concentrations._id": new ObjectId(req.params.concentrationId), "concentrations.requirements._id": new ObjectId(req.params.requirementId) },
+            { $pull: { "concentrations.$[concElem].requirements.$[reqElem].courses.$[courseElem].prerequisites": req.params.courseId } },
+            { arrayFilters: [{ "concElem._id": new ObjectId(req.params.concentrationId) }, { "reqElem._id": new ObjectId(req.params.requirementId) }, { "courseElem._id": new ObjectId(req.params.courseId) }] }
+        );
+
+        res.send({ deleteResult, updatePrerequisites }).status(200);
     } catch (error) {
         console.error(error);
         res.status(500).json({"message": error})
