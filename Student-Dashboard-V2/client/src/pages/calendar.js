@@ -186,7 +186,7 @@ export default function CalendarView({ semesters = defaultSemesters }) {
                                             event.details.course.meetingTimes.split(', ')
                                                 .map(meetingDaysAndTimes => meetingDaysAndTimes.includes(date.toLocaleDateString('en-US', {weekday: 'short'})) ? meetingDaysAndTimes.split(' ')
                                                     .map(time => time !== date.toLocaleDateString('en-US', {weekday: 'short'}) && (
-                                                        <span key={time}><br/>- {time}</span>
+                                                        <span key={time}><br/>{'>'} {time}</span>
                                                     )) : null)
                                         }
                                     </p>
