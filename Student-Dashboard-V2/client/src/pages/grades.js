@@ -34,23 +34,23 @@ export default function Grades() {
     }, []);
 
     useEffect(() => {
-        let curr = 0;
+        let weightedGradesSum = 0;
         let totalCredits = 0;
-        courses.map(course => {
+        courses.forEach(course => {
             if (course.assignments.length > 0) {
                 totalCredits += parseInt(course.creditHours);
                 let grades = 0;
-                course.assignments.map(assignment => {
+                course.assignments.forEach(assignment => {
                     if (!assignment.usePoints) {
                         grades += (assignment.grade / assignment.weight) * 100;
                     } else {
                         grades += (assignment.grade / 100) * assignment.weight;
                     }
                 });
-                curr += getGrade(grades) * course.creditHours;
+                weightedGradesSum += getGrade(grades) * course.creditHours;
             }
         });
-        setGpa(curr / totalCredits);
+        setGpa(weightedGradesSum / totalCredits);
     }, [courses, getGrade]);
 
     function deleteAssignment(courseId, assignmentId) {

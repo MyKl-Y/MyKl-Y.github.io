@@ -4,12 +4,10 @@ import { useTheme, themes } from '../context/theme/ThemeContext';
 import { LightModeTwoTone, DarkModeTwoTone } from '@mui/icons-material';
 import { useSettings } from '../context/settings/SettingsContext';
 import '../styles/settings.css';
-import { useAuth } from '../context/authentication/AuthContext';
 
 const Settings = () => {
     const { currentTheme, changeTheme, toggleMode, mode, style } = useTheme();
     const { gpaScale, gradeScale, changeGpaScale, changeGradeScale } = useSettings();
-    const { user } = useAuth();
     const switchPositionClass = mode === 'dark' ? 'dark' : 'light';
     
     const getButtonStyle = (themeName) => ({
