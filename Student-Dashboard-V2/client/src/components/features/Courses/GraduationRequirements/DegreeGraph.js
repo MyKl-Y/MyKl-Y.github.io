@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
+import cytoscape from 'cytoscape';
+import fcose from 'cytoscape-fcose';
 import { useTheme } from '../../../../context/theme/ThemeContext';
 
-// TODO: Change Colors
+// Register fcose layout
+cytoscape.use(fcose);
 
 const DegreeGraph = ({ selectedDegree }) => {
     const { currentTheme } = useTheme();
@@ -17,23 +20,44 @@ const DegreeGraph = ({ selectedDegree }) => {
         }
     }, [selectedDegree]);
 
+    useEffect(() => {
+        const cy = window.cy;
+        if (cy) {
+            cy.ready(() => {
+                hideConcentrationChildren(cy);
+            });
+        }
+    }, [elements]);
+
+    const calculateTotalDescendants = (node, elements) => {
+        const children = elements.filter((el) => el.data.source === node.data.id);
+        let totalDescendants = children.length;
+
+        children.forEach((child) => {
+            totalDescendants += calculateTotalDescendants(child, elements);
+        });
+
+        return totalDescendants;
+    };
+
     const buildGraphElements = (degree) => {
         const nodes = [];
         const edges = [];
         let index = 0;
 
         nodes.push({
-            data: { id: `degree-${index}`, label: `Degree: ${degree.type} in ${degree.name}` },
+            data: { id: `degree-${index}`, label: `Degree: ${degree.type} in ${degree.name}`, numChildren: 0 },
             classes: 'degree-node',
         });
 
         const courseIdMap = {};
+        const courseNodeMap = new Map();
 
         degree.concentrations.forEach((concentration, cIndex) => {
             const concentrationId = `concentration-${cIndex}`;
 
             nodes.push({
-                data: { id: concentrationId, label: `Concentration: ${concentration.name}` },
+                data: { id: concentrationId, label: `Concentration: ${concentration.name}`, numChildren: concentration.requirements.length },
                 classes: 'concentration-node',
             });
 
@@ -48,7 +72,7 @@ const DegreeGraph = ({ selectedDegree }) => {
                 const requirementId = `requirement-${cIndex}-${rIndex}`;
 
                 nodes.push({
-                    data: { id: requirementId, label: `Requirement: ${requirement.name}\nCredits: ${requirement.credits}` },
+                    data: { id: requirementId, label: `Requirement: ${requirement.name}\nCredits: ${requirement.credits}`, numChildren: requirement.courses.length },
                     classes: 'requirement-node',
                 });
 
@@ -60,17 +84,26 @@ const DegreeGraph = ({ selectedDegree }) => {
                 });
 
                 requirement.courses.forEach((course, courseIndex) => {
-                    const courseId = `course-${cIndex}-${rIndex}-${courseIndex}`;
-                    const courseDetails = `
-                        ${course.code}: ${course.name}
-                        ${course.credits} Credits
-                        Completed: ${course.is_complete ? 'Yes' : 'No'}
-                    `.trim();
+                    const courseKey = `${course.code}-${course.name}`;
 
-                    nodes.push({
-                        data: { id: courseId, label: courseDetails },
-                        classes: 'course-node',
-                    });
+                    let courseId;
+                    if (courseNodeMap.has(courseKey)) {
+                        courseId = courseNodeMap.get(courseKey);
+                    } else {
+                        courseId = `course-${cIndex}-${rIndex}-${courseIndex}`;
+                        const courseDetails = `
+                            ${course.code}: ${course.name}
+                            ${course.credits} Credits
+                            Completed: ${course.is_complete ? 'Yes' : 'No'}
+                        `.trim();
+
+                        nodes.push({
+                            data: { id: courseId, label: courseDetails, numChildren: course.prerequisites ? course.prerequisites.length : 0 },
+                            classes: 'course-node',
+                        });
+
+                        courseNodeMap.set(courseKey, courseId);
+                    }
 
                     courseIdMap[course._id] = courseId;
 
@@ -87,7 +120,7 @@ const DegreeGraph = ({ selectedDegree }) => {
         degree.concentrations.forEach((concentration, cIndex) => {
             concentration.requirements.forEach((requirement, rIndex) => {
                 requirement.courses.forEach((course, courseIndex) => {
-                    const courseId = `course-${cIndex}-${rIndex}-${courseIndex}`;
+                    const courseId = courseIdMap[course._id];
                     if (course.prerequisites && course.prerequisites.length > 0) {
                         course.prerequisites.forEach((prerequisiteId) => {
                             const prerequisiteCourseId = courseIdMap[prerequisiteId];
@@ -106,16 +139,40 @@ const DegreeGraph = ({ selectedDegree }) => {
             });
         });
 
+        // Calculate the total number of descendants for each node
+        nodes.forEach((node) => {
+            node.data.totalDescendants = calculateTotalDescendants(node, edges);
+        });
+
         return [...nodes, ...edges];
     };
 
     const layoutOptions = {
-        name: 'breadthfirst',
-        circle: true,
-        directed: true,
-        padding: 10,
-        avoidOverlap: true,
-        spacingFactor: 1,
+        name: 'fcose',
+        animate: false,
+        fit: true,
+        padding: 30,
+        randomize: true,
+        nodeDimensionsIncludeLabels: true,
+        nodeRepulsion: 45000,
+        idealEdgeLength: 200,
+        edgeElasticity: 0.45,
+        nestingFactor: 0.1,
+        gravity: 0.25,
+        numIter: 2500,
+        tile: true,
+        tilingPaddingVertical: 50,
+        tilingPaddingHorizontal: 50,
+        nodeSeparation: 75,
+        edgeSeparation: 50,
+    };
+
+    const hideConcentrationChildren = (cy) => {
+        const concentrationNodes = cy.nodes('.concentration-node');
+        concentrationNodes.forEach((node) => {
+            toggleChildrenVisibility(node, true);
+            setHiddenChildren((prev) => ({ ...prev, [node.id()]: true }));
+        });
     };
 
     const toggleChildrenVisibility = (node, hide) => {
@@ -133,23 +190,21 @@ const DegreeGraph = ({ selectedDegree }) => {
         childNodes.forEach((childNode) => toggleChildrenVisibility(childNode, hide));
     };
 
-    function handleNodeClick(event) {
+    const handleNodeClick = (event) => {
         const node = event.target;
         if (node.isNode()) {
             const nodeId = node.id();
             const isHidden = hiddenChildren[nodeId];
 
             if (isHidden) {
-                console.log('Showing children');
                 toggleChildrenVisibility(node, false);
                 setHiddenChildren((prev) => ({ ...prev, [nodeId]: false }));
             } else {
-                console.log('Hiding children');
                 toggleChildrenVisibility(node, true);
                 setHiddenChildren((prev) => ({ ...prev, [nodeId]: true }));
             }
         }
-    }
+    };
 
     return (
         <CytoscapeComponent
@@ -165,12 +220,12 @@ const DegreeGraph = ({ selectedDegree }) => {
                         'text-halign': 'center',
                         shape: 'round-rectangle',
                         'background-color': '#6FB1FC',
-                        width: 'label',
-                        height: 'label',
+                        width: (ele) => Math.max(100, ele.data('totalDescendants') * 50),
+                        height: (ele) => Math.max(50, ele.data('totalDescendants') * 25),
                         padding: '10px',
-                        'font-size': '10px',
+                        'font-size': (ele) => Math.max(15, Math.min(35, ele.data('totalDescendants') * 5)),
                         'text-wrap': 'wrap',
-                        'text-max-width': '100px',
+                        'text-max-width': (ele) => Math.max(100, ele.data('totalDescendants') * 50),
                         'border-width': 1,
                         'border-color': '#000',
                     },
@@ -214,6 +269,7 @@ const DegreeGraph = ({ selectedDegree }) => {
                 },
             ]}
             cy={(cy) => {
+                window.cy = cy;
                 cy.ready(() => {
                     cy.fit();
                     cy.layout(layoutOptions).run();

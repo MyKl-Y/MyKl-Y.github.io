@@ -206,7 +206,6 @@ const DegreeComponent = ({ onSelectDegree }) => {
     }
 
     // TODO: Automatically mark course complete if there is a course in the course collection with same code
-    // TODO: Ability to delete degree, concentration, requirement, course
     return (
         <div className="tree-container" style={currentTheme}>
             <div className="tree-button-container first">

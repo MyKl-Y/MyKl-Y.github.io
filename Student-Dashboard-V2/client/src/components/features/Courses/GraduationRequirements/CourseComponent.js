@@ -195,8 +195,8 @@ const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequir
                                     selectedCourse.is_complete 
                                         ? selectedCourse.credits+"/"+selectedCourse.credits
                                         : isRequirementDone
-                                            ? ""
-                                            : 0+"/"+selectedCourse.credits
+                                            ? "Not Needed"
+                                            : "0/"+selectedCourse.credits
                                 })` 
                                 : "Select a Course")}
                         </span>

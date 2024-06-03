@@ -81,6 +81,7 @@ router.post("/requirement/:degreeId/:concentrationId", async (req, res) => {
     }
 });
 
+
 // Create a new course within a requirement
 router.post("/course/:degreeId/:concentrationId/:requirementId", async (req, res) => {
     try {
@@ -298,7 +299,7 @@ router.put("/requirement/:degreeId/:concentrationId/:requirementId", async (req,
         const updates = {
             $set: {
                 "concentrations.$.requirements.$[reqElem]": {
-                    _id: requirementId,
+                    _id: new ObjectId(requirementId),
                     courses: req.body.courses,
                     name: req.body.name,
                     credits: req.body.credits,
@@ -348,11 +349,12 @@ router.put("/course/:degreeId/:concentrationId/:requirementId/:courseId", async 
         const updates = {
             $set: {
                 "concentrations.$.requirements.$[reqElem].courses.$[courseElem]": {
-                    _id: courseId,
+                    _id: new ObjectId(courseId),
                     code: req.body.code,
                     name: req.body.name,
                     credits: req.body.credits,
                     is_complete: req.body.is_complete,
+                    prerequisites: req.body.prerequisites,
                 }
             }
         };
