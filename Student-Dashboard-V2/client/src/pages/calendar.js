@@ -21,12 +21,96 @@ const defaultSemesters = {
     }
 };
 
+// TODO: Add time bars for hours and add current time line
+
+function WeekView({ date, events }) {
+    const startOfWeek = new Date(date);
+    startOfWeek.setDate(date.getDate() - date.getDay());
+
+    const days = Array.from({ length: 7 }, (_, i) => {
+        const day = new Date(startOfWeek);
+        day.setDate(startOfWeek.getDate() + i);
+        return day;
+    });
+
+    const hours = Array.from({ length: 24 }, (_, i) => i);
+
+    const getEventsForDay = (day) => events.filter(event => event.date.toDateString() === day.toDateString());
+
+    return (
+        <div className="week-view">
+            <div className="week-view-header">
+                {days.map((day, index) => (
+                    <div key={index} className="week-view-day-header">
+                        {day.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric' })}
+                    </div>
+                ))}
+            </div>
+            <div className="week-view-body">
+                {days.map((day, index) => (
+                    <div key={index} className="week-view-day">
+                        {hours.map(hour => (
+                            <div key={hour} className="week-view-hour">
+                                {getEventsForDay(day).map((event, i) => {
+                                    if (event.type === 'task') {
+                                        if (hour === 0) {
+                                            const backgroundColor = event.details.isComplete ? 'rgba(0, 0, 255, .3) !important' : 'rgba(255, 0, 0, .3) !important';
+
+                                            return (
+                                                <div key={i} className={`week-view-event event-${event.type}`} 
+                                                    style={{ 
+                                                        top: `0px`, 
+                                                        height: `60px`,
+                                                        backgroundColor: `${backgroundColor}`
+                                                    }}>
+                                                    <b>{event.details.name || event.details.course.courseName}</b>
+                                                    <br />
+                                                    {event.details.category}
+                                                </div>
+                                            );
+                                        }
+                                    } else {
+                                        const startTime = event.details.course.meetingTimes.split(', ').map(meeting => meeting.split(' ')[0] === day.toLocaleDateString('en-US', { weekday: 'short' }) ? meeting.split(' ')[1].split('-')[0] : null).filter(time => time !== null)[0];
+                                        const endTime = event.details.course.meetingTimes.split(', ').map(meeting => meeting.split(' ')[0] === day.toLocaleDateString('en-US', { weekday: 'short' }) ? meeting.split(' ')[1].split('-')[1] : null).filter(time => time !== null)[0];
+                                        const top = parseFloat(startTime.split(':')[1].substring(0, 2)) / 2;
+                                        const hourAsString = (hour + 1) > 12 ? ((hour + 1) - 12).toString() : (hour + 1).toString();
+                                        const startAsMinutes = (parseFloat(startTime.split(':')[0]) +
+                                            (startTime.includes('pm') ? 12 : 0)) * 60 + parseFloat(startTime.split(':')[1].substring(0, 2));
+                                        const endAsMinutes = (parseFloat(endTime.split(':')[0]) +
+                                            (endTime.includes('pm') ? 12 : 0)) * 60 + parseFloat(endTime.split(':')[1].substring(0, 2));
+                                        const height = (endAsMinutes - startAsMinutes) / 2;
+
+                                        if (startTime.split(':')[0] === hourAsString && startTime.includes(hour > 22 || hour < 11 ? 'am' : 'pm')) {
+                                            return (
+                                                <div key={i} className={`week-view-event event-${event.type}`} 
+                                                    style={{ 
+                                                        top: `${top}px`, 
+                                                        height: `${height}px` 
+                                                    }}>
+                                                    {event.details.name || event.details.course.courseName}
+                                                </div>
+                                            );
+                                        } else {
+                                            return null;
+                                        }
+                                    }
+                                })}
+                            </div>
+                        ))}
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+}
+
 export default function CalendarView({ semesters = defaultSemesters }) {
     const [date, setDate] = useState(new Date());
     const [datesWithEvents, setDatesWithEvents] = useState([]);
     const [tasks, setTasks] = useState([]);
     const [courses, setCourses] = useState([]);
     const [selectedDayEvents, setSelectedDayEvents] = useState([]);
+    const [view, setView] = useState('month'); // Added state for view
 
     useEffect(() => {
         // Fetch tasks
@@ -148,16 +232,24 @@ export default function CalendarView({ semesters = defaultSemesters }) {
             transition={{ duration: .5 }}
             className='calendar-container'
         >
-            <div>
-                <Calendar
-                    onChange={setDate}
-                    value={date}
-                    calendarType="gregory"
-                    tileContent={tileContent}
-                    tileClassName={tileClassName}
-                    className={'calendar'}
-                />
+            <div className='view-switcher'>
+                <button onClick={() => setView('month')}>Month View</button>
+                <button onClick={() => setView('week')}>Week View</button>
             </div>
+            {view === 'month' ? (
+                <div>
+                    <Calendar
+                        onChange={setDate}
+                        value={date}
+                        calendarType="gregory"
+                        tileContent={tileContent}
+                        tileClassName={tileClassName}
+                        className={'calendar'}
+                    />
+                </div>
+            ) : (
+                <WeekView date={date} events={datesWithEvents} />
+            )}
             <div className='events-list' style={{ flex: 1, padding: '20px' }}>
                 <h2>Events on {date.toLocaleDateString('en-US', {weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'})}</h2>
                 {selectedDayEvents.length > 0 ? (
