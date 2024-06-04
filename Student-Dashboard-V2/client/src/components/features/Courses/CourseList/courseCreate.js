@@ -10,8 +10,6 @@ export default function CreateTask({ onCourseCreate, onCancel }) {
     const { user } = useAuth();
     const { currentTheme } = useTheme();
 
-    //TODO: more tags
-
     const defaultTags = [
         "Math", 
         "Science",

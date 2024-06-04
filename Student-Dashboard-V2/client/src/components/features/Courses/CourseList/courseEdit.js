@@ -6,8 +6,6 @@ function CourseEdit({ course, onUpdateCourse }) {
     const [editedCourse, setEditedCourse] = useState(course);
     const { user } = useAuth();
 
-    //TODO: more tags
-
     const defaultTags = [
         "Math", 
         "Science", 

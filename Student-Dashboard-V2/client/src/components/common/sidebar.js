@@ -59,7 +59,7 @@ const Sidebar = () => {
                         to="/"
                     >
                         <SchoolTwoTone />
-                        <h3>UpGrad</h3>
+                        <h3>BuzzBoard</h3>
                     </Link>
                 </div>
                 <div className='inset-container'>

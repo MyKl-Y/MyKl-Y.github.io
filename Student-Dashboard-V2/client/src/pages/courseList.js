@@ -259,8 +259,6 @@ function Courses() {
         setIsCourseInfoVisible(false);
     };
 
-    //TODO: more tags
-
     function getImageURL(courseTag) {
         // Adjust these paths to match your actual image file locations
         const imagePaths = {
@@ -279,8 +277,6 @@ function Courses() {
         return imagePaths[courseTag] || imagePaths['default'];
     }
     
-
-    //TODO: Redo format of information
     return (
             <motion.div 
                 className="courses-container" 
