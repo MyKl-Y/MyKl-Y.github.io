@@ -78,6 +78,7 @@ export const themes = {
             '--primary': 'rgba(255, 173, 0, 1)',
             '--primary-outset': '.3rem .3rem .2rem 0rem rgba(13,14,18,1), -.3rem -.3rem .2rem 0rem rgba(40,43,53,1)',
             '--primary-inset': 'inset .2rem .2rem .5rem 0rem rgba(128,86,0,1), inset -.2rem -.2rem .5rem 0rem rgba(255,214,128,1)',
+            '--add-light': 'rgba(70,215,100,1)',
             '--add-primary': 'rgba(40,165,70,1)',
             '--add-dark': 'rgba(10,115,40,1)',
             '--add-outset': '.3rem .3rem .2rem 0rem var(--background-dark), -.3rem -.3rem .2rem 0rem var(--background-light)',

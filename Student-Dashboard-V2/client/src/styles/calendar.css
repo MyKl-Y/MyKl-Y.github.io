@@ -16,7 +16,6 @@
     box-shadow: var(--background-outset) !important;
     padding: 1rem;
     width: 100% !important;
-    height: 100% !important;
 }
 
 /* Custom styles for calendar navigation */
@@ -105,7 +104,6 @@
     flex-direction: column;
     justify-content: center;
     width: 100%;
-    height: 100%;
     padding: 1rem;
     background-color: var(--background-color);
     margin-top: 1rem;
@@ -119,10 +117,31 @@
     margin: 0 !important;
 }
 
+.current-time-line {
+    position: absolute;
+    left: .5rem; /* Add this */
+    width: calc(100% - 1rem); /* Subtract the width of the time column */
+    height: 1px;
+    background-color: var(--primary);
+    z-index: 1;
+    pointer-events: none;
+}
+.current-time-line-label {
+    left: 0;
+    top: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: .75rem;
+    z-index: 2;
+    pointer-events: none;
+    transform: translateY(-17px);
+    background-color: var(--background-colors);
+    color: var(--primary);
+}
 
 .week-view {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: 1fr repeat(7, 2fr);
     grid-template-rows: auto;
     width: 100%;
     height: 100%;
@@ -130,6 +149,7 @@
     background-color: var(--background-color);
     border-radius: 2rem;
     box-shadow: var(--background-outset);
+    position: relative;
 }
 
 .week-view-header {
@@ -137,14 +157,18 @@
 }
 
 .week-view-day-header {
-    padding: 1rem;
+    padding: 5px;
     text-align: center;
     background-color: var(--primary);
-    color: var(--text-color);
+    color: var(--background-color);
     box-shadow: var(--primary-inset);
+    height: 58px;
 }
-
 .week-view-day-header:first-child {
+    background-color: transparent;
+    box-shadow: none;
+}
+.week-view-day-header:nth-child(2) {
     border-radius: 1rem 0 0 0;
 }
 .week-view-day-header:last-child {
@@ -153,6 +177,15 @@
 
 .week-view-body {
     display: contents;
+}
+
+.week-view-time-column {
+    display: grid;
+    grid-template-rows: repeat(24, 30px);
+    text-align: right;
+    padding-right: .25rem;
+    transform: translateY(-7px);
+    font-size: .5rem;
 }
 
 .week-view-day {
@@ -182,4 +215,69 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     width: calc(100% - 3px);
+}
+
+.week-change-container {
+    width: 100%;
+    box-shadow: var(--background-outset);
+    border-radius: 2rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    color: var(--background-color);
+    background-color: var(--background-color);
+}
+.prev-week {
+    background-color: var(--remove-primary);
+    border: none !important;
+    padding: .25rem 1rem;
+    border-radius: 1rem 0 0 1rem;
+    width: 20%;
+}
+.prev-week:hover {
+    background-color: var(--remove-primary);
+    box-shadow: var(--remove-inset);
+}
+.next-week {
+    background-color: var(--add-primary);
+    border: none !important;
+    padding: .25rem 1rem;
+    border-radius: 0 1rem 1rem 0;
+    width: 20%;
+}
+.next-week:hover {
+    background-color: var(--add-primary);
+    box-shadow: var(--add-inset);
+}
+.change-to-month-view {
+    background-color: var(--primary);
+    border: none !important;
+    padding: .25rem 1rem;
+    width: 60%;
+}
+.change-to-month-view:hover {
+    background-color: var(--primary);
+    box-shadow: var(--primary-inset);
+}
+
+.view-switcher {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background-color: var(--background-color);
+    border-radius: 2rem;
+    box-shadow: var(--background-outset);
+}
+.view-switcher button {
+    background-color: var(--primary);
+    color: var(--background-color);
+    border: none;
+    border-radius: 1rem;
+    padding: .25rem 1rem;
+    width: 100%;
+}
+.view-switcher button:hover {
+    background-color: var(--primary);
+    box-shadow: var(--primary-inset);
 }

@@ -21,11 +21,15 @@ const defaultSemesters = {
     }
 };
 
-// TODO: Add time bars for hours and add current time line
+function WeekView({ date, events, setView, view }) {
+    const [currentDate, setCurrentDate] = useState(new Date(date));
+    const [currentTime, setCurrentTime] = useState(new Date());
 
-function WeekView({ date, events }) {
-    const startOfWeek = new Date(date);
-    startOfWeek.setDate(date.getDate() - date.getDay());
+    const startOfWeek = new Date(currentDate);
+    startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
+
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
 
     const days = Array.from({ length: 7 }, (_, i) => {
         const day = new Date(startOfWeek);
@@ -37,70 +41,122 @@ function WeekView({ date, events }) {
 
     const getEventsForDay = (day) => events.filter(event => event.date.toDateString() === day.toDateString());
 
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setCurrentTime(new Date());
+        }, 60000); // Update every minute
+        return () => clearInterval(intervalId);
+    }, []);
+
+    const calculateCurrentTimePosition = () => {
+        const now = currentTime;
+        const minutesSinceStartOfDay = (now.getHours() % 24) * 60 + now.getMinutes();
+        const position = minutesSinceStartOfDay / 2; // Calculate position as a percentage
+        return position;
+    };
+
+    const handlePrevWeek = () => {
+        const newDate = new Date(currentDate);
+        newDate.setDate(currentDate.getDate() - 7);
+        setCurrentDate(newDate);
+    };
+
+    const handleNextWeek = () => {
+        const newDate = new Date(currentDate);
+        newDate.setDate(currentDate.getDate() + 7);
+        setCurrentDate(newDate);
+    };
+
+    const isCurrentWeek = currentTime >= startOfWeek && currentTime <= endOfWeek;
+
     return (
-        <div className="week-view">
-            <div className="week-view-header">
-                {days.map((day, index) => (
-                    <div key={index} className="week-view-day-header">
-                        {day.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric' })}
-                    </div>
-                ))}
+        <>
+            <div className='week-change-container'>
+                <button className='prev-week' onClick={handlePrevWeek}>&larr;</button>
+                <button className='change-to-month-view' onClick={() => setView('month')}>Month View</button>
+                <button className='next-week' onClick={handleNextWeek}>&rarr;</button>
             </div>
-            <div className="week-view-body">
-                {days.map((day, index) => (
-                    <div key={index} className="week-view-day">
+            <div className="week-view">
+                { isCurrentWeek &&
+                    <div className="current-time-line" style={{ top: `calc(${calculateCurrentTimePosition()}px + 1rem + 57px)` }}>
+                        <div className="current-time-line-label">{currentTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric' })}</div>
+                    </div>
+                }
+                <div className="week-view-header">
+                    <div className="week-view-day-header"></div>
+                    {days.map((day, index) => (
+                        <div key={index} className="week-view-day-header">
+                            {day.toLocaleDateString('en-US', {day: 'numeric' })}
+                            <br />
+                            {day.toLocaleDateString('en-US', {weekday: 'short' })}
+                        </div>
+                    ))}
+                </div>
+                <div className="week-view-body">
+                    <div className='week-view-time-column'>
                         {hours.map(hour => (
-                            <div key={hour} className="week-view-hour">
-                                {getEventsForDay(day).map((event, i) => {
-                                    if (event.type === 'task') {
-                                        if (hour === 0) {
-                                            const backgroundColor = event.details.isComplete ? 'rgba(0, 0, 255, .3) !important' : 'rgba(255, 0, 0, .3) !important';
-
-                                            return (
-                                                <div key={i} className={`week-view-event event-${event.type}`} 
-                                                    style={{ 
-                                                        top: `0px`, 
-                                                        height: `60px`,
-                                                        backgroundColor: `${backgroundColor}`
-                                                    }}>
-                                                    <b>{event.details.name || event.details.course.courseName}</b>
-                                                    <br />
-                                                    {event.details.category}
-                                                </div>
-                                            );
-                                        }
-                                    } else {
-                                        const startTime = event.details.course.meetingTimes.split(', ').map(meeting => meeting.split(' ')[0] === day.toLocaleDateString('en-US', { weekday: 'short' }) ? meeting.split(' ')[1].split('-')[0] : null).filter(time => time !== null)[0];
-                                        const endTime = event.details.course.meetingTimes.split(', ').map(meeting => meeting.split(' ')[0] === day.toLocaleDateString('en-US', { weekday: 'short' }) ? meeting.split(' ')[1].split('-')[1] : null).filter(time => time !== null)[0];
-                                        const top = parseFloat(startTime.split(':')[1].substring(0, 2)) / 2;
-                                        const hourAsString = (hour + 1) > 12 ? ((hour + 1) - 12).toString() : (hour + 1).toString();
-                                        const startAsMinutes = (parseFloat(startTime.split(':')[0]) +
-                                            (startTime.includes('pm') ? 12 : 0)) * 60 + parseFloat(startTime.split(':')[1].substring(0, 2));
-                                        const endAsMinutes = (parseFloat(endTime.split(':')[0]) +
-                                            (endTime.includes('pm') ? 12 : 0)) * 60 + parseFloat(endTime.split(':')[1].substring(0, 2));
-                                        const height = (endAsMinutes - startAsMinutes) / 2;
-
-                                        if (startTime.split(':')[0] === hourAsString && startTime.includes(hour > 22 || hour < 11 ? 'am' : 'pm')) {
-                                            return (
-                                                <div key={i} className={`week-view-event event-${event.type}`} 
-                                                    style={{ 
-                                                        top: `${top}px`, 
-                                                        height: `${height}px` 
-                                                    }}>
-                                                    {event.details.name || event.details.course.courseName}
-                                                </div>
-                                            );
-                                        } else {
-                                            return null;
-                                        }
-                                    }
-                                })}
+                            <div key={hour} className="week-view-hour-label">
+                                {hour > 12 ? `${hour - 12} pm` : hour === 0 ? '12 am' : hour === 12 ? '12 pm' : `${hour} am`}
                             </div>
                         ))}
                     </div>
-                ))}
+                    {days.map((day, index) => (
+                        <div key={index} className="week-view-day">
+                            {hours.map(hour => (
+                                <div key={hour} className="week-view-hour">
+                                    {getEventsForDay(day).map((event, i) => {
+                                        if (event.type === 'task') {
+                                            if (hour === 0) {
+                                                const backgroundColor = event.details.isComplete ? 'rgba(0, 0, 255, .3) !important' : 'rgba(255, 0, 0, .3) !important';
+
+                                                return (
+                                                    <div key={i} className={`week-view-event event-${event.type}`} 
+                                                        style={{ 
+                                                            top: `0px`, 
+                                                            height: `60px`,
+                                                            backgroundColor: `${backgroundColor}`
+                                                        }}>
+                                                        <b>{event.details.name || event.details.course.courseName}</b>
+                                                        <br />
+                                                        Due: {event.details.dueDate.split('T')[1]}
+                                                    </div>
+                                                );
+                                            } else {
+                                                return null;
+                                            }
+                                        } else {
+                                            const startTime = event.details.course.meetingTimes.split(', ').map(meeting => meeting.split(' ')[0] === day.toLocaleDateString('en-US', { weekday: 'short' }) ? meeting.split(' ')[1].split('-')[0] : null).filter(time => time !== null)[0];
+                                            const endTime = event.details.course.meetingTimes.split(', ').map(meeting => meeting.split(' ')[0] === day.toLocaleDateString('en-US', { weekday: 'short' }) ? meeting.split(' ')[1].split('-')[1] : null).filter(time => time !== null)[0];
+                                            const top = parseFloat(startTime.split(':')[1].substring(0, 2)) / 2;
+                                            const hourAsString = (hour + 1) > 12 ? ((hour + 1) - 12).toString() : (hour + 1).toString();
+                                            const startAsMinutes = (parseFloat(startTime.split(':')[0]) +
+                                                (startTime.includes('pm') ? 12 : 0)) * 60 + parseFloat(startTime.split(':')[1].substring(0, 2));
+                                            const endAsMinutes = (parseFloat(endTime.split(':')[0]) +
+                                                (endTime.includes('pm') ? 12 : 0)) * 60 + parseFloat(endTime.split(':')[1].substring(0, 2));
+                                            const height = (endAsMinutes - startAsMinutes) / 2;
+
+                                            if (startTime.split(':')[0] === hourAsString && startTime.includes(hour > 22 || hour < 11 ? 'am' : 'pm')) {
+                                                return (
+                                                    <div key={i} className={`week-view-event event-${event.type}`} 
+                                                        style={{ 
+                                                            top: `${top}px`, 
+                                                            height: `${height}px` 
+                                                        }}>
+                                                        {event.details.name || event.details.course.courseName}
+                                                    </div>
+                                                );
+                                            } else {
+                                                return null;
+                                            }
+                                        }
+                                    })}
+                                </div>
+                            ))}
+                        </div>
+                    ))}
+                </div>
             </div>
-        </div>
+        </>
     );
 }
 
@@ -232,12 +288,11 @@ export default function CalendarView({ semesters = defaultSemesters }) {
             transition={{ duration: .5 }}
             className='calendar-container'
         >
-            <div className='view-switcher'>
-                <button onClick={() => setView('month')}>Month View</button>
-                <button onClick={() => setView('week')}>Week View</button>
-            </div>
             {view === 'month' ? (
                 <div>
+                    <div className='view-switcher'>
+                        <button onClick={() => setView('week')}>Week View</button>
+                    </div>
                     <Calendar
                         onChange={setDate}
                         value={date}
@@ -246,50 +301,50 @@ export default function CalendarView({ semesters = defaultSemesters }) {
                         tileClassName={tileClassName}
                         className={'calendar'}
                     />
+                    <div className='events-list' style={{ flex: 1, padding: '20px' }}>
+                        <h2>Events on {date.toLocaleDateString('en-US', {weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'})}</h2>
+                        {selectedDayEvents.length > 0 ? (
+                            selectedDayEvents.map((event, index) => (
+                                <div key={index}>
+                                    {event.type === 'task' ? (
+                                        <>
+                                            <h3>Task <b>{event.details.isComplete}</b></h3>
+                                            <p><b>{event.details.category}</b>: {event.details.name}</p>
+                                            <p><b>From</b>: {new Date(event.details.startDate).toLocaleDateString(
+                                                'en-US', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric'}
+                                            )}</p> 
+                                            <p><b>To</b>: {new Date(event.details.dueDate).toLocaleDateString(
+                                                'en-US', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric'}
+                                            )}</p>
+                                            {event.details.category === 'Habit' ? (
+                                                <p><b>Every Week On</b>: {date.toLocaleDateString('en-US', {weekday: 'long'})}</p>
+                                            ) : null}
+                                        </>
+                                    ) : (
+                                        <>
+                                            <h3>Course</h3>
+                                            <p><b>{event.details.course.courseNumber}</b>: {event.details.course.courseName}</p>
+                                            <p><b>Times</b>:
+                                                {
+                                                    event.details.course.meetingTimes.split(', ')
+                                                        .map(meetingDaysAndTimes => meetingDaysAndTimes.includes(date.toLocaleDateString('en-US', {weekday: 'short'})) ? meetingDaysAndTimes.split(' ')
+                                                            .map(time => time !== date.toLocaleDateString('en-US', {weekday: 'short'}) && (
+                                                                <span key={time}><br/>{'>'} {time}</span>
+                                                            )) : null)
+                                                }
+                                            </p>
+                                        </>
+                                    )}
+                                </div>
+                            ))
+                        ) : (
+                            <p>No events for this day.</p>
+                        )}
+                    </div>
                 </div>
             ) : (
-                <WeekView date={date} events={datesWithEvents} />
+                <WeekView date={date} events={datesWithEvents} setView={setView} view={view} />
             )}
-            <div className='events-list' style={{ flex: 1, padding: '20px' }}>
-                <h2>Events on {date.toLocaleDateString('en-US', {weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'})}</h2>
-                {selectedDayEvents.length > 0 ? (
-                    selectedDayEvents.map((event, index) => (
-                        <div key={index}>
-                            {event.type === 'task' ? (
-                                <>
-                                    <h3>Task <b>{event.details.isComplete}</b></h3>
-                                    <p><b>{event.details.category}</b>: {event.details.name}</p>
-                                    <p><b>From</b>: {new Date(event.details.startDate).toLocaleDateString(
-                                        'en-US', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric'}
-                                    )}</p> 
-                                    <p><b>To</b>: {new Date(event.details.dueDate).toLocaleDateString(
-                                        'en-US', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric'}
-                                    )}</p>
-                                    {event.details.category === 'Habit' ? (
-                                        <p><b>Every Week On</b>: {date.toLocaleDateString('en-US', {weekday: 'long'})}</p>
-                                    ) : null}
-                                </>
-                            ) : (
-                                <>
-                                    <h3>Course</h3>
-                                    <p><b>{event.details.course.courseNumber}</b>: {event.details.course.courseName}</p>
-                                    <p><b>Times</b>:
-                                        {
-                                            event.details.course.meetingTimes.split(', ')
-                                                .map(meetingDaysAndTimes => meetingDaysAndTimes.includes(date.toLocaleDateString('en-US', {weekday: 'short'})) ? meetingDaysAndTimes.split(' ')
-                                                    .map(time => time !== date.toLocaleDateString('en-US', {weekday: 'short'}) && (
-                                                        <span key={time}><br/>{'>'} {time}</span>
-                                                    )) : null)
-                                        }
-                                    </p>
-                                </>
-                            )}
-                        </div>
-                    ))
-                ) : (
-                    <p>No events for this day.</p>
-                )}
-            </div>
         </motion.div>
     );
 }
