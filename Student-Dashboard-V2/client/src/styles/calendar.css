@@ -39,8 +39,13 @@
 .react-calendar__tile {
     background-color: var(--background-color) !important;
     color: var(--text-color);
-    margin: .5rem;
     font-weight: bolder;
+    height: 100px;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: flex-start;
 }
 .react-calendar__tile:last-child {
     border-radius: 0 0 .5rem 0;
@@ -66,20 +71,48 @@
     color: var(--remove-primary) !important;
 }
 .react-calendar__month-view__days__day--neighboringMonth {
-    color: #888888 !important;
+    background-color: var(--background-color) !important;
+    color: var(--text-color) !important;
     font-weight: normal !important;
+    opacity: 0.2;
 }
-
-.event-task {
+.react-calendar__tile div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-color) !important;
+}
+.react-calendar__tile div.emojis {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: .5rem 1rem;
+    border-radius: 1rem;
+}
+.react-calendar__tile div:not(.emojis) span {
+    border-radius: .5rem !important;
+    padding: 2px .5rem;
+}
+.event-task div:not(.emojis) span {
     background-color: var(--add-primary) !important;
 }
 
-.event-course {
+.event-course div:not(.emojis) span {
     background-color: var(--remove-primary) !important;
 }
 
-.event-course.event-task {
+.event-course.event-task div:not(.emojis) span {
     background-color: #04208f !important;
+}
+.event-course.event-task div.emojis {
+    background-color: #04208f !important;
+}
+.event-task div.emojis {
+    background-color: var(--add-primary) !important;
+}
+.event-course div.emojis {
+    background-color: var(--remove-primary) !important;
 }
 
 .react-calendar__tile:enabled:hover {
@@ -90,13 +123,12 @@
     background-color: var(--primary) !important;
     color: var(--background-color) !important;
     box-shadow: var(--primary-inset) !important;
-    border-radius: 5px !important;
 }
 
 .react-calendar__tile--active {
     box-shadow: var(--selected-inset);
+    color: var(--text-color) !important;
     background-color: var(--selected-color) !important;
-    border-radius: 5px;
 }
 
 .events-list {
@@ -109,8 +141,9 @@
     margin-top: 1rem;
     border-radius: 1rem;
     box-shadow: var(--background-outset);
+    overflow: scroll !important;
 }
-.events-list h3 {
+.events-list b {
     text-decoration: wavy underline var(--primary);
 }
 .events-list p {
@@ -145,7 +178,7 @@
     grid-template-rows: auto;
     width: 100%;
     height: 100%;
-    padding: 1rem;
+    padding: 1rem 1rem .4rem 1rem;
     background-color: var(--background-color);
     border-radius: 2rem;
     box-shadow: var(--background-outset);
@@ -225,13 +258,13 @@
     padding: 1rem;
     color: var(--background-color);
     background-color: var(--background-color);
+    display: flex;
 }
 .prev-week {
     background-color: var(--remove-primary);
     border: none !important;
     padding: .25rem 1rem;
     border-radius: 1rem 0 0 1rem;
-    width: 20%;
 }
 .prev-week:hover {
     background-color: var(--remove-primary);
@@ -242,7 +275,6 @@
     border: none !important;
     padding: .25rem 1rem;
     border-radius: 0 1rem 1rem 0;
-    width: 20%;
 }
 .next-week:hover {
     background-color: var(--add-primary);
@@ -252,7 +284,7 @@
     background-color: var(--primary);
     border: none !important;
     padding: .25rem 1rem;
-    width: 60%;
+    flex-grow: 1;
 }
 .change-to-month-view:hover {
     background-color: var(--primary);

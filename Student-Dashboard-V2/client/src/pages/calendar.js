@@ -99,6 +99,9 @@ function WeekView({ date, events, setView, view }) {
                                 {hour > 12 ? `${hour - 12} pm` : hour === 0 ? '12 am' : hour === 12 ? '12 pm' : `${hour} am`}
                             </div>
                         ))}
+                        <div key={24.5} className="week-view-hour-label">
+                            12 am
+                        </div>
                     </div>
                     {days.map((day, index) => (
                         <div key={index} className="week-view-day">
@@ -252,12 +255,32 @@ export default function CalendarView({ semesters = defaultSemesters }) {
             const events = datesWithEvents.filter(event => event.date.toDateString() === date.toDateString());
             if (events.length > 0) {
                 return (
-                    <div>
-                        {events.map((event, index) => (
-                            <span key={index}>
-                                {event.type === 'task' ? '📝' : '📚'}
-                            </span>
-                        ))}
+                    <div className={events.length > 3 ? 'emojis' : ''}>
+                        {events.length > 3 ? 
+                            events.map((event, index) => (
+                                <>
+                                    <span key={index}>
+                                        {event.type === 'task' ? '📝' : '📚'}
+                                    </span>
+                                    <br />
+                                </>
+                            ))
+                        : 
+                            events.map((event, index) => (
+                                <>
+                                    <span key={index}>
+                                        {event.type === 'task' 
+                                            ? (event.details.name.length < 1 
+                                                ? "Unnamed Task"
+                                                : event.details.name)
+                                            : event.details.course.courseNumber.length < 1
+                                                ? "Unnamed Course"
+                                                : event.details.course.courseNumber}
+                                    </span>
+                                    <br />
+                                </>
+                            ))
+                        }
                     </div>
                 );
             }
@@ -308,28 +331,26 @@ export default function CalendarView({ semesters = defaultSemesters }) {
                                 <div key={index}>
                                     {event.type === 'task' ? (
                                         <>
-                                            <h3>Task <b>{event.details.isComplete}</b></h3>
-                                            <p><b>{event.details.category}</b>: {event.details.name}</p>
-                                            <p><b>From</b>: {new Date(event.details.startDate).toLocaleDateString(
+                                            <p><b>{event.details.category}</b>: {event.details.name.length < 1 ? 'Unnamed Task' : event.details.name} <b>{event.details.isComplete}</b>
+                                            {' ('}{new Date(event.details.startDate).toLocaleDateString(
                                                 'en-US', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric'}
-                                            )}</p> 
-                                            <p><b>To</b>: {new Date(event.details.dueDate).toLocaleDateString(
+                                            )}
+                                            {' - '} {new Date(event.details.dueDate).toLocaleDateString(
                                                 'en-US', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric'}
-                                            )}</p>
+                                            )}{')'}
                                             {event.details.category === 'Habit' ? (
-                                                <p><b>Every Week On</b>: {date.toLocaleDateString('en-US', {weekday: 'long'})}</p>
+                                                <><b>Every Week On</b>: {date.toLocaleDateString('en-US', {weekday: 'long'})}</>
                                             ) : null}
+                                            </p>
                                         </>
                                     ) : (
                                         <>
-                                            <h3>Course</h3>
-                                            <p><b>{event.details.course.courseNumber}</b>: {event.details.course.courseName}</p>
-                                            <p><b>Times</b>:
+                                            <p><b>{event.details.course.courseNumber}</b>: {event.details.course.courseName}
                                                 {
                                                     event.details.course.meetingTimes.split(', ')
                                                         .map(meetingDaysAndTimes => meetingDaysAndTimes.includes(date.toLocaleDateString('en-US', {weekday: 'short'})) ? meetingDaysAndTimes.split(' ')
                                                             .map(time => time !== date.toLocaleDateString('en-US', {weekday: 'short'}) && (
-                                                                <span key={time}><br/>{'>'} {time}</span>
+                                                                <span key={time}> ({time})</span>
                                                             )) : null)
                                                 }
                                             </p>
