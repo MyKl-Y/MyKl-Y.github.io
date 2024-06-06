@@ -24,7 +24,7 @@ app.use("/register", register)
 app.use("/courses", courses)
 app.use("/graduation", graduation)
 app.use("/jobs", jobs)
-app.use("/scrape", scrape)
+//app.use("/scrape", scrape)
 
 // start the Express server
 app.listen(PORT, () => {

@@ -109,15 +109,16 @@ router.get("/account/:userName", async (req, res) => {
 
 // Update a current user based on parameters of userName
 router.patch("/account/:userName", async (req, res) => {
-    const collection = await db.collection("users");
-    const userName = req.params["userName"];
-    const { displayName, majors, minors } = req.body;
+    let collection = await db.collection("users");
 
     try {
-        const query = { name: userName };
-        const update = { $set: { displayName, majors, minors } };
-        const options = { upsert: true };
-        const result = await collection.updateOne(query, update);
+        const query = { name: req.params.userName };
+        const update = { $set: { 
+            displayName: req.body.displayName, 
+            majors: req.body.majors, 
+            minors: req.body.minors, 
+        } };
+        let result = await collection.updateOne(query, update);
 
         res.send(result).status(200);
     } catch (error) {

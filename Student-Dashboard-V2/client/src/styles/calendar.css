@@ -41,7 +41,7 @@
     color: var(--text-color);
     font-weight: bolder;
     height: 100px;
-    border-radius: 1rem;
+    border-radius: 1rem !important;
     display: flex;
     flex-direction: column;
     align-content: center;

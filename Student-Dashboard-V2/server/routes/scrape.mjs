@@ -116,6 +116,6 @@ router.delete('/courses/:id', async (req, res) => {
 });
 
 // Save courses to DB on server start
-saveCoursesToDb();
+//saveCoursesToDb();
 
 export default router;

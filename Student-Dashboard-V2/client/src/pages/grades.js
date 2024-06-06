@@ -123,6 +123,8 @@ export default function Grades() {
             .catch(error => console.error(error));
     }
 
+    //TODO: Save GPA to user profile
+
     return (
         <motion.div
             initial={{ opacity: 0 }}

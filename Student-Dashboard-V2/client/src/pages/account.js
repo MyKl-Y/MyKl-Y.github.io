@@ -2,22 +2,18 @@ import React, {useEffect, useState, useCallback} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion'
 import { useAuth } from '../context/authentication/AuthContext';
+import { useSettings } from '../context/settings/SettingsContext';
 
 const Account = () => {
     const { user, authLogout } = useAuth();
     const isLoggedIn = !!user;
     const navigate = useNavigate();
+    const { getGrade } = useSettings();
 
     const [majorOptions, setMajorOptions] = useState([]);
     const [minorOptions, setMinorOptions] = useState([]);
-
-    const [editedUser, setEditedUser] = useState({
-        userName: "",
-        displayName: "",
-        email: "",
-        majors: [],
-        minors: [],
-    });
+    const [courses, setCourses] = useState([]);
+    const [gpa, setGpa] = useState(0);
     const [currentUser, setCurrentUser] = useState(
         {
             userName: "",
@@ -63,36 +59,63 @@ const Account = () => {
                     );
                 setMajorOptions(userMajors);
                 setMinorOptions(userMinors);
-                setEditedUser({
+                setForm({
                     userName: user.name,
                     displayName: user.displayName,
                     email: user.email,
-                    majors: [],
-                    minors: [],
+                    majors: user.majors,
+                    minors: user.minors,
                 })
                 fetchUserData();
             })
             .catch((error) => console.error(error));
-    }, [user, fetchUserData]);
+        fetch(`http://localhost:5050/courses/`)
+            .then((res) => res.json())
+            .then((data) => {
+                setCourses(data);
+            })
+            .catch((error) => console.error(error));
+        let weightedGradesSum = 0;
+        let totalCredits = 0;
+        courses.forEach(course => {
+            if (course.assignments.length > 0) {
+                totalCredits += parseInt(course.creditHours);
+                let grades = 0;
+                course.assignments.forEach(assignment => {
+                    if (!assignment.usePoints) {
+                        grades += (assignment.grade / assignment.weight) * 100;
+                    } else {
+                        grades += (assignment.grade / 100) * assignment.weight;
+                    }
+                });
+                weightedGradesSum += getGrade(grades) * course.creditHours;
+            }
+        });
+        setGpa(weightedGradesSum / totalCredits);
+    }, [user, fetchUserData, courses, setCourses, getGrade]);
 
-    const handleEditAccount = () => {
+    async function handleEditAccount(e) {
+        e.preventDefault();
         if (isLoggedIn){
-            fetch(`http://localhost:5050/register/account/${user.name}`, {
+            const updatedUser = {
+                displayName: form.displayName,
+                majors: selectedMajors,
+                minors: selectedMinors,
+            }
+            await fetch(`http://localhost:5050/register/account/${user.name}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(editedUser),
+                body: JSON.stringify(updatedUser),
             })
             .then((response) => response.json())
             .then((data) => {
                 fetchUserData();
-
-                setEditedUser(
+                changeEditingMode();
+                setForm(
                     {
-                        displayName: "", 
-                        majors: [], 
-                        minors: []
+                        ...updatedUser
                     }
                 );
             })
@@ -134,6 +157,34 @@ const Account = () => {
         }
     }
 
+    const [selectedMajors, setSelectedMajors] = useState([]);
+    const [selectedMinors, setSelectedMinors] = useState([]);
+    const [form, setForm] = useState({
+        displayName: "",
+        majors: [],
+        minors: [],
+    });
+
+    const handleMajorsSelection = (event) => {
+        const selectedMajors = Array.from(event.target.selectedOptions, option => option.value);
+        setSelectedMajors(selectedMajors);
+        form.majors = selectedMajors;
+        console.log(form);
+    }
+
+    const handleMinorsSelection = (event) => {
+        const selectedMinors = Array.from(event.target.selectedOptions, option => option.value);
+        setSelectedMinors(selectedMinors);
+        form.minors = selectedMinors;
+    }
+
+    const handleFormChange = (data) => {
+        setForm({
+            ...form,
+            ...data
+        });
+    }
+
     return (
         <motion.div
             key='account'
@@ -145,31 +196,20 @@ const Account = () => {
             {isLoggedIn ? (
                 editingMode ? (
                     <div>
-                        <form>
+                        <form onSubmit={handleEditAccount}>
                             <label>Display Name:</label>
                             <input 
                                 type='text' 
                                 name='displayname'
-                                value={editedUser.displayName}
+                                value={form.displayName}
                                 placeholder={"e.g., John Doe III"} 
-                                onChange={(event) => 
-                                    setEditedUser({
-                                        ...editedUser,
-                                        displayName: event.target.value
-                                    })
-                                }
+                                onChange={(event) => handleFormChange({ displayName: event.target.value })}
                             />
                             <label>Current Major(s):</label>
                             <select 
                                 name='majors' 
                                 multiple
-                                onChange={(event) => {
-                                    const selectedMajors = Array.from(event.target.selectedOptions, option => option.value);
-                                    setEditedUser({
-                                        ...editedUser,
-                                        majors: selectedMajors,
-                                    });
-                                }}
+                                onChange={(event) => handleMajorsSelection(event)}
                             >
                                 {majorOptions.map((major) => (
                                     <option value={major._id}>{major.name}</option>
@@ -179,26 +219,21 @@ const Account = () => {
                             <select 
                                 name='minors' 
                                 multiple
-                                onChange={(event) => {
-                                    const selectedMinors = Array.from(event.target.selectedOptions, option => option.value);
-                                    setEditedUser({
-                                        ...editedUser,
-                                        minors: selectedMinors,
-                                    });
-                                }}
+                                onChange={(event) => handleMinorsSelection(event)}
                             >
                                 {minorOptions.map((minor) => (
                                     <option value={minor._id}>{minor.name}</option>
                                 ))}
                             </select>
-                            <button onClick={handleEditAccount}>Submit</button>
+                            <button type='submit'>Submit</button>
                         </form>
                     </div>
                 ) : (
                     // Inside your Account component
-                    // TODO: GPA Calculation, School, Grad year, email
+                    // TODO: School
                     <div>
                         <h3>{currentUser.displayName} (<b><i>{currentUser.userName}</i></b>)</h3>
+                        <p>{currentUser.email}</p>
                         <p>
                         {/* Allow the user to select degree(s) as their current degree of pursuit from the options fetched from API */}
                         {currentUser.majors && currentUser.majors.length > 0 ? (
@@ -209,8 +244,6 @@ const Account = () => {
                                     );
 
                                     creditHours[index] += calculateTotalCredits(matchedMajor);
-                                    console.log(index);
-                                    console.log(creditHours[index]);
 
                                     const isLast = index === currentUser.majors.length - 1;
                                     const isSecondToLast = index === currentUser.majors.length - 2;
@@ -234,6 +267,8 @@ const Account = () => {
                                                             <p>
                                                                 {`Current ${determineGradeClassification()} (${creditHours[findLargestCreditHour]})`}
                                                             </p>
+                                                            <p><b>GPA</b>: {gpa.toFixed(2)}</p>
+                                                            <p><b>Graduation Year</b>: {new Date().getFullYear() + Math.round((matchedMajor.credits - creditHours[findLargestCreditHour]) / 30)}</p>
                                                         </h4>
                                                     )}
                                                     {isFirst ? "Pursuing " : ""}
