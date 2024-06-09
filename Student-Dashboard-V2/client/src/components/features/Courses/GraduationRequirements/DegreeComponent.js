@@ -206,6 +206,7 @@ const DegreeComponent = ({ onSelectDegree }) => {
     }
 
     // TODO: Automatically mark course complete if there is a course in the course collection with same code
+    // TODO: Make adding courses more efficient
     return (
         <div className="tree-container" style={currentTheme}>
             <div className="tree-button-container first">

@@ -5,6 +5,8 @@ import axiosInstance from '../axiosConfig';
 import 'react-calendar/dist/Calendar.css';
 import '../styles/calendar.css';
 
+// TODO: Make the habits recur forever if no end date is specified
+
 // Define default semester dates
 const defaultSemesters = {
     Spring: {

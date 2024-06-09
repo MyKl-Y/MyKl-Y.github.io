@@ -14,6 +14,8 @@ import {
     ArrowRight,
 } from '@mui/icons-material';
 
+// TODO: Make habits recur forever if no due date is set
+
 const formatDate = (dateString) => {
     //const options = { year: '2-digit', month: 'numeric', day: 'numeric' };
     const options = { day: 'numeric' };
