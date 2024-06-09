@@ -256,7 +256,6 @@ export const ThemeProvider = ({ children }) => {
         const fetchSettings = async () => {
             try {
                 const response = await axiosInstance.get(`/register/${user.name}/settings`);
-                console.log('GPA settings:', response.data);
                 setStyle(response.data.themeSettings.style);
                 setMode(response.data.themeSettings.mode);
             } catch (error) {
@@ -276,20 +275,19 @@ export const ThemeProvider = ({ children }) => {
                 style: newStyle,
             }
         });
-        window.location.reload();
+        //window.location.reload();
     };
 
     const toggleMode = async () => {
         setMode(mode === 'light' ? 'dark' : 'light');
-        console.log('Mode:', mode);
+        setStyle(style);
         await axiosInstance.post(`/register/${user.name}/settings`, {
             ...user.settings,
             themeSettings: {
                 mode: mode === 'light' ? 'dark' : 'light',
-                style: user.settings.themeSettings.style,
+                style: style,
             }
         });
-        window.location.reload();
     };
 
     // Get the current theme object based on the style and mode

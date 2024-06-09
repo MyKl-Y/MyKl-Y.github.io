@@ -3,9 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion'
 import { useAuth } from '../context/authentication/AuthContext';
 import { useSettings } from '../context/settings/SettingsContext';
+import { useTheme } from '../context/theme/ThemeContext';
+import '../styles/account.css';
 
 const Account = () => {
     const { user, authLogout } = useAuth();
+    const { currentTheme } = useTheme();
     const isLoggedIn = !!user;
     const navigate = useNavigate();
     const { getGrade } = useSettings();
@@ -192,6 +195,8 @@ const Account = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: .5 }}
+            style={currentTheme}
+            className='account-page-container'
         >
             {isLoggedIn ? (
                 editingMode ? (
@@ -231,9 +236,9 @@ const Account = () => {
                 ) : (
                     // Inside your Account component
                     // TODO: School
-                    <div>
+                    <div className='account-info'>
                         <h3>{currentUser.displayName} (<b><i>{currentUser.userName}</i></b>)</h3>
-                        <p>{currentUser.email}</p>
+                        <h4><b>Email</b>: {currentUser.email}</h4>
                         <p>
                         {/* Allow the user to select degree(s) as their current degree of pursuit from the options fetched from API */}
                         {currentUser.majors && currentUser.majors.length > 0 ? (
@@ -262,19 +267,21 @@ const Account = () => {
                                         <text key={userMajorId}>
                                             {matchedMajor && (
                                                 <span>
-                                                    {isFirst && (
-                                                        <h4>
-                                                            <p>
-                                                                {`Current ${determineGradeClassification()} (${creditHours[findLargestCreditHour]})`}
-                                                            </p>
-                                                            <p><b>GPA</b>: {gpa.toFixed(2)}</p>
-                                                            <p><b>Graduation Year</b>: {new Date().getFullYear() + Math.round((matchedMajor.credits - creditHours[findLargestCreditHour]) / 30)}</p>
-                                                        </h4>
-                                                    )}
-                                                    {isFirst ? "Pursuing " : ""}
-                                                    {`a ${matchedMajor.type} in ${matchedMajor.name}`}
-                                                    {` (${creditHours[index]}) `}
-                                                    {separator}
+                                                    <h4>
+                                                        {isFirst && (
+                                                            <>
+                                                                <p>
+                                                                    Current <b>{determineGradeClassification()}</b> ({creditHours[findLargestCreditHour]} Credits)
+                                                                </p>
+                                                                <p><b>GPA</b>: {gpa.toFixed(2)}</p>
+                                                                <p><b>Expected Graduation Year</b>: {new Date().getFullYear() + Math.min(Math.round((matchedMajor.credits - creditHours[findLargestCreditHour]) / 30), Math.round((matchedMajor.credits - creditHours[findLargestCreditHour]) / 42))}</p>
+                                                            </>
+                                                        )}
+                                                        {isFirst ? "Pursuing " : ""}
+                                                        a <b>{matchedMajor.type}</b> in <b>{matchedMajor.name}</b>
+                                                        {` (${creditHours[index]}/${matchedMajor.credits}) `}
+                                                        {separator}
+                                                    </h4>
                                                 </span>
                                             )}
                                         </text>
@@ -307,10 +314,10 @@ const Account = () => {
                                     return (
                                         <text key={userMinorId}>
                                             {matchedMinor && (
-                                                <span>
-                                                    {`a ${matchedMinor.type} in ${matchedMinor.name}`}
+                                                <h4>
+                                                    a <b>{matchedMinor.type}</b> in <b>{matchedMinor.name}</b>
                                                     {separator}
-                                                </span>
+                                                </h4>
                                             )}
                                         </text>
                                     );
@@ -327,8 +334,8 @@ const Account = () => {
                     <h3>Please login to view your account</h3>
                 </div>
             )}
-            <button onClick={changeEditingMode}>{editingMode ? 'Cancel' : 'Edit Account'}</button>
-            <button onClick={isLoggedIn ? authLogout : navigate("/auth")}>{isLoggedIn ? 'Logout' : 'Login'}</button>
+            <button className='edit-account' onClick={changeEditingMode}>{editingMode ? 'Cancel' : 'Edit Account'}</button>
+            <button className='logout' onClick={isLoggedIn ? authLogout : navigate("/auth")}>{isLoggedIn ? 'Logout' : 'Login'}</button>
         </motion.div>
     );
 };
