@@ -7,7 +7,10 @@ import register from "./routes/register.mjs"
 import courses from "./routes/courses.mjs"
 import graduation from "./routes/graduation.mjs"
 import jobs from "./routes/jobs.mjs"
-import scrape from "./routes/scrape.mjs"
+//import scrape from "./routes/scrape.mjs"
+//import updateField from "./routes/updateField.mjs"
+
+// TODO: Make all routes have the ability to get data based on user parameter
 
 const PORT = process.env.PORT || 5050;
 const app = express();
@@ -25,6 +28,7 @@ app.use("/courses", courses)
 app.use("/graduation", graduation)
 app.use("/jobs", jobs)
 //app.use("/scrape", scrape)
+//app.use("/update-field", updateField)
 
 // start the Express server
 app.listen(PORT, () => {

@@ -15,6 +15,7 @@ import {
 } from '@mui/icons-material';
 
 // TODO: Make habits recur forever if no due date is set
+// TODO: Streak counter
 
 const formatDate = (dateString) => {
     //const options = { year: '2-digit', month: 'numeric', day: 'numeric' };
