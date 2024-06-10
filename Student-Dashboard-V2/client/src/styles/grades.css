@@ -3,6 +3,7 @@
     -ms-overflow-style: none !important;
     scrollbar-width: none !important;
     color: var(--text-color);
+    padding: .5rem;
 }
 .grades-container input {
     width: 100%;

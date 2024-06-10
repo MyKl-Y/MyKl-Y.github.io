@@ -104,8 +104,8 @@ export default function Job(props) {
             role: selectedRole,
             format: selectedFormat,
         };
-        const response = await fetch(`http://localhost:5050/jobs/${props.job === 'add' ? '' : props.job._id}`, {
-            method: `${props.job === 'add' ? 'POST' : 'PATCH'}`,
+        const response = await fetch(`http://localhost:5050/jobs/${props.job === 'add' && !props.isEditing ? '' : props.job._id}`, {
+            method: `${props.job === 'add' && !props.isEditing ? 'POST' : 'PATCH'}`,
             headers: {
                 "Content-Type": "application/json",
             },
@@ -231,7 +231,6 @@ export default function Job(props) {
                             placeholder="Job Description"
                             value={form.description}
                             onChange={(e) => updateForm({ description: e.target.value })}
-                            required
                         />
                         <ul>
                             <li><b>Deadline</b>: 
@@ -239,9 +238,9 @@ export default function Job(props) {
                                     type="date"
                                     value={form.deadline}
                                     onChange={(e) => updateForm({ deadline: e.target.value })}
-                                    required
                                 /> 
                                 &rarr; 
+                                <b> Applied on</b>:
                                 <input
                                     type="date"
                                     value={form.appliedDate}
@@ -255,7 +254,6 @@ export default function Job(props) {
                                     placeholder="Salary (also include currency symbol and frequency)"
                                     value={form.salary}
                                     onChange={(e) => updateForm({ salary: e.target.value })}
-                                    required
                                 />
                                 for
                                 <input
@@ -263,7 +261,6 @@ export default function Job(props) {
                                     placeholder="Hours"
                                     value={form.hours}
                                     onChange={(e) => updateForm({ hours: e.target.value })}
-                                    required
                                 />
                                 hours/week with
                                 <input
@@ -271,7 +268,6 @@ export default function Job(props) {
                                     placeholder="Benefits"
                                     value={form.benefits}
                                     onChange={(e) => updateForm({ benefits: e.target.value })}
-                                    required
                                 />
                             </li>
                             <li><b>Requirements</b>: 
@@ -280,7 +276,6 @@ export default function Job(props) {
                                     placeholder="Requirements"
                                     value={form.requirements}
                                     onChange={(e) => updateForm({ requirements: e.target.value })}
-                                    required
                                 />
                             </li>
                             <li><b>Found on</b>: 
@@ -298,7 +293,6 @@ export default function Job(props) {
                                     placeholder="Contact"
                                     value={form.contact}
                                     onChange={(e) => updateForm({ contact: e.target.value })}
-                                    required
                                 />
                             </li>
                             <li><b>Notes</b>:
@@ -306,7 +300,6 @@ export default function Job(props) {
                                     placeholder="Notes"
                                     value={form.notes}
                                     onChange={(e) => updateForm({ notes: e.target.value })}
-                                    required
                                 />
                             </li>
                             <li><b>Start Date</b>:
@@ -314,7 +307,6 @@ export default function Job(props) {
                                     type="date"
                                     value={form.startDate}
                                     onChange={(e) => updateForm({ startDate: e.target.value })}
-                                    required
                                 />
                             </li>
                         </ul>
@@ -346,7 +338,7 @@ export default function Job(props) {
                         <li><b>Deadline</b>: {props.job.deadline} &rarr; <b>Applied</b>: {props.job.appliedDate}</li>
                         <li>$<u className="job-salary">{props.job.salary}</u> for <b className="job-hours">{props.job.hours}</b> hours/week with <i>{props.job.benefits}</i></li>
                         <li><b>Requirements</b>: {props.job.requirements}</li>
-                        <li><b>Found on</b>: <Link to={props.job.source}>This Link</Link></li>
+                        <li><b>Found on</b>: <Link to={props.job.source} target="_blank" rel="noopener noreferrer" >This Link</Link></li>
                         <li><b>Contact</b>: {props.job.contact}</li>
                         <li><b>Notes</b>: "{props.job.notes}"</li>
                         <li><b>Start Date</b>: {props.job.startDate}</li>

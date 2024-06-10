@@ -4,6 +4,7 @@
     padding: 1rem;
     border-radius: 1rem;
     box-shadow: var(--background-outset);
+    margin-bottom: 1rem;
 }
 .job-container input, .job-container select, .job-container textarea {
     background-color: var(--background-color);
@@ -46,6 +47,14 @@
     box-shadow: var(--selected-inset);
 }
 
+.job-list-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: .5rem;
+    overflow: scroll !important;
+}
+
 .job-list-buttons {
     display: flex;
     justify-content: space-between;
@@ -67,6 +76,20 @@
 .job-list-buttons .create-job:focus {
     background-color: var(--selected-color);
     box-shadow: var(--selected-inset);
+}
+.job-list-buttons .filter-jobs, .job-list-buttons select {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: none !important;
+    border-radius: 0.5rem;
+    box-shadow: var(--background-outset);
+    padding: .25rem 1rem;
+    margin: 0;
+}
+.job-list-buttons .filter-jobs:focus {
+    box-shadow: var(--background-inset);
+    border: none !important;
+    outline: none !important;
 }
 
 .job-top {
