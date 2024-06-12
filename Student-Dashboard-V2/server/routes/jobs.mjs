@@ -11,6 +11,13 @@ router.get("/", async (req, res) => {
     res.send(results).status(200);
 });
 
+// Get a list of all jobs by user
+router.get("/user/:user", async (req, res) => {
+    let collection = await db.collection("jobs");
+    let results = await collection.find({ user: req.params.user }).toArray();
+    res.send(results).status(200);
+});
+
 // Help get a single job by id.
 router.get("/:id", async (req, res) => {
     let collection = await db.collection("jobs");
@@ -44,6 +51,8 @@ router.post("/", async (req, res) => {
         hours: req.body.hours,
         requirements: req.body.requirements,
         startDate: req.body.startDate,
+        user: req.body.user,
+        previousState: req.body.previousState,
     };
     let collection = await db.collection("jobs");
     let result = await collection.insertOne(newDocument);
@@ -52,7 +61,7 @@ router.post("/", async (req, res) => {
 
 // Help update job by id.
 router.patch("/:id", async (req, res) => {
-    const query = { _id: new ObjectId(req.params.id) };
+    const query = { _id: new ObjectId(req.params.id), user: req.body.user};
     const updates = {
         $set: {
             type: req.body.type,
@@ -74,6 +83,7 @@ router.patch("/:id", async (req, res) => {
             hours: req.body.hours,
             requirements: req.body.requirements,
             startDate: req.body.startDate,
+            previousState: req.body.previousState,
         }
     };
 
@@ -85,7 +95,7 @@ router.patch("/:id", async (req, res) => {
 
 // Help delete a job.
 router.delete("/:id", async (req, res) => {
-    const query = { _id: new ObjectId(req.params.id) };
+    const query = { _id: new ObjectId(req.params.id), user: req.body.user };
 
     const collection = db.collection("jobs");
     let result = await collection.deleteOne(query);

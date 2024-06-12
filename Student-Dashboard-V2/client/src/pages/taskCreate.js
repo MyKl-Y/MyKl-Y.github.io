@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { motion } from "framer-motion";
 import { useTheme } from "../context/theme/ThemeContext";
+import { useAuth } from "../context/authentication/AuthContext";
 import "../styles/tasks.css";
 
 export default function CreateTask() {
     const { currentTheme } = useTheme();
+    const { user } = useAuth();
+    const isLoggedIn = !!user;
 
     const [form, setForm] = useState({
         category: "General",
@@ -21,6 +24,7 @@ export default function CreateTask() {
         recurrence: [],
         recurrenceInterval: "",
         recurrenceCount: 0,
+        user: isLoggedIn ? user.name : "",
     });
 
     const defaultTags = [

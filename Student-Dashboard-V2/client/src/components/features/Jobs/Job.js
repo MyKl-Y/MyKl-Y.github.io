@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../../context/authentication/AuthContext';
+
+// TODO: Fix Edit and Delete (They may edit and delete the wrong one because of selectedJob and sorting/filterin)
 
 export default function Job(props) {
+    const { user } = useAuth();
     const [form, setForm] = useState({
         name: props.job.name || "",
         company: props.job.company || "",
@@ -23,6 +27,8 @@ export default function Job(props) {
         contact: props.job.contact || "",
         notes: props.job.notes || "",
         startDate: props.job.startDate || "",
+        user: user ? user.name : "",
+        previousState: props.job.previousState || ["Applied"],
     });
 
     const [selectedStatus, setSelectedStatus] = useState(props.job.status || "Not Started");
@@ -37,6 +43,7 @@ export default function Job(props) {
     }
 
     const [selectedResponse, setSelectedResponse] = useState(props.job.response || "Pending");
+    const [interviewNumber, setInterviewNumber] = useState("");
     const responseOptions = [
         "Pending",
         "Interview",
@@ -51,6 +58,9 @@ export default function Job(props) {
 
     function handleResponseSelect(response) {
         setSelectedResponse(response);
+        if (response !== "Interview") {
+            setInterviewNumber("");
+        }
     }
 
     const [selectedType, setSelectedType] = useState(props.job.type || "Job");
@@ -96,13 +106,21 @@ export default function Job(props) {
 
     async function onSubmit(e) {
         e.preventDefault();
+        const newPreviousState = [...form.previousState];
+        const newResponse = selectedResponse === "Interview" && interviewNumber ? `Interview ${interviewNumber}` : selectedResponse;
+
+        if (newResponse && !newPreviousState.includes(newResponse)) {
+            newPreviousState.push(newResponse);
+        }
+
         const updatedJob = {
             ...form,
             status: selectedStatus,
-            response: selectedResponse,
+            response: newResponse,
             type: selectedType,
             role: selectedRole,
             format: selectedFormat,
+            previousState: newPreviousState,
         };
         const response = await fetch(`http://localhost:5050/jobs/${props.job === 'add' && !props.isEditing ? '' : props.job._id}`, {
             method: `${props.job === 'add' && !props.isEditing ? 'POST' : 'PATCH'}`,
@@ -224,6 +242,16 @@ export default function Job(props) {
                                     <option key={response} value={response}>{response}</option>
                                 ))}
                             </select>
+                            {selectedResponse === "Interview" && (
+                                <input
+                                    type="number"
+                                    min="1"
+                                    placeholder="Interview Number"
+                                    value={interviewNumber}
+                                    onChange={(e) => setInterviewNumber(e.target.value)}
+                                    required
+                                />
+                            )}
                         </h5>
                     </div>
                     <div className="job-body">

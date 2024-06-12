@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion'
 import Job from '../components/features/Jobs/Job'
 import { useTheme } from "../context/theme/ThemeContext";
+import { useAuth } from "../context/authentication/AuthContext";
 import "../styles/jobs.css";
 
 //TODO: Add semester showing based on start date
 
 export default function Applications() {
+    const { user } = useAuth();
     const { currentTheme } = useTheme();
     const [jobs, setJobs] = useState([]); // New state variable
     const [showCreateJob, setShowCreateJob] = useState(false);
@@ -18,8 +20,9 @@ export default function Applications() {
 
     // get all jobs
     useEffect(() => {
+        if (!user) return;
         async function getJobs() {
-            const response = await fetch("http://localhost:5050/jobs/");
+            const response = await fetch(`http://localhost:5050/jobs/user/${user.name}`);
 
             if (!response.ok) {
                 const message = `An error occurred: ${response.statusText}`;
@@ -34,7 +37,7 @@ export default function Applications() {
         getJobs();
 
         return;
-    }, [])
+    }, [user])
 
     // Filtering function
     function filterJobs(job) {
@@ -86,6 +89,10 @@ export default function Applications() {
     async function deleteJob(id) {
         await fetch(`http://localhost:5050/jobs/${id}`, {
             method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ user: user.name }),
         });
 
         const newJobs = jobs.filter((el) => el._id !== id);

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useTheme } from "../context/theme/ThemeContext";
+import { useAuth } from "../context/authentication/AuthContext";
 import Task from "../components/features/Tasks/Task/Task";
 import "../styles/tasks.css";
 import {
@@ -15,13 +16,16 @@ import {
 
 export default function Assignments() {
     const { currentTheme } = useTheme();
+    const { user } = useAuth();
+    const isLoggedIn = !!user;
     const [assignments, setAssignments] = useState([]);
     const [sortConfig, setSortConfig] = useState({ key: 'priority', direction: 'descending' });
     const [selectedAssignment, setSelectedAssignment] = useState(null);
 
     useEffect(() => {
+        if (!isLoggedIn) return;
         async function getAssignments() {
-            const response = await fetch("http://localhost:5050/task/");
+            const response = await fetch(`http://localhost:5050/task/user/${user.name}`);
 
             if (!response.ok) {
                 const message = `An error occurred: ${response.statusText}`;
@@ -36,7 +40,7 @@ export default function Assignments() {
         getAssignments();
 
         return;
-    }, [assignments.length]);
+    }, [assignments.length, user, isLoggedIn]);
 
     async function deleteAssignment(id) {
         await fetch(`http://localhost:5050/task/${id}`, {

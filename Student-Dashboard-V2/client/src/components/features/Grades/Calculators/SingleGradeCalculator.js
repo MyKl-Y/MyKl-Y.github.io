@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from 'framer-motion';
 import { useTheme } from '../../../../context/theme/ThemeContext';
+import { useAuth } from '../../../../context/authentication/AuthContext';
 import { 
     RemoveCircleTwoTone,
     AddCircleTwoTone,
@@ -10,6 +11,8 @@ import axiosInstance from "../../../../axiosConfig";
 
 const SingleGradeCalculator = ({ id, onDelete }) => {
     const { currentTheme } = useTheme();
+    const { user } = useAuth();
+    const isLoggedIn = !!user;
 
     const [assignments, setAssignments] = useState([
         { _id: 1, name: "", grade: null, weight: null, usePoints: false },
@@ -24,13 +27,14 @@ const SingleGradeCalculator = ({ id, onDelete }) => {
     const [courseId, setCourseId] = useState('');
 
     useEffect(() => {
-        axiosInstance.get('/courses/')
+        if (!isLoggedIn) return;
+        axiosInstance.get(`/courses/user/${user.name}`)
             .then(response => {
                 const courses = response.data;
                 setCourses(courses);
             })
             .catch(error => console.error(error));
-    }, []);
+    }, [user, isLoggedIn]);
 
     useEffect(() => {
         // Calculate grades

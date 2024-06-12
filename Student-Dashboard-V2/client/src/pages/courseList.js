@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactModal from "react-modal";
-//import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/authentication/AuthContext";
 import { useTheme } from '../context/theme/ThemeContext';
 import CourseCreate from "../components/features/Courses/CourseList/courseCreate";
 import CourseEdit from "../components/features/Courses/CourseList/courseEdit";
@@ -15,6 +15,8 @@ import { motion } from "framer-motion";
 
 function Courses() {
     const { currentTheme, } = useTheme();
+    const { user } = useAuth();
+    const isLoggedIn = !!user;
     
     const [isACourseSelected, setIsACourseSelected] = useState(false);
 
@@ -30,8 +32,9 @@ function Courses() {
 
     // Function to fetch courses from the backend
     const fetchCourses = async () => {
+        if (!isLoggedIn) return;
         try {
-            const response = await fetch("http://localhost:5050/courses");
+            const response = await fetch(`http://localhost:5050/courses/user/${user.name}`);
             if (!response.ok) {
                 throw new Error("Failed to fetch courses");
             }
@@ -45,7 +48,7 @@ function Courses() {
     useEffect(() => {
         // Fetch courses when the component mounts
         fetchCourses();
-    }, []);
+    }, [isLoggedIn, user]);
 
     // Function to add a new course
     const addCourse = async (newCourse) => {

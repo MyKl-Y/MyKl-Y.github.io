@@ -4,6 +4,7 @@ import Calendar from 'react-calendar';
 import axiosInstance from '../axiosConfig';
 import 'react-calendar/dist/Calendar.css';
 import '../styles/calendar.css';
+import { useAuth } from '../context/authentication/AuthContext';
 
 // TODO: Make the habits recur forever if no end date is specified
 
@@ -166,6 +167,8 @@ function WeekView({ date, events, setView, view }) {
 }
 
 export default function CalendarView({ semesters = defaultSemesters }) {
+    const { user } = useAuth();
+    const isLoggedIn = !!user;
     const [date, setDate] = useState(new Date());
     const [datesWithEvents, setDatesWithEvents] = useState([]);
     const [tasks, setTasks] = useState([]);
@@ -174,8 +177,9 @@ export default function CalendarView({ semesters = defaultSemesters }) {
     const [view, setView] = useState('month'); // Added state for view
 
     useEffect(() => {
+        if (!isLoggedIn) return;
         // Fetch tasks
-        axiosInstance.get('/task')
+        axiosInstance.get(`/task/user/${user.name}`)
             .then(res => {
                 setTasks(res.data);
             })
@@ -184,7 +188,7 @@ export default function CalendarView({ semesters = defaultSemesters }) {
             });
 
         // Fetch courses
-        axiosInstance.get('/courses')
+        axiosInstance.get(`/courses/user/${user.name}`)
             .then(res => {
                 setCourses(res.data);
             })
@@ -192,7 +196,7 @@ export default function CalendarView({ semesters = defaultSemesters }) {
                 console.error(err);
             });
 
-    }, []);
+    }, [user, isLoggedIn]);
 
     useEffect(() => {
         const events = [];

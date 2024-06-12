@@ -10,8 +10,6 @@ import jobs from "./routes/jobs.mjs"
 //import scrape from "./routes/scrape.mjs"
 //import updateField from "./routes/updateField.mjs"
 
-// TODO: Make all routes have the ability to get data based on user parameter
-
 const PORT = process.env.PORT || 5050;
 const app = express();
 

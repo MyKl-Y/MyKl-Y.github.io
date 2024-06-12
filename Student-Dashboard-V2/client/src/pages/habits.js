@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useTheme } from "../context/theme/ThemeContext";
+import { useAuth } from "../context/authentication/AuthContext";
 import "../styles/tasks.css";
 import {
     AddCircleTwoTone,
@@ -30,6 +31,8 @@ const weekDay = (dateString) => {
 
 export default function Habits() {
     const { currentTheme } = useTheme();
+    const { user } = useAuth();
+    const isLoggedIn = !!user;
     const [habits, setHabits] = useState([]);
     const [view, setView] = useState("Day");
     const [navigateCounter, setNavigateCounter] = useState(0);
@@ -59,7 +62,7 @@ export default function Habits() {
     // This method fetches the records from the database.
     useEffect(() => {
         async function getHabits() {
-            const response = await fetch("http://localhost:5050/task/");
+            const response = await fetch(`http://localhost:5050/task/user/${user.name}`);
 
             if (!response.ok) {
                 const message = `An error occurred: ${response.statusText}`;
@@ -75,7 +78,7 @@ export default function Habits() {
         getHabits();
 
         return;
-    }, [navigateCounter, habits.length]);
+    }, [navigateCounter, habits.length, user, isLoggedIn]);
 
     // This method will delete a task from the database.
     /*

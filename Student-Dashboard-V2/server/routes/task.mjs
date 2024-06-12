@@ -11,6 +11,13 @@ router.get("/", async (req, res) => {
     res.send(results).status(200);
 });
 
+// Help get a list of all the tasks by user.
+router.get("/user/:user", async (req, res) => {
+    let collection = await db.collection("tasks");
+    let results = await collection.find({ user: req.params.user }).toArray();
+    res.send(results).status(200);
+});
+
 // Help get a single task by id.
 router.get("/:id", async (req, res) => {
     let collection = await db.collection("tasks");
@@ -38,6 +45,7 @@ router.post("/", async (req, res) => {
         recurrence: req.body.recurrence,
         recurrenceInterval: req.body.recurrenceInterval,
         recurrenceCount: req.body.recurrenceCount,
+        user: req.body.user,
     };
     let collection = await db.collection("tasks");
     let result = await collection.insertOne(newDocument);

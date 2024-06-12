@@ -4,9 +4,12 @@ import { useTheme } from '../context/theme/ThemeContext';
 import '../styles/grades.css';
 import axiosInstance from '../axiosConfig';
 import { useSettings } from '../context/settings/SettingsContext';
+import { useAuth } from '../context/authentication/AuthContext';
 
 export default function Grades() {
     const { currentTheme } = useTheme();
+    const { user } = useAuth();
+    const isLoggedIn = !!user;
     const { getGrade } = useSettings();
 
     const [courses, setCourses] = useState([]);
@@ -24,14 +27,15 @@ export default function Grades() {
     const [gpa, setGpa] = useState(0);
 
     useEffect(() => {
-        axiosInstance.get('/courses')
+        if (!isLoggedIn) return;
+        axiosInstance.get(`/courses/user/${user.name}`)
             .then((res) => {
                 setCourses(res.data);
             })
             .catch((err) => {
                 console.error(err);
             });
-    }, []);
+    }, [user, isLoggedIn]);
 
     useEffect(() => {
         let weightedGradesSum = 0;

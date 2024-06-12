@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 
 export default function CreateTask({ onCourseCreate, onCancel }) {
     const { user } = useAuth();
+    const isLoggedIn = !!user;
     const { currentTheme } = useTheme();
 
     const defaultTags = [
@@ -33,7 +34,7 @@ export default function CreateTask({ onCourseCreate, onCancel }) {
         professorContact: "",
         links: "",
         meetingTimes: "",
-        user: "",
+        user: isLoggedIn ? user.name : "",
     });
 
     //const navigate = useNavigate();

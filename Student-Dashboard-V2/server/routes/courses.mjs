@@ -11,6 +11,13 @@ router.get("/", async (req, res) => {
     res.send(results).status(200);
 });
 
+// Get a list of all courses for a specific user
+router.get("/user/:user", async (req, res) => {
+    let collection = await db.collection("courses");
+    let results = await collection.find({ user: req.params.user }).toArray();
+    res.send(results).status(200);
+});
+
 // Get a single course by ID
 router.get("/:id", async (req, res) => {
     let collection = await db.collection("courses");

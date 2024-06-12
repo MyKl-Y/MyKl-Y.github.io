@@ -122,6 +122,13 @@ router.get("/degree", async (req, res) => {
     res.send(results).status(200);
 });
 
+// Read a list of all degrees by user
+router.get("/degree/user/:user", async (req, res) => {
+    let collection = await db.collection("graduationRequirements");
+    let results = await collection.find({ user: req.params.user }).toArray();
+    res.send(results).status(200);
+});
+
 // Read a lits of all concentrations by degree Id
 router.get("/concentration/:degreeId", async (req, res) => {
     try {

@@ -9,14 +9,15 @@ import { Badge, Tooltip } from "@mui/material";
 
 const DegreeComponent = ({ onSelectDegree }) => {
     const { user } = useAuth();
+    const isLoggedIn = !!user;
     const { currentTheme } = useTheme();
 
     const [degrees, setDegrees] = useState([]);
     const [newDegree, setNewDegree] = useState({
         name: "", 
         credits: 0, 
-        user: "",
         type: "",
+        user: isLoggedIn ? user.name : "",
     });
 
     const [editMode, setEditMode] = useState(false);
@@ -24,14 +25,14 @@ const DegreeComponent = ({ onSelectDegree }) => {
 
 
     useEffect(() => {
-        fetch("http://localhost:5050/graduation/degree")
+        if (!isLoggedIn) return;
+        fetch(`http://localhost:5050/graduation/degree/user/${user.name}`)
             .then((res) => res.json())
             .then((data) => {
-                const userDegrees = data.filter((degree) => degree.user === user.name);
-                setDegrees(userDegrees);
+                setDegrees(data);
             })
             .catch((error) => console.error(error));
-    }, [user]);
+    }, [user, isLoggedIn]);
 
     const handleDegreeSubmit = () => {
         const url = editMode 
