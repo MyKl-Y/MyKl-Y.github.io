@@ -49,7 +49,7 @@ const Account = () => {
     }
 
     useEffect(() => {
-        fetch("http://localhost:5050/graduation/degree")
+        fetch(`http://localhost:5050/graduation/degree/user/${user.name}`)
             .then((res) => res.json())
             .then((data) => {
                 const userMajors = 
@@ -72,7 +72,7 @@ const Account = () => {
                 fetchUserData();
             })
             .catch((error) => console.error(error));
-        fetch(`http://localhost:5050/courses/`)
+        fetch(`http://localhost:5050/courses/user/${user.name}`)
             .then((res) => res.json())
             .then((data) => {
                 setCourses(data);

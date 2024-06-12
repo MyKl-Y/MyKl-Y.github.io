@@ -4,12 +4,13 @@ import { motion } from 'framer-motion'
 import axiosInstance from '../axiosConfig';
 import { useAuth } from '../context/authentication/AuthContext';
 import { useTheme } from '../context/theme/ThemeContext';
+import { useSettings } from '../context/settings/SettingsContext';
 import '../styles/dashboard.css';
 import { 
     ResponsiveContainer,
     Tooltip,
     Legend,
-    Sector,
+    //Sector,
     Cell,
 
     Sankey,
@@ -25,15 +26,16 @@ import {
     - Line graph
         - Grade history and prediction and GPA
     - DONE: Sankey diagram
-        - Application status
+        - DONE: Application status
     - Pie chart:
-        - Tasks by status
+        - DONE: Tasks by status
+        - DONE: Tasks by category
         - DONE: Credits 
     - Bar graph:
         - Grade distribution
     - Text Display:
-        - GPA 
-        - Major & Minors
+        - DONE: GPA 
+        - DONE: Major & Minors
         - Expected Graduation Date
         - Number of tasks due today
     - Mini calendar
@@ -46,12 +48,36 @@ const Dashboard = () => {
     const { user } = useAuth();
     const isLoggedIn = !!user;
     const { currentTheme } = useTheme();
+    const { getGrade } = useSettings();
+
     const [courses, setCourses] = useState([]);
     const [tasks, setTasks] = useState([]);
     const [degrees, setDegrees] = useState([]);
     const [jobs, setJobs] = useState([]);
 
+    const [gpa, setGpa] = useState(0);
+
     useEffect(() => {
+        function calculateGPA() {
+            let weightedGradesSum = 0;
+            let totalCredits = 0;
+            courses.forEach(course => {
+                if (course.assignments.length > 0) {
+                    totalCredits += parseInt(course.creditHours);
+                    let grades = 0;
+                    course.assignments.forEach(assignment => {
+                        if (!assignment.usePoints) {
+                            grades += (assignment.grade / assignment.weight) * 100;
+                        } else {
+                            grades += (assignment.grade / 100) * assignment.weight;
+                        }
+                    });
+                    weightedGradesSum += getGrade(grades) * course.creditHours;
+                }
+            });
+            setGpa(weightedGradesSum / totalCredits);
+        }
+
         if (!isLoggedIn) return;
         axiosInstance.get(`/courses/user/${user.name}`)
             .then(response => setCourses(response.data))
@@ -68,7 +94,9 @@ const Dashboard = () => {
         axiosInstance.get(`/jobs/user/${user.name}`)
             .then(response => setJobs(response.data))
             .catch(error => console.error(error));
-    }, [user, isLoggedIn]);
+
+        calculateGPA();
+    }, [user, isLoggedIn, gpa, getGrade, courses]);
 
     function makeSankeyData() {
         let nodes = [
@@ -182,6 +210,103 @@ const Dashboard = () => {
         return null;
     };
 
+    function getDegrees() {
+        let majors = [];
+        let minors = [];
+        let minorCount = 0;
+        let majorCount = 0;
+        let returnVal = [];
+        degrees.filter(degree => {
+            if (degree.type.toLowerCase() === 'minor') minors.push(degree) && minorCount++;
+            else majors.push(degree) && majorCount++;
+            return null;
+        });
+        if (majorCount > 0) {
+            returnVal.push(<p><b>{majorCount > 1 ? 'Majors' : 'Major'}</b>: {majors.map((major, index) => <span key={index}>{major.name}{index < majorCount - 1 ? ', ' : ''}</span>)}</p>);
+        }
+        if (minorCount > 0) {
+            returnVal.push(<p><b>{minorCount > 1 ? "Minors" : "Minor"}</b>: {minors.map((minor, index) => <span key={index}>{minor.name}{index < minorCount - 1 ? ', ' : ''}</span>)}</p>);
+        }
+
+        return returnVal;
+    };
+
+    const taskColors = {
+        "In Progress": "var(--primary)",
+        "Complete": "var(--add-primary)",
+        "Incomplete": "var(--remove-primary)",
+        "Not Applicable": "grey",
+        // random colors for rest (not var)
+        "General": "#FFB3BA",
+        "Habit": "#FFDFBA",
+        "Homework": "#FFFFBA",
+        "Project": "#BAFFC9",
+        "Quiz": "#BAE1FF",
+        "Exam": "#FFB3E6",
+        "Paper": "#D6A2E8",
+        "Presentation": "#FF9CEE",
+        "School": "#FFABAB",
+        "Work": "#FFDAC1",
+        "Event": "#B5EAD7",
+        "Other": "#C7CEEA",
+    };
+    function makeTaskPieData() {
+        let data = [];
+        let statusData = [];
+        let categoryData = [];
+        let statuses = ["IP", "Yes", "No", ""];
+        let tags = [
+            "General",
+            "Habit", 
+            "Homework",
+            "Project",
+            "Quiz",
+            "Exam",
+            "Paper",
+            "Presentation",
+            "School",
+            "Work",
+            "Event",
+            "Other",
+        ]
+        let statusNames = {
+            "IP": "In Progress",
+            "Yes": "Complete",
+            "No": "Incomplete",
+            "": "Not Applicable"
+        }
+
+        statuses.forEach(status => {
+            let count = 0;
+            tasks.forEach(task => {
+                if (task.isComplete === status) {
+                    count++;
+                }
+            });
+            statusData.push({
+                name: statusNames[status],
+                value: count
+            });
+        });
+
+        tags.forEach(tag => {
+            let count = 0;
+            tasks.forEach(task => {
+                if (task.category === tag) {
+                    count++;
+                }
+            });
+            categoryData.push({
+                name: tag,
+                value: count
+            });
+        });
+
+        data.push(statusData);
+        data.push(categoryData);
+        return data;
+    };
+    const taskPieData = makeTaskPieData();
 
     return (
         <motion.div
@@ -196,7 +321,35 @@ const Dashboard = () => {
             {isLoggedIn ? (
                 <>
                     <h1>Welcome, {user.name}!</h1>
+                    <>
+                        {getDegrees()}
+                    </>
+                    <>
+                        <p><b>GPA</b>: {gpa.toFixed(2)}</p>
+                    </>
                     <ResponsiveContainer width='100%' height={300}>
+                        {taskPieData.map((task, index) => (
+                            <PieChart>
+                                <Pie
+                                    key={index}
+                                    data={
+                                        task
+                                    }
+                                    nameKey='name'
+                                    //cx={`${100 / (taskPieData.length * 2) * ((index * taskPieData.length) + 1)}%`}
+                                    cx='50%'
+                                    cy='50%'
+                                    fill="#8884d8"
+                                    dataKey='value'
+                                >
+                                    {task.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={taskColors[entry.name]} />
+                                    ))}
+                                </Pie>
+                                <Tooltip />
+                                <Legend />
+                            </PieChart>
+                        ))}
                         <PieChart>
                             {degreePieData.map((degree, index) => (
                                 <Pie

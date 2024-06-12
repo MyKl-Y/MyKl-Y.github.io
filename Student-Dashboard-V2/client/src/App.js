@@ -59,9 +59,6 @@ function App() {
     }, 1000);
   };
 
-  // TODO: MAKE ALL SERVER API CALLS ONLY READ AND EDIT DOCUMENTS IF THE USER IS THE SAME
-  // TODO: Make sure to check all api endpoints to post user as a variable to check if the user is the same
-  // TODO: ^ Do this for Jobs and Tasks
   return (
     <div 
       className={isLandingPage ? 'App center-content' : (isLoginRegister ? 'App auth-center' : 'App flex-end-content')} 
