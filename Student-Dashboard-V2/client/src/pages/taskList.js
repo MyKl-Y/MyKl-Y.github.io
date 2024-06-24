@@ -15,8 +15,8 @@ import {
 } from '@mui/icons-material';
 
 export default function TaskList() {
-    const { user } = useAuth();
-    const isLoggedIn = !!user;
+    const { userData } = useAuth();
+    const isLoggedIn = !!userData;
     const { currentTheme } = useTheme();
     const [tasks, setTasks] = useState([]);
     const [sortConfig, setSortConfig] = useState({ key: 'priority', direction: 'descending' });
@@ -26,7 +26,7 @@ export default function TaskList() {
     useEffect(() => {
         if (!isLoggedIn) return;
         async function getTasks() {
-            const response = await fetch(`http://localhost:5050/task/user/${user.name}`);
+            const response = await fetch(`http://localhost:5050/task/user/${userData.name}`);
 
             if (!response.ok) {
                 const message = `An error occurred: ${response.statusText}`;

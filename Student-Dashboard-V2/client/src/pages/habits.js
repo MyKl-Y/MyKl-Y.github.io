@@ -31,8 +31,8 @@ const weekDay = (dateString) => {
 
 export default function Habits() {
     const { currentTheme } = useTheme();
-    const { user } = useAuth();
-    const isLoggedIn = !!user;
+    const { userData } = useAuth();
+    const isLoggedIn = !!userData;
     const [habits, setHabits] = useState([]);
     const [view, setView] = useState("Day");
     const [navigateCounter, setNavigateCounter] = useState(0);
@@ -62,7 +62,7 @@ export default function Habits() {
     // This method fetches the records from the database.
     useEffect(() => {
         async function getHabits() {
-            const response = await fetch(`http://localhost:5050/task/user/${user.name}`);
+            const response = await fetch(`http://localhost:5050/task/user/${userData.name}`);
 
             if (!response.ok) {
                 const message = `An error occurred: ${response.statusText}`;
@@ -78,7 +78,7 @@ export default function Habits() {
         getHabits();
 
         return;
-    }, [navigateCounter, habits.length, user, isLoggedIn]);
+    }, [navigateCounter, habits.length, userData, isLoggedIn]);
 
     // This method will delete a task from the database.
     /*

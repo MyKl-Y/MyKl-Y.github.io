@@ -7,9 +7,9 @@ import { useTheme } from '../context/theme/ThemeContext';
 import '../styles/account.css';
 
 const Account = () => {
-    const { user, authLogout } = useAuth();
+    const { userData, authLogout } = useAuth();
     const { currentTheme } = useTheme();
-    const isLoggedIn = !!user;
+    const isLoggedIn = !!userData;
     const navigate = useNavigate();
     const { getGrade } = useSettings();
 
@@ -30,7 +30,8 @@ const Account = () => {
     const [editingMode, setEditingMode] = useState(false);
 
     const fetchUserData = useCallback(() => {
-        fetch(`http://localhost:5050/register/account/${user.name}`)
+        if (!isLoggedIn) return;
+        fetch(`http://localhost:5050/auth/account/${userData.name}`)
             .then((response) => response.json())
             .then((data) => {
                 setCurrentUser({
@@ -42,37 +43,38 @@ const Account = () => {
                 });
             })
             .catch((error) => console.error(error));
-    }, [user]);
+    }, [userData, isLoggedIn]);
 
     function changeEditingMode() {
         setEditingMode(!editingMode);
     }
 
     useEffect(() => {
-        fetch(`http://localhost:5050/graduation/degree/user/${user.name}`)
+        if (!isLoggedIn) return;
+        fetch(`http://localhost:5050/graduation/degree/user/${userData.name}`)
             .then((res) => res.json())
             .then((data) => {
                 const userMajors = 
                     data.filter((major) => 
-                        major.user === user.name && major.type.toUpperCase().includes("BACHELOR")
+                        major.user === userData.name && major.type.toUpperCase().includes("BACHELOR")
                     );
                 const userMinors =
                     data.filter((minor) =>
-                        minor.user === user.name && minor.type.toUpperCase().includes("MINOR")
+                        minor.user === userData.name && minor.type.toUpperCase().includes("MINOR")
                     );
                 setMajorOptions(userMajors);
                 setMinorOptions(userMinors);
                 setForm({
-                    userName: user.name,
-                    displayName: user.displayName,
-                    email: user.email,
-                    majors: user.majors,
-                    minors: user.minors,
+                    userName: userData.name,
+                    displayName: userData.displayName,
+                    email: userData.email,
+                    majors: userData.majors,
+                    minors: userData.minors,
                 })
                 fetchUserData();
             })
             .catch((error) => console.error(error));
-        fetch(`http://localhost:5050/courses/user/${user.name}`)
+        fetch(`http://localhost:5050/courses/user/${userData.name}`)
             .then((res) => res.json())
             .then((data) => {
                 setCourses(data);
@@ -95,7 +97,7 @@ const Account = () => {
             }
         });
         setGpa(weightedGradesSum / totalCredits);
-    }, [user, fetchUserData, courses, setCourses, getGrade]);
+    }, [userData, fetchUserData, courses, setCourses, getGrade, isLoggedIn]);
 
     async function handleEditAccount(e) {
         e.preventDefault();
@@ -105,7 +107,7 @@ const Account = () => {
                 majors: selectedMajors,
                 minors: selectedMinors,
             }
-            await fetch(`http://localhost:5050/register/account/${user.name}`, {
+            await fetch(`http://localhost:5050/auth/account/${userData.name}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",

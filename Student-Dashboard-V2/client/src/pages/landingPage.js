@@ -10,8 +10,8 @@ function LandingPage({ onEnterClick }) {
     const [isRotated, setIsRotated] = useState(false);
     //const [animationComplete, setAnimationComplete] = useState();
 
-    const { user } = useAuth();
-    const isLoggedIn = !!user;
+    const { userData } = useAuth();
+    const isLoggedIn = !!userData;
 
     const navigate = useNavigate();
 

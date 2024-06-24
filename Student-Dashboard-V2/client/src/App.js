@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import Navbar from './components/common/navbar.js';
 import TaskList from './pages/taskList';
@@ -42,10 +42,6 @@ function App() {
 
   const [animateWaves, setAnimateWaves] = useState(false); // State variable to trigger animation
 
-  //const { currentUser } = useAuth();
-  // Determine if the user is authenticated
-  //const isLoggedIn = !!currentUser;
-
   const renderSidebar = !['/', '/login', '/register', '/auth'].includes(location.pathname);
   const isLandingPage = location.pathname === '/';
   const isLoginRegister = ['/login', '/register', '/auth'].includes(location.pathname);
@@ -72,7 +68,6 @@ function App() {
           style={currentTheme}
         >
           <Routes>
-
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/tasks" element={<TaskList />} />
                 <Route path="/edit-task/:id" element={<EditTask />} />
@@ -101,7 +96,6 @@ function App() {
                 <Route path="/graduation" element={<Graduation />} />
                 <Route exact path="/" element={<LandingPage onEnterClick={triggerWaveAnimation} />} />
                 <Route path="/auth" element={<Authentication />}/>
-
           </Routes>
           <div 
             className={`waves-container ${animateWaves ? 'animate' : ''}`} // Add 'animate' class when animation should occur 

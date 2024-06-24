@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion'
 import axiosInstance from '../axiosConfig';
-import { useAuth } from '../context/authentication/AuthContext';
 import { useTheme } from '../context/theme/ThemeContext';
+import { useAuth } from '../context/authentication/AuthContext';
 import { useSettings } from '../context/settings/SettingsContext';
 import '../styles/dashboard.css';
 import { 
@@ -44,9 +44,9 @@ import {
         - Grades vs. subjects
 */
 
-const Dashboard = () => {
-    const { user } = useAuth();
-    const isLoggedIn = !!user;
+const Dashboard = (props) => {
+    const { userData } = useAuth();
+    const isLoggedIn = !!userData;
     const { currentTheme } = useTheme();
     const { getGrade } = useSettings();
 
@@ -56,6 +56,11 @@ const Dashboard = () => {
     const [jobs, setJobs] = useState([]);
 
     const [gpa, setGpa] = useState(0);
+
+    const [graduationDate, setGraduationDate] = useState({
+        "upperBound": null,
+        "lowerBound": null
+    });
 
     useEffect(() => {
         function calculateGPA() {
@@ -78,25 +83,50 @@ const Dashboard = () => {
             setGpa(weightedGradesSum / totalCredits);
         }
 
+        function calculateGraduationDate() {
+            let credits = 0;
+            let total = 0;
+            degrees.forEach(degree => {
+                if (degree.type.toLowerCase() === 'minor') return;
+                total = degree.credits;
+                degree.concentrations.forEach(concentration => {
+                    concentration.requirements.forEach(requirement => {
+                        requirement.courses.forEach(course => {
+                            if (!course.is_complete) {
+                                credits += course.credits;
+                            }
+                        });
+                    });
+                });
+            });
+
+            let creditsLeft = credits;
+
+            let upperBound = 0;
+            let lowerBound = 0;
+            setGraduationDate({ upperBound, lowerBound });
+        }
+
         if (!isLoggedIn) return;
-        axiosInstance.get(`/courses/user/${user.name}`)
+        axiosInstance.get(`/courses/user/${userData.name}`)
             .then(response => setCourses(response.data))
             .catch(error => console.error(error));
 
-        axiosInstance.get(`/task/user/${user.name}`)
+        axiosInstance.get(`/task/user/${userData.name}`)
             .then(response => setTasks(response.data))
             .catch(error => console.error(error));
 
-        axiosInstance.get(`/graduation/degree/user/${user.name}`)
+        axiosInstance.get(`/graduation/degree/user/${userData.name}`)
             .then(response => setDegrees(response.data))
             .catch(error => console.error(error));
 
-        axiosInstance.get(`/jobs/user/${user.name}`)
+        axiosInstance.get(`/jobs/user/${userData.name}`)
             .then(response => setJobs(response.data))
             .catch(error => console.error(error));
 
         calculateGPA();
-    }, [user, isLoggedIn, gpa, getGrade, courses]);
+        calculateGraduationDate();
+    }, [userData, isLoggedIn, gpa, getGrade, courses, tasks, degrees, jobs]);
 
     function makeSankeyData() {
         let nodes = [
@@ -308,6 +338,10 @@ const Dashboard = () => {
     };
     const taskPieData = makeTaskPieData();
 
+    function getDegreeById(id) {
+        return degrees.find(degree => degree._id === id);
+    }
+
     return (
         <motion.div
             key='dashboard'
@@ -320,7 +354,7 @@ const Dashboard = () => {
         >
             {isLoggedIn ? (
                 <>
-                    <h1>Welcome, {user.name}!</h1>
+                    <h1>Welcome, {userData.name}!</h1>
                     <>
                         {getDegrees()}
                     </>
@@ -352,6 +386,8 @@ const Dashboard = () => {
                         ))}
                         <PieChart>
                             {degreePieData.map((degree, index) => (
+                                userData.majors.find(e => e === degree._id) || userData.minors.find(e => e === degree._id)
+                            ) ? (
                                 <Pie
                                     key={index}
                                     data={[
@@ -372,7 +408,7 @@ const Dashboard = () => {
                                         <Cell key={`cell-${index}`} fill={COLORS[index]} />
                                     ))}
                                 </Pie>
-                            ))}
+                            ) : null)}
                             <Tooltip content={renderCustomTooltip} />
                         </PieChart>
                         <Sankey

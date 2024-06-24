@@ -7,8 +7,8 @@ import "../../../../styles/courseCreate.css";
 import { motion } from "framer-motion";
 
 export default function CreateTask({ onCourseCreate, onCancel }) {
-    const { user } = useAuth();
-    const isLoggedIn = !!user;
+    const { userData } = useAuth();
+    const isLoggedIn = !!userData;
     const { currentTheme } = useTheme();
 
     const defaultTags = [
@@ -34,14 +34,14 @@ export default function CreateTask({ onCourseCreate, onCancel }) {
         professorContact: "",
         links: "",
         meetingTimes: "",
-        user: isLoggedIn ? user.name : "",
+        user: isLoggedIn ? userData.name : "",
     });
 
     //const navigate = useNavigate();
 
     const handleAddCourse = () => {
         // Set the user to property of the newCourse object
-        newCourse.user = user.name;
+        newCourse.user = userData.name;
         // Call the onCourseCreate callback with the new course data
         onCourseCreate(newCourse);
         // Clear the form
@@ -56,7 +56,7 @@ export default function CreateTask({ onCourseCreate, onCancel }) {
             professorContact: "",
             links: "",
             meetingTimes: "",
-            user: user.name,
+            user: userData.name,
         });
     };
 

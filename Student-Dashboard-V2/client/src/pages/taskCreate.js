@@ -7,8 +7,8 @@ import "../styles/tasks.css";
 
 export default function CreateTask() {
     const { currentTheme } = useTheme();
-    const { user } = useAuth();
-    const isLoggedIn = !!user;
+    const { userData } = useAuth();
+    const isLoggedIn = !!userData;
 
     const [form, setForm] = useState({
         category: "General",
@@ -24,7 +24,7 @@ export default function CreateTask() {
         recurrence: [],
         recurrenceInterval: "",
         recurrenceCount: 0,
-        user: isLoggedIn ? user.name : "",
+        user: isLoggedIn ? userData.name : "",
     });
 
     const defaultTags = [

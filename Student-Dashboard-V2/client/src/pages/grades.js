@@ -8,8 +8,8 @@ import { useAuth } from '../context/authentication/AuthContext';
 
 export default function Grades() {
     const { currentTheme } = useTheme();
-    const { user } = useAuth();
-    const isLoggedIn = !!user;
+    const { userData } = useAuth();
+    const isLoggedIn = !!userData;
     const { getGrade } = useSettings();
 
     const [courses, setCourses] = useState([]);
@@ -28,14 +28,14 @@ export default function Grades() {
 
     useEffect(() => {
         if (!isLoggedIn) return;
-        axiosInstance.get(`/courses/user/${user.name}`)
+        axiosInstance.get(`/courses/user/${userData.name}`)
             .then((res) => {
                 setCourses(res.data);
             })
             .catch((err) => {
                 console.error(err);
             });
-    }, [user, isLoggedIn]);
+    }, [userData, isLoggedIn]);
 
     useEffect(() => {
         let weightedGradesSum = 0;

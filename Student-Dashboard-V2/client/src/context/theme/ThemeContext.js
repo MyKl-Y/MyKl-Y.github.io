@@ -248,14 +248,15 @@ export const themes = {
 export const ThemeProvider = ({ children }) => {
     const [style, setStyle] = useState('minimal'); // Default style
     const [mode, setMode] = useState('dark'); // Default mode within the style
-    const { user } = useAuth();
+    const { userData } = useAuth();
 
-    console.log('User:', user);
+    console.log('User:', userData);
 
     useEffect(() => {
         const fetchSettings = async () => {
             try {
-                const response = await axiosInstance.get(`/register/${user.name}/settings`);
+                if (!userData) return;
+                const response = await axiosInstance.get(`/auth/${userData.name}/settings`);
                 setStyle(response.data.themeSettings.style);
                 setMode(response.data.themeSettings.mode);
             } catch (error) {
@@ -263,13 +264,13 @@ export const ThemeProvider = ({ children }) => {
             }
         }
         fetchSettings();
-    }, [user]);
+    }, [userData]);
 
     const changeTheme = async (newStyle, newMode) => {
         setStyle(newStyle);
         setMode(newMode);
-        await axiosInstance.post(`/register/${user.name}/settings`, {
-            ...user.settings,
+        await axiosInstance.post(`/auth/${userData.name}/settings`, {
+            ...userData.settings,
             themeSettings: {
                 mode: newMode,
                 style: newStyle,
@@ -281,8 +282,8 @@ export const ThemeProvider = ({ children }) => {
     const toggleMode = async () => {
         setMode(mode === 'light' ? 'dark' : 'light');
         setStyle(style);
-        await axiosInstance.post(`/register/${user.name}/settings`, {
-            ...user.settings,
+        await axiosInstance.post(`/auth/${userData.name}/settings`, {
+            ...userData.settings,
             themeSettings: {
                 mode: mode === 'light' ? 'dark' : 'light',
                 style: style,

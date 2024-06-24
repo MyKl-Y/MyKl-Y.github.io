@@ -32,8 +32,8 @@ const Sidebar = () => {
         setIsOpen(!isOpen);
     };
 
-    const { user } = useAuth();
-    const isLoggedIn = !!user;
+    const { userData } = useAuth();
+    const isLoggedIn = !!userData;
 
     const location = useLocation();
 
@@ -212,11 +212,11 @@ const Sidebar = () => {
                         {
                             isLoggedIn ? 
                                 <Avatar sx={{ background: 'var(--accent-gradient)', color: 'var(--text-color)' }}>
-                                    {user.name.charAt(0)}
+                                    {userData.name.charAt(0)}
                                 </Avatar> : 
                                 <AccountCircleTwoTone /> 
                         }
-                        <p>{isLoggedIn ? user.name : 'Guest'}</p>
+                        <p>{isLoggedIn ? userData.name : 'Guest'}</p>
                     </Link>
                 </div>
             </motion.div>

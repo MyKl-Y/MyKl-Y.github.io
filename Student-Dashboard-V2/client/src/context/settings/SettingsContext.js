@@ -26,7 +26,7 @@ const grades = {
 }
 
 export const SettingsProvider = ({ children }) => {
-    const { user } = useAuth();
+    const { userData } = useAuth();
     const { style, mode, changeTheme } = useTheme();
 
     const [gpaScale, setGpaScale] = useState(4.0);
@@ -35,7 +35,8 @@ export const SettingsProvider = ({ children }) => {
     useEffect(() => {
         const fetchSettings = async () => {
             try {
-                const response = await axiosInstance.get(`/register/${user.name}/settings`);
+                if (!userData) return;
+                const response = await axiosInstance.get(`/auth/${userData.name}/settings`);
                 setGpaScale(response.data.gpaSettings.scale);
                 setGradeScale(response.data.gpaSettings.gradeScale);
             } catch (error) {
@@ -43,7 +44,7 @@ export const SettingsProvider = ({ children }) => {
             }
         }
         fetchSettings();
-    }, [user, changeTheme, setGpaScale, setGradeScale]);
+    }, [userData, changeTheme, setGpaScale, setGradeScale]);
 
     const changeGpaScale = async (s) => {
         const updatedSettings = { 
@@ -118,7 +119,7 @@ export const SettingsProvider = ({ children }) => {
 
     const saveSettings = async (settings) => {
         try {
-            await axiosInstance.post(`/register/${user.name}/settings`, settings);
+            await axiosInstance.post(`/auth/${userData.name}/settings`, settings);
             window.location.reload();
         } catch (error) {
             console.error('Error saving GPA settings:', error);

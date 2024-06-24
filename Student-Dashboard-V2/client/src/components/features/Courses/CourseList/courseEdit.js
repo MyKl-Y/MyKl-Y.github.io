@@ -4,7 +4,7 @@ import "../../../../styles/courseEdit.css";
 
 function CourseEdit({ course, onUpdateCourse }) {
     const [editedCourse, setEditedCourse] = useState(course);
-    const { user } = useAuth();
+    const { userData } = useAuth();
 
     const defaultTags = [
         "Math", 
@@ -30,7 +30,7 @@ function CourseEdit({ course, onUpdateCourse }) {
 
     const handleUpdateCourse = () => {
         // Set the user property of the newCourse object
-        editedCourse.user = user.name;
+        editedCourse.user = userData.name;
         // Call the onUpdateCourse callback with the edited course data
         onUpdateCourse(editedCourse);
     };

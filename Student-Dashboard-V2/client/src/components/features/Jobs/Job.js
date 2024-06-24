@@ -6,7 +6,7 @@ import { useAuth } from '../../../context/authentication/AuthContext';
 // TODO: Fix Edit and Delete (They may edit and delete the wrong one because of selectedJob and sorting/filterin)
 
 export default function Job(props) {
-    const { user } = useAuth();
+    const { userData } = useAuth();
     const [form, setForm] = useState({
         name: props.job.name || "",
         company: props.job.company || "",
@@ -27,7 +27,7 @@ export default function Job(props) {
         contact: props.job.contact || "",
         notes: props.job.notes || "",
         startDate: props.job.startDate || "",
-        user: user ? user.name : "",
+        user: userData ? userData.name : "",
         previousState: props.job.previousState || ["Applied"],
     });
 

@@ -167,8 +167,8 @@ function WeekView({ date, events, setView, view }) {
 }
 
 export default function CalendarView({ semesters = defaultSemesters }) {
-    const { user } = useAuth();
-    const isLoggedIn = !!user;
+    const { userData } = useAuth();
+    const isLoggedIn = !!userData;
     const [date, setDate] = useState(new Date());
     const [datesWithEvents, setDatesWithEvents] = useState([]);
     const [tasks, setTasks] = useState([]);
@@ -179,7 +179,7 @@ export default function CalendarView({ semesters = defaultSemesters }) {
     useEffect(() => {
         if (!isLoggedIn) return;
         // Fetch tasks
-        axiosInstance.get(`/task/user/${user.name}`)
+        axiosInstance.get(`/task/user/${userData.name}`)
             .then(res => {
                 setTasks(res.data);
             })
@@ -188,7 +188,7 @@ export default function CalendarView({ semesters = defaultSemesters }) {
             });
 
         // Fetch courses
-        axiosInstance.get(`/courses/user/${user.name}`)
+        axiosInstance.get(`/courses/user/${userData.name}`)
             .then(res => {
                 setCourses(res.data);
             })
@@ -196,7 +196,7 @@ export default function CalendarView({ semesters = defaultSemesters }) {
                 console.error(err);
             });
 
-    }, [user, isLoggedIn]);
+    }, [userData, isLoggedIn]);
 
     useEffect(() => {
         const events = [];

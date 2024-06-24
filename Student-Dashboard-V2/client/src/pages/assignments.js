@@ -16,8 +16,8 @@ import {
 
 export default function Assignments() {
     const { currentTheme } = useTheme();
-    const { user } = useAuth();
-    const isLoggedIn = !!user;
+    const { userData } = useAuth();
+    const isLoggedIn = !!userData;
     const [assignments, setAssignments] = useState([]);
     const [sortConfig, setSortConfig] = useState({ key: 'priority', direction: 'descending' });
     const [selectedAssignment, setSelectedAssignment] = useState(null);
@@ -25,7 +25,7 @@ export default function Assignments() {
     useEffect(() => {
         if (!isLoggedIn) return;
         async function getAssignments() {
-            const response = await fetch(`http://localhost:5050/task/user/${user.name}`);
+            const response = await fetch(`http://localhost:5050/task/user/${userData.name}`);
 
             if (!response.ok) {
                 const message = `An error occurred: ${response.statusText}`;
@@ -40,7 +40,7 @@ export default function Assignments() {
         getAssignments();
 
         return;
-    }, [assignments.length, user, isLoggedIn]);
+    }, [assignments.length, userData, isLoggedIn]);
 
     async function deleteAssignment(id) {
         await fetch(`http://localhost:5050/task/${id}`, {

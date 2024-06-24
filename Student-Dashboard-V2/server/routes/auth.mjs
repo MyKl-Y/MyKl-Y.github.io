@@ -1,17 +1,19 @@
 import express from "express";
-import db from "../db/conn.mjs"
+import db from "../db/conn.mjs";
 import { ObjectId } from "mongodb";
+
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
-// A simple array to store user data
-const users = [];
-
 // Register a new user
-router.post("/", async (req,res) => {
-    const { name, email, password } = req.body
-
+router.post("/register", async (req,res) => {
     try {
+        const { name, email, password } = req.body
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
         // Check if the user with the provided email already exists
         const collection = await db.collection("users");
         const existingUser = await collection.findOne({ email });
@@ -24,7 +26,7 @@ router.post("/", async (req,res) => {
                 name,
                 displayName: name,
                 email,
-                password,
+                password: hashedPassword,
                 majors: [],
                 minors: [],
                 settings: {
@@ -41,7 +43,7 @@ router.post("/", async (req,res) => {
 
             const insertedUserId = await collection.insertOne(newUser);
 
-            res.status(201).send({ message: "Registration sunccessful", userId: insertedUserId });
+            res.status(201).send({ message: "Registration successful", userId: insertedUserId });
         }
     } catch (error) {
         console.error("Error while registering user:", error);
@@ -89,6 +91,39 @@ async function findUserByEmail(email) {
     const query = { email };
     return await collection.findOne(query);
 }
+
+const authenticateToken = (req, res, next) => {
+    const token = req.header("Authorization")?.replace("Bearer ", "");
+
+    if (!token) {
+        return res.status(401).json({ message: "Access denied. No token provided." });
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;
+        next();
+    } catch (error) {
+        res.status(400).json({ message: "Invalid token." });
+    }
+};
+
+// Read a user
+router.get("/account", authenticateToken, async (req, res) => {
+    const collection = await db.collection("users");
+    const userId = req.user.userId;
+
+    try {
+        const query = { _id: new ObjectId(userId) };
+        const result = await collection.findOne(query);
+
+        if (!result) res.send("Not found").status(404);
+        else res.status(200).json(result);
+    } catch (error) {
+        console.error("Error getting user:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+});
 
 // Read a user based on username
 router.get("/account/:userName", async (req, res) => {
@@ -187,5 +222,35 @@ router.delete("/:userId/settings", async (req, res) => {
     else res.send(result).status(200);
 });
 
+router.post('/logout', (req, res) => {
+    res.clearCookie('token').send('Logged out');
+});
+
+router.post("/login", async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        const user = await findUserByEmail(email);
+
+        if (!user) {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+
+        const passwordMatch = await bcrypt.compare(password, user.password);
+
+        if (!passwordMatch) {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+            expiresIn: '1h' 
+        });
+
+        res.status(200).json({ message: 'Login successful', token });
+    } catch (error) {
+        console.error('Error while logging in:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+
 export default router;
-export { findUserByEmail };

@@ -11,8 +11,8 @@ import axiosInstance from "../../../../axiosConfig";
 
 const SingleGradeCalculator = ({ id, onDelete }) => {
     const { currentTheme } = useTheme();
-    const { user } = useAuth();
-    const isLoggedIn = !!user;
+    const { userData } = useAuth();
+    const isLoggedIn = !!userData;
 
     const [assignments, setAssignments] = useState([
         { _id: 1, name: "", grade: null, weight: null, usePoints: false },
@@ -28,13 +28,13 @@ const SingleGradeCalculator = ({ id, onDelete }) => {
 
     useEffect(() => {
         if (!isLoggedIn) return;
-        axiosInstance.get(`/courses/user/${user.name}`)
+        axiosInstance.get(`/courses/user/${userData.name}`)
             .then(response => {
                 const courses = response.data;
                 setCourses(courses);
             })
             .catch(error => console.error(error));
-    }, [user, isLoggedIn]);
+    }, [userData, isLoggedIn]);
 
     useEffect(() => {
         // Calculate grades

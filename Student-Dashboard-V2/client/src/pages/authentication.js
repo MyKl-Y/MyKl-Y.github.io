@@ -87,7 +87,7 @@ const Authentication = () => {
     const checkUsernameAvailability = async (username) => {
         if (username !== '') {
             try {
-                const response = await fetch(`http://localhost:5050/register/check-username/${username}`);
+                const response = await fetch(`http://localhost:5050/auth/check-username/${username}`);
                 const data = await response.json()
 
                 if (data.taken) {
@@ -107,7 +107,7 @@ const Authentication = () => {
     const checkEmailAvailability = async (email) => {
         if (email !== '') {
             try {
-                const response = await fetch(`http://localhost:5050/register/check-email/${email}`);
+                const response = await fetch(`http://localhost:5050/auth/check-email/${email}`);
                 const data = await response.json()
 
                 if (data.taken) {
@@ -165,7 +165,7 @@ const Authentication = () => {
 
     async function login(user) {
         try {
-            const response = await fetch('http://localhost:5050/login', {
+            const response = await fetch('http://localhost:5050/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -176,7 +176,8 @@ const Authentication = () => {
             if (response.status === 200) {
                 // Login successful, you can set some state or redirect to the authenticated page
                 const data = await response.json();
-                authLogin(data.userData);
+                console.log('Token: ', data.token)
+                authLogin(data.token);
                 console.log('Login successful');
                 navigate('/dashboard');
             } else {
@@ -190,12 +191,13 @@ const Authentication = () => {
 
     async function register(newUser) {
         try {
-            const response = await fetch('http://localhost:5050/register', {
+            const response = await fetch('http://localhost:5050/auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(newUser),
+                withCredentials: true,
             });
     
             if (response.status === 201) {

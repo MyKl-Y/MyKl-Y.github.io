@@ -15,8 +15,8 @@ import { motion } from "framer-motion";
 
 function Courses() {
     const { currentTheme, } = useTheme();
-    const { user } = useAuth();
-    const isLoggedIn = !!user;
+    const { userData } = useAuth();
+    const isLoggedIn = !!userData;
     
     const [isACourseSelected, setIsACourseSelected] = useState(false);
 
@@ -25,7 +25,7 @@ function Courses() {
     //const [showCreateForm, setShowCreateForm] = useState(false);
     //const [selectedSemester, setSelectedSemester] = useState("All Semesters"); // Track the selected semester
     const [selectedSemesters, setSelectedSemesters] = useState(["All Semesters"]); // Track the selected semesters
-    //const { user } = useAuth();
+    //const { userData } = useAuth();
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false); // Track modal state
     const [selectedCourseInfo, setSelectedCourseInfo] = useState(null);
     const [isCourseInfoVisible, setIsCourseInfoVisible] = useState(false);
@@ -34,7 +34,7 @@ function Courses() {
     const fetchCourses = async () => {
         if (!isLoggedIn) return;
         try {
-            const response = await fetch(`http://localhost:5050/courses/user/${user.name}`);
+            const response = await fetch(`http://localhost:5050/courses/user/${userData.name}`);
             if (!response.ok) {
                 throw new Error("Failed to fetch courses");
             }
@@ -48,7 +48,7 @@ function Courses() {
     useEffect(() => {
         // Fetch courses when the component mounts
         fetchCourses();
-    }, [isLoggedIn, user]);
+    }, [isLoggedIn, userData]);
 
     // Function to add a new course
     const addCourse = async (newCourse) => {
@@ -393,7 +393,7 @@ function Courses() {
                                             <b>Links</b>: <i>{course.link}</i>
                                         </p>
                                         <p>
-                                            <b>Created By</b>: <i>{course.user}</i>
+                                            <b>Created By</b>: <i>{course.userData}</i>
                                         </p>
                                         <div className="button-holder">
                                             <button onClick={() => selectCourse(course._id)}>

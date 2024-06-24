@@ -8,8 +8,8 @@ import { AddCircleTwoTone, Refresh, HelpTwoTone, DeleteTwoTone, EditTwoTone } fr
 import { Badge, Tooltip } from "@mui/material";
 
 const DegreeComponent = ({ onSelectDegree }) => {
-    const { user } = useAuth();
-    const isLoggedIn = !!user;
+    const { userData } = useAuth();
+    const isLoggedIn = !!userData;
     const { currentTheme } = useTheme();
 
     const [degrees, setDegrees] = useState([]);
@@ -17,7 +17,7 @@ const DegreeComponent = ({ onSelectDegree }) => {
         name: "", 
         credits: 0, 
         type: "",
-        user: isLoggedIn ? user.name : "",
+        user: isLoggedIn ? userData.name : "",
     });
 
     const [editMode, setEditMode] = useState(false);
@@ -26,13 +26,13 @@ const DegreeComponent = ({ onSelectDegree }) => {
 
     useEffect(() => {
         if (!isLoggedIn) return;
-        fetch(`http://localhost:5050/graduation/degree/user/${user.name}`)
+        fetch(`http://localhost:5050/graduation/degree/user/${userData.name}`)
             .then((res) => res.json())
             .then((data) => {
                 setDegrees(data);
             })
             .catch((error) => console.error(error));
-    }, [user, isLoggedIn]);
+    }, [userData, isLoggedIn]);
 
     const handleDegreeSubmit = () => {
         const url = editMode 
@@ -48,7 +48,7 @@ const DegreeComponent = ({ onSelectDegree }) => {
                 name: newDegree.name,
                 credits: newDegree.credits,
                 type: newDegree.type,
-                user: user.name,
+                user: userData.name,
             }),
         })
             .then((res) => res.json())

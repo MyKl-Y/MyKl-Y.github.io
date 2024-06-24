@@ -8,7 +8,7 @@ import "../styles/jobs.css";
 //TODO: Add semester showing based on start date
 
 export default function Applications() {
-    const { user } = useAuth();
+    const { userData } = useAuth();
     const { currentTheme } = useTheme();
     const [jobs, setJobs] = useState([]); // New state variable
     const [showCreateJob, setShowCreateJob] = useState(false);
@@ -20,9 +20,9 @@ export default function Applications() {
 
     // get all jobs
     useEffect(() => {
-        if (!user) return;
+        if (!userData) return;
         async function getJobs() {
-            const response = await fetch(`http://localhost:5050/jobs/user/${user.name}`);
+            const response = await fetch(`http://localhost:5050/jobs/user/${userData.name}`);
 
             if (!response.ok) {
                 const message = `An error occurred: ${response.statusText}`;
@@ -37,7 +37,7 @@ export default function Applications() {
         getJobs();
 
         return;
-    }, [user])
+    }, [userData])
 
     // Filtering function
     function filterJobs(job) {
@@ -92,7 +92,7 @@ export default function Applications() {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ user: user.name }),
+            body: JSON.stringify({ user: userData.name }),
         });
 
         const newJobs = jobs.filter((el) => el._id !== id);
