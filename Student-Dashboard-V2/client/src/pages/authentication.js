@@ -107,7 +107,7 @@ const Authentication = () => {
     const checkEmailAvailability = async (email) => {
         if (email !== '') {
             try {
-                const response = await fetch(`http://localhost:5050/auth/check-email/${email}`);
+                const response = await fetch(`http://localhost:5050/auth/check-email/${email.toLowerCase()}`);
                 const data = await response.json()
 
                 if (data.taken) {
@@ -151,8 +151,7 @@ const Authentication = () => {
     async function onSubmit(e) {
         e.preventDefault();
     
-        const newUser = { ...user };
-        console.log(newUser.name, newUser.email)
+        const newUser = { ...user, email: user.email.toLowerCase()};
     
         if (isLoginTab) {
             await login(newUser);
@@ -176,7 +175,6 @@ const Authentication = () => {
             if (response.status === 200) {
                 // Login successful, you can set some state or redirect to the authenticated page
                 const data = await response.json();
-                console.log('Token: ', data.token)
                 authLogin(data.token);
                 console.log('Login successful');
                 navigate('/dashboard');
