@@ -28,12 +28,14 @@ const SingleGradeCalculator = ({ id, onDelete }) => {
 
     useEffect(() => {
         if (!isLoggedIn) return;
-        axiosInstance.get(`/courses/user/${userData.name}`)
-            .then(response => {
-                const courses = response.data;
-                setCourses(courses);
-            })
-            .catch(error => console.error(error));
+        if (!courses) {
+            axiosInstance.get(`/courses/user/${userData.name}`)
+                .then(response => {
+                    const courses = response.data;
+                    setCourses(courses);
+                })
+                .catch(error => console.error(error));
+        }
     }, [userData, isLoggedIn]);
 
     useEffect(() => {

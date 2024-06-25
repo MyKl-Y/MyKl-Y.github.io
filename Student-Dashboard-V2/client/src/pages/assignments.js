@@ -37,7 +37,9 @@ export default function Assignments() {
             setAssignments(assignments);
         }
 
-        getAssignments();
+        if (!assignments) {
+            getAssignments();
+        }
 
         return;
     }, [assignments.length, userData, isLoggedIn]);

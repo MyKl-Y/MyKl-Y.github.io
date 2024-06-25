@@ -75,7 +75,9 @@ export default function Habits() {
             setHabits(habitsData);
         }
 
-        getHabits();
+        if (!habits) {
+            getHabits();
+        }
 
         return;
     }, [navigateCounter, habits.length, userData, isLoggedIn]);

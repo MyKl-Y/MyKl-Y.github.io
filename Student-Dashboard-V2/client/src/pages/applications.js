@@ -34,7 +34,9 @@ export default function Applications() {
             setJobs(jobs);
         }
 
-        getJobs();
+        if (!jobs) {
+            getJobs();
+        }
 
         return;
     }, [userData])

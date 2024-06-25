@@ -26,12 +26,14 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
     }, [selectedDegree, hasConcentrations]);
 
     const fetchConcentrations = (degreeId) => {
-        fetch(`http://localhost:5050/graduation/concentration/${degreeId}`)
-            .then((response) => response.json())
-            .then((data) => {
-                setConcentrations(data[0].concentrations);
-            })
-            .catch((error) => console.error(error));
+        if (!concentrations) {
+            fetch(`http://localhost:5050/graduation/concentration/${degreeId}`)
+                .then((response) => response.json())
+                .then((data) => {
+                    setConcentrations(data[0].concentrations);
+                })
+                .catch((error) => console.error(error));
+        }
     };
 
     const handleConcentrationSubmit = () => {

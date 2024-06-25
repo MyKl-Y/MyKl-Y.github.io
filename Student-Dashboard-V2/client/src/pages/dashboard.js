@@ -25,9 +25,10 @@ import {
         - For tasks
     - Line graph
         - Grade history and prediction and GPA
+        - GPA over time (by semester)
     - DONE: Sankey diagram
         - DONE: Application status
-    - Pie chart:
+    - DONE: Pie chart:
         - DONE: Tasks by status
         - DONE: Tasks by category
         - DONE: Credits 
@@ -36,7 +37,7 @@ import {
     - Text Display:
         - DONE: GPA 
         - DONE: Major & Minors
-        - Expected Graduation Date
+        - DONE: Expected Graduation Date
         - Number of tasks due today
     - Mini calendar
     - Upcoming 
@@ -57,10 +58,7 @@ const Dashboard = (props) => {
 
     const [gpa, setGpa] = useState(0);
 
-    const [graduationDate, setGraduationDate] = useState({
-        "upperBound": null,
-        "lowerBound": null
-    });
+    const [graduationDate, setGraduationDate] = useState(null);
 
     useEffect(() => {
         function calculateGPA() {
@@ -85,10 +83,9 @@ const Dashboard = (props) => {
 
         function calculateGraduationDate() {
             let credits = 0;
-            let total = 0;
+            let degreeCredits = [];
             degrees.forEach(degree => {
-                if (degree.type.toLowerCase() === 'minor') return;
-                total = degree.credits;
+                if (degree.type.toLowerCase() === 'minor' || !userData.majors.find(e => e === degree._id)) return;
                 degree.concentrations.forEach(concentration => {
                     concentration.requirements.forEach(requirement => {
                         requirement.courses.forEach(course => {
@@ -98,31 +95,51 @@ const Dashboard = (props) => {
                         });
                     });
                 });
+                degreeCredits.push({ credits, name: degree.name, type: degree.type});
+                credits = 0;
             });
 
-            let creditsLeft = credits;
+            let creditsLeft = [];
+            let currentYear = new Date().getFullYear();
 
-            let upperBound = 0;
-            let lowerBound = 0;
-            setGraduationDate({ upperBound, lowerBound });
+            degreeCredits.forEach(degree => {
+                let upperBound = 0;
+                let lowerBound = 0;
+                let semestersLeftUpper = Math.ceil(degree.credits / 21);
+                let semestersLeftLower = Math.ceil(degree.credits / 16.5);
+                let upperYears = Math.floor(semestersLeftUpper / 2);
+                let lowerYears = Math.floor(semestersLeftLower / 2);
+
+                upperBound = `${semestersLeftUpper % 2 === 1 ? 'Fall' : 'Spring'} ${currentYear + upperYears}`;
+                lowerBound = `${semestersLeftLower % 2 === 1 ? 'Fall' : 'Spring'} ${currentYear + lowerYears}`;
+
+                creditsLeft.push({upperBound: upperBound, lowerBound: lowerBound, name: degree.name, type: degree.type});
+            });
+
+            setGraduationDate(creditsLeft);
         }
 
         if (!isLoggedIn) return;
-        axiosInstance.get(`/courses/user/${userData.name}`)
-            .then(response => setCourses(response.data))
-            .catch(error => console.error(error));
-
-        axiosInstance.get(`/task/user/${userData.name}`)
-            .then(response => setTasks(response.data))
-            .catch(error => console.error(error));
-
-        axiosInstance.get(`/graduation/degree/user/${userData.name}`)
-            .then(response => setDegrees(response.data))
-            .catch(error => console.error(error));
-
+        if (!courses) {
+            axiosInstance.get(`/courses/user/${userData.name}`)
+                .then(response => setCourses(response.data))
+                .catch(error => console.error(error));
+        }
+        if (!tasks) {
+            axiosInstance.get(`/task/user/${userData.name}`)
+                .then(response => setTasks(response.data))
+                .catch(error => console.error(error));
+        }
+        if (!degrees) {
+            axiosInstance.get(`/graduation/degree/user/${userData.name}`)
+                .then(response => setDegrees(response.data))
+                .catch(error => console.error(error));
+        }
+        if (!jobs) {
         axiosInstance.get(`/jobs/user/${userData.name}`)
             .then(response => setJobs(response.data))
             .catch(error => console.error(error));
+        }
 
         calculateGPA();
         calculateGraduationDate();
@@ -177,6 +194,7 @@ const Dashboard = (props) => {
     function makeDegreePieData() {
         let data = [];
         degrees.forEach(degree => {
+            if (degree.type.toLowerCase() === 'minor') return;
             let totalCredits = degree.credits;
             let completedCredits = 0;
             degree.concentrations.forEach(concentration => {
@@ -191,7 +209,8 @@ const Dashboard = (props) => {
             data.push({
                 name: degree.name,
                 completed: completedCredits,
-                remaining: totalCredits - completedCredits
+                remaining: totalCredits - completedCredits,
+                _id: degree._id
             });
         });
 
@@ -247,8 +266,8 @@ const Dashboard = (props) => {
         let majorCount = 0;
         let returnVal = [];
         degrees.filter(degree => {
-            if (degree.type.toLowerCase() === 'minor') minors.push(degree) && minorCount++;
-            else majors.push(degree) && majorCount++;
+            if (degree.type.toLowerCase() === 'minor' && userData.minors.find(e => e === degree._id)) minors.push(degree) && minorCount++;
+            else if (userData.majors.find(e => e === degree._id)) majors.push(degree) && majorCount++;
             return null;
         });
         if (majorCount > 0) {
@@ -338,8 +357,16 @@ const Dashboard = (props) => {
     };
     const taskPieData = makeTaskPieData();
 
-    function getDegreeById(id) {
-        return degrees.find(degree => degree._id === id);
+    function makeAbbr(str) {
+        let words = str.split(/\s+/);
+        let abbreviation = '';
+        for (let i = 0; i < words.length; i++) {
+            const word = words[i];
+            if (word !== '' && /^[A-Z][a-z]*$/.test(word)) {
+                abbreviation += (words[i][0] + ".");
+            }
+        }
+        return abbreviation.toUpperCase();
     }
 
     return (
@@ -360,6 +387,9 @@ const Dashboard = (props) => {
                     </>
                     <>
                         <p><b>GPA</b>: {gpa.toFixed(2)}</p>
+                    </>
+                    <>
+                        <p><b>Expected Graduation Date</b>: {graduationDate ? graduationDate.map((degree, index) => <span key={index}>{makeAbbr(degree.type)} {degree.name}: {degree.upperBound} - {degree.lowerBound}{index < graduationDate.length - 1 ? ', ' : ''}</span>) : 'N/A'}</p>
                     </>
                     <ResponsiveContainer width='100%' height={300}>
                         {taskPieData.map((task, index) => (
@@ -395,7 +425,7 @@ const Dashboard = (props) => {
                                         { name: 'Remaining', value: degree.remaining }
                                     ]}
                                     nameKey='name'
-                                    cx={`${100 / (degreePieData.length * 2) * ((index * degreePieData.length) + 1)}%`}
+                                    cx={`${100 / (userData.majors.length * 2) * ((index * userData.majors.length) + (userData.majors.length - 1))}%`}
                                     cy='50%'
                                     innerRadius={90}
                                     outerRadius={140}

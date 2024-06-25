@@ -38,7 +38,9 @@ export default function TaskList() {
             setTasks(tasks);
         }
 
-        getTasks();
+        if (!tasks) {
+            getTasks();
+        }
 
         return;
     }, [tasks.length]);

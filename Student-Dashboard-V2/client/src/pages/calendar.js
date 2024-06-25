@@ -178,23 +178,26 @@ export default function CalendarView({ semesters = defaultSemesters }) {
 
     useEffect(() => {
         if (!isLoggedIn) return;
-        // Fetch tasks
-        axiosInstance.get(`/task/user/${userData.name}`)
-            .then(res => {
-                setTasks(res.data);
-            })
-            .catch(err => {
-                console.error(err);
-            });
-
-        // Fetch courses
-        axiosInstance.get(`/courses/user/${userData.name}`)
-            .then(res => {
-                setCourses(res.data);
-            })
-            .catch(err => {
-                console.error(err);
-            });
+        if (!tasks) {
+            // Fetch tasks
+            axiosInstance.get(`/task/user/${userData.name}`)
+                .then(res => {
+                    setTasks(res.data);
+                })
+                .catch(err => {
+                    console.error(err);
+                });
+        }
+        if (!courses) {
+            // Fetch courses
+            axiosInstance.get(`/courses/user/${userData.name}`)
+                .then(res => {
+                    setCourses(res.data);
+                })
+                .catch(err => {
+                    console.error(err);
+                });
+        }
 
     }, [userData, isLoggedIn]);
 

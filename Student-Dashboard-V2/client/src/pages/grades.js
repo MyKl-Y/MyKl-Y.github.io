@@ -28,13 +28,15 @@ export default function Grades() {
 
     useEffect(() => {
         if (!isLoggedIn) return;
-        axiosInstance.get(`/courses/user/${userData.name}`)
-            .then((res) => {
-                setCourses(res.data);
-            })
-            .catch((err) => {
-                console.error(err);
-            });
+        if (!courses) {
+            axiosInstance.get(`/courses/user/${userData.name}`)
+                .then((res) => {
+                    setCourses(res.data);
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        }
     }, [userData, isLoggedIn]);
 
     useEffect(() => {

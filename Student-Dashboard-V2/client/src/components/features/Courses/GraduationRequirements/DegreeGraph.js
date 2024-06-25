@@ -7,6 +7,8 @@ import { useTheme } from '../../../../context/theme/ThemeContext';
 // Register fcose layout
 cytoscape.use(fcose);
 
+//TODO: On click of course, set course as complete
+
 const DegreeGraph = ({ selectedDegree }) => {
     const { currentTheme } = useTheme();
     const [elements, setElements] = useState([]);

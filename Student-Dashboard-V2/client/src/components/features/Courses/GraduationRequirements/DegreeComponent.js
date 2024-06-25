@@ -26,12 +26,14 @@ const DegreeComponent = ({ onSelectDegree }) => {
 
     useEffect(() => {
         if (!isLoggedIn) return;
-        fetch(`http://localhost:5050/graduation/degree/user/${userData.name}`)
-            .then((res) => res.json())
-            .then((data) => {
-                setDegrees(data);
-            })
-            .catch((error) => console.error(error));
+        if (!degrees) {
+            fetch(`http://localhost:5050/graduation/degree/user/${userData.name}`)
+                .then((res) => res.json())
+                .then((data) => {
+                    setDegrees(data);
+                })
+                .catch((error) => console.error(error));
+        }
     }, [userData, isLoggedIn]);
 
     const handleDegreeSubmit = () => {
@@ -208,6 +210,8 @@ const DegreeComponent = ({ onSelectDegree }) => {
 
     // TODO: Automatically mark course complete if there is a course in the course collection with same code
     // TODO: Make adding courses more efficient
+    // TODO: Make the view more user-friendly and intuitive
+    // TODO: Add a view so that there can be a list view instead of graph view
     return (
         <div className="tree-container" style={currentTheme}>
             <div className="tree-button-container first">
