@@ -34,7 +34,7 @@ function Courses() {
     const fetchCourses = async () => {
         if (!isLoggedIn) return;
         try {
-            if (!courses) {
+            if (courses.length === 0) {
                 const response = await fetch(`http://localhost:5050/courses/user/${userData.name}`);
                 if (!response.ok) {
                     throw new Error("Failed to fetch courses");

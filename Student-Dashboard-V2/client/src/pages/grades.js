@@ -28,7 +28,7 @@ export default function Grades() {
 
     useEffect(() => {
         if (!isLoggedIn) return;
-        if (!courses) {
+        if (courses.length === 0) {
             axiosInstance.get(`/courses/user/${userData.name}`)
                 .then((res) => {
                     setCourses(res.data);

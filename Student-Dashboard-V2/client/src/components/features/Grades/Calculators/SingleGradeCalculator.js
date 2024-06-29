@@ -28,7 +28,7 @@ const SingleGradeCalculator = ({ id, onDelete }) => {
 
     useEffect(() => {
         if (!isLoggedIn) return;
-        if (!courses) {
+        if (courses.length === 0) {
             axiosInstance.get(`/courses/user/${userData.name}`)
                 .then(response => {
                     const courses = response.data;

@@ -178,7 +178,7 @@ export default function CalendarView({ semesters = defaultSemesters }) {
 
     useEffect(() => {
         if (!isLoggedIn) return;
-        if (!tasks) {
+        if (tasks.length === 0) {
             // Fetch tasks
             axiosInstance.get(`/task/user/${userData.name}`)
                 .then(res => {
@@ -188,7 +188,7 @@ export default function CalendarView({ semesters = defaultSemesters }) {
                     console.error(err);
                 });
         }
-        if (!courses) {
+        if (courses.length === 0) {
             // Fetch courses
             axiosInstance.get(`/courses/user/${userData.name}`)
                 .then(res => {

@@ -26,7 +26,7 @@ const DegreeComponent = ({ onSelectDegree }) => {
 
     useEffect(() => {
         if (!isLoggedIn) return;
-        if (!degrees) {
+        if (degrees.length === 0) {
             fetch(`http://localhost:5050/graduation/degree/user/${userData.name}`)
                 .then((res) => res.json())
                 .then((data) => {

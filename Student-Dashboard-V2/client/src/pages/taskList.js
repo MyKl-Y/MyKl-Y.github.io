@@ -38,7 +38,7 @@ export default function TaskList() {
             setTasks(tasks);
         }
 
-        if (!tasks) {
+        if (tasks.length === 0) {
             getTasks();
         }
 

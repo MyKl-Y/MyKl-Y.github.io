@@ -75,7 +75,7 @@ export default function Habits() {
             setHabits(habitsData);
         }
 
-        if (!habits) {
+        if (habits.length === 0) {
             getHabits();
         }
 

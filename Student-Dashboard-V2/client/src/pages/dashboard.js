@@ -120,22 +120,22 @@ const Dashboard = (props) => {
         }
 
         if (!isLoggedIn) return;
-        if (!courses) {
+        if (courses.length === 0) {
             axiosInstance.get(`/courses/user/${userData.name}`)
                 .then(response => setCourses(response.data))
                 .catch(error => console.error(error));
         }
-        if (!tasks) {
+        if (tasks.length === 0) {
             axiosInstance.get(`/task/user/${userData.name}`)
                 .then(response => setTasks(response.data))
                 .catch(error => console.error(error));
         }
-        if (!degrees) {
+        if (degrees.length === 0) {
             axiosInstance.get(`/graduation/degree/user/${userData.name}`)
                 .then(response => setDegrees(response.data))
                 .catch(error => console.error(error));
         }
-        if (!jobs) {
+        if (jobs.length === 0) {
         axiosInstance.get(`/jobs/user/${userData.name}`)
             .then(response => setJobs(response.data))
             .catch(error => console.error(error));

@@ -37,7 +37,7 @@ export default function Assignments() {
             setAssignments(assignments);
         }
 
-        if (!assignments) {
+        if (assignments.length === 0) {
             getAssignments();
         }
 

@@ -34,7 +34,7 @@ export default function Applications() {
             setJobs(jobs);
         }
 
-        if (!jobs) {
+        if (jobs.length === 0) {
             getJobs();
         }
 
