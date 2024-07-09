@@ -7,7 +7,7 @@ import "../../../../styles/DegreeComponent.css";
 import { AddCircleTwoTone, Refresh, HelpTwoTone, DeleteTwoTone, EditTwoTone } from '@mui/icons-material';
 import { Badge, Tooltip } from "@mui/material";
 
-const DegreeComponent = ({ onSelectDegree }) => {
+const DegreeComponent = ({ onSelectDegree, selectedType }) => {
     const { userData } = useAuth();
     const isLoggedIn = !!userData;
     const { currentTheme } = useTheme();
@@ -148,6 +148,69 @@ const DegreeComponent = ({ onSelectDegree }) => {
         }
         return total;
     }
+
+    function updateCompletionStatus(degree) {
+        if (!degree || degree === "addNew") return;
+
+        let degreeUpdated = false;
+
+        degree.concentrations.forEach((concentration) => {
+            let concentrationComplete = false;
+            let requirementTotal = concentration.requirements.length;
+            let requirementCompleteTotal = 0;
+            concentration.requirements.forEach((requirement) => {
+                let requirementComplete = false;
+                let courseCreditTotal = 0;
+                requirement.courses.forEach((course) => {
+                    if (course.is_complete) {
+                        courseCreditTotal += course.credits;
+                    }
+                });
+                if (courseCreditTotal >= requirement.credits) {
+                    requirementComplete = true;
+                }
+                if (requirementComplete !== requirement.is_complete) {
+                    requirement.is_complete = requirementComplete;
+                    degreeUpdated = true;
+                } 
+                concentrationComplete = concentrationComplete || requirementComplete;
+                if (requirementComplete) {
+                    requirementCompleteTotal++;
+                }
+            });
+            if (requirementTotal === requirementCompleteTotal && requirementTotal > 0) {
+                concentrationComplete = true;
+            } else {
+                concentrationComplete = false;
+            }
+            if (concentrationComplete !== concentration.is_complete) {
+                concentration.is_complete = concentrationComplete;
+                degreeUpdated = true;
+            }
+        });
+
+        // If the degree has changed, update it
+        if (degreeUpdated) {
+            fetch(`http://localhost:5050/graduation/degree/${degree._id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(degree),
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    setDegrees(degrees.map((deg) => (deg._id === data._id ? data : deg)));
+                })
+                .catch((error) => console.error(error));
+        }
+    }
+
+    useEffect(() => {
+        if (selectedDegree) {
+            updateCompletionStatus(selectedDegree);
+        }
+    }, [selectedDegree]);
 
     // Refresh Page Button Function
     const refreshPage = () => {
@@ -344,7 +407,7 @@ const DegreeComponent = ({ onSelectDegree }) => {
                         <AddCircleTwoTone />
                     </button>
                 </div>
-            ) : selectedDegree ? (
+            ) : selectedDegree && selectedType === "graph" ? (
                 <ConcentrationComponent 
                     selectedDegree={selectedDegree} 
                     selectedConcentration={selectedConcentration}

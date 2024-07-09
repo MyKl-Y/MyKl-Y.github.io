@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
     height: 100%;
     width: 100%;
 }
@@ -31,6 +31,29 @@
 }
 .GraduationRequirement .delete-button:hover {
     box-shadow: var(--remove-inset);
+}
+
+.degree-list {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: stretch;
+    width: 100%;
+    height: 100%;
+    margin: 1rem 0;
+    color: var(--text-color);
+}
+.degree-list-concentration {
+    font-size: 1.5rem;
+}
+.degree-list-requirement {
+    font-size: 1.25rem;
+}
+.degree-list-course, .degree-list-requirement, .degree-list-concentration {
+    text-decoration: wavy underline var(--remove-primary);
+}
+.degree-list .completed {
+    text-decoration: wavy underline var(--add-primary) !important;
 }
 
 .degree-graph {

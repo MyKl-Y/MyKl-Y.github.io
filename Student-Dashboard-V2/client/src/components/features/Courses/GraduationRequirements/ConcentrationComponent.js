@@ -26,7 +26,7 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
     }, [selectedDegree, hasConcentrations]);
 
     const fetchConcentrations = (degreeId) => {
-        if (!concentrations) {
+        if (concentrations.length === 0) {
             fetch(`http://localhost:5050/graduation/concentration/${degreeId}`)
                 .then((response) => response.json())
                 .then((data) => {
@@ -209,22 +209,22 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
             </div>
             {showAddNewForm || editMode ? (
                 <div className="node-form">
-                <h3>{editMode ? "Edit Concentration" : "Add New Concentration"}</h3>
-                <label>
-                    Concentration Name
-                </label>
-                <input
-                    type="text"
-                    placeholder="e.g., Cybersecurity"
-                    value={newConcentration.name}
-                    onChange={(e) =>
-                        setNewConcentration({ ...newConcentration, name: e.target.value })
-                    }
-                />
-                <button onClick={handleConcentrationSubmit}>
-                    <AddCircleTwoTone />
-                </button>
-            </div>
+                    <h3>{editMode ? "Edit Concentration" : "Add New Concentration"}</h3>
+                    <label>
+                        Concentration Name
+                    </label>
+                    <input
+                        type="text"
+                        placeholder="e.g., Cybersecurity"
+                        value={newConcentration.name}
+                        onChange={(e) =>
+                            setNewConcentration({ ...newConcentration, name: e.target.value })
+                        }
+                    />
+                    <button onClick={handleConcentrationSubmit}>
+                        <AddCircleTwoTone />
+                    </button>
+                </div>
             ) : selectedConcentration ? (
                 <RequirementComponent
                     selectedDegree={selectedDegree}

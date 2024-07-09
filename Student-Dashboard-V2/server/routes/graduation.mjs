@@ -233,6 +233,7 @@ router.get("/course/:degreeId/:concentrationId/:requirementId", async (req, res)
 router.put("/degree/:degreeId", async (req, res) => {
     try {
         const updates = req.body;
+        delete updates._id;
         let collection = await db.collection("graduationRequirements");
         const updateResult = await collection.updateOne(
             { _id: new ObjectId(req.params.degreeId) },
