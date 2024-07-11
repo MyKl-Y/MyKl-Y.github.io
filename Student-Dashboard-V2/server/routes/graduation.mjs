@@ -147,12 +147,12 @@ router.get("/concentration/:degreeId", async (req, res) => {
 router.get("/requirement/:degreeId/:concentrationId", async (req, res) => {
     try {
         let collection = await db.collection("graduationRequirements");
-        let filter1  = {_id: new ObjectId(req.params["degreeId"])};
-        let filter2 = {"concentrations._id": new ObjectId(req.params["concentrationId"])};
+        const degreeId = new ObjectId(req.params.degreeId);
+        const concentrationId = new ObjectId(req.params.concentrationId);
         const pipeline = [
-            { $match: filter1 },
+            { $match: { _id: degreeId } },
             { $unwind: "$concentrations" },
-            { $match: filter2 },
+            { $match: { "concentrations._id": concentrationId } },
             { $project: { requirements: "$concentrations.requirements", _id: 0 } },
         ];
         let result = await collection.aggregate(pipeline).toArray();
@@ -233,7 +233,25 @@ router.get("/course/:degreeId/:concentrationId/:requirementId", async (req, res)
 router.put("/degree/:degreeId", async (req, res) => {
     try {
         const updates = req.body;
-        delete updates._id;
+        // Convert any string IDs back to ObjectId
+        if (updates.concentrations) {
+            updates.concentrations = updates.concentrations.map(concentration => {
+                concentration._id = new ObjectId(concentration._id);
+                if (concentration.requirements) {
+                    concentration.requirements = concentration.requirements.map(requirement => {
+                        requirement._id = new ObjectId(requirement._id);
+                        if (requirement.courses) {
+                            requirement.courses = requirement.courses.map(course => {
+                                course._id = new ObjectId(course._id);
+                                return course;
+                            });
+                        }
+                        return requirement;
+                    });
+                }
+                return concentration;
+            });
+        }
         let collection = await db.collection("graduationRequirements");
         const updateResult = await collection.updateOne(
             { _id: new ObjectId(req.params.degreeId) },

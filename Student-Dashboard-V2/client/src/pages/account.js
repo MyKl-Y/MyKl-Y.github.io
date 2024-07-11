@@ -136,11 +136,13 @@ const Account = () => {
 
     function calculateTotalCredits(major) {
         let totalCredits = 0;
+        let completedCourse = new Set();
         if (major) {
             major.concentrations.forEach((concentration) => {
                 concentration.requirements.forEach((requirement) =>
                     requirement.courses.forEach((course) => {
-                        if (course.is_complete) {
+                        if (course.is_complete && !completedCourse.has(course.code)) {
+                            completedCourse.add(course.code);
                             totalCredits += course.credits;
                         }
                     })

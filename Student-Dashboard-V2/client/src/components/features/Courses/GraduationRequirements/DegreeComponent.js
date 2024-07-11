@@ -134,12 +134,14 @@ const DegreeComponent = ({ onSelectDegree, selectedType }) => {
 
     function calculateTotalCredits(degree) {
         let total = 0;
+        const completedCourses = new Set();
         
         if (degree !== "addNew" && degree !== null) {
             degree.concentrations.forEach((concentration) => {
                 concentration.requirements.forEach((requirement) => {
                     requirement.courses.forEach((course) => {
-                        if (course.is_complete) {
+                        if (course.is_complete && !completedCourses.has(course.code)) {
+                            completedCourses.add(course.code);
                             total += course.credits;
                         }
                     })

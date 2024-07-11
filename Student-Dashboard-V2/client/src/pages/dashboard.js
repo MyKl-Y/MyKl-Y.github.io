@@ -83,13 +83,16 @@ const Dashboard = (props) => {
 
         function calculateGraduationDate() {
             let credits = 0;
+            const completedCourses = new Set();
             let degreeCredits = [];
+
             degrees.forEach(degree => {
                 if (degree.type.toLowerCase() === 'minor' || !userData.majors.find(e => e === degree._id)) return;
                 degree.concentrations.forEach(concentration => {
                     concentration.requirements.forEach(requirement => {
                         requirement.courses.forEach(course => {
-                            if (!course.is_complete) {
+                            if (course.is_complete && !completedCourses.has(course.code)) {
+                                completedCourses.add(course.code);
                                 credits += course.credits;
                             }
                         });
@@ -197,10 +200,12 @@ const Dashboard = (props) => {
             if (degree.type.toLowerCase() === 'minor') return;
             let totalCredits = degree.credits;
             let completedCredits = 0;
+            const completedCourses = new Set();
             degree.concentrations.forEach(concentration => {
                 concentration.requirements.forEach(requirement => {
                     requirement.courses.forEach(course => {
-                        if (course.is_complete) {
+                        if (course.is_complete && !completedCourses.has(course.code)) {
+                            completedCourses.add(course.code);
                             completedCredits += course.credits;
                         }
                     });
@@ -424,7 +429,7 @@ const Dashboard = (props) => {
                                         { name: 'Remaining', value: degree.remaining }
                                     ]}
                                     nameKey='name'
-                                    cx={`${100 / (userData.majors.length * 2) * ((index * userData.majors.length) + (userData.majors.length - 1))}%`}
+                                    cx={`${userData.majors.length > 1 ? 25 + 50 * index : 50}%`}
                                     cy='50%'
                                     innerRadius={90}
                                     outerRadius={140}
