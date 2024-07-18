@@ -6,6 +6,7 @@ import { useTheme } from '../context/theme/ThemeContext';
 import { useAuth } from '../context/authentication/AuthContext';
 import { useSettings } from '../context/settings/SettingsContext';
 import '../styles/dashboard.css';
+import Calendar from 'react-calendar';
 import { 
     ResponsiveContainer,
     Tooltip,
@@ -17,6 +18,14 @@ import {
 
     Pie,
     PieChart,
+
+    ComposedChart,
+    Line,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Bar,
+    Label,
 } from 'recharts'
 
 // TODO: heat map, line graph, sankey diagram, pie chart, bar graph
@@ -24,8 +33,9 @@ import {
     - Heat map
         - For tasks
     - Line graph
-        - Grade history and prediction and GPA
-        - GPA over time (by semester)
+        - (MAYBE?) Grade history and prediction and GPA
+        - DONE: GPA over time
+        - DONE: GPA per semester
     - DONE: Sankey diagram
         - DONE: Application status
     - DONE: Pie chart:
@@ -34,6 +44,7 @@ import {
         - DONE: Credits 
     - Bar graph:
         - Grade distribution
+        - DONE: Credits per Semester
     - Text Display:
         - DONE: GPA 
         - DONE: Major & Minors
@@ -57,28 +68,102 @@ const Dashboard = (props) => {
     const [jobs, setJobs] = useState([]);
 
     const [gpa, setGpa] = useState(0);
+    const [semesterGpa, setSemesterGpa] = useState([]);
 
     const [graduationDate, setGraduationDate] = useState(null);
 
     useEffect(() => {
+        function getAllSemesters(startSemester, endSemester) {
+            const semesters = [];
+            const [startSeason, startYear] = startSemester.split(' ');
+            const [endSeason, endYear] = endSemester.split(' ');
+
+            const seasonOrder = ["Spring", "Summer", "Fall"];
+            let year = parseInt(startYear);
+
+            for (let i = seasonOrder.indexOf(startSeason); year <= parseInt(endYear); i++) {
+                if (i >= seasonOrder.length) {
+                    i = 0;
+                    year++;
+                }
+                if (year > parseInt(endYear) || (year === parseInt(endYear) && seasonOrder[i] === endSeason)) {
+                    break;
+                }
+                semesters.push(`${seasonOrder[i]} ${year}`);
+            }
+            semesters.push(endSemester); // include the end semester
+            return semesters;
+        }
+
         function calculateGPA() {
             let weightedGradesSum = 0;
             let totalCredits = 0;
+            const semesterGpaMap = new Map();
+
             courses.forEach(course => {
                 if (course.assignments.length > 0) {
                     totalCredits += parseInt(course.creditHours);
                     let grades = 0;
                     course.assignments.forEach(assignment => {
+                        if (!semesterGpaMap.has(course.semester)) {
+                            semesterGpaMap.set(course.semester, {
+                                grades: 0,
+                                weightedGradesSum: 0,
+                                credits: 0
+                            });
+                        }
                         if (!assignment.usePoints) {
                             grades += (assignment.grade / assignment.weight) * 100;
+                            semesterGpaMap.get(course.semester).grades += ((assignment.grade / assignment.weight * 100));
                         } else {
                             grades += (assignment.grade / 100) * assignment.weight;
+                            semesterGpaMap.get(course.semester).grades += ((assignment.grade / 100 * assignment.weight));
                         }
                     });
                     weightedGradesSum += getGrade(grades) * course.creditHours;
+                    semesterGpaMap.get(course.semester).weightedGradesSum += getGrade(grades) * course.creditHours;
+                    semesterGpaMap.get(course.semester).credits += parseInt(course.creditHours);
                 }
             });
+
+            let semesterGpaArray = Array.from(semesterGpaMap.entries()).map(([semester, data]) => {
+                const semesterGpa = data.weightedGradesSum / data.credits;
+                return {
+                    name: semester,
+                    "GPA per Semester": semesterGpa.toFixed(2),
+                    "GPA over Time": 0,
+                    credits: data.credits,
+                };
+            });
+
+            semesterGpaArray.sort((a, b) => {
+                const [semesterA, yearA] = a.name.split(' ');
+                const [semesterB, yearB] = b.name.split(' ');
+                const semesterOrder = { 'Spring': 1, 'Summer': 2, 'Fall': 3 };
+                return yearA - yearB || semesterOrder[semesterA] - semesterOrder[semesterB];
+            });
+
+            if (semesterGpaArray.length > 0) {
+                const allSemesters = getAllSemesters(semesterGpaArray[0].name, semesterGpaArray[semesterGpaArray.length - 1].name);
+                let cumulativeGradesSum = 0;
+                let cumulativeCredits = 0;
+                let previousGpa = semesterGpaArray[0]['GPA per Semester'];
+                semesterGpaArray = allSemesters.map(semester => {
+                    const found = semesterGpaArray.find(s => s.name === semester);
+                    if (found) {
+                        cumulativeGradesSum += semesterGpaMap.get(semester).weightedGradesSum;
+                        cumulativeCredits += semesterGpaMap.get(semester).credits;
+                        previousGpa = found['GPA per Semester'];
+                        found['GPA over Time'] = (cumulativeGradesSum / cumulativeCredits).toFixed(2);
+                        return found;
+                    } else {
+                        return { name: semester, "GPA per Semester": previousGpa, "GPA over Time": (cumulativeGradesSum / cumulativeCredits).toFixed(2)};
+                    }
+                });
+            }
+            
             setGpa(weightedGradesSum / totalCredits);
+            setSemesterGpa(semesterGpaArray);
         }
 
         function calculateGraduationDate() {
@@ -234,7 +319,7 @@ const Dashboard = (props) => {
                     fontWeight: 'bold',
                 }
             }>
-                {`${degreeName}`}
+                {`${makeAbbreviationsLong(degreeName)}`}
             </text>
         );
     };
@@ -276,10 +361,10 @@ const Dashboard = (props) => {
             return null;
         });
         if (majorCount > 0) {
-            returnVal.push(<p><b>{majorCount > 1 ? 'Majors' : 'Major'}</b>: {majors.map((major, index) => <span key={index}>{major.name}{index < majorCount - 1 ? ', ' : ''}</span>)}</p>);
+            returnVal.push(<p><b>{majorCount > 1 ? 'Majors' : 'Major'}</b> {majors.map((major, index) => <span key={index}>{makeAbbreviationsLong(major.name)}{index < majorCount - 1 ? ', ' : ''}</span>)}</p>);
         }
         if (minorCount > 0) {
-            returnVal.push(<p><b>{minorCount > 1 ? "Minors" : "Minor"}</b>: {minors.map((minor, index) => <span key={index}>{minor.name}{index < minorCount - 1 ? ', ' : ''}</span>)}</p>);
+            returnVal.push(<p><b>{minorCount > 1 ? "Minors" : "Minor"}</b> {minors.map((minor, index) => <span key={index}>{makeAbbreviationsLong(minor.name)}{index < minorCount - 1 ? ', ' : ''}</span>)}</p>);
         }
 
         return returnVal;
@@ -373,6 +458,65 @@ const Dashboard = (props) => {
         return abbreviation.toUpperCase();
     }
 
+    function getNextOccurrenceDate(weekdays) {
+        const today = new Date();
+        const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        let minDaysUntilNext = 7;
+
+        weekdays.forEach(day => {
+            const dayIndex = daysOfWeek.indexOf(day);
+            if (dayIndex !== -1) {
+                const daysUntilNext = (dayIndex - today.getDay() + 7) % 7;
+                if (daysUntilNext < minDaysUntilNext) {
+                    minDaysUntilNext = daysUntilNext;
+                }
+            }
+        });
+
+        const nextDate = new Date();
+        nextDate.setDate(today.getDate() + minDaysUntilNext);
+        return nextDate;
+    }
+
+    const upcomingTasks = tasks.filter(task => {
+        const dueDate = new Date(task.dueDate);
+        if (task.isRecurring) {
+            const weekdays = task.recurrenceInterval.split(',').map(day => day.trim());
+            const nextOccurrence = getNextOccurrenceDate(weekdays);
+            return !task.isComplete && dueDate >= nextOccurrence && nextOccurrence <= new Date(new Date().getTime() + 14 * 24 * 60 * 60 * 1000);
+        } else {
+            return !task.isComplete && dueDate <= new Date(new Date().getTime() + 14 * 24 * 60 * 60 * 1000);
+        }
+    });
+
+    function makeAbbreviationsLong(str) {
+        str = str.replace("Applications", "Apps.");
+        str = str.replace("Application", "App.");
+        str = str.replace("Computer", "Comp.");
+        str = str.replace("Science", "Sci.");
+        str = str.replace("Engineering", "Eng.");
+        str = str.replace("Information", "Info.");
+        str = str.replace("Technology", "Tech.");
+        str = str.replace("Management", "Mgmt.");
+        str = str.replace("Business", "Bus.");
+        str = str.replace("Administration", "Admin.");
+        str = str.replace("Systems", "Sys.");
+        str = str.replace("Artificial Intelligence", "AI");
+        str = str.replace("Machine Learning", "ML");
+        str = str.replace("and", "&");
+        str = str.replace("Analysis", "Anal.");
+        str = str.replace("Design", "Des.");
+        str = str.replace("Development", "Dev.");
+        str = str.replace("Software", "SW");
+        str = str.replace("Web", "W");
+        str = str.replace("Hardware", "HW");
+        str = str.replace("Network", "Net.");
+        str = str.replace("Security", "Sec.");
+        str = str.replace("Database", "DB");
+
+        return str;
+    }
+
     return (
         <motion.div
             key='dashboard'
@@ -386,38 +530,82 @@ const Dashboard = (props) => {
             {isLoggedIn ? (
                 <>
                     <h1>Welcome, {userData.name}!</h1>
-                    <>
+                    <div className='text-container'>
                         {getDegrees()}
-                    </>
-                    <>
-                        <p><b>GPA</b>: {gpa.toFixed(2)}</p>
-                    </>
-                    <>
-                        <p><b>Expected Graduation Date</b>: {graduationDate ? graduationDate.map((degree, index) => <span key={index}>{makeAbbr(degree.type)} {degree.name}: {degree.upperBound} - {degree.lowerBound}{index < graduationDate.length - 1 ? ', ' : ''}</span>) : 'N/A'}</p>
-                    </>
-                    <ResponsiveContainer width='100%' height={300}>
-                        {taskPieData.map((task, index) => (
-                            <PieChart>
+                        <p><b>Graduation Date</b> {graduationDate ? graduationDate.map((degree, index) => <span key={index}>{userData.majors.length > 1 ? makeAbbr(degree.type) : ""} {userData.majors.length > 1 ? degree.name + ": " : ""} {degree.upperBound} - {degree.lowerBound}{index < graduationDate.length - 1 ? ', ' : ''}</span>) : 'N/A'}</p>
+                        <p><b>GPA</b> {gpa.toFixed(2)}</p>
+                    </div>
+                    <div className='mini-calendar-container'>
+                        <p>
+                            <b>Tasks Due Soon</b> 
+                            <div>
+                                {
+                                    upcomingTasks.length === 0 ? "Nothing coming in the next two weeks." :
+                                    upcomingTasks.map((task, index) => (
+                                        <span key={index}>
+                                            {task.name || "Untitled"} ({
+                                                task.isRecurring ? getNextOccurrenceDate(task.recurrenceInterval.split(',').map(day => day.trim())).toLocaleDateString() : new Date(task.dueDate).toLocaleDateString()
+                                            })
+                                        </span>
+                                    ))
+                                }
+                            </div>
+                        </p>
+                    </div>
+                    <ResponsiveContainer width='100%' height='100%' className='composed-chart'>
+                        <ComposedChart
+                            data={semesterGpa}
+                            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="name" />
+                            <YAxis yAxisId="gpa" label={
+                                {
+                                    value: 'GPA',
+                                    angle: -90,
+                                    position: 'left',
+                                }
+                            } />
+                            <YAxis yAxisId="credits" orientation='right' label={
+                                {
+                                    value: 'Credits',
+                                    angle: 90,
+                                    position: 'right'
+                                }
+                            } />
+                            <Tooltip />
+                            <Legend />
+                            <Bar yAxisId="credits" dataKey="credits" barSize={20} fill="#413ea0" />
+                            <Line yAxisId="gpa" type="monotone" dataKey="GPA per Semester" stroke="#8884d8" activeDot={{ r: 8 }} />
+                            <Line yAxisId="gpa" type="monotone" dataKey="GPA over Time" stroke="#82ca9d" />
+                        </ComposedChart>
+                    </ResponsiveContainer>
+                    <ResponsiveContainer width='100%' height='100%' className='task-pie-chart'>
+                        <PieChart>
+                            {taskPieData.map((task, index) => (
                                 <Pie
                                     key={index}
                                     data={
                                         task
                                     }
                                     nameKey='name'
-                                    //cx={`${100 / (taskPieData.length * 2) * ((index * taskPieData.length) + 1)}%`}
                                     cx='50%'
-                                    cy='50%'
+                                    cy={`${(index * 2 + 1) * 25}%`}
+                                    //cy='50%'
                                     fill="#8884d8"
                                     dataKey='value'
+                                    label={({ ...props }) => renderCustomizedLabel({ ...props, degreeName: index === 0 ? 'Task Status' : 'Task Category'})}
+                                    labelLine={false}
                                 >
                                     {task.map((entry, index) => (
                                         <Cell key={`cell-${index}`} fill={taskColors[entry.name]} />
                                     ))}
                                 </Pie>
-                                <Tooltip />
-                                <Legend />
-                            </PieChart>
-                        ))}
+                            ))}
+                            <Tooltip />
+                        </PieChart>
+                    </ResponsiveContainer>
+                    <ResponsiveContainer width='100%' height='100%' className='degree-pie-chart'>
                         <PieChart>
                             {degreePieData.map((degree, index) => (
                                 userData.majors.find(e => e === degree._id) || userData.minors.find(e => e === degree._id)
@@ -431,8 +619,6 @@ const Dashboard = (props) => {
                                     nameKey='name'
                                     cx={`${userData.majors.length > 1 ? 25 + 50 * index : 50}%`}
                                     cy='50%'
-                                    innerRadius={90}
-                                    outerRadius={140}
                                     fill="#8884d8"
                                     label={({ ...props }) => renderCustomizedLabel({ ...props, degreeName: degree.name })}
                                     labelLine={false}
@@ -445,8 +631,15 @@ const Dashboard = (props) => {
                             ) : null)}
                             <Tooltip content={renderCustomTooltip} />
                         </PieChart>
+                    </ResponsiveContainer>
+                    <ResponsiveContainer width='100%' height='100%' className='sankey-diagram'>
                         <Sankey
                             data={makeSankeyData()}
+                            link={
+                                {
+                                    stroke: '#ffffff',
+                                }
+                            }
                         >
                             <Tooltip />
                         </Sankey>

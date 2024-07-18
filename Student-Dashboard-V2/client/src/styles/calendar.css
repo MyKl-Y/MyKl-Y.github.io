@@ -7,7 +7,7 @@
 }
 
 /* General calendar styles */
-.react-calendar {
+.calendar-container .react-calendar {
     border: none;
     font-size: 1rem;
     background-color: var(--background-color) !important;
@@ -19,24 +19,24 @@
 }
 
 /* Custom styles for calendar navigation */
-.react-calendar__navigation {
+.calendar-container .react-calendar__navigation {
     background-color: var(--primary) !important;
     color: white;
     border-radius: 10px 10px 0 0;
     padding: 10px;
 }
-.react-calendar__navigation button {
+.calendar-container .react-calendar__navigation button {
     background-color: transparent !important;
     color: white;
     border-radius: .5rem;
 }
-.react-calendar__navigation button:enabled:hover {
+.calendar-container .react-calendar__navigation button:enabled:hover {
     background-color: var(--primary) !important;
     box-shadow: var(--primary-inset);
 }
 
 /* Custom styles for calendar tiles */
-.react-calendar__tile {
+.calendar-container .react-calendar__tile {
     background-color: var(--background-color) !important;
     color: var(--text-color);
     font-weight: bolder;
@@ -47,50 +47,50 @@
     align-content: center;
     justify-content: flex-start;
 }
-.react-calendar__tile:last-child {
+.calendar-container .react-calendar__tile:last-child {
     border-radius: 0 0 .5rem 0;
 }
-.react-calendar__decade-view .react-calendar__tile:last-child,
-.react-calendar__century-view .react-calendar__tile:last-child{
+.calendar-container .react-calendar__decade-view .react-calendar__tile:last-child,
+.calendar-container .react-calendar__century-view .react-calendar__tile:last-child{
     border-radius: 0 0 0 .5rem;
 }
-.react-calendar__tile:first-child {
+.calendar-container .react-calendar__tile:first-child {
     border-radius: .5rem 0 0 0;
 }
-.react-calendar__month-view button:nth-child(7),
-.react-calendar__year-view button:nth-child(3),
-.react-calendar__decade-view button:nth-child(3),
-.react-calendar__century-view button:nth-child(3) {
+.calendar-container .react-calendar__month-view button:nth-child(7),
+.calendar-container .react-calendar__year-view button:nth-child(3),
+.calendar-container .react-calendar__decade-view button:nth-child(3),
+.calendar-container .react-calendar__century-view button:nth-child(3) {
     border-radius: 0 .5rem 0 0;
 }
-.react-calendar__month-view button:nth-last-child(7),
-.react-calendar__year-view button:nth-last-child(3) {
+.calendar-container .react-calendar__month-view button:nth-last-child(7),
+.calendar-container .react-calendar__year-view button:nth-last-child(3) {
     border-radius: 0 0 0 .5rem;
 }
-.react-calendar__month-view__days__day--weekend {
+.calendar-container .react-calendar__month-view__days__day--weekend {
     color: var(--remove-primary) !important;
 }
-.react-calendar__month-view__days__day--neighboringMonth {
+.calendar-container .react-calendar__month-view__days__day--neighboringMonth {
     background-color: var(--background-color) !important;
     color: var(--text-color) !important;
     font-weight: normal !important;
     opacity: 0.2;
 }
-.react-calendar__tile div {
+.calendar-container .react-calendar__tile div {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     color: var(--text-color) !important;
 }
-.react-calendar__tile div.emojis {
+.calendar-container .react-calendar__tile div.emojis {
     display: flex;
     flex-direction: row;
     justify-content: center;
     padding: .5rem 1rem;
     border-radius: 1rem;
 }
-.react-calendar__tile div:not(.emojis) span {
+.calendar-container .react-calendar__tile div:not(.emojis) span {
     border-radius: .5rem !important;
     padding: 2px .5rem;
 }
@@ -115,17 +115,17 @@
     background-color: var(--remove-primary) !important;
 }
 
-.react-calendar__tile:enabled:hover {
+.calendar-container .react-calendar__tile:enabled:hover {
     box-shadow: var(--background-inset);
 }
 
-.react-calendar__tile--now {
+.calendar-container .react-calendar__tile--now {
     background-color: var(--primary) !important;
     color: var(--background-color) !important;
     box-shadow: var(--primary-inset) !important;
 }
 
-.react-calendar__tile--active {
+.calendar-container .react-calendar__tile--active {
     box-shadow: var(--selected-inset);
     color: var(--text-color) !important;
     background-color: var(--selected-color) !important;
