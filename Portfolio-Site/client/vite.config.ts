@@ -19,5 +19,12 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)) // Alias for src directory
     }
+  },
+  build: {
+    rollupOptions: {
+      external: [
+        '/Portfolio-Site/client/src/main.ts' // Externalize this module if needed
+      ]
+    }
   }
 })
