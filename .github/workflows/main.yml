@@ -1,0 +1,59 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - gh-pages
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        app:
+          - vue
+          - react
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        #run: |
+        #  if [ "${{ matrix.app }}" == "vue" ]; then
+        #    cd Portfolio-Site/client
+        #  else
+        #    cd Student-Dashboard-V2/client
+        #  fi
+        #  npm install
+        run: cd Portfolio-Site/client && npm install
+
+      - name: Build project
+        #run: |
+        #  if [ "${{ matrix.app }}" == "vue" ]; then
+        #    cd Portfolio-Site/client
+        #    npm run build
+        #  else
+        #    cd Student-Dashboard-V2/client
+        #    npm run build
+        #  fi
+        run: cd Portfolio-Site/client && npm run build
+
+      - name: Deploy to GitHub Pages
+        if: success()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          #publish_dir: |
+          #  if [ "${{ matrix.app }}" == "vue" ]; then
+          #    Portfolio-Site/client/dist
+          #  else
+          #    Student-Dashboard-V2/client/build
+          #  fi
+          publish_dir: Portfolio-Site/client/dist
