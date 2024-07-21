@@ -29,6 +29,7 @@ import {
 } from 'recharts'
 
 // TODO: heat map, line graph, sankey diagram, pie chart, bar graph
+// TODO: Make the dashboard responsive
 /* TODO: Specific features to add to the dashboard:
     - Heat map
         - For tasks

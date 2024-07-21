@@ -55,6 +55,8 @@ function App() {
     }, 1000);
   };
 
+  // TODO: Recommended class schedule (optimized)
+
   return (
     <div 
       className={isLandingPage ? 'App center-content' : (isLoginRegister ? 'App auth-center' : 'App flex-end-content')} 
