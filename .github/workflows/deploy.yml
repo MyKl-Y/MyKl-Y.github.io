@@ -9,11 +9,11 @@ jobs:
   build-deploy:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        app:
-          - vue
-          - react
+    #strategy:
+    #  matrix:
+    #    app:
+    #      - vue
+    #      - react
 
     steps:
       - name: Checkout code
@@ -32,7 +32,9 @@ jobs:
         #    cd Student-Dashboard-V2/client
         #  fi
         #  npm install
-        run: cd Portfolio-Site/client && npm install
+        run: |
+          cd Portfolio-Site/client
+          npm install
 
       - name: Build project
         #run: |
@@ -43,7 +45,9 @@ jobs:
         #    cd Student-Dashboard-V2/client
         #    npm run build
         #  fi
-        run: cd Portfolio-Site/client && npm run build
+        run: | 
+          cd Portfolio-Site/client
+          npm run build
 
       - name: Deploy to GitHub Pages
         if: success()
