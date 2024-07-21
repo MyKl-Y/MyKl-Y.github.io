@@ -22,10 +22,5 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    rollupOptions: {
-      external: [
-        '/Portfolio-Site/client/main.ts' // Externalize this module if needed
-      ]
-    }
   }
 })
