@@ -8,9 +8,6 @@ import { resolve } from 'node:path'
 // https://vitejs.dev/config/
 export default defineConfig({
   base: '/Portfolio-Site/client/', // Base URL for the app
-  server: {
-    port: 5173 // Development server port
-  },
   plugins: [
     vue(),
     vueJsx(),
@@ -22,10 +19,5 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    rollupOptions: {
-      external: [
-        '/Portfolio-Site/client/src/main.ts' // Externalize this module if needed
-      ]
-    }
   }
 })
