@@ -62,3 +62,4 @@ jobs:
           #  fi
           publish_dir: Portfolio-Site/client/dist
           publish_branch: gh-pages
+          destination_dir: Portfolio-Site/client
