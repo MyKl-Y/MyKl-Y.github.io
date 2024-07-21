@@ -8,6 +8,7 @@ Student-Dashboard
 Test_Site
 
 node_modules/
+dist/
 .DS_Store
 .env
 update_ids.mjs
