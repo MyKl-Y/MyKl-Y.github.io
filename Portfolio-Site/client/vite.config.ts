@@ -24,7 +24,7 @@ export default defineConfig({
     outDir: 'dist',
     rollupOptions: {
       external: [
-        '/Portfolio-Site/client/src/main.ts' // Externalize this module if needed
+        '/Portfolio-Site/client/main.ts' // Externalize this module if needed
       ]
     }
   }
