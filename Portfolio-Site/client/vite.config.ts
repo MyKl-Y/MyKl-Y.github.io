@@ -19,11 +19,5 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)) // Alias for src directory
     }
-  },
-  build: {
-    outDir: 'dist', // Output directory
-    rollupOptions: {
-      input: resolve(__dirname, 'index.html') // Entry point for the build
-    }
   }
 })
