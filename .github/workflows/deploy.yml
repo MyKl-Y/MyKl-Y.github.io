@@ -13,6 +13,10 @@ jobs:
       matrix:
         app: [vue, react]
 
+    env:
+      BASE_DIR: ${{ matrix.app == 'vue' && 'Portfolio-Site/client' || 'Student-Dashboard-V2/client' }}
+      BUILD_DIR: ${{ matrix.app == 'vue' && 'Portfolio-Site/client/dist' || 'Student-Dashboard-V2/client/build' }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -20,51 +24,27 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '20.11.1'
+          node-version: '16'
 
       - name: Install dependencies
         run: |
-          if [ "${{ matrix.app }}" == "vue" ]; then
-            cd Portfolio-Site/client
-          else
-            cd Student-Dashboard-V2/client
-          fi
+          cd ${{ env.BASE_DIR }}
           npm install
 
       - name: Build project
         run: |
-          if [ "${{ matrix.app }}" == "vue" ]; then
-            cd Portfolio-Site/client
-            npm run build
-          else
-            cd Student-Dashboard-V2/client
-            npm run build
-          fi
+          cd ${{ env.BASE_DIR }}
+          npm run build
 
       - name: List build directory (debugging step)
         run: |
           echo "Listing build directory for debugging..."
-          if [ "${{ matrix.app }}" == "vue" ]; then
-            ls Portfolio-Site/client/dist
-          else
-            ls Student-Dashboard-V2/client/build
-          fi
+          ls ${{ env.BUILD_DIR }}
 
       - name: Deploy to GitHub Pages
         if: success()
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: |
-            if [ "${{ matrix.app }}" == "vue" ]; then
-              Portfolio-Site/client/dist
-            else
-              Student-Dashboard-V2/client/build
-            fi
+          publish_dir: ${{ env.BUILD_DIR }}
           publish_branch: gh-pages
-          destination_dir: |
-            if [ "${{ matrix.app }}" == "vue" ]; then
-              Portfolio-Site/client
-            else
-              Student-Dashboard-V2/client
-            fi
