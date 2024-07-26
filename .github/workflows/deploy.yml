@@ -36,6 +36,10 @@ jobs:
           cd ${{ env.BASE_DIR }}
           npm run build
 
+      - name: Copy 404.html
+        run: |
+          cp 404.html ${{ env.BUILD_DIR }}
+
       - name: Deploy to GitHub Pages
         if: success()
         uses: peaceiris/actions-gh-pages@v3
