@@ -39,7 +39,7 @@ export default function Applications() {
         }
 
         return;
-    }, [userData])
+    }, [userData, jobs])
 
     // Filtering function
     function filterJobs(job) {

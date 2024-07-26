@@ -30,27 +30,29 @@ function Courses() {
     const [selectedCourseInfo, setSelectedCourseInfo] = useState(null);
     const [isCourseInfoVisible, setIsCourseInfoVisible] = useState(false);
 
-    // Function to fetch courses from the backend
-    const fetchCourses = async () => {
-        if (!isLoggedIn) return;
-        try {
-            if (courses.length === 0) {
-                const response = await fetch(`http://localhost:5050/courses/user/${userData.name}`);
-                if (!response.ok) {
-                    throw new Error("Failed to fetch courses");
-                }
-                const data = await response.json();
-                setCourses(data);
-            }
-        } catch (error) {
-            console.error("Error fetching courses: ", error);
-        }
-    };
+    
 
     useEffect(() => {
+        // Function to fetch courses from the backend
+        const fetchCourses = async () => {
+            if (!isLoggedIn) return;
+            try {
+                if (courses.length === 0) {
+                    const response = await fetch(`http://localhost:5050/courses/user/${userData.name}`);
+                    if (!response.ok) {
+                        throw new Error("Failed to fetch courses");
+                    }
+                    const data = await response.json();
+                    setCourses(data);
+                }
+            } catch (error) {
+                console.error("Error fetching courses: ", error);
+            }
+        };
+        
         // Fetch courses when the component mounts
         fetchCourses();
-    }, [isLoggedIn, userData]);
+    }, [isLoggedIn, userData, courses]);
 
     // Function to add a new course
     const addCourse = async (newCourse) => {

@@ -36,7 +36,7 @@ const SingleGradeCalculator = ({ id, onDelete }) => {
                 })
                 .catch(error => console.error(error));
         }
-    }, [userData, isLoggedIn]);
+    }, [userData, isLoggedIn, courses]);
 
     useEffect(() => {
         // Calculate grades

@@ -6,7 +6,7 @@ import { useTheme } from '../context/theme/ThemeContext';
 import { useAuth } from '../context/authentication/AuthContext';
 import { useSettings } from '../context/settings/SettingsContext';
 import '../styles/dashboard.css';
-import Calendar from 'react-calendar';
+//import Calendar from 'react-calendar';
 import { 
     ResponsiveContainer,
     Tooltip,
@@ -25,7 +25,7 @@ import {
     YAxis,
     CartesianGrid,
     Bar,
-    Label,
+    //Label,
 } from 'recharts'
 
 // TODO: heat map, line graph, sankey diagram, pie chart, bar graph

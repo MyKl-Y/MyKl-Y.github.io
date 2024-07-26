@@ -199,7 +199,7 @@ export default function CalendarView({ semesters = defaultSemesters }) {
                 });
         }
 
-    }, [userData, isLoggedIn]);
+    }, [userData, isLoggedIn, courses, tasks]);
 
     useEffect(() => {
         const events = [];

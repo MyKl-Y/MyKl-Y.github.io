@@ -43,7 +43,7 @@ export default function TaskList() {
         }
 
         return;
-    }, [tasks.length]);
+    }, [tasks.length, isLoggedIn, userData]);
 
     // This method will delete a task from the database.
     async function deleteTask(id) {

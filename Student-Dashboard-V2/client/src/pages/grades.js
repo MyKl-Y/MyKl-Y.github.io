@@ -37,7 +37,7 @@ export default function Grades() {
                     console.error(err);
                 });
         }
-    }, [userData, isLoggedIn]);
+    }, [userData, isLoggedIn, courses]);
 
     useEffect(() => {
         let weightedGradesSum = 0;

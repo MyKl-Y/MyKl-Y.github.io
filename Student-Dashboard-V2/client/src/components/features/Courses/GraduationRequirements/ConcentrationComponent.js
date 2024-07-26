@@ -1,5 +1,5 @@
 // ConcentrationComponent.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import RequirementComponent from "./RequirementComponent";
 import { useTheme } from '../../../../context/theme/ThemeContext';
 import { AddCircleTwoTone, DeleteTwoTone, EditTwoTone } from '@mui/icons-material';
@@ -15,17 +15,7 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
     const [concentrationToEdit, setConcentrationToEdit] = useState(null);
     const [hasConcentrations, setHasConcentrations] = useState(true);
 
-    useEffect(() => {
-        if (selectedDegree && selectedDegree.concentrations.length > 0 && hasConcentrations) {
-            setHasConcentrations(true);
-            fetchConcentrations(selectedDegree._id);
-        } else {
-            setHasConcentrations(false);
-            setConcentrations([]);
-        }
-    }, [selectedDegree, hasConcentrations]);
-
-    const fetchConcentrations = (degreeId) => {
+    const fetchConcentrations = useCallback((degreeId) => {
         if (concentrations.length === 0) {
             fetch(`http://localhost:5050/graduation/concentration/${degreeId}`)
                 .then((response) => response.json())
@@ -34,7 +24,17 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
                 })
                 .catch((error) => console.error(error));
         }
-    };
+    }, [concentrations]);
+
+    useEffect(() => {
+        if (selectedDegree && selectedDegree.concentrations.length > 0 && hasConcentrations) {
+            setHasConcentrations(true);
+            fetchConcentrations(selectedDegree._id);
+        } else {
+            setHasConcentrations(false);
+            setConcentrations([]);
+        }
+    }, [selectedDegree, hasConcentrations, fetchConcentrations]);
 
     const handleConcentrationSubmit = () => {
         if (selectedDegree) {

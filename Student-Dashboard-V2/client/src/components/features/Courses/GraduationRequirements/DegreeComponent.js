@@ -1,5 +1,5 @@
 // DegreeComponent.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useTheme } from '../../../../context/theme/ThemeContext';
 import { useAuth } from "../../../../context/authentication/AuthContext";
 import ConcentrationComponent from "./ConcentrationComponent";
@@ -34,7 +34,7 @@ const DegreeComponent = ({ onSelectDegree, selectedType }) => {
                 })
                 .catch((error) => console.error(error));
         }
-    }, [userData, isLoggedIn]);
+    }, [userData, isLoggedIn, degrees]);
 
     const handleDegreeSubmit = () => {
         const url = editMode 
@@ -151,7 +151,7 @@ const DegreeComponent = ({ onSelectDegree, selectedType }) => {
         return total;
     }
 
-    function updateCompletionStatus(degree) {
+    const updateCompletionStatus = useCallback((degree) => {
         if (!degree || degree === "addNew") return;
 
         let degreeUpdated = false;
@@ -206,13 +206,13 @@ const DegreeComponent = ({ onSelectDegree, selectedType }) => {
                 })
                 .catch((error) => console.error(error));
         }
-    }
+    }, [degrees]);
 
     useEffect(() => {
         if (selectedDegree) {
             updateCompletionStatus(selectedDegree);
         }
-    }, [selectedDegree]);
+    }, [selectedDegree, updateCompletionStatus]);
 
     // Refresh Page Button Function
     const refreshPage = () => {

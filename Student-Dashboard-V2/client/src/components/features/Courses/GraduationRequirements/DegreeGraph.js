@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
 import cytoscape from 'cytoscape';
 import fcose from 'cytoscape-fcose';
@@ -14,24 +14,7 @@ const DegreeGraph = ({ selectedDegree }) => {
     const [elements, setElements] = useState([]);
     const [hiddenChildren, setHiddenChildren] = useState({});
 
-    useEffect(() => {
-        if (selectedDegree) {
-            const degreeElements = buildGraphElements(selectedDegree);
-            setElements(degreeElements);
-            setHiddenChildren({});
-        }
-    }, [selectedDegree]);
-
-    useEffect(() => {
-        const cy = window.cy;
-        if (cy) {
-            cy.ready(() => {
-                hideConcentrationChildren(cy);
-            });
-        }
-    }, [elements]);
-
-    const calculateTotalDescendants = (node, elements) => {
+    const calculateTotalDescendants = useCallback((node, elements) => {
         const children = elements.filter((el) => el.data.source === node.data.id);
         let totalDescendants = children.length;
 
@@ -40,9 +23,9 @@ const DegreeGraph = ({ selectedDegree }) => {
         });
 
         return totalDescendants;
-    };
+    }, []);
 
-    const buildGraphElements = (degree) => {
+    const buildGraphElements = useCallback((degree) => {
         const nodes = [];
         const edges = [];
         let index = 0;
@@ -147,7 +130,7 @@ const DegreeGraph = ({ selectedDegree }) => {
         });
 
         return [...nodes, ...edges];
-    };
+    }, [calculateTotalDescendants]);
 
     const layoutOptions = {
         name: 'fcose',
@@ -169,15 +152,7 @@ const DegreeGraph = ({ selectedDegree }) => {
         edgeSeparation: 50,
     };
 
-    const hideConcentrationChildren = (cy) => {
-        const concentrationNodes = cy.nodes('.concentration-node');
-        concentrationNodes.forEach((node) => {
-            toggleChildrenVisibility(node, true);
-            setHiddenChildren((prev) => ({ ...prev, [node.id()]: true }));
-        });
-    };
-
-    const toggleChildrenVisibility = (node, hide) => {
+    const toggleChildrenVisibility = useCallback((node, hide) => {
         const childEdges = node.connectedEdges().filter((edge) => edge.source().id() === node.id());
         const childNodes = childEdges.targets();
 
@@ -190,7 +165,15 @@ const DegreeGraph = ({ selectedDegree }) => {
         }
 
         childNodes.forEach((childNode) => toggleChildrenVisibility(childNode, hide));
-    };
+    }, []);
+
+    const hideConcentrationChildren = useCallback((cy) => {
+        const concentrationNodes = cy.nodes('.concentration-node');
+        concentrationNodes.forEach((node) => {
+            toggleChildrenVisibility(node, true);
+            setHiddenChildren((prev) => ({ ...prev, [node.id()]: true }));
+        });
+    }, [toggleChildrenVisibility]);
 
     const handleNodeClick = (event) => {
         const node = event.target;
@@ -207,6 +190,23 @@ const DegreeGraph = ({ selectedDegree }) => {
             }
         }
     };
+
+    useEffect(() => {
+        if (selectedDegree) {
+            const degreeElements = buildGraphElements(selectedDegree);
+            setElements(degreeElements);
+            setHiddenChildren({});
+        }
+    }, [selectedDegree, buildGraphElements]);
+
+    useEffect(() => {
+        const cy = window.cy;
+        if (cy) {
+            cy.ready(() => {
+                hideConcentrationChildren(cy);
+            });
+        }
+    }, [elements, hideConcentrationChildren]);
 
     return (
         <CytoscapeComponent
