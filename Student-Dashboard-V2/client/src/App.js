@@ -42,9 +42,13 @@ function App() {
 
   const [animateWaves, setAnimateWaves] = useState(false); // State variable to trigger animation
 
-  const renderSidebar = !['/', '/login', '/register', '/auth'].includes(location.pathname);
-  const isLandingPage = location.pathname === '/';
-  const isLoginRegister = ['/login', '/register', '/auth'].includes(location.pathname);
+  const renderSidebar = ![
+    '/Student-Dashboard-V2/client/', '/Student-Dashboard-V2/client/login', '/Student-Dashboard-V2/client/register', '/Student-Dashboard-V2/client/auth'
+  ].includes(location.pathname);
+  const isLandingPage = location.pathname === '/Student-Dashboard-V2/client/';
+  const isLoginRegister = [
+    '/Student-Dashboard-V2/client/login', '/Student-Dashboard-V2/client/register', '/Student-Dashboard-V2/client/auth'
+  ].includes(location.pathname);
 
   const { currentTheme } = useTheme();
 
@@ -70,34 +74,34 @@ function App() {
           style={currentTheme}
         >
           <Routes>
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/tasks" element={<TaskList />} />
-                <Route path="/edit-task/:id" element={<EditTask />} />
-                <Route path="/create-task" element={<CreateTask />} />
-                <Route path="/assignments" element={<Assignments />} />
-                <Route path="/habits" element={<Habits />} />
-                {/*<Route path="/edit-assignment/:id" element={<EditAssignment />} />*/}
-                {/*<Route path="/create-assignment" element={<CreateAssignment />} />*/}
-                <Route path="/calendar" element={<Calendar />} />
-                {/*<Route path="/edit-calendar/:id" element={<EditCalendar />} />*/}
-                {/*<Route path="/create-calendar" element={<CreateCalendar />} />*/}
-                <Route path="/grades" element={<Grades />} />
-                {/*<Route path="/edit-grade/:id" element={<EditGrade />} />*/}
-                {/*<Route path="/create-grade" element={<CreateGrade />} />*/}
-                <Route path="/grade-calculator" element={<GradeCalculator />} />
-                <Route path="/gpa-calculator" element={<GPACalculator />} />
-                <Route path="/settings" element={<Settings />} />
-                <Route path="/account" element={<Account />} />
-                {/*<Route path="/edit-account/:id" element={<EditAccount />} />*/}
-                {/*<Route path="/create-account" element={<CreateAccount />} />*/}
-                <Route path="/help" element={<Help />} />
-                <Route path="/applications" element={<Applications />} />
-                <Route path='/courses' element={<Courses />} />
-                <Route path="/edit-course/:id" element={<EditCourse />} />
-                <Route path="/create-course" element={<CreateCourse />} />
-                <Route path="/graduation" element={<Graduation />} />
-                <Route exact path="/" element={<LandingPage onEnterClick={triggerWaveAnimation} />} />
-                <Route path="/auth" element={<Authentication />}/>
+                <Route path="/Student-Dashboard-V2/client/dashboard" element={<Dashboard />} />
+                <Route path="/Student-Dashboard-V2/client/tasks" element={<TaskList />} />
+                <Route path="/Student-Dashboard-V2/client/edit-task/:id" element={<EditTask />} />
+                <Route path="/Student-Dashboard-V2/client/create-task" element={<CreateTask />} />
+                <Route path="/Student-Dashboard-V2/client/assignments" element={<Assignments />} />
+                <Route path="/Student-Dashboard-V2/client/habits" element={<Habits />} />
+                {/*<Route path="/Student-Dashboard-V2/client/edit-assignment/:id" element={<EditAssignment />} />*/}
+                {/*<Route path="/Student-Dashboard-V2/client/create-assignment" element={<CreateAssignment />} />*/}
+                <Route path="/Student-Dashboard-V2/client/calendar" element={<Calendar />} />
+                {/*<Route path="/Student-Dashboard-V2/client/edit-calendar/:id" element={<EditCalendar />} />*/}
+                {/*<Route path="/Student-Dashboard-V2/client/create-calendar" element={<CreateCalendar />} />*/}
+                <Route path="/Student-Dashboard-V2/client/grades" element={<Grades />} />
+                {/*<Route path="/Student-Dashboard-V2/client/edit-grade/:id" element={<EditGrade />} />*/}
+                {/*<Route path="/Student-Dashboard-V2/client/create-grade" element={<CreateGrade />} />*/}
+                <Route path="/Student-Dashboard-V2/client/grade-calculator" element={<GradeCalculator />} />
+                <Route path="/Student-Dashboard-V2/client/gpa-calculator" element={<GPACalculator />} />
+                <Route path="/Student-Dashboard-V2/client/settings" element={<Settings />} />
+                <Route path="/Student-Dashboard-V2/client/account" element={<Account />} />
+                {/*<Route path="/Student-Dashboard-V2/client/edit-account/:id" element={<EditAccount />} />*/}
+                {/*<Route path="/Student-Dashboard-V2/client/create-account" element={<CreateAccount />} />*/}
+                <Route path="/Student-Dashboard-V2/client/help" element={<Help />} />
+                <Route path="/Student-Dashboard-V2/client/applications" element={<Applications />} />
+                <Route path='/Student-Dashboard-V2/client/courses' element={<Courses />} />
+                <Route path="/Student-Dashboard-V2/client/edit-course/:id" element={<EditCourse />} />
+                <Route path="/Student-Dashboard-V2/client/create-course" element={<CreateCourse />} />
+                <Route path="/Student-Dashboard-V2/client/graduation" element={<Graduation />} />
+                <Route exact path="/Student-Dashboard-V2/client/" element={<LandingPage onEnterClick={triggerWaveAnimation} />} />
+                <Route path="/Student-Dashboard-V2/client/auth" element={<Authentication />}/>
           </Routes>
           <div 
             className={`waves-container ${animateWaves ? 'animate' : ''}`} // Add 'animate' class when animation should occur 

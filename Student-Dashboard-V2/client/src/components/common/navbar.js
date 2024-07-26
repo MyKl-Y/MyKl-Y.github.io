@@ -15,20 +15,20 @@ export default function Navbar() {
 
     // Define the navigation items
     const navItems = [
-        { path: '/dashboard', label: 'Dashboard', condition: startsWithRoute('/dashboard') },
-        { path: '/courses', label: 'My Courses', condition: startsWithRoute('/courses') || startsWithRoute('/graduation') },
-        { path: '/graduation', label: 'Graduation Requirements', condition: startsWithRoute('/courses') || startsWithRoute('/graduation') },
-        { path: '/tasks', label: 'All Tasks', condition: startsWithRoute('/tasks') || startsWithRoute('/assignments') || startsWithRoute('/habits') || startsWithRoute('/create-task') || startsWithRoute('/edit-task') },
-        { path: '/assignments', label: 'Assignments', condition: startsWithRoute('/tasks') || startsWithRoute('/assignments') || startsWithRoute('/habits') || startsWithRoute('/create-task') || startsWithRoute('/edit-task') },
-        { path: '/habits', label: 'Habits', condition: startsWithRoute('/tasks') || startsWithRoute('/assignments') || startsWithRoute('/habits') || startsWithRoute('/create-task') || startsWithRoute('/edit-task') },
-        { path: '/applications', label: 'Job Applications', condition: startsWithRoute('/applications') || startsWithRoute('/applications/jobs') || startsWithRoute('/applications/internships') },
-        { path: '/calendar', label: 'Calendar', condition: startsWithRoute('/calendar') },
-        { path: '/grades', label: 'Grades', condition: startsWithRoute('/grades') || startsWithRoute('/grade-calculator') || startsWithRoute('/gpa-calculator') },
-        { path: '/grade-calculator', label: 'Grade Calculator', condition: startsWithRoute('/grades') || startsWithRoute('/grade-calculator') || startsWithRoute('/gpa-calculator') },
-        { path: '/gpa-calculator', label: 'GPA Calculator', condition: startsWithRoute('/grades') || startsWithRoute('/grade-calculator') || startsWithRoute('/gpa-calculator') },
-        { path: '/settings', label: 'Settings', condition: startsWithRoute('/settings') },
-        { path: '/help', label: 'Help', condition: startsWithRoute('/help') },
-        { path: '/account', label: 'Account', condition: startsWithRoute('/account') },
+        { path: '/Student-Dashboard-V2/client/dashboard', label: 'Dashboard', condition: startsWithRoute('/Student-Dashboard-V2/client/dashboard') },
+        { path: '/Student-Dashboard-V2/client/courses', label: 'My Courses', condition: startsWithRoute('/Student-Dashboard-V2/client/courses') || startsWithRoute('/Student-Dashboard-V2/client/graduation') },
+        { path: '/Student-Dashboard-V2/client/graduation', label: 'Graduation Requirements', condition: startsWithRoute('/Student-Dashboard-V2/client/courses') || startsWithRoute('/Student-Dashboard-V2/client/graduation') },
+        { path: '/Student-Dashboard-V2/client/tasks', label: 'All Tasks', condition: startsWithRoute('/Student-Dashboard-V2/client/tasks') || startsWithRoute('/Student-Dashboard-V2/client/assignments') || startsWithRoute('/Student-Dashboard-V2/client/habits') || startsWithRoute('/Student-Dashboard-V2/client/create-task') || startsWithRoute('/Student-Dashboard-V2/client/edit-task') },
+        { path: '/Student-Dashboard-V2/client/assignments', label: 'Assignments', condition: startsWithRoute('/Student-Dashboard-V2/client/tasks') || startsWithRoute('/Student-Dashboard-V2/client/assignments') || startsWithRoute('/Student-Dashboard-V2/client/habits') || startsWithRoute('/Student-Dashboard-V2/client/create-task') || startsWithRoute('/Student-Dashboard-V2/client/edit-task') },
+        { path: '/Student-Dashboard-V2/client/habits', label: 'Habits', condition: startsWithRoute('/Student-Dashboard-V2/client/tasks') || startsWithRoute('/Student-Dashboard-V2/client/assignments') || startsWithRoute('/Student-Dashboard-V2/client/habits') || startsWithRoute('/Student-Dashboard-V2/client/create-task') || startsWithRoute('/Student-Dashboard-V2/client/edit-task') },
+        { path: '/Student-Dashboard-V2/client/applications', label: 'Job Applications', condition: startsWithRoute('/Student-Dashboard-V2/client/applications') || startsWithRoute('/Student-Dashboard-V2/client/applications/jobs') || startsWithRoute('/Student-Dashboard-V2/client/applications/internships') },
+        { path: '/Student-Dashboard-V2/client/calendar', label: 'Calendar', condition: startsWithRoute('/Student-Dashboard-V2/client/calendar') },
+        { path: '/Student-Dashboard-V2/client/grades', label: 'Grades', condition: startsWithRoute('/Student-Dashboard-V2/client/grades') || startsWithRoute('/Student-Dashboard-V2/client/grade-calculator') || startsWithRoute('/Student-Dashboard-V2/client/gpa-calculator') },
+        { path: '/Student-Dashboard-V2/client/grade-calculator', label: 'Grade Calculator', condition: startsWithRoute('/Student-Dashboard-V2/client/grades') || startsWithRoute('/Student-Dashboard-V2/client/grade-calculator') || startsWithRoute('/Student-Dashboard-V2/client/gpa-calculator') },
+        { path: '/Student-Dashboard-V2/client/gpa-calculator', label: 'GPA Calculator', condition: startsWithRoute('/Student-Dashboard-V2/client/grades') || startsWithRoute('/Student-Dashboard-V2/client/grade-calculator') || startsWithRoute('/Student-Dashboard-V2/client/gpa-calculator') },
+        { path: '/Student-Dashboard-V2/client/settings', label: 'Settings', condition: startsWithRoute('/Student-Dashboard-V2/client/settings') },
+        { path: '/Student-Dashboard-V2/client/help', label: 'Help', condition: startsWithRoute('/Student-Dashboard-V2/client/help') },
+        { path: '/Student-Dashboard-V2/client/account', label: 'Account', condition: startsWithRoute('/Student-Dashboard-V2/client/account') },
     ];
 
     return (
