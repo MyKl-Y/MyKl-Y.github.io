@@ -41,6 +41,15 @@ jobs:
             npm run build
           fi
 
+      - name: List build directory (debugging step)
+        run: |
+          echo "Listing build directory for debugging..."
+          if [ "${{ matrix.app }}" == "vue" ]; then
+            ls Portfolio-Site/client/dist
+          else
+            ls Student-Dashboard-V2/client/build
+          fi
+
       - name: Deploy to GitHub Pages
         if: success()
         uses: peaceiris/actions-gh-pages@v3
