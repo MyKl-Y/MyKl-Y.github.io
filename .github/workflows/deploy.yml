@@ -30,6 +30,10 @@ jobs:
             cd Student-Dashboard-V2/client
           fi
           npm install
+          
+      - name: Log npm config
+        run: |
+          npm config ls
 
       - name: Build project
         run: |
