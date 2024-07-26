@@ -9,11 +9,9 @@ jobs:
   build-deploy:
     runs-on: ubuntu-latest
 
-    #strategy:
-    #  matrix:
-    #    app:
-    #      - vue
-    #      - react
+    strategy:
+      matrix:
+        app: [vue, react]
 
     steps:
       - name: Checkout code
@@ -25,41 +23,39 @@ jobs:
           node-version: '16'
 
       - name: Install dependencies
-        #run: |
-        #  if [ "${{ matrix.app }}" == "vue" ]; then
-        #    cd Portfolio-Site/client
-        #  else
-        #    cd Student-Dashboard-V2/client
-        #  fi
-        #  npm install
         run: |
-          cd Portfolio-Site/client
+          if [ "${{ matrix.app }}" == "vue" ]; then
+            cd Portfolio-Site/client
+          else
+            cd Student-Dashboard-V2/client
+          fi
           npm install
 
       - name: Build project
-        #run: |
-        #  if [ "${{ matrix.app }}" == "vue" ]; then
-        #    cd Portfolio-Site/client
-        #    npm run build
-        #  else
-        #    cd Student-Dashboard-V2/client
-        #    npm run build
-        #  fi
-        run: | 
-          cd Portfolio-Site/client
-          npm run build
+        run: |
+          if [ "${{ matrix.app }}" == "vue" ]; then
+            cd Portfolio-Site/client
+            npm run build
+          else
+            cd Student-Dashboard-V2/client
+            npm run build
+          fi
 
       - name: Deploy to GitHub Pages
         if: success()
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          #publish_dir: |
-          #  if [ "${{ matrix.app }}" == "vue" ]; then
-          #    Portfolio-Site/client/dist
-          #  else
-          #    Student-Dashboard-V2/client/build
-          #  fi
-          publish_dir: Portfolio-Site/client/dist
+          publish_dir: |
+            if [ "${{ matrix.app }}" == "vue" ]; then
+              Portfolio-Site/client/dist
+            else
+              Student-Dashboard-V2/client/build
+            fi
           publish_branch: gh-pages
-          destination_dir: Portfolio-Site/client
+          destination_dir: |
+            if [ "${{ matrix.app }}" == "vue" ]; then
+              Portfolio-Site/client
+            else
+              Student-Dashboard-V2/client
+            fi
