@@ -77,9 +77,11 @@
     margin-bottom: 1rem;
 }
 
+/*
 .style-container button:hover {
-    /* The box-shadow for hover will be set dynamically in the component */
+    /* The box-shadow for hover will be set dynamically in the component
 }
+*/
 
 .gpa-settings-container {
     display: flex;
