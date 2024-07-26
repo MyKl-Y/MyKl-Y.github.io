@@ -67,7 +67,7 @@ export default function EditTask() {
             const task = await response.json();
             if (!task) {
                 window.alert(`Task with id ${id} not found`);
-                navigate("/tasks");
+                navigate("/Student-Dashboard-V2/client/tasks");
                 return;
             }
 
@@ -113,7 +113,7 @@ export default function EditTask() {
         });
 
         setShowRecurrenceFields(false); // Hide recurrence fields
-        navigate("/tasks");
+        navigate("/Student-Dashboard-V2/client/tasks");
     }
 
     // This following section will display the form that takes input from the user to update the data.

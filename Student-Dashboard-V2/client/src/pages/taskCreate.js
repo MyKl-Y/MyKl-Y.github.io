@@ -97,7 +97,7 @@ export default function CreateTask() {
         });
         setShowRecurrenceFields(false); // Hide recurrence fields
         console.log(form);
-        navigate("/tasks");
+        navigate("/Student-Dashboard-V2/client/tasks");
     }
 
     // TODO: Set defaults for recurrenceInterval to "Sun, Mon, Tue, Wed, Thu, Fri", startDate to today at 12 am, dueDate to today at 11:59 pm

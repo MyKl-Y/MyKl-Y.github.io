@@ -339,7 +339,7 @@ const Account = () => {
                 </div>
             )}
             <button className='edit-account' onClick={changeEditingMode}>{editingMode ? 'Cancel' : 'Edit Account'}</button>
-            <button className='logout' onClick={isLoggedIn ? authLogout : navigate("/auth")}>{isLoggedIn ? 'Logout' : 'Login'}</button>
+            <button className='logout' onClick={isLoggedIn ? authLogout : navigate("/Student-Dashboard-V2/client/auth")}>{isLoggedIn ? 'Logout' : 'Login'}</button>
         </motion.div>
     );
 };

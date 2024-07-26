@@ -31,9 +31,9 @@ function LandingPage({ onEnterClick }) {
         setTimeout(() => {
             //setAnimationComplete(true);
             if (isLoggedIn) {
-                navigate("/dashboard")
+                navigate("/Student-Dashboard-V2/client/dashboard")
             } else {
-                navigate("/auth")
+                navigate("/Student-Dashboard-V2/client/auth")
             }
         }, 1000);
     };

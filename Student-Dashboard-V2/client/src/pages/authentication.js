@@ -177,7 +177,7 @@ const Authentication = () => {
                 const data = await response.json();
                 authLogin(data.token);
                 console.log('Login successful');
-                navigate('/dashboard');
+                navigate('/Student-Dashboard-V2/client/dashboard');
             } else {
                 // Handle login error, e.g., invalid credentials
                 console.error('Login error');
