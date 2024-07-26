@@ -36,11 +36,6 @@ jobs:
           cd ${{ env.BASE_DIR }}
           npm run build
 
-      - name: List build directory (debugging step)
-        run: |
-          echo "Listing build directory for debugging..."
-          ls ${{ env.BUILD_DIR }}
-
       - name: Deploy to GitHub Pages
         if: success()
         uses: peaceiris/actions-gh-pages@v3
@@ -48,3 +43,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ${{ env.BUILD_DIR }}
           publish_branch: gh-pages
+          destination_dir: ${{ env.BASE_DIR }}
