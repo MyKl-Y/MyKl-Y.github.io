@@ -4,7 +4,7 @@ Welcome to my Website repository! This repository serves as a central hub for al
 ## Projects
 
 - [My Portfolio](https://mykl-y.github.io/Portfolio-Site/client/) (WIP)
-- [Student Dashboard](https://MyKl-Y.github.io/Student-Dashboard-V2/client/public/index.html) (WIP)
+- [Student Dashboard](https://MyKl-Y.github.io/Student-Dashboard-V2/client/) (WIP)
 
 Feel free to explore these projects and learn more about my work.
 
