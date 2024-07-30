@@ -50,7 +50,7 @@ export default defineComponent({
 
 <style scoped>
 h1 {
-    color: #06989A;
+    color: var(--header-color);
     font-size: 1rem;
     font-weight: bolder;
     margin: 1rem 0;

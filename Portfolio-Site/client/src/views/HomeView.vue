@@ -2,19 +2,126 @@
 import { ref, onMounted, computed, nextTick } from 'vue';
 import HelpOutput from '@/components/HelpOutput.vue';
 import ManualPage from '@/components/ManualPage.vue';
+import AboutContent from '@/components/AboutContent.vue';
+import ResumeContent from '@/components/ResumeContent.vue';
+import SkillsContent from '@/components/SkillsContent.vue';
 
-const themes = {
-  dark: {
-    background: '#300924',
-    text: '#ffffff',
-    accent: '#06989A',
-    error: '#ff0000'
-  },
-  light: {
-    background: '#ffffff',
-    text: '#000000',
-    accent: '#06989A',
-    error: '#ff0000'
+const view = ref('console');
+
+const theme = ref('mykl-y');
+
+const styleObject = computed(() => themes.get(theme.value));
+
+function switchTheme(newTheme: string) {
+  theme.value = newTheme;
+}
+
+const themes = new Map([
+  ['mykl-y', {
+    '--background-color': '#212121',
+    '--text-color': '#FFFFFF',
+    '--user-color': '#CCCCFF',
+    '--ampersand-color': '#FFFFFF',
+    '--machine-color': '#4EC9B0',
+    '--path-color': '#FFC000',
+    '--header-color': '#4169E1',
+    '--error-color': '#FF0000',
+    '--input-color': '#DAE6F0',
+  }],
+  ['ubuntu', {
+    '--background-color': '#300A24',
+    '--text-color': '#FFFFFF',
+    '--user-color': '#8AE234',
+    '--ampersand-color': '#8AE234',
+    '--machine-color': '#8AE234',
+    '--path-color': '#729FCF',
+    '--header-color': '#34E2E2',
+    '--error-color': '#EF2929',
+    '--input-color': '#FFFFFF',
+  }],
+  ['terminal', {
+    '--background-color': '#111111',
+    '--text-color': '#FFFFFF',
+    '--user-color': '#FFFFFF',
+    '--ampersand-color': '#FFFFFF',
+    '--machine-color': '#FFFFFF',
+    '--path-color': '#FFFFFF',
+    '--header-color': '#FFFFFF',
+    '--error-color': '#FFFFFF',
+    '--input-color': '#FFFFFF',
+  }],
+  ['matrix', {
+    '--background-color': '#000000',
+    '--text-color': '#00FF00',
+    '--user-color': '#00FF00',
+    '--ampersand-color': '#00FF00',
+    '--machine-color': '#00FF00',
+    '--path-color': '#00FF00',
+    '--header-color': '#00FF00',
+    '--error-color': '#FF0000',
+    '--input-color': '#00FF00',
+  }],
+  ['dark', {
+    '--background-color': '#1E1E1E',
+    '--text-color': '#D4D4D4',
+    '--user-color': '#4EC9B0',
+    '--ampersand-color': '#4EC9B0',
+    '--machine-color': '#4EC9B0',
+    '--path-color': '#4EC9B0',
+    '--header-color': '#4EC9B0',
+    '--error-color': '#FF0000',
+    '--input-color': '#D4D4D4',
+  }],
+  ['light', {
+    '--background-color': '#FFFFFF',
+    '--text-color': '#000000',
+    '--user-color': '#4EC9B0',
+    '--ampersand-color': '#4EC9B0',
+    '--machine-color': '#4EC9B0',
+    '--path-color': '#4EC9B0',
+    '--header-color': '#4EC9B0',
+    '--error-color': '#FF0000',
+    '--input-color': '#000000',
+  }],
+  ['solarized', {
+    '--background-color': '#002B36',
+    '--text-color': '#839496',
+    '--user-color': '#268BD2',
+    '--ampersand-color': '#268BD2',
+    '--machine-color': '#268BD2',
+    '--path-color': '#268BD2',
+    '--header-color': '#268BD2',
+    '--error-color': '#DC322F',
+    '--input-color': '#839496',
+  }]
+]);
+
+const file_structure = {
+  root: {
+    home: {
+      bin: {
+        ls: 'ls',
+        pwd: 'pwd',
+        cd: 'cd',
+        mkdir: 'mkdir',
+        mv: 'mv',
+        cp: 'cp',
+        rm: 'rm',
+        touch: 'touch',
+        cat: 'cat',
+        echo: 'echo',
+        less: 'less',
+      },
+      documents: {
+        resume: 'resume.pdf',
+        projects: {
+          project1: 'project1.pdf',
+          project2: 'project2.pdf'
+        }
+      },
+      skills: 'skills.txt',
+      contact: 'contact.txt'
+    }
   }
 };
 
@@ -23,7 +130,7 @@ type Command = 'man'
   | 'about' | 'contact' | 'projects' | 'skills' | 'resume' | 'clear' | 'exit'
   | 'ls' | 'pwd' | 'cd' | 'mkdir' | 'mv' | 'cp' | 'rm' | 'touch' | 'cat' 
   | 'echo' | 'less' | 'man' | 'uname' | 'whoami' | 'head' | 'tail' | 'wc'
-  | 'ssh' | 'alias' | 'sudo' | 'chmod' | 'chown';
+  | 'ssh' | 'alias' | 'sudo' | 'chmod' | 'chown' | 'theme';
 ;
 
 // Define the type for the commands object
@@ -39,6 +146,19 @@ interface CommandDetails {
 
 // Define the commands object with the Command type
 let commands = new Map<Command, CommandDetails>([
+  ['theme', {
+    name: 'theme',
+    desc: 'Change/List the terminal theme',
+    syntax: 'theme OR theme <theme_name> OR theme -l',
+    usage: 'theme OR theme terminal OR theme -l',
+    aliases: [],
+    arguments: [
+      { arg: 'theme_name', desc: '(Optional) The name of the theme to switch to' }
+    ],
+    options: [
+      { opt: '-l', desc: '(Optional) List available themes' }
+    ]
+  }],
   ['man', {
     name: 'man',
     desc: 'Display information about available commands',
@@ -349,7 +469,7 @@ let commands_ran: { id: number, command: string, parameters: string[], path: str
 
 const user = 'Guest@' + window.location.toString().split('/')[2];
 const os = 'M.Y.O.S';
-const version = 'v1.0';
+const version = 'v2024.07';
 let path: string = '~';
 
 function findCommandByAlias(alias: string): Command | undefined {
@@ -381,8 +501,36 @@ function runCommand(command: string, parameters: string[]) {
     }
   } else if (actualCommand) {
     switch (actualCommand) {
+      case 'theme':
+        if (parameters.length === 0) {
+          output = 'theme';
+        } else if (parameters.length === 1) {
+          const newTheme = parameters[0];
+          if (newTheme === '-l') {
+            output = 'Available themes:\n' + Array.from(themes.keys()).join(', ');
+          } else {
+            if (themes.has(newTheme)) {
+              switchTheme(newTheme);
+              output = 'Theme changed to ' + newTheme;
+            } else {
+              output = 'Theme not found: ' + newTheme;
+            }
+          }
+        } else {
+          output = 
+            'Invalid number of parameters for theme command\n' 
+            + 'Expected: <= 1  | Actual: ' + parameters.length + '\n' + 'Usage: theme [option/argument]';
+        }
+        break;
       case 'about':
-        output = 'About: This is a mock command line interface.';
+        if (parameters.length === 0) {
+          output = 'about';
+          view.value = 'about';
+        } else {
+          output = 
+            'Invalid number of parameters for about command\n' 
+            + 'Expected: 0 | Actual: ' + parameters.length + '\n' + 'Usage: about [options]';
+        }
         break;
       case 'alias':
         output = 'Must be logged in to use this command';
@@ -405,8 +553,14 @@ function runCommand(command: string, parameters: string[]) {
         commands_ran = [];
         return;
       case 'contact':
-        // TODO: Implement contact command
-        output = 'Contact: You can reach me at example@example.com';
+        if (parameters.length === 0) {
+          output = 'contact';
+          view.value = 'contact';
+        } else {
+          output = 
+            'Invalid number of parameters for contact command\n' 
+            + 'Expected: 0 | Actual: ' + parameters.length + '\n' + 'Usage: contact [options]';
+        }
         break;
       case 'cp':
         output = 'Must be logged in to use this command';
@@ -440,23 +594,41 @@ function runCommand(command: string, parameters: string[]) {
         output = 'Must be logged in to use this command';
         break;
       case 'projects':
-        // TODO: Implement projects command
-        output = 'Projects: Here is a list of my projects...';
+        if (parameters.length === 0) {
+          output = 'projects';
+          view.value = 'projects';
+        } else {
+          output = 
+            'Invalid number of parameters for projects command\n' 
+            + 'Expected: 0 | Actual: ' + parameters.length + '\n' + 'Usage: projects [options]';
+        }
         break;
       case 'pwd':
         // TODO: Implement pwd command so that '~' is replaced with the actual path
         output = path;
         break;
       case 'resume':
-        // TODO: Implement resume command
-        output = 'Resume: Here is my resume...';
+        if (parameters.length === 0) {
+          output = 'resume';
+          view.value = 'resume';
+        } else {
+          output = 
+            'Invalid number of parameters for resume command\n' 
+            + 'Expected: 0 | Actual: ' + parameters.length + '\n' + 'Usage: resume [options]';
+        }
         break;
       case 'rm':
         output = 'Must be logged in to use this command';
         break;
       case 'skills':
-        // TODO: Implement skills command
-        output = 'Skills: Here are my skills...';
+        if (parameters.length === 0) {
+          output = 'skills';
+          view.value = 'skills';
+        } else {
+          output = 
+            'Invalid number of parameters for skills command\n' 
+            + 'Expected: 0 | Actual: ' + parameters.length + '\n' + 'Usage: skills [options]';
+        }
         break;
       case 'ssh':
         output = 'Must be logged in to use this command';
@@ -494,12 +666,22 @@ function runCommand(command: string, parameters: string[]) {
         }
         break;
       default:
-        output = 'Invalid command: ' + command;
+        output = 'Command not found: ' + command;
     }
   } else {
-    output = 'Invalid command: ' + command;
+    if (command === '') {
+      output = '';
+      command = ' ';
+    } else if (command === 'q' && view.value !== 'console') {
+      view.value = 'console';
+      return;
+    } else {
+      output = 'Command not found: ' + command;
+    }
   }
-  commands_ran.push({ id: commands_ran.length + 1, command, parameters, path, output });
+  if (view.value === 'console' || command === 'resume' || command === 'about' || command === 'contact' || command === 'projects' || command === 'skills') {
+    commands_ran.push({ id: commands_ran.length + 1, command, parameters, path, output });
+  }
 }
 
 const input = ref('');
@@ -510,12 +692,13 @@ const showUserInput = ref(false);
 const caretOffset = computed(() => `${input.value.length}ch`);
 
 function handleSubmit() {
-  const [command, ...parameters] = input.value.split(' ');
-  //if (command in commands) {
+  if (input.value.trim() !== '') {
+    const [command, ...parameters] = input.value.split(' ');
     runCommand(command, parameters);
-  //} else {
-  //  runCommand('help', []); // If the command is not found, show the help message
-  //}
+  } else {
+    input.value = ' ';
+    runCommand('', []);
+  }
   input.value = '';
   nextTick(() => {
     const terminal = document.getElementById('bottom');
@@ -535,97 +718,269 @@ onMounted(() => {
 </script>
 
 <template>
-  <main>
-    <span id="headers" v-if="showHeader">MyKl-Y Operating System ({{ os }}) {{ version }} </span>
-    <br v-if="showHeader" />
-    <!--<pre>
-    ░▒▓██████████████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░              ░▒▓██████▓▒░        ░▒▓███████▓▒░        
-    ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░             ░▒▓█▓▒░░▒▓█▓▒░      ░▒▓█▓▒░               
-    ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░             ░▒▓█▓▒░░▒▓█▓▒░      ░▒▓█▓▒░               
-    ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░░▒▓███████▓▒░░▒▓█▓▒░             ░▒▓█▓▒░░▒▓█▓▒░       ░▒▓██████▓▒░         
-    ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░             ░▒▓█▓▒░░▒▓█▓▒░             ░▒▓█▓▒░        
-    ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓██▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓██▓▒░      ░▒▓█▓▒░▒▓██▓▒░ 
-    ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░▒▓██▓▒░░▒▓██████▓▒░░▒▓██▓▒░▒▓███████▓▒░░▒▓██▓▒░ 
-    </pre>-->
-    <pre>
-███╗   ███╗██╗   ██╗██╗  ██╗██╗     ██╗   ██╗     ██████╗    ███████╗   
-████╗ ████║╚██╗ ██╔╝██║ ██╔╝██║     ╚██╗ ██╔╝    ██╔═══██╗   ██╔════╝   
-██╔████╔██║ ╚████╔╝ █████╔╝ ██║█████╗╚████╔╝     ██║   ██║   ███████╗   
-██║╚██╔╝██║  ╚██╔╝  ██╔═██╗ ██║╚════╝ ╚██╔╝      ██║   ██║   ╚════██║   
-██║ ╚═╝ ██║   ██║   ██║  ██╗███████╗   ██║       ╚██████╔╝██╗███████║██╗
-╚═╝     ╚═╝   ╚═╝   ╚═╝  ╚═╝╚══════╝   ╚═╝        ╚═════╝ ╚═╝╚══════╝╚═╝ {{ version }}</pre>
-    <span v-if="showHelpPrompt">Type <code>man</code> for a list of commands</span>
-    <br v-if="showHelpPrompt" />
-    <span v-for="command in commands_ran" :key="command.id">
-      <span id="user">{{ user }}</span>:<span id="path">{{ command.path }}</span>$
-      <span>{{ command.command + " " }}</span>
-      <span v-for="(parameter, index) in command.parameters" :key="index"> {{ parameter + " " }}</span>
-      <br/>
-      <HelpOutput v-if="command.output == 'man'" :commands="commands" />
-      <ManualPage
-        v-else-if="command.output.startsWith('man') && command.output.split(' ').length > 1 && commands.get(command.output.split(' ')[1] as Command)"
-        :command="commands.get(command.output.split(' ')[1] as Command)!"
-      />
-      <pre id="headers" v-else-if="['uname', 'whoami'].includes(command.command) && command.parameters.length < 1">{{ command.output }}</pre>
-      <pre v-else-if="command.command === 'echo' && command.parameters.length > 0">{{ command.output }}</pre>
-      <span v-else-if="command.command === 'echo' && command.parameters.length === 0">
-        <span>echo</span> <span style="font-size: .75rem;">echo</span> <span style="font-size: .5rem;">echo</span> <span style="font-size: .25rem;">echo</span> <br/>
+  <main :style="styleObject">
+    <span class="navbar">
+      <span class="buttons">
+        <button class="button close"></button>
+        <button class="button minimize"></button>
+        <button class="button maximize"></button>
       </span>
-      <pre class="error" v-else v-html="command.output"></pre>
+      <span class="title">
+        <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+          width="1rem" height="1rem" viewBox="0 0 512.000000 512.000000"
+          preserveAspectRatio="xMidYMid meet">
+
+          <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+          fill="#ffffff" stroke="none">
+          <path d="M2360 5049 c-154 -11 -357 -47 -516 -93 -902 -259 -1603 -1017 -1790
+          -1934 -136 -669 -8 -1355 354 -1908 255 -390 580 -686 968 -886 141 -73 341
+          -154 403 -164 58 -9 109 19 133 73 18 40 18 60 12 286 l-7 243 -86 -14 c-97
+          -15 -256 -9 -386 13 -105 19 -211 71 -278 139 -53 53 -67 76 -136 229 -63 139
+          -135 231 -232 297 -66 46 -121 106 -117 128 6 30 48 43 121 38 141 -10 288
+          -113 393 -274 72 -110 143 -179 230 -222 62 -31 79 -35 169 -38 103 -4 207 12
+          291 44 41 16 43 18 58 85 19 86 56 164 106 228 l39 49 -82 11 c-264 38 -452
+          102 -627 215 -229 148 -365 379 -431 731 -20 109 -23 389 -5 492 29 167 98
+          319 200 445 l45 55 -20 62 c-52 168 -42 372 28 574 18 50 22 52 103 48 118 -6
+          371 -108 543 -218 l71 -46 56 11 c30 6 87 18 127 27 271 58 655 58 926 0 40
+          -9 97 -21 127 -27 l55 -10 95 58 c226 137 484 230 575 206 26 -7 33 -17 53
+          -75 43 -125 55 -210 50 -351 -4 -95 -11 -148 -26 -195 l-21 -64 44 -54 c89
+          -109 155 -244 192 -389 22 -89 25 -417 4 -544 -32 -198 -114 -406 -210 -532
+          -165 -217 -464 -366 -843 -418 l-87 -12 39 -49 c47 -60 85 -137 106 -221 14
+          -52 17 -137 20 -503 5 -490 5 -489 72 -521 46 -21 83 -15 229 42 738 284 1320
+          932 1533 1703 141 513 111 1108 -80 1601 -172 440 -475 842 -848 1122 -405
+          303 -865 474 -1367 507 -175 12 -192 12 -375 0z"/>
+          </g>
+        </svg>
+        github.com/mykl-y
+      </span>
+      <span class="blank"></span>
     </span>
-    <span v-if="showUserInput" class="input-line-container">
-      <span id="user">{{ user }}</span>:<span id="path">{{ path }}</span>$ 
+    <div class="body">
+      <span v-if="view === 'console'">
+        <span id="headers" v-if="showHeader">MyKl-Y Operating System ({{ os }}) {{ version }} </span>
+        <br v-if="showHeader" />
+        <!--<pre>
+        ░▒▓██████████████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░              ░▒▓██████▓▒░        ░▒▓███████▓▒░        
+        ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░             ░▒▓█▓▒░░▒▓█▓▒░      ░▒▓█▓▒░               
+        ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░             ░▒▓█▓▒░░▒▓█▓▒░      ░▒▓█▓▒░               
+        ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░░▒▓███████▓▒░░▒▓█▓▒░             ░▒▓█▓▒░░▒▓█▓▒░       ░▒▓██████▓▒░         
+        ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░             ░▒▓█▓▒░░▒▓█▓▒░             ░▒▓█▓▒░        
+        ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓██▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓██▓▒░      ░▒▓█▓▒░▒▓██▓▒░ 
+        ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░▒▓██▓▒░░▒▓██████▓▒░░▒▓██▓▒░▒▓███████▓▒░░▒▓██▓▒░ 
+        </pre>-->
+        <pre>
+  ███╗   ███╗██╗   ██╗██╗  ██╗██╗     ██╗   ██╗     ██████╗    ███████╗   
+  ████╗ ████║╚██╗ ██╔╝██║ ██╔╝██║     ╚██╗ ██╔╝    ██╔═══██╗   ██╔════╝   
+  ██╔████╔██║ ╚████╔╝ █████╔╝ ██║█████╗╚████╔╝     ██║   ██║   ███████╗   
+  ██║╚██╔╝██║  ╚██╔╝  ██╔═██╗ ██║╚════╝ ╚██╔╝      ██║   ██║   ╚════██║   
+  ██║ ╚═╝ ██║   ██║   ██║  ██╗███████╗   ██║       ╚██████╔╝██╗███████║██╗
+  ╚═╝     ╚═╝   ╚═╝   ╚═╝  ╚═╝╚══════╝   ╚═╝        ╚═════╝ ╚═╝╚══════╝╚═╝ {{ version }}</pre>
+        <span v-if="showHelpPrompt">Type `<code>man</code>` for a list of commands</span>
+        <br v-if="showHelpPrompt" />
+        <span v-for="command in commands_ran" :key="command.id">
+          <span id="user">{{ user.split('@')[0] }}</span>
+          <span id="ampersand">@</span>
+          <span id="machine">{{ user.split('@')[1] }}</span>
+          <span>:</span>
+          <span id="path">{{ command.path }}</span>$
+          <span>{{ command.command + " " }}</span>
+          <span v-for="(parameter, index) in command.parameters" :key="index"> {{ parameter + " " }}</span>
+          <br/>
+          <HelpOutput v-if="command.output == 'man'" :commands="commands" />
+          <ManualPage
+            v-else-if="command.output.startsWith('man') && command.output.split(' ').length > 1 && commands.get(command.output.split(' ')[1] as Command)"
+            :command="commands.get(command.output.split(' ')[1] as Command)!"
+          />
+          <span v-else-if="command.output === 'theme'">
+            Current theme: <span id="headers">{{ theme }}</span>
+            <br/>
+            For list of themes, run <code>theme -l</code>.
+            <br/>
+            To change themes, run <code>theme &lt;theme_name&gt;</code>.
+            <br/>
+          </span>
+          <pre class="error" v-else-if="command.command === 'theme' && command.parameters.length === 1 && command.output.includes('not found')">{{ command.output }}</pre>
+          <pre v-else-if="command.command === 'theme' && command.parameters.length === 1">{{ command.output }}</pre>
+          <pre v-else-if="['resume', 'about', 'projects', 'contact', 'skills'].includes(command.command) && command.parameters.length < 1"></pre>
+          <pre id="headers" v-else-if="['uname', 'whoami'].includes(command.command) && command.parameters.length < 1">{{ command.output }}</pre>
+          <pre v-else-if="command.command === 'echo' && command.parameters.length > 0">{{ command.output }}</pre>
+          <span v-else-if="command.command === 'echo' && command.parameters.length === 0">
+            <span>echo</span> <span style="font-size: .75rem;">echo</span> <span style="font-size: .5rem;">echo</span> <span style="font-size: .25rem;">echo</span> <br/>
+          </span>
+          <pre class="error" v-else v-html="command.output"></pre>
+        </span>
+      </span>
+      <span v-else-if="view === 'about'">
+        <div class="secondary-header">
+          <span>about(1)</span>
+          <span id="headers">About Me</span>
+          <span>about(1)</span>
+        </div>
+        <br/>
+        <AboutContent />
+      </span>
+      <span v-else-if="view === 'resume'">
+        <div class="secondary-header">
+          <span>resume(1)</span>
+          <span id="headers">Resume</span>
+          <span>resume(1)</span>
+        </div>
+        <br/>
+        <ResumeContent />
+      </span>
+      <span v-else-if="view === 'projects'">
+        <div class="secondary-header">
+          <span>projects(1)</span>
+          <span id="headers">Projects</span>
+          <span>projects(1)</span>
+        </div>
+        <br/>
+        <pre>Projects</pre>
+      </span>
+      <span v-else-if="view === 'skills'">
+        <div class="secondary-header">
+          <span>skills(1)</span>
+          <span id="headers">Skills</span>
+          <span>skills(1)</span>
+        </div>
+        <br/>
+        <SkillsContent />
+      </span>
+      <span v-else-if="view === 'contact'">
+        <div class="secondary-header">
+          <span>contact(1)</span>
+          <span id="headers">Contact</span>
+          <span>contact(1)</span>
+        </div>
+        <br/>
+        <pre>Contact</pre>
+      </span>
+      <span v-if="showUserInput" class="input-line-container">
+        <span v-if="view === 'console'">
+          <span id="user">{{ user.split('@')[0] }}</span>
+          <span id="ampersand">@</span>
+          <span id="machine">{{ user.split('@')[1] }}</span>
+          <span>:</span>
+          <span id="path">{{ path }}</span>$ 
+        </span>
+        <span v-else>:</span>
         <form @submit.prevent="handleSubmit" class="input-form">
           <span class="blinking-cursor" :style="{ left: caretOffset }"></span>
           <input v-model="input" type="text" class="input-text" />
         </form>
-    </span>
-    <span id="bottom"></span>
+      </span>
+      <span id="bottom"></span>
+    </div>
   </main>
 </template>
 
 <style scoped>
 main {
-  font-family: monospace;
   height: 100vh;
   width: 100vw;
-  background-color: #300924;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.navbar {
+  display: flex; 
+  width: 75vw;
+  justify-content: space-between;
+  background-color: #444;
+  border: 1px solid #ffffff;
+  border-radius: .5rem .5rem 0 0;
+  border-bottom: none !important;
   color: #ffffff;
+}
+.title {
+  display: flex;
+  align-items: center;
+}
+svg {
+  margin-right: .25rem;
+}
+.buttons, .blank {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 3rem;
+  margin: 0 .25rem;
+}
+.button {
+  width: .75rem;
+  height: .75rem;
+  border-radius: 50%;
+  border: none;
+}
+.button.close {
+  background-color: #FF5C57;
+}
+.button.minimize {
+  background-color: #FFBD2E;
+}
+.button.maximize {
+  background-color: #27C93F;
+}
+.body {
+  font-family: monospace;
+  height: 85vh;
+  width: 75vw;
+  background-color: var(--background-color);
+  color: var(--text-color);
   font-size: 1rem;
   padding: 1rem;
   overflow: scroll;
+  border-radius: 0 0 .5rem .5rem;
+  border: 1px solid #ffffff;
+  border-top: none !important;
 }
-
+.secondary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 pre {
   line-height: normal;
 }
 
 .error {
-  color: #ff0000;
+  color: var(--error-color);
 }
 
 #headers {
-  color: #06989A;
+  color: var(--header-color);
   text-decoration: none !important;
   font-style: normal !important;
   font-weight: bolder;
 }
 
 #user {
-  color: #4E9A06;
+  color: var(--user-color);
+  text-decoration: none !important;
+  font-style: normal !important;
+}
+#ampersand {
+  color: var(--ampersand-color);
+  text-decoration: none !important;
+  font-style: normal !important;
+}
+#machine {
+  color: var(--machine-color);
   text-decoration: none !important;
   font-style: normal !important;
 }
 
 #path {
-  color: #3465A4;
+  color: var(--path-color);
   text-decoration: none !important;
   font-style: normal !important;
 }
 
 input {
   background-color: transparent;
-  color: #ffffff;
+  color: var(--input-color);
   border: none;
   font-family: monospace;
   font-size: 1rem;
@@ -648,9 +1003,9 @@ code {
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  width: 100%;
   position: relative;
   margin-left: .5rem;
+  flex-grow: 1;
 }
 
 .input-text {
@@ -664,13 +1019,13 @@ code {
   width: 1ch;
   height: 1.2rem;
   position: absolute;
-  background-color: #ffffff;
+  background-color: var(--input-color);
   animation: blink 1s linear infinite;
   bottom: 4px;
 }
 .input-form:not(:focus-within) .blinking-cursor {
   background-color: transparent !important;
-  border: 1px solid #ffffff;
+  border: 1px solid var(--input-color);
 }
 
 @keyframes blink {
@@ -679,8 +1034,8 @@ code {
     border-color: transparent;
   }
   50% {
-    background-color: #ffffff;
-    border-color: #ffffff;
+    background-color: var(--input-color);
+    border-color: var(--input-color);
   }
 }
 
@@ -688,19 +1043,5 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 1rem;
-}
-
-th, td {
-  border: 1px solid #ffffff;
-  padding: 0.5rem;
-  text-align: left;
-}
-
-th {
-  background-color: #444;
-}
-
-td {
-  background-color: #333;
 }
 </style>
