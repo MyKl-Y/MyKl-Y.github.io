@@ -5,6 +5,7 @@ import ManualPage from '@/components/ManualPage.vue';
 import AboutContent from '@/components/AboutContent.vue';
 import ResumeContent from '@/components/ResumeContent.vue';
 import SkillsContent from '@/components/SkillsContent.vue';
+import ContactContent from '@/components/ContactContent.vue';
 
 const view = ref('console');
 
@@ -27,6 +28,7 @@ const themes = new Map([
     '--header-color': '#4169E1',
     '--error-color': '#FF0000',
     '--input-color': '#DAE6F0',
+    '--directory-color': '#FFC000',
   }],
   ['ubuntu', {
     '--background-color': '#300A24',
@@ -61,38 +63,27 @@ const themes = new Map([
     '--error-color': '#FF0000',
     '--input-color': '#00FF00',
   }],
-  ['dark', {
-    '--background-color': '#1E1E1E',
-    '--text-color': '#D4D4D4',
-    '--user-color': '#4EC9B0',
-    '--ampersand-color': '#4EC9B0',
-    '--machine-color': '#4EC9B0',
-    '--path-color': '#4EC9B0',
-    '--header-color': '#4EC9B0',
+  ['powershell', {
+    '--background-color': '#012456',
+    '--text-color': '#FFFFFF',
+    '--user-color': '#FFFFFF',
+    '--ampersand-color': '#FFFFFF',
+    '--machine-color': '#FFFFFF',
+    '--path-color': '#FFFFFF',
+    '--header-color': '#FFFFFF',
     '--error-color': '#FF0000',
-    '--input-color': '#D4D4D4',
+    '--input-color': '#FFFF00',
   }],
-  ['light', {
-    '--background-color': '#FFFFFF',
-    '--text-color': '#000000',
-    '--user-color': '#4EC9B0',
-    '--ampersand-color': '#4EC9B0',
-    '--machine-color': '#4EC9B0',
-    '--path-color': '#4EC9B0',
-    '--header-color': '#4EC9B0',
+  ['chrome', {
+    '--background-color': '#202124',
+    '--text-color': '#FFFFFF',
+    '--user-color': '#87FFC5',
+    '--ampersand-color': '#87FFC5',
+    '--machine-color': '#87FFC5',
+    '--path-color': '#9AB3DD',
+    '--header-color': '#FFFFFF',
     '--error-color': '#FF0000',
-    '--input-color': '#000000',
-  }],
-  ['solarized', {
-    '--background-color': '#002B36',
-    '--text-color': '#839496',
-    '--user-color': '#268BD2',
-    '--ampersand-color': '#268BD2',
-    '--machine-color': '#268BD2',
-    '--path-color': '#268BD2',
-    '--header-color': '#268BD2',
-    '--error-color': '#DC322F',
-    '--input-color': '#839496',
+    '--input-color': '#43608E',
   }]
 ]);
 
@@ -783,8 +774,8 @@ onMounted(() => {
           <span id="machine">{{ user.split('@')[1] }}</span>
           <span>:</span>
           <span id="path">{{ command.path }}</span>$
-          <span>{{ command.command + " " }}</span>
-          <span v-for="(parameter, index) in command.parameters" :key="index"> {{ parameter + " " }}</span>
+          <span class="code">{{ command.command + " " }}</span>
+          <span class="code" v-for="(parameter, index) in command.parameters" :key="index"> {{ parameter + " " }}</span>
           <br/>
           <HelpOutput v-if="command.output == 'man'" :commands="commands" />
           <ManualPage
@@ -800,7 +791,9 @@ onMounted(() => {
             <br/>
           </span>
           <pre class="error" v-else-if="command.command === 'theme' && command.parameters.length === 1 && command.output.includes('not found')">{{ command.output }}</pre>
-          <pre v-else-if="command.command === 'theme' && command.parameters.length === 1">{{ command.output }}</pre>
+          <pre v-else-if="command.command === 'theme' && command.parameters.length === 1">{{ command.output.split(' ').map(
+            (word, index) => index < 3 ? word : ""
+          ).join(' ') }}<code v-if="command.parameters[0] !== '-l'">{{ command.output.split(' ')[command.output.split(' ').length - 1] }}</code></pre>
           <pre v-else-if="['resume', 'about', 'projects', 'contact', 'skills'].includes(command.command) && command.parameters.length < 1"></pre>
           <pre id="headers" v-else-if="['uname', 'whoami'].includes(command.command) && command.parameters.length < 1">{{ command.output }}</pre>
           <pre v-else-if="command.command === 'echo' && command.parameters.length > 0">{{ command.output }}</pre>
@@ -853,7 +846,7 @@ onMounted(() => {
           <span>contact(1)</span>
         </div>
         <br/>
-        <pre>Contact</pre>
+        <ContactContent />
       </span>
       <span v-if="showUserInput" class="input-line-container">
         <span v-if="view === 'console'">
@@ -988,9 +981,12 @@ input {
   margin: 0;
   outline: none;
 }
-
+.code {
+  color: var(--input-color);
+}
 code {
   font-weight: bolder;
+  color: var(--input-color)
 }
 
 .input-line-container {

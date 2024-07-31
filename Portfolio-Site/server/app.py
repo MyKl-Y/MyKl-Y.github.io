@@ -4,7 +4,7 @@ import sqlite3
 import json
 
 app = Flask(__name__)
-allowed_origins = ['http://mykl-y.github.io', 'http://localhost:5173']
+allowed_origins = ['https://mykl-y.github.io', 'http://localhost:5173']
 CORS(app, supports_credentials=True, resources={r"/*": {"origins": allowed_origins}})
 DATABASE = 'resume.db'
 

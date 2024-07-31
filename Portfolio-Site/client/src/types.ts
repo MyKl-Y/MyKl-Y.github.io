@@ -1,6 +1,6 @@
 export interface Skill {
     name: string;
-    proficiency: string;
+    proficiency: number;
 }
 
 export interface Skills {
