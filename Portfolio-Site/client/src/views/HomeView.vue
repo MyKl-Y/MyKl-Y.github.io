@@ -13,6 +13,9 @@ const theme = ref('mykl-y');
 
 const styleObject = computed(() => themes.get(theme.value));
 
+const commandHistory = ref<string[]>([]);
+const currentCommandIndex = ref<number>(-1);
+
 function switchTheme(newTheme: string) {
   theme.value = newTheme;
 }
@@ -684,6 +687,9 @@ const caretOffset = computed(() => `${input.value.length}ch`);
 
 function handleSubmit() {
   if (input.value.trim() !== '') {
+    commandHistory.value.push(input.value);
+    currentCommandIndex.value = -1; // Reset command history index
+
     const [command, ...parameters] = input.value.split(' ');
     runCommand(command, parameters);
   } else {
@@ -695,6 +701,37 @@ function handleSubmit() {
     const terminal = document.getElementById('bottom');
     terminal?.scrollIntoView({ behavior: 'smooth' });
   });
+}
+
+function handleKeyDown(event: KeyboardEvent) {
+  if (event.key === 'ArrowUp') {
+    if (commandHistory.value.length > 0) {
+      if (currentCommandIndex.value === -1) {
+        currentCommandIndex.value = commandHistory.value.length - 1;
+      } else if (currentCommandIndex.value > 0) {
+        currentCommandIndex.value--;
+      }
+      input.value = commandHistory.value[currentCommandIndex.value];
+    }
+  } else if (event.key === 'ArrowDown') {
+    if (commandHistory.value.length > 0 && currentCommandIndex.value !== -1) {
+      if (currentCommandIndex.value < commandHistory.value.length - 1) {
+        currentCommandIndex.value++;
+        input.value = commandHistory.value[currentCommandIndex.value];
+      } else {
+        currentCommandIndex.value = -1;
+        input.value = '';
+      }
+    }
+  } else if (event.key === 'Tab') {
+    event.preventDefault();
+    const matchingCommands = Array.from(commands.keys()).filter(cmd =>
+      cmd.startsWith(input.value)
+    );
+    if (matchingCommands.length === 1) {
+      input.value = matchingCommands[0] + '';
+    }
+  }
 }
 
 onMounted(() => {
@@ -859,7 +896,7 @@ onMounted(() => {
         <span v-else>:</span>
         <form @submit.prevent="handleSubmit" class="input-form">
           <span class="blinking-cursor" :style="{ left: caretOffset }"></span>
-          <input v-model="input" type="text" class="input-text" />
+          <input v-model="input" type="text" class="input-text" @keydown="handleKeyDown" />
         </form>
       </span>
       <span id="bottom"></span>
