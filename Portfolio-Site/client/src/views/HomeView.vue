@@ -120,7 +120,7 @@ const file_structure = {
 };
 
 // Define the type for the commands
-type Command = 'man' 
+type Command = 'man' | 'portfolio'
   | 'about' | 'contact' | 'projects' | 'skills' | 'resume' | 'clear' | 'exit'
   | 'ls' | 'pwd' | 'cd' | 'mkdir' | 'mv' | 'cp' | 'rm' | 'touch' | 'cat' 
   | 'echo' | 'less' | 'man' | 'uname' | 'whoami' | 'head' | 'tail' | 'wc'
@@ -140,6 +140,15 @@ interface CommandDetails {
 
 // Define the commands object with the Command type
 let commands = new Map<Command, CommandDetails>([
+  ['portfolio', {
+    name: 'portfolio',
+    desc: 'Display information about the creator\'s portfolio',
+    syntax: 'portfolio',
+    usage: 'portfolio',
+    aliases: [],
+    arguments: [],
+    options: []
+  }],
   ['theme', {
     name: 'theme',
     desc: 'Change/List the terminal theme',
@@ -495,6 +504,16 @@ function runCommand(command: string, parameters: string[]) {
     }
   } else if (actualCommand) {
     switch (actualCommand) {
+      case 'portfolio':
+        if (parameters.length === 0) {
+          output = 'portfolio';
+          view.value = 'portfolio';
+        } else {
+          output = 
+            'Invalid number of parameters for portfolio command\n' 
+            + 'Expected: 0 | Actual: ' + parameters.length + '\n' + 'Usage: portfolio [options]';
+        }
+        break;
       case 'theme':
         if (parameters.length === 0) {
           output = 'theme';
@@ -673,7 +692,7 @@ function runCommand(command: string, parameters: string[]) {
       output = 'Command not found: ' + command;
     }
   }
-  if (view.value === 'console' || command === 'resume' || command === 'about' || command === 'contact' || command === 'projects' || command === 'skills') {
+  if (view.value === 'console' || command === 'resume' || command === 'about' || command === 'contact' || command === 'projects' || command === 'skills' || command === 'portfolio') {
     commands_ran.push({ id: commands_ran.length + 1, command, parameters, path, output });
   }
 }
@@ -803,7 +822,9 @@ onMounted(() => {
   ██║╚██╔╝██║  ╚██╔╝  ██╔═██╗ ██║╚════╝ ╚██╔╝      ██║   ██║   ╚════██║   
   ██║ ╚═╝ ██║   ██║   ██║  ██╗███████╗   ██║       ╚██████╔╝██╗███████║██╗
   ╚═╝     ╚═╝   ╚═╝   ╚═╝  ╚═╝╚══════╝   ╚═╝        ╚═════╝ ╚═╝╚══════╝╚═╝ {{ version }}</pre>
-        <span v-if="showHelpPrompt">Type `<code>man</code>` for a list of commands</span>
+        <span v-if="showHelpPrompt">Type `<code>man</code>` for a list of commands.</span>
+        <br v-if="showHelpPrompt" />
+        <span v-if="showHelpPrompt">Type `<code>portfolio</code>` to view full portfolio.</span>
         <br v-if="showHelpPrompt" />
         <span v-for="command in commands_ran" :key="command.id">
           <span id="user">{{ user.split('@')[0] }}</span>
@@ -831,7 +852,7 @@ onMounted(() => {
           <pre v-else-if="command.command === 'theme' && command.parameters.length === 1">{{ command.output.split(' ').map(
             (word, index) => index < 3 ? word : ""
           ).join(' ') }}<code v-if="command.parameters[0] !== '-l'">{{ command.output.split(' ')[command.output.split(' ').length - 1] }}</code></pre>
-          <pre v-else-if="['resume', 'about', 'projects', 'contact', 'skills'].includes(command.command) && command.parameters.length < 1"></pre>
+          <pre v-else-if="['resume', 'about', 'projects', 'contact', 'skills', 'portfolio'].includes(command.command) && command.parameters.length < 1"></pre>
           <pre id="headers" v-else-if="['uname', 'whoami'].includes(command.command) && command.parameters.length < 1">{{ command.output }}</pre>
           <pre v-else-if="command.command === 'echo' && command.parameters.length > 0">{{ command.output }}</pre>
           <span v-else-if="command.command === 'echo' && command.parameters.length === 0">
@@ -883,6 +904,28 @@ onMounted(() => {
           <span>contact(1)</span>
         </div>
         <br/>
+        <ContactContent />
+      </span>
+      <span v-else-if="view === 'portfolio'">
+        <div class="secondary-header">
+          <span>portfolio(1)</span>
+          <span id="headers">Portfolio</span>
+          <span>portfolio(1)</span>
+        </div>
+        <br/>
+        <div id="headers" style="text-align: center;">About Me</div>
+        <AboutContent />
+        <br/>
+        <div id="headers" style="text-align: center;">My Skills</div>
+        <SkillsContent />
+        <br/>
+        <div id="headers" style="text-align: center;">Projects Experience</div>
+        <span>Projects...</span>
+        <br/>
+        <div id="headers" style="text-align: center;">My Resume</div>
+        <ResumeContent />
+        <br/>
+        <div id="headers" style="text-align: center;">Contact Me</div>
         <ContactContent />
       </span>
       <span v-if="showUserInput" class="input-line-container">
