@@ -7,7 +7,7 @@
             | *****, GA 
             | <a href="https://www.linkedin.com/in/michael-yim-olmos/" target="_blank">LinkedIn</a>
             | <a href="https://github.com/MyKl-Y" target="_blank">GitHub</a>
-            | <u style="text-decoration: underline dashed ;">Portfolio</u>
+            | <u>Portfolio</u>
         </p>
         <h2 v-if="resumes[0].summary.length > 3">SUMMARY</h2>
         <span class="line" v-if="resumes[0].summary.length > 3"></span>
@@ -24,31 +24,28 @@
         <span v-for="(skill, index) in resumes[0].skills.soft_skills" :key="skill">{{ skill }}<span v-if="index < resumes[0].skills.soft_skills.length - 1">, </span></span>
         <h2>EDUCATION</h2>
         <span class="line"></span>
-        <span v-for="major in resumes[0].education.major">
+        <span v-for="(major, index) in resumes[0].education.major" :key="index">
             <h3>
                 <strong>{{ resumes[0].education.school }}</strong> 
                 - <span>
                     {{ major.type }} in {{ major.name }}
                 </span>
             </h3>
-            <h4 style="display: flex; flex-direction: row; justify-content: space-between;">
+            <h4>
                 <span>
-                    Expected {{ new Date(resumes[0].education.expected_grad_date + -1).toLocaleDateString(
-                    'en-US', {year: 'numeric', month: 'long'}) }}
+                    Expected {{ new Date(resumes[0].education.expected_grad_date + -1).toLocaleDateString('en-US', { year: 'numeric', month: 'long' }) }}
                 </span>
                 <span> {{ resumes[0].education.location }}</span>
             </h4>
             <ul>
-                <li>
+                <li v-if="major.concentration.length > 0">
                     <strong>Concentrations</strong>: 
-                    <span v-for="(concentration, index) in major.concentration">{{ concentration }}<span v-if="index !== major.concentration.length - 1 && major.concentration.length > 2">, </span>
-                        {{ " " }}<u v-if="index === major.concentration.length - 2 && major.concentration.length !== 0">and</u>{{ " " }}
+                    <span v-for="(concentration, index) in major.concentration" :key="concentration">{{ concentration }}<span v-if="index !== major.concentration.length - 1 && major.concentration.length > 2">, </span>{{ " " }}<u v-if="index === major.concentration.length - 2 && major.concentration.length !== 0">and</u>{{ " " }}
                     </span>
                 </li>
-                <li>
+                <li v-if="resumes[0].education.minors.length > 0">
                     <strong>Minors</strong>: 
-                    <span v-for="(minor, index) in resumes[0].education.minors">{{ minor }}<span v-if="index !== resumes[0].education.minors.length - 1 && resumes[0].education.minors.length > 2">, </span>
-                        {{ " " }}<u v-if="index === resumes[0].education.minors.length - 2 && resumes[0].education.minors.length !== 0">and</u>{{ " " }}
+                    <span v-for="(minor, index) in resumes[0].education.minors" :key="minor">{{ minor }}<span v-if="index !== resumes[0].education.minors.length - 1 && resumes[0].education.minors.length > 2">, </span>{{ " " }}<u v-if="index === resumes[0].education.minors.length - 2 && resumes[0].education.minors.length !== 0">and</u>{{ " " }}
                     </span>
                 </li>
                 <li>
@@ -57,43 +54,37 @@
                 </li>
                 <li>
                     <strong>Relevant Coursework</strong>: 
-                    <ul style="column-count: 3;">
-                        <li style="padding-right: 1rem;" v-for="course in (resumes[0].education.courses.reverse())">
-                            {{ course }}
-                        </li>
+                    <ul class="courses">
+                        <li v-for="course in (resumes[0].education.courses.reverse())" :key="course">{{ course }}</li>
                     </ul>
                 </li>
-                <li>
+                <li v-if="resumes[0].education.awards.length > 0">
                     <strong>Awards</strong>: 
-                    <span v-for="(award, index) in resumes[0].education.awards">
-                        {{ award }}<span v-if="index !== resumes[0].education.awards.length - 1 && resumes[0].education.awards.length > 1">, </span>
-                    </span>
+                    <span v-for="(award, index) in resumes[0].education.awards" :key="award">{{ award }}<span v-if="index !== resumes[0].education.awards.length - 1 && resumes[0].education.awards.length > 1">, </span></span>
                 </li>
             </ul>
         </span>
         <h2>PROJECTS</h2>
         <span class="line"></span>
-        <span v-for="project in resumes[0].projects">
+        <span v-for="project in resumes[0].projects" :key="project.name">
             <h3>
-                <a style="font-weight: bold;" v-if="project.link.length > 0" :href="project.link" target="_blank">{{ project.name }}</a>
+                <a v-if="project.link.length > 0" :href="project.link" target="_blank">{{ project.name }}</a>
                 <strong v-else>{{ project.name }}</strong> - 
                 <i>{{ project.type }}</i>
             </h3>
             <ul>
-                <li v-for="detail in project.description">
-                    {{ detail }}
-                </li>
+                <li v-for="detail in project.description" :key="detail">{{ detail }}</li>
             </ul>
         </span>
         <h2>EXPERIENCE</h2>
         <span class="line"></span>
-        <span v-for="job in resumes[0].experience">
+        <span v-for="job in resumes[0].experience" :key="job.company + job.role + job.type">
             <h3>
                 <strong>{{ job.company }}</strong> - 
                 <i>{{ job.role }}</i>
                 ({{ job. type }})
             </h3>
-            <h4 style="display: flex; flex-direction: row; justify-content: space-between;">
+            <h4>
                 <span>
                     {{ new Date(job.start).toLocaleDateString('en-US', {month: 'long', year: 'numeric'}) }} - 
                     {{ new Date(job.end).toLocaleDateString('en-US', {month: 'long', year: 'numeric'}) }}
@@ -101,9 +92,7 @@
                 <span>{{ job.location }}</span>
             </h4>
             <ul>
-                <li v-for="detail in job.description">
-                    {{ detail }}
-                </li>
+                <li v-for="detail in job.description" :key="detail">{{ detail }}</li>
             </ul>
         </span>
     </div>
@@ -127,20 +116,12 @@ export default defineComponent({
 
 <style scoped>
 .resume {
-    /*
-    padding: 1rem;
-    border: 1px solid black;
-    background-color: white;
-    color: black;
-    border-radius: .5rem;
-    */
     font-size: 1rem;
 }
 h1, h2, h3, h4 {
     font-size: 1rem;
     margin: 0 !important;
 }
-
 .line {
     display: block;
     width: 100%;
@@ -148,7 +129,12 @@ h1, h2, h3, h4 {
     background-color: var(--header-color);
     margin: calc(.5rem - .5px) 0;
 }
-
+.courses {
+    column-count: 3;
+}
+.courses li {
+    padding-right: 1rem;
+}
 h1 {
     color: var(--header-color);
     font-weight: bolder;
@@ -161,6 +147,9 @@ h2 {
     color: var(--header-color);
     font-weight: bolder;
 }
+h4 {
+    display: flex; flex-direction: row; justify-content: space-between;
+}
 strong {
     font-weight: bold;
 }
@@ -169,5 +158,10 @@ ul {
 }
 a {
     color: var(--user-color);
+    font-weight: bold;
+}
+u {
+    text-decoration: underline dashed;
+    font-weight: bold;
 }
 </style>
