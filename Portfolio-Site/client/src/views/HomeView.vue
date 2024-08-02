@@ -96,34 +96,155 @@ const themes = new Map([
   }]
 ]);
 
-const file_structure = {
-  root: {
-    home: {
-      bin: {
-        ls: 'ls',
-        pwd: 'pwd',
-        cd: 'cd',
-        mkdir: 'mkdir',
-        mv: 'mv',
-        cp: 'cp',
-        rm: 'rm',
-        touch: 'touch',
-        cat: 'cat',
-        echo: 'echo',
-        less: 'less',
-      },
-      documents: {
-        resume: 'resume.pdf',
-        projects: {
-          project1: 'project1.pdf',
-          project2: 'project2.pdf'
+interface File {
+  type: 'file';
+  content: string;
+}
+
+interface Directory {
+  type: 'directory';
+  children: {
+    [key: string]: Directory | File;
+  };
+}
+
+const file_structure: Directory = {
+  type: 'directory',
+  children: {
+    'home': {
+      type: 'directory',
+      children: {
+        'mykl-y': {
+          type: 'directory',
+          children: {
+            'about': {
+              type: 'file',
+              content: 'About me...'
+            },
+            'contact': {
+              type: 'file',
+              content: 'Contact me...'
+            },
+            'projects': {
+              type: 'file',
+              content: 'Projects...'
+            },
+            'skills': {
+              type: 'file',
+              content: 'Skills...'
+            },
+            'resume': {
+              type: 'file',
+              content: 'Resume...'
+            },
+            'portfolio': {
+              type: 'file',
+              content: 'Portfolio...'
+            }
+          }
         }
-      },
-      skills: 'skills.txt',
-      contact: 'contact.txt'
+      }
+    },
+    'bin': {
+      type: 'directory',
+      children: {
+        'ls': {
+          type: 'file',
+          content: 'ls'
+        },
+        'pwd': {
+          type: 'file',
+          content: 'pwd'
+        },
+        'cd': {
+          type: 'file',
+          content: 'cd'
+        },
+        'mkdir': {
+          type: 'file',
+          content: 'mkdir'
+        },
+        'mv': {
+          type: 'file',
+          content: 'mv'
+        },
+        'cp': {
+          type: 'file',
+          content: 'cp'
+        },
+        'rm': {
+          type: 'file',
+          content: 'rm'
+        },
+        'touch': {
+          type: 'file',
+          content: 'touch'
+        },
+        'cat': {
+          type: 'file',
+          content: 'cat'
+        },
+        'echo': {
+          type: 'file',
+          content: 'echo'
+        },
+        'less': {
+          type: 'file',
+          content: 'less'
+        },
+        'man': {
+          type: 'file',
+          content: 'man'
+        },
+        'uname': {
+          type: 'file',
+          content: 'uname'
+        },
+        'whoami': {
+          type: 'file',
+          content: 'whoami'
+        },
+        'head': {
+          type: 'file',
+          content: 'head'
+        },
+        'tail': {
+          type: 'file',
+          content: 'tail'
+        },
+        'wc': {
+          type: 'file',
+          content: 'wc'
+        },
+        'ssh': {
+          type: 'file',
+          content: 'ssh'
+        },
+        'alias': {
+          type: 'file',
+          content: 'alias'
+        },
+        'sudo': {
+          type: 'file',
+          content: 'sudo'
+        },
+        'chmod': {
+          type: 'file',
+          content: 'chmod'
+        },
+        'chown': {
+          type: 'file',
+          content: 'chown'
+        },
+        'theme': {
+          type: 'file',
+          content: 'theme'
+        }
+      }
     }
   }
 };
+
 
 // Define the type for the commands
 type Command = 'man' | 'portfolio' | 'about' | 'contact' | 'projects' | 'skills' | 'resume' | 'clear' | 'exit' | 'ls' | 'pwd' | 'cd' | 'mkdir' | 'mv' | 'cp' | 'rm' | 'touch' | 'cat' | 'echo' | 'less' | 'man' | 'uname' | 'whoami' | 'head' | 'tail' | 'wc' | 'ssh' | 'alias' | 'sudo' | 'chmod' | 'chown' | 'theme';
@@ -474,7 +595,47 @@ let commands_ran: { id: number, command: string, parameters: string[], path: str
 const user = 'Guest@' + window.location.toString().split('/')[2];
 const os = 'M.Y.O.S';
 const version = 'v2024.07';
-let path: string = '~';
+let path: string = '/';
+let previousPath: string = '/';
+
+function getCurrentDirectory(path: string): any {
+  const parts = path.split('/').filter(Boolean);
+  let current: Directory | File = file_structure;
+
+  for (const part of parts) {
+    if (current.type === 'directory' && current.children[part]) {
+      current = current.children[part];
+    } else {
+      return null;
+    }
+  }
+  return current;
+}
+
+function resolvePath(path: string, currentPath: string): string {
+  if (path.startsWith('/')) return path;
+  const parts = currentPath.split('/').concat(path.split('/')).filter(Boolean);
+  const stack: string[] = [];
+
+  for (const part of parts) {
+    if (part === '..') {
+      stack.pop();
+    } else if (part !== '.') {
+      stack.push(part);
+    }
+  }
+
+  return '/' + stack.join('/');
+}
+
+function getStyledName(name: string, type: string): string {
+  const fileEmoji = '📄';
+  const dirEmoji = '📁';
+  const styledName = type === 'directory'
+    ? `<span style="color: var(--header-color);">${dirEmoji} ${name}</span>`
+    : `${fileEmoji} ${name}`;
+  return styledName;
+}
 
 function findCommandByAlias(alias: string): Command | undefined {
   for (const [command, details] of commands.entries()) {
@@ -554,8 +715,23 @@ function runCommand(command: string, parameters: string[]) {
         output = 'Cat: Displaying the contents of a file...';
         break;
       case 'cd':
-        // TODO: Implement cd command
-        output = 'Cd: Changing the directory...';
+        if (parameters.length === 1) {
+          if (parameters.length === 1 && parameters[0] === '..' && path === '/') {
+            output = 'cd: cannot move up from root directory';
+            break;
+          }
+          const newPath = resolvePath(parameters[0], path);
+          const directory = getCurrentDirectory(newPath);
+          if (directory && directory.type === 'directory') {
+            previousPath = path;
+            path = newPath;
+            output = '';
+          } else {
+            output = `cd: ${parameters[0]}: No such file or directory`;
+          }
+        } else {
+          output = `cd: too many arguments\nUsage: cd [directory]`;
+        }
         break;
       case 'chmod':
         output = 'Must be logged in to use this command';
@@ -598,8 +774,14 @@ function runCommand(command: string, parameters: string[]) {
         output = 'Less: Viewing the contents of a file one page at a time...';
         break;
       case 'ls':
-        // TODO: Implement ls command
-        output = 'Ls: Listing files and directories...';
+        const currentDir = getCurrentDirectory(path);
+        if (currentDir && currentDir.children) {
+          output = Object.keys(currentDir.children)
+            .map(name => getStyledName(name, currentDir.children[name].type))
+            .join('\n');
+        } else {
+          output = `ls: cannot access '${path}': No such file or directory`;
+        }
         break;
       case 'mkdir':
         output = 'Must be logged in to use this command';
@@ -618,8 +800,13 @@ function runCommand(command: string, parameters: string[]) {
         }
         break;
       case 'pwd':
-        // TODO: Implement pwd command so that '~' is replaced with the actual path
-        output = path;
+        if (parameters.length === 0) {
+          output = path;
+        } else {
+          output = 
+            'Invalid number of parameters for pwd command\n' 
+            + 'Expected: 0 | Actual: ' + parameters.length + '\n' + 'Usage: pwd [options]';
+        }
         break;
       case 'resume':
         if (parameters.length === 0) {
@@ -694,7 +881,11 @@ function runCommand(command: string, parameters: string[]) {
     }
   }
   if (view.value === 'console' || command === 'resume' || command === 'about' || command === 'contact' || command === 'projects' || command === 'skills' || command === 'portfolio') {
-    commands_ran.push({ id: commands_ran.length + 1, command, parameters, path, output });
+    if (command === 'cd' && parameters.length === 1 && output === '') {
+      commands_ran.push({ id: commands_ran.length + 1, command, parameters, path: previousPath, output });
+    } else {
+      commands_ran.push({ id: commands_ran.length + 1, command, parameters, path, output });
+    }
   }
 }
 
@@ -878,7 +1069,7 @@ onMounted(() => {
           <span id="ampersand">@</span>
           <span id="machine">{{ user.split('@')[1] }}</span>
           <span>:</span>
-          <span id="path">{{ command.path }}</span>$
+          <span id="path">{{ command.path.length === 1 ? "~" : "~/" + command.path.slice(1) }}</span>$
           <span class="code">{{ command.command + " " }}</span>
           <span class="code" v-for="(parameter, index) in command.parameters" :key="index"> {{ parameter + " " }}</span>
           <br/>
@@ -905,6 +1096,7 @@ onMounted(() => {
           <span v-else-if="command.command === 'echo' && command.parameters.length === 0">
             <span>echo</span> <span style="font-size: .75rem;">echo</span> <span style="font-size: .5rem;">echo</span> <span style="font-size: .25rem;">echo</span> <br/>
           </span>
+          <pre id="headers" v-else-if="command.command === 'pwd' && command.parameters.length < 1">{{ command.output }}</pre>
           <pre class="error" v-else v-html="command.output"></pre>
         </span>
       </span>
@@ -981,7 +1173,7 @@ onMounted(() => {
           <span id="ampersand">@</span>
           <span id="machine">{{ user.split('@')[1] }}</span>
           <span>:</span>
-          <span id="path">{{ path }}</span>$ 
+          <span id="path">{{ path.length === 1 ? "~" : "~/" + path.slice(1) }}</span>$ 
         </span>
         <span v-else>:</span>
         <form @submit.prevent="handleSubmit" class="input-form">
