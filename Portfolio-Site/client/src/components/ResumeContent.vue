@@ -55,7 +55,7 @@
                 <li>
                     <strong>Relevant Coursework</strong>: 
                     <ul class="courses">
-                        <li v-for="course in (resumes[0].education.courses.reverse())" :key="course">{{ course }}</li>
+                        <li v-for="course in [...resumes[0].education.courses].reverse()" :key="course">{{ course }}</li>
                     </ul>
                 </li>
                 <li v-if="resumes[0].education.awards.length > 0">
