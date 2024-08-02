@@ -23,27 +23,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
-import Api from '@/api';
+import { defineComponent, inject } from 'vue';
 import type { Resume } from '@/types';
 
 export default defineComponent({
     name: 'SkillsContent',
     setup() {
-        const resumes = ref<Resume[]>([]);
-
-        const fetchResumes = async () => {
-            try {
-                const response = await Api.getResumes();
-                resumes.value = response.data;
-            } catch (error) {
-                console.error('Error fetching resumes:', error);
-            }
-        };
-
-        onMounted(() => {
-            fetchResumes();
-        });
+        const resumes = inject<Resume[]>('resumes');
 
         return {
             resumes

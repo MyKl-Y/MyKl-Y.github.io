@@ -38,6 +38,7 @@ export interface Project {
     name: string;
     type: string;
     description: string[];
+    skills: string[];
     date: string;
     link: string;
 }

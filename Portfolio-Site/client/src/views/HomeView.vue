@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { ref, onMounted, computed, nextTick } from 'vue';
+import { ref, onMounted, computed, nextTick, watch, provide } from 'vue';
 import HelpOutput from '@/components/HelpOutput.vue';
 import ManualPage from '@/components/ManualPage.vue';
 import AboutContent from '@/components/AboutContent.vue';
 import ResumeContent from '@/components/ResumeContent.vue';
 import SkillsContent from '@/components/SkillsContent.vue';
 import ContactContent from '@/components/ContactContent.vue';
+import ProjectsContent from '@/components/ProjectsContent.vue';
+import Api from '@/api';
+import type { Resume } from '@/types';
 
 const view = ref('console');
 
@@ -15,6 +18,9 @@ const styleObject = computed(() => themes.get(theme.value));
 
 const commandHistory = ref<string[]>([]);
 const currentCommandIndex = ref<number>(-1);
+const suggestion = ref('');
+
+const resumes = ref<Resume[]>([]);
 
 function switchTheme(newTheme: string) {
   theme.value = newTheme;
@@ -120,12 +126,7 @@ const file_structure = {
 };
 
 // Define the type for the commands
-type Command = 'man' | 'portfolio'
-  | 'about' | 'contact' | 'projects' | 'skills' | 'resume' | 'clear' | 'exit'
-  | 'ls' | 'pwd' | 'cd' | 'mkdir' | 'mv' | 'cp' | 'rm' | 'touch' | 'cat' 
-  | 'echo' | 'less' | 'man' | 'uname' | 'whoami' | 'head' | 'tail' | 'wc'
-  | 'ssh' | 'alias' | 'sudo' | 'chmod' | 'chown' | 'theme';
-;
+type Command = 'man' | 'portfolio' | 'about' | 'contact' | 'projects' | 'skills' | 'resume' | 'clear' | 'exit' | 'ls' | 'pwd' | 'cd' | 'mkdir' | 'mv' | 'cp' | 'rm' | 'touch' | 'cat' | 'echo' | 'less' | 'man' | 'uname' | 'whoami' | 'head' | 'tail' | 'wc' | 'ssh' | 'alias' | 'sudo' | 'chmod' | 'chown' | 'theme';
 
 // Define the type for the commands object
 interface CommandDetails {
@@ -704,6 +705,20 @@ const showUserInput = ref(false);
 
 const caretOffset = computed(() => `${input.value.length}ch`);
 
+const suggestedCompletion = computed(() => {
+  if (input.value.trim() === '') {
+    return '';
+  }
+  const matchingCommands = Array.from(commands.keys()).filter(cmd =>
+    cmd.startsWith(input.value)
+  );
+  return matchingCommands.length === 1 ? matchingCommands[0] : '';
+});
+
+watch(input, () => {
+  suggestion.value = suggestedCompletion.value;
+});
+
 function handleSubmit() {
   if (input.value.trim() !== '') {
     commandHistory.value.push(input.value);
@@ -716,10 +731,13 @@ function handleSubmit() {
     runCommand('', []);
   }
   input.value = '';
-  nextTick(() => {
-    const terminal = document.getElementById('bottom');
-    terminal?.scrollIntoView({ behavior: 'smooth' });
-  });
+  suggestion.value = '';
+  if (view.value === 'console') {
+    nextTick(() => {
+      const terminal = document.getElementById('bottom');
+      terminal?.scrollIntoView({ behavior: 'smooth' });
+    });
+  }
 }
 
 function handleKeyDown(event: KeyboardEvent) {
@@ -731,6 +749,7 @@ function handleKeyDown(event: KeyboardEvent) {
         currentCommandIndex.value--;
       }
       input.value = commandHistory.value[currentCommandIndex.value];
+      suggestion.value = '';
     }
   } else if (event.key === 'ArrowDown') {
     if (commandHistory.value.length > 0 && currentCommandIndex.value !== -1) {
@@ -741,26 +760,54 @@ function handleKeyDown(event: KeyboardEvent) {
         currentCommandIndex.value = -1;
         input.value = '';
       }
+      suggestion.value = '';
     }
   } else if (event.key === 'Tab') {
     event.preventDefault();
+    /*
     const matchingCommands = Array.from(commands.keys()).filter(cmd =>
       cmd.startsWith(input.value)
     );
     if (matchingCommands.length === 1) {
-      input.value = matchingCommands[0] + '';
+      //input.value = matchingCommands[0] + '';
+      suggestion.value = matchingCommands[0];
+      input.value = suggestion.value + '';
+      suggestion.value = '';
+    } else if (matchingCommands.length > 1) {
+      suggestion.value = matchingCommands[0];
     }
+    */
+    if (suggestion.value) {
+      input.value = suggestion.value;
+      suggestion.value = '';
+    }
+  } else {
+    suggestion.value = '';
   }
 }
 
+async function fetchResumes() {
+  try {
+    const response = await Api.getResumes();
+    resumes.value = response.data;
+  } catch (error) {
+    console.error('Error fetching resumes:', error);
+  }
+}
+
+provide('resumes', resumes);
+
 onMounted(() => {
+  fetchResumes();
   showHeader.value = true;
   setTimeout(() => {
     showHelpPrompt.value = true;
     setTimeout(() => {
-      showUserInput.value = true;
-    }, 500); // 2 seconds delay for user input prompt
-  }, 2000); // 2 seconds delay for help prompt
+      if (resumes.value && resumes.value.length > 0) {
+        showUserInput.value = true;
+      }
+    }, 500); // .5 second delay for user input prompt
+  }, 1000); // 1 second delay for help prompt
 });
 </script>
 
@@ -886,7 +933,7 @@ onMounted(() => {
           <span>projects(1)</span>
         </div>
         <br/>
-        <pre>Projects</pre>
+        <ProjectsContent />
       </span>
       <span v-else-if="view === 'skills'">
         <div class="secondary-header">
@@ -920,7 +967,7 @@ onMounted(() => {
         <SkillsContent />
         <br/>
         <div id="headers" style="text-align: center;">Projects Experience</div>
-        <span>Projects...</span>
+        <ProjectsContent />
         <br/>
         <div id="headers" style="text-align: center;">My Resume</div>
         <ResumeContent />
@@ -940,6 +987,7 @@ onMounted(() => {
         <form @submit.prevent="handleSubmit" class="input-form">
           <span class="blinking-cursor" :style="{ left: caretOffset }"></span>
           <input v-model="input" type="text" class="input-text" @keydown="handleKeyDown" />
+          <span class="suggestion" v-if="suggestion" :style="{ left: caretOffset }">{{ suggestion.replace(input, '') }}</span>
         </form>
       </span>
       <span id="bottom"></span>
@@ -959,7 +1007,7 @@ main {
 }
 .navbar {
   display: flex; 
-  width: 75vw;
+  width: 95vw;
   justify-content: space-between;
   background-color: #444;
   border: 1px solid #ffffff;
@@ -999,7 +1047,7 @@ svg {
 .body {
   font-family: monospace;
   height: 85vh;
-  width: 75vw;
+  width: 95vw;
   background-color: var(--background-color);
   color: var(--text-color);
   font-size: 1rem;
@@ -1061,6 +1109,15 @@ input {
   margin: 0;
   outline: none;
 }
+.suggestion {
+  color: var(--input-color);
+  opacity: 0.5;
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+}
+
 .code {
   color: var(--input-color);
 }

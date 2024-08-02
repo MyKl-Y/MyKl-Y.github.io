@@ -10,10 +10,10 @@
             | <u style="text-decoration: underline dashed ;">Portfolio</u>
         </p>
         <h2 v-if="resume.summary.length > 3">SUMMARY</h2>
-        <span class="line" v-if="resume.summary.length > 3">{{ line }}</span>
+        <span class="line" v-if="resume.summary.length > 3"></span>
         <p v-if="resume.summary.length > 3">{{ resume.summary }}</p>
         <h2>SKILLS</h2>
-        <span class="line">{{ line }}</span>
+        <span class="line"></span>
         <h3><strong>Hard Skills:</strong></h3>
         <span v-for="(items, category) in resume.skills.hard_skills" :key="category">
             <strong>{{ category.charAt(0).toUpperCase() + category.slice(1).replace("_", " ") }}: </strong>
@@ -23,7 +23,7 @@
         <h3><strong>Soft Skills:</strong></h3>
         <span v-for="(skill, index) in resume.skills.soft_skills" :key="skill">{{ skill }}<span v-if="index < resume.skills.soft_skills.length - 1">, </span></span>
         <h2>EDUCATION</h2>
-        <span class="line">{{ line }}</span>
+        <span class="line"></span>
         <span v-for="(major, index) in resume.education.major">
             <h3>
                 <strong>{{ resume.education.school }}</strong> 
@@ -74,10 +74,10 @@
             </ul>
         </span>
         <h2>PROJECTS</h2>
-        <span class="line">{{ line }}</span>
+        <span class="line"></span>
         <span v-for="project in resume.projects">
             <h3>
-                <a style="font-weight: bold;" v-if="project.link.length > 0" :href="project.link">{{ project.name }}</a>
+                <a style="font-weight: bold;" v-if="project.link.length > 0" :href="project.link" target="_blank">{{ project.name }}</a>
                 <strong v-else>{{ project.name }}</strong> - 
                 <i>{{ project.type }}</i>
             </h3>
@@ -88,7 +88,7 @@
             </ul>
         </span>
         <h2>EXPERIENCE</h2>
-        <span class="line">{{ line }}</span>
+        <span class="line"></span>
         <span v-for="job in resume.experience">
             <h3>
                 <strong>{{ job.company }}</strong> - 
@@ -112,35 +112,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
-import Api from '@/api';
+import { defineComponent, inject } from 'vue';
 import type { Resume } from '@/types';
 
 export default defineComponent({
     name: 'ResumeContent',
     setup() {
-        const resumes = ref<Resume[]>([]);
-        const line = ref<string>('');
-
-        const fetchResumes = async () => {
-            try {
-                const response = await Api.getResumes();
-                resumes.value = response.data;
-                // Generate a line of dashes based on the current viewport width
-                //const width = window.innerWidth;
-                //line.value = '─'.repeat(Math.floor(width / 9.8)); // Adjust the division factor as needed
-            } catch (error) {
-                console.error('Error fetching resumes:', error);
-            }
-        };
-
-        onMounted(() => {
-            fetchResumes();
-        });
+        const resumes = inject<Resume[]>('resumes');
 
         return {
-            resumes,
-            line
+            resumes
         };
     }
 });
