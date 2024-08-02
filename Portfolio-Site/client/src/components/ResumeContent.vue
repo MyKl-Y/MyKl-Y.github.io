@@ -3,7 +3,7 @@
         <h1>{{ resume.name }}</h1>
         <p class="contact">
             {{ resume.email }} 
-            | {{ resume.phone.replace(/(\d{3})\-(\d{3})\-(\d{4})/, '($1) ***-****') }}
+            | (***) ***-****
             | *****, GA 
             | <a href="https://www.linkedin.com/in/michael-yim-olmos/" target="_blank">LinkedIn</a>
             | <a href="https://github.com/MyKl-Y" target="_blank">GitHub</a>

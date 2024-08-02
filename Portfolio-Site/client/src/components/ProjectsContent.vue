@@ -4,6 +4,8 @@ import ProjectImages from './ProjectImages.vue';
 import { ref, inject } from 'vue';
 
 const resumes = inject<Resume[]>('resumes');
+
+// TODO: Add project images to each project in the SQLite database
 </script>
 
 <template>
