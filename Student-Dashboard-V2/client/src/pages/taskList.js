@@ -26,7 +26,7 @@ export default function TaskList() {
     useEffect(() => {
         if (!isLoggedIn) return;
         async function getTasks() {
-            const response = await fetch(`https://student-dashboard.onrender.com/task/user/${userData.name}`);
+            const response = await fetch(`https://student-dasboard.onrender.com/task/user/${userData.name}`);
 
             if (!response.ok) {
                 const message = `An error occurred: ${response.statusText}`;
@@ -47,7 +47,7 @@ export default function TaskList() {
 
     // This method will delete a task from the database.
     async function deleteTask(id) {
-        await fetch(`https://student-dashboard.onrender.com/task/${id}`, {
+        await fetch(`https://student-dasboard.onrender.com/task/${id}`, {
             method: "DELETE",
         });
 
@@ -80,7 +80,7 @@ export default function TaskList() {
     };
 
     function updateTask(id, data) {
-        fetch(`https://student-dashboard.onrender.com/task/${id}`, {
+        fetch(`https://student-dasboard.onrender.com/task/${id}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",

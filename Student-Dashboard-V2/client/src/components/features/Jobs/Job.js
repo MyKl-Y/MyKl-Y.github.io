@@ -122,7 +122,7 @@ export default function Job(props) {
             format: selectedFormat,
             previousState: newPreviousState,
         };
-        const response = await fetch(`https://student-dashboard.onrender.com/jobs/${props.job === 'add' && !props.isEditing ? '' : props.job._id}`, {
+        const response = await fetch(`https://student-dasboard.onrender.com/jobs/${props.job === 'add' && !props.isEditing ? '' : props.job._id}`, {
             method: `${props.job === 'add' && !props.isEditing ? 'POST' : 'PATCH'}`,
             headers: {
                 "Content-Type": "application/json",

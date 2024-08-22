@@ -87,7 +87,7 @@ const Authentication = () => {
     const checkUsernameAvailability = async (username) => {
         if (username !== '') {
             try {
-                const response = await fetch(`https://student-dashboard.onrender.com/auth/check-username/${username}`);
+                const response = await fetch(`https://student-dasboard.onrender.com/auth/check-username/${username}`);
                 const data = await response.json()
 
                 if (data.taken) {
@@ -107,7 +107,7 @@ const Authentication = () => {
     const checkEmailAvailability = async (email) => {
         if (email !== '') {
             try {
-                const response = await fetch(`https://student-dashboard.onrender.com/auth/check-email/${email.toLowerCase()}`);
+                const response = await fetch(`https://student-dasboard.onrender.com/auth/check-email/${email.toLowerCase()}`);
                 const data = await response.json()
 
                 if (data.taken) {
@@ -164,7 +164,7 @@ const Authentication = () => {
 
     async function login(user) {
         try {
-            const response = await fetch('https://student-dashboard.onrender.com/auth/login', {
+            const response = await fetch('https://student-dasboard.onrender.com/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -189,7 +189,7 @@ const Authentication = () => {
 
     async function register(newUser) {
         try {
-            const response = await fetch('https://student-dashboard.onrender.com/auth/register', {
+            const response = await fetch('https://student-dasboard.onrender.com/auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

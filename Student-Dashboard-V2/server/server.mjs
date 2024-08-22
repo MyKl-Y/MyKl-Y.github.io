@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-//import "./loadEnvironment.mjs"
+import "./loadEnvironment.mjs"
 import tasks from "./routes/task.mjs"
 import courses from "./routes/courses.mjs"
 import graduation from "./routes/graduation.mjs"
@@ -12,27 +12,23 @@ import auth from "./routes/auth.mjs";
 const PORT = process.env.PORT || 5050;
 const app = express();
 
-//const allowedOrigins = [
-//    "https://mykl-y.github.io",
-//    "https://mykl-y.github.io/",
-//    "https://mykl-y.github.io/Student-Dashboard-V2",
-//    "https://mykl-y.github.io/Student-Dashboard-V2/client"
-//];
-//var corsOptions = function (req, callback) {
-//    var corsOptions;
-//    if (allowedOrigins.indexOf(req.header('Origin')) !== -1) {
-//        corsOptions = { origin: true }; // reflect (enable) the requested origin in the CORS response
-//    } else {
-//        corsOptions = { origin: false }; // disable CORS for this request
-//    }
-//    callback(null, corsOptions); // callback expects two parameters: error and options
-//}
+const allowedOrigins = [
+    "http://localhost:3000",
+    "https://mykl-y.github.io"
+];
+var corsOptions = function (req, callback) {
+    var corsOptions;
+    if (allowedOrigins.indexOf(req.header('Origin')) !== -1) {
+        corsOptions = { origin: true }; // reflect (enable) the requested origin in the CORS response
+    } else {
+        corsOptions = { origin: false }; // disable CORS for this request
+    }
+    callback(null, corsOptions); // callback expects two parameters: error and options
+}
 
-//app.use(cors(corsOptions));
-//app.use(cors());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json())
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: true}));
 
 app.use("/auth", auth);
 app.use("/task", tasks)
@@ -44,5 +40,5 @@ app.use("/jobs", jobs)
 
 // start the Express server
 app.listen(PORT, () => {
-    console.log(`Server started on port ${PORT}`);
+    console.log(`server started at port ${PORT}`);
 });
