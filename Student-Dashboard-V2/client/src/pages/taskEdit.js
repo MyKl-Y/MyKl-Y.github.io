@@ -56,7 +56,7 @@ export default function EditTask() {
     useEffect(() => {
         async function fetchData() {
             const id = params.id.toString();
-            const response = await fetch(`http://https://student-dashboard.onrender.com/task/${params.id.toString()}`);
+            const response = await fetch(`https://student-dashboard.onrender.com/task/${params.id.toString()}`);
 
             if (!response.ok) {
                 const message = `An error has occurred: ${response.statusText}`;
@@ -104,7 +104,7 @@ export default function EditTask() {
             recurrenceCount: form.recurrenceCount,
         };
 
-        await fetch(`http://https://student-dashboard.onrender.com/task/${params.id}`, {
+        await fetch(`https://student-dashboard.onrender.com/task/${params.id}`, {
             method: "PATCH",
             body: JSON.stringify(editedTask),
             headers: {
