@@ -20,11 +20,11 @@ const allowedOrigins = [
 ];
 const corsOptions = {
     origin: function (origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
+        //if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true); // Allow the request if the origin is in the allowedOrigins list
-        } else {
+        //} else {
             callback(new Error("Not allowed by CORS"));
-        }
+        //}
     },
     credentials: true, // Allow credentials like cookies, authorization headers, etc.
 };
