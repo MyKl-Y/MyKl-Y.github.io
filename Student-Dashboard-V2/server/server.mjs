@@ -30,9 +30,9 @@ const app = express();
 
 //app.use(cors(corsOptions));
 //app.use(cors());
-//app.use(cors());
-//app.use(express.json())
-//app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/auth", auth);
 app.use("/task", tasks)
@@ -44,5 +44,5 @@ app.use("/jobs", jobs)
 
 // start the Express server
 app.listen(PORT, () => {
-    console.log(`server started`);
+    console.log(`Server started on port ${PORT}`);
 });
