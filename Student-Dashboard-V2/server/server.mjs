@@ -31,14 +31,8 @@ const allowedOrigins = [
 
 //app.use(cors(corsOptions));
 //app.use(cors());
-app.use(cors({
-    origin: allowedOrigins,
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type"],
-    preflightContinue: false,
-    optionsSuccessStatus: 204
-}));
+app.use(cors(corsOptions)); // Apply CORS before any routes are defined
+app.options('*', cors(corsOptions)); // Handle all OPTIONS preflight requests
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
