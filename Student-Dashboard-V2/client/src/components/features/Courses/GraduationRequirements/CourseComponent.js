@@ -25,14 +25,14 @@ const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequir
 
     useEffect(() => {
         if (selectedDegree) {
-            fetch(`https://student-dashboard.onrender.com:5050/graduation/courses/${selectedDegree._id}`)
+            fetch(`https://student-dashboard.onrender.com/graduation/courses/${selectedDegree._id}`)
             .then((response) => response.json())
             .then((data) => {
                 setAllCourses(data);
             })
             .catch((error) => console.error(error));
             if (hasSelectedConcentration && hasSelectedRequirement && selectedRequirement.courses.length > 0) {
-                fetch(`https://student-dashboard.onrender.com:5050/graduation/course/${selectedDegree._id}/${selectedConcentration._id}/${selectedRequirement._id}`)
+                fetch(`https://student-dashboard.onrender.com/graduation/course/${selectedDegree._id}/${selectedConcentration._id}/${selectedRequirement._id}`)
                 .then((response) => response.json())
                 .then((data) => {
                     setCourses(data[0].courses);
@@ -47,8 +47,8 @@ const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequir
     const handleCourseSubmit = () => {
         if (hasSelectedDegree && hasSelectedConcentration && hasSelectedRequirement) {
             const url = editMode
-                ? `https://student-dashboard.onrender.com:5050/graduation/course/${selectedDegree._id}/${selectedConcentration._id}/${selectedRequirement._id}/${courseToEdit._id}`
-                : `https://student-dashboard.onrender.com:5050/graduation/course/${selectedDegree._id}/${selectedConcentration._id}/${selectedRequirement._id}`;
+                ? `https://student-dashboard.onrender.com/graduation/course/${selectedDegree._id}/${selectedConcentration._id}/${selectedRequirement._id}/${courseToEdit._id}`
+                : `https://student-dashboard.onrender.com/graduation/course/${selectedDegree._id}/${selectedConcentration._id}/${selectedRequirement._id}`;
             const method = editMode ? "PUT" : "POST";
             fetch(url, {
                 method: method,
@@ -81,7 +81,7 @@ const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequir
     };
 
     const handleDelete = (courseId) => {
-        fetch(`https://student-dashboard.onrender.com:5050/graduation/course/${selectedDegree._id}/${selectedConcentration._id}/${selectedRequirement._id}/${courseId}`, {
+        fetch(`https://student-dashboard.onrender.com/graduation/course/${selectedDegree._id}/${selectedConcentration._id}/${selectedRequirement._id}/${courseId}`, {
             method: "DELETE",
         })
             .then((response) => response.json())
@@ -125,7 +125,7 @@ const CourseComponent = ({ selectedDegree, selectedConcentration, selectedRequir
             }
         }
 
-        fetch(`https://student-dashboard.onrender.com:5050/graduation/course/${selectedDegree._id}/${selectedConcentration._id}/${selectedRequirement._id}/${selectedCourse._id}`, {
+        fetch(`https://student-dashboard.onrender.com/graduation/course/${selectedDegree._id}/${selectedConcentration._id}/${selectedRequirement._id}/${selectedCourse._id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
