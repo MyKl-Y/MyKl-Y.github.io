@@ -1,6 +1,6 @@
 import express from "express";
 //import cors from "cors";
-import "./loadEnvironment.mjs"
+//import "./loadEnvironment.mjs"
 import tasks from "./routes/task.mjs"
 import courses from "./routes/courses.mjs"
 import graduation from "./routes/graduation.mjs"
