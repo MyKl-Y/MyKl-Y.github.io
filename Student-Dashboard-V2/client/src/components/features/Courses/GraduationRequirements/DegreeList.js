@@ -31,7 +31,7 @@ const DegreeList = ({ selectedDegree }) => {
         if (selectedDegree) {
             setDegree(selectedDegree);
             setConcentrations(selectedDegree.concentrations);
-            fetch(`http://student-dashboard.onrender.com/graduation/courses/${selectedDegree._id}`)
+            fetch(`https://student-dashboard.onrender.com/graduation/courses/${selectedDegree._id}`)
             .then((response) => response.json())
             .then((data) => {
                 setAllCourses(data);
@@ -42,7 +42,7 @@ const DegreeList = ({ selectedDegree }) => {
 
     const handleConcentrationSubmit = () => {
         if (selectedDegree) {
-            fetch(`http://student-dashboard.onrender.com/graduation/concentration/${selectedDegree._id}`, {
+            fetch(`https://student-dashboard.onrender.com/graduation/concentration/${selectedDegree._id}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -59,7 +59,7 @@ const DegreeList = ({ selectedDegree }) => {
     };
     const handleRequirementSubmit = () => {
         if (selectedConcentration && selectedDegree) {
-            fetch(`http://student-dashboard.onrender.com/graduation/requirement/${selectedDegree._id}/${selectedConcentration}`, {
+            fetch(`https://student-dashboard.onrender.com/graduation/requirement/${selectedDegree._id}/${selectedConcentration}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -77,7 +77,7 @@ const DegreeList = ({ selectedDegree }) => {
 
     const handleCourseSubmit = () => {
         if (selectedDegree && selectedConcentration && selectedRequirement) {
-            fetch(`http://student-dashboard.onrender.com/graduation/course/${selectedDegree._id}/${selectedConcentration}/${selectedRequirement}`, {
+            fetch(`https://student-dashboard.onrender.com/graduation/course/${selectedDegree._id}/${selectedConcentration}/${selectedRequirement}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

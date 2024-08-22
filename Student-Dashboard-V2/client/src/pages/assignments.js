@@ -25,7 +25,7 @@ export default function Assignments() {
     useEffect(() => {
         if (!isLoggedIn) return;
         async function getAssignments() {
-            const response = await fetch(`http://student-dashboard.onrender.com/task/user/${userData.name}`);
+            const response = await fetch(`https://student-dashboard.onrender.com/task/user/${userData.name}`);
 
             if (!response.ok) {
                 const message = `An error occurred: ${response.statusText}`;
@@ -45,7 +45,7 @@ export default function Assignments() {
     }, [assignments.length, userData, isLoggedIn]);
 
     async function deleteAssignment(id) {
-        await fetch(`http://student-dashboard.onrender.com/task/${id}`, {
+        await fetch(`https://student-dashboard.onrender.com/task/${id}`, {
             method: "DELETE",
         });
 
@@ -54,7 +54,7 @@ export default function Assignments() {
     }
 
     const updateAssignment = (id, data) => {
-        fetch(`http://student-dashboard.onrender.com/task/${id}`, {
+        fetch(`https://student-dashboard.onrender.com/task/${id}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",

@@ -24,7 +24,7 @@ const RequirementComponent = ({ selectedDegree, selectedConcentration, onCreateR
             // You can use fetch or any other method you prefer
             // Update the URL as needed
             //selectedDegree.selectedConcentration = selectedDegree.concentrations[0];
-            fetch(`http://student-dashboard.onrender.com/graduation/requirement/${selectedDegree._id}/${selectedConcentration._id}`)
+            fetch(`https://student-dashboard.onrender.com/graduation/requirement/${selectedDegree._id}/${selectedConcentration._id}`)
                 .then((response) => response.json())
                 .then((data) => setRequirements(data[0].requirements))
                 .catch((error) => console.error(error));
@@ -36,8 +36,8 @@ const RequirementComponent = ({ selectedDegree, selectedConcentration, onCreateR
     const handleRequirementSubmit = () => {
         if (hasSelectedConcentration && hasSelectedDegree) {
             const url = editMode
-                ? `http://student-dashboard.onrender.com/graduation/requirement/${selectedDegree._id}/${selectedConcentration._id}/${requirementToEdit._id}`
-                : `http://student-dashboard.onrender.com/graduation/requirement/${selectedDegree._id}/${selectedConcentration._id}`;
+                ? `https://student-dashboard.onrender.com/graduation/requirement/${selectedDegree._id}/${selectedConcentration._id}/${requirementToEdit._id}`
+                : `https://student-dashboard.onrender.com/graduation/requirement/${selectedDegree._id}/${selectedConcentration._id}`;
             const method = editMode ? "PUT" : "POST";
             fetch(url, {
             method: method,
@@ -75,7 +75,7 @@ const RequirementComponent = ({ selectedDegree, selectedConcentration, onCreateR
     };
 
     const handleDelete = (requirementId) => {
-        fetch(`http://student-dashboard.onrender.com/graduation/requirement/${selectedDegree._id}/${selectedConcentration._id}/${requirementId}`, {
+        fetch(`https://student-dashboard.onrender.com/graduation/requirement/${selectedDegree._id}/${selectedConcentration._id}/${requirementId}`, {
             method: "DELETE",
         })
         .then((response) => response.json())

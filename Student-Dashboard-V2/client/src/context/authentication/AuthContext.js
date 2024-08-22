@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
         const token = localStorage.getItem("userData");
         
         try {
-            const response = await fetch(`http://student-dashboard.onrender.com/auth/account`, {
+            const response = await fetch(`https://student-dashboard.onrender.com/auth/account`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
