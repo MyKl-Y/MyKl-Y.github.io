@@ -14,7 +14,7 @@ const app = express();
 
 const allowedOrigins = [
     "http://localhost:3000",
-    "https://mykl-y.github.io"
+    "https://mykl-y.github.io/Student-Dashboard-V2/client"
 ];
 var corsOptions = function (req, callback) {
     var corsOptions;
