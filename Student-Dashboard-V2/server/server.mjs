@@ -18,15 +18,16 @@ const allowedOrigins = [
     "https://mykl-y.github.io/Student-Dashboard-V2",
     "https://mykl-y.github.io/Student-Dashboard-V2/client"
 ];
-var corsOptions = function (req, callback) {
-    var corsOptions;
-    if (allowedOrigins.indexOf(req.header('Origin')) !== -1) {
-        corsOptions = { origin: true }; // reflect (enable) the requested origin in the CORS response
-    } else {
-        corsOptions = { origin: false }; // disable CORS for this request
-    }
-    callback(null, corsOptions); // callback expects two parameters: error and options
-}
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true); // Allow the request if the origin is in the allowedOrigins list
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+    credentials: true, // Allow credentials like cookies, authorization headers, etc.
+};
 
 app.use(cors(corsOptions));
 app.use(express.json())
