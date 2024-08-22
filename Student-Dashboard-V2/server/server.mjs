@@ -13,7 +13,10 @@ const PORT = process.env.PORT || 5050;
 const app = express();
 
 const allowedOrigins = [
-    "https://mykl-y.github.io"
+    "https://mykl-y.github.io",
+    "https://student-dashboard.onrender.com",
+    "https://mykl-y.github.io/Student-Dashboard-V2",
+    "https://mykl-y.github.io/Student-Dashboard-V2/client"
 ];
 var corsOptions = function (req, callback) {
     var corsOptions;
@@ -27,7 +30,7 @@ var corsOptions = function (req, callback) {
 
 app.use(cors(corsOptions));
 app.use(express.json())
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/auth", auth);
 app.use("/task", tasks)
@@ -39,5 +42,5 @@ app.use("/jobs", jobs)
 
 // start the Express server
 app.listen(PORT, () => {
-    console.log(`server started at http://localhost:${PORT}`);
+    console.log(`server started`);
 });
