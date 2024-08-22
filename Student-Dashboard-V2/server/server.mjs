@@ -1,5 +1,5 @@
-import express from "express";
-import cors from "cors";
+const express = require("express");
+//import cors from "cors";
 import "./loadEnvironment.mjs"
 import tasks from "./routes/task.mjs"
 import courses from "./routes/courses.mjs"
@@ -12,13 +12,13 @@ import auth from "./routes/auth.mjs";
 const PORT = process.env.PORT || 5050;
 const app = express();
 
-const allowedOrigins = [
-    "https://mykl-y.github.io",
-    "https://mykl-y.github.io/",
-    "https://student-dashboard.onrender.com",
-    "https://mykl-y.github.io/Student-Dashboard-V2",
-    "https://mykl-y.github.io/Student-Dashboard-V2/client"
-];
+//const allowedOrigins = [
+//    "https://mykl-y.github.io",
+//    "https://mykl-y.github.io/",
+//    "https://student-dashboard.onrender.com",
+//    "https://mykl-y.github.io/Student-Dashboard-V2",
+//    "https://mykl-y.github.io/Student-Dashboard-V2/client"
+//];
 //var corsOptions = function (req, callback) {
 //    var corsOptions;
 //    if (allowedOrigins.indexOf(req.header('Origin')) !== -1) {
@@ -31,8 +31,7 @@ const allowedOrigins = [
 
 //app.use(cors(corsOptions));
 //app.use(cors());
-app.use(cors(corsOptions)); // Apply CORS before any routes are defined
-app.options('*', cors(corsOptions)); // Handle all OPTIONS preflight requests
+//app.use(cors());
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
