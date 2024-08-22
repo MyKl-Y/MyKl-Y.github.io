@@ -15,7 +15,6 @@ const app = express();
 //const allowedOrigins = [
 //    "https://mykl-y.github.io",
 //    "https://mykl-y.github.io/",
-//    "https://student-dashboard.onrender.com",
 //    "https://mykl-y.github.io/Student-Dashboard-V2",
 //    "https://mykl-y.github.io/Student-Dashboard-V2/client"
 //];

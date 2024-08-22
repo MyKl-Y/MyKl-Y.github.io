@@ -68,7 +68,7 @@ export default function CreateTask() {
     async function onSubmit(e) {
         e.preventDefault();
 
-        await fetch("https://student-dashboard.onrender.com:5050/task", {
+        await fetch("https://student-dashboard.onrender.com/task", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
