@@ -1,4 +1,4 @@
-const express = require("express");
+import express from "express";
 //import cors from "cors";
 import "./loadEnvironment.mjs"
 import tasks from "./routes/task.mjs"
@@ -31,7 +31,7 @@ const app = express();
 
 //app.use(cors(corsOptions));
 //app.use(cors());
-//app.use(cors());
+app.use(cors());
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
