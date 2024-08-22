@@ -22,7 +22,7 @@ export default function Applications() {
     useEffect(() => {
         if (!userData) return;
         async function getJobs() {
-            const response = await fetch(`https://student-dashboard.onrender.com/jobs/user/${userData.name}`);
+            const response = await fetch(`http://student-dashboard.onrender.com/jobs/user/${userData.name}`);
 
             if (!response.ok) {
                 const message = `An error occurred: ${response.statusText}`;
@@ -89,7 +89,7 @@ export default function Applications() {
     }
 
     async function deleteJob(id) {
-        await fetch(`https://student-dashboard.onrender.com/jobs/${id}`, {
+        await fetch(`http://student-dashboard.onrender.com/jobs/${id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",

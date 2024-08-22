@@ -27,7 +27,7 @@ const DegreeComponent = ({ onSelectDegree, selectedType }) => {
     useEffect(() => {
         if (!isLoggedIn) return;
         if (degrees.length === 0) {
-            fetch(`https://student-dashboard.onrender.com/graduation/degree/user/${userData.name}`)
+            fetch(`http://student-dashboard.onrender.com/graduation/degree/user/${userData.name}`)
                 .then((res) => res.json())
                 .then((data) => {
                     setDegrees(data);
@@ -38,8 +38,8 @@ const DegreeComponent = ({ onSelectDegree, selectedType }) => {
 
     const handleDegreeSubmit = () => {
         const url = editMode 
-            ? `https://student-dashboard.onrender.com/graduation/degree/${degreeToEdit._id}`
-            : "https://student-dashboard.onrender.com/graduation/degree";
+            ? `http://student-dashboard.onrender.com/graduation/degree/${degreeToEdit._id}`
+            : "http://student-dashboard.onrender.com/graduation/degree";
         const method = editMode ? "PUT" : "POST";
         fetch(url, {
             method: method,
@@ -81,7 +81,7 @@ const DegreeComponent = ({ onSelectDegree, selectedType }) => {
     };
 
     const handleDelete = (degreeId) => {
-        fetch(`https://student-dashboard.onrender.com/graduation/degree/${degreeId}`, {
+        fetch(`http://student-dashboard.onrender.com/graduation/degree/${degreeId}`, {
             method: "DELETE",
         })
             .then((res) => res.json())
@@ -193,7 +193,7 @@ const DegreeComponent = ({ onSelectDegree, selectedType }) => {
 
         // If the degree has changed, update it
         if (degreeUpdated) {
-            fetch(`https://student-dashboard.onrender.com/graduation/degree/${degree._id}`, {
+            fetch(`http://student-dashboard.onrender.com/graduation/degree/${degree._id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

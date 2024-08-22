@@ -38,7 +38,7 @@ function Courses() {
             if (!isLoggedIn) return;
             try {
                 if (courses.length === 0) {
-                    const response = await fetch(`https://student-dashboard.onrender.com/courses/user/${userData.name}`);
+                    const response = await fetch(`http://student-dashboard.onrender.com/courses/user/${userData.name}`);
                     if (!response.ok) {
                         throw new Error("Failed to fetch courses");
                     }
@@ -57,7 +57,7 @@ function Courses() {
     // Function to add a new course
     const addCourse = async (newCourse) => {
         try {
-            const response = await fetch("https://student-dashboard.onrender.com/courses", {
+            const response = await fetch("http://student-dashboard.onrender.com/courses", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -82,7 +82,7 @@ function Courses() {
     // Function to update an existing course
     const updateCourse = async (editedCourse) => {
         try {
-            const response = await fetch(`https://student-dashboard.onrender.com/courses/${editedCourse._id}`, {
+            const response = await fetch(`http://student-dashboard.onrender.com/courses/${editedCourse._id}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
@@ -116,7 +116,7 @@ function Courses() {
         setCourses(updatedCourses);
 
         // Make the DELETE request
-        fetch(`https://student-dashboard.onrender.com/courses/${courseId}`, {
+        fetch(`http://student-dashboard.onrender.com/courses/${courseId}`, {
             method: "DELETE",
         })
             .then((response) => response.json())

@@ -31,7 +31,7 @@ const Account = () => {
 
     const fetchUserData = useCallback(() => {
         if (!isLoggedIn) return;
-        fetch(`https://student-dashboard.onrender.com/auth/account/${userData.name}`)
+        fetch(`http://student-dashboard.onrender.com/auth/account/${userData.name}`)
             .then((response) => response.json())
             .then((data) => {
                 setCurrentUser({
@@ -51,7 +51,7 @@ const Account = () => {
 
     useEffect(() => {
         if (!isLoggedIn) return;
-        fetch(`https://student-dashboard.onrender.com/graduation/degree/user/${userData.name}`)
+        fetch(`http://student-dashboard.onrender.com/graduation/degree/user/${userData.name}`)
             .then((res) => res.json())
             .then((data) => {
                 const userMajors = 
@@ -74,7 +74,7 @@ const Account = () => {
                 fetchUserData();
             })
             .catch((error) => console.error(error));
-        fetch(`https://student-dashboard.onrender.com/courses/user/${userData.name}`)
+        fetch(`http://student-dashboard.onrender.com/courses/user/${userData.name}`)
             .then((res) => res.json())
             .then((data) => {
                 setCourses(data);
@@ -107,7 +107,7 @@ const Account = () => {
                 majors: selectedMajors,
                 minors: selectedMinors,
             }
-            await fetch(`https://student-dashboard.onrender.com/auth/account/${userData.name}`, {
+            await fetch(`http://student-dashboard.onrender.com/auth/account/${userData.name}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
