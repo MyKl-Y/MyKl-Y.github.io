@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 5050;
 const app = express();
 
 const allowedOrigins = [
-    "https://mykl-y.github.io/Student-Dashboard-V2/client/"
+    "https://mykl-y.github.io"
 ];
 var corsOptions = function (req, callback) {
     var corsOptions;
