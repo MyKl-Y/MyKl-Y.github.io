@@ -17,7 +17,7 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
 
     const fetchConcentrations = useCallback((degreeId) => {
         if (concentrations.length === 0) {
-            fetch(`http://localhost:5050/graduation/concentration/${degreeId}`)
+            fetch(`http://https://student-dashboard.onrender.com/graduation/concentration/${degreeId}`)
                 .then((response) => response.json())
                 .then((data) => {
                     setConcentrations(data[0].concentrations);
@@ -39,8 +39,8 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
     const handleConcentrationSubmit = () => {
         if (selectedDegree) {
             const url = editMode
-                ? `http://localhost:5050/graduation/concentration/${selectedDegree._id}/${concentrationToEdit._id}`
-                : `http://localhost:5050/graduation/concentration/${selectedDegree._id}`;
+                ? `http://https://student-dashboard.onrender.com/graduation/concentration/${selectedDegree._id}/${concentrationToEdit._id}`
+                : `http://https://student-dashboard.onrender.com/graduation/concentration/${selectedDegree._id}`;
             const method = editMode ? "PUT" : "POST";
             fetch(url, {
             method: method,
@@ -78,7 +78,7 @@ const ConcentrationComponent = ({ selectedDegree, onCreateConcentration, onSelec
     };
 
     const handleDelete = (concentrationId) => {
-        fetch(`http://localhost:5050/graduation/concentration/${selectedDegree._id}/${concentrationId}`, {
+        fetch(`http://https://student-dashboard.onrender.com/graduation/concentration/${selectedDegree._id}/${concentrationId}`, {
             method: "DELETE",
         })
         .then((response) => response.json())
