@@ -43,6 +43,6 @@ app.use("/jobs", jobs)
 //app.use("/update-field", updateField)
 
 // start the Express server
-app.listen(PORT, () => {
+app.listen(() => {
     console.log(`server started`);
 });
