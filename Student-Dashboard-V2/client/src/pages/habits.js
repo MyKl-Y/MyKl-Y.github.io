@@ -62,7 +62,7 @@ export default function Habits() {
     // This method fetches the records from the database.
     useEffect(() => {
         async function getHabits() {
-            const response = await fetch(`https://student-dashboard.onrender.com/task/user/${userData.name}`);
+            const response = await fetch(`https://student-dashboard.onrender.com:5050/task/user/${userData.name}`);
 
             if (!response.ok) {
                 const message = `An error occurred: ${response.statusText}`;
@@ -85,7 +85,7 @@ export default function Habits() {
     // This method will delete a task from the database.
     /*
     async function deleteHabit(id) {
-        await fetch(`https://student-dashboard.onrender.com/task/${id}`, {
+        await fetch(`https://student-dashboard.onrender.com:5050/task/${id}`, {
             method: "DELETE",
         });
 
@@ -119,7 +119,7 @@ export default function Habits() {
                     )
                 );
 
-                const response = await fetch(`https://student-dashboard.onrender.com/task/${habitId}`, {
+                const response = await fetch(`https://student-dashboard.onrender.com:5050/task/${habitId}`, {
                     method: "PATCH",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(
@@ -153,7 +153,7 @@ export default function Habits() {
 
                 habit.recurrence.push(hashmap);
 
-                const response = await fetch(`https://student-dashboard.onrender.com/task/${habitId}`, {
+                const response = await fetch(`https://student-dashboard.onrender.com:5050/task/${habitId}`, {
                     method: "PATCH",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(
