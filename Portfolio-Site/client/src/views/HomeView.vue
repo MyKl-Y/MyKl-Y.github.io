@@ -977,7 +977,7 @@ let commands_ran: { id: number, command: string, parameters: string[], path: str
 
 const user = 'Guest@' + window.location.toString().split('/')[2];
 const os = 'M.Y.O.S';
-const version = 'v2024.07';
+const version = 'v2024.12';
 let path: string = '/';
 let previousPath: string = '/';
 
@@ -1430,7 +1430,645 @@ async function fetchResumes() {
     const response = await Api.getResumes();
     resumes.value = response.data;
   } catch (error) {
-    console.error('Error fetching resumes:', error);
+    //console.error('Error fetching resumes:', error);
+    resumes.value = [
+  {
+    "education": {
+      "awards": [
+        "Deans List x6",
+        "Highest Honors"
+      ],
+      "courses": [
+        "Principles of Macroeconomics",
+        "Differential Calculus",
+        "Integral Calculus",
+        "Physics I: Kinematics",
+        "Physics II: Electromagnetism",
+        "Introduction to Object Oriented Programming",
+        "Computer Organization and Programming",
+        "Data Structures and Algorithms",
+        "Objects and Design",
+        "Linear Algebra",
+        "Statistics and Probability with Applications",
+        "Multivariable Calculus",
+        "Introduction to Database Systems",
+        "Design and Analysis of Algorithms",
+        "Digital System Design",
+        "Introduction to Signal Processing",
+        "Digital Design Lab",
+        "Programming Hardware and Software Systems",
+        "Architecture, Systems, Concurrency, and Energy",
+        "Fundamentals of Machine Learning",
+        "Differential Equations"
+      ],
+      "expected_grad_date": "2026-12",
+      "gpa": 3.85,
+      "location": "Atlanta, GA",
+      "major": [
+        {
+          "concentration": [
+            "Distributed System & Software Design",
+            "Signal Information Processing"
+          ],
+          "name": "Computer Engineering",
+          "type": "Bachelor of Science"
+        }
+      ],
+      "minors": [
+        "Robotics",
+        "Applications of Artificial Intelligence and Machine Learning"
+      ],
+      "school": "Georgia Institute of Technology"
+    },
+    "email": "M*********m@gmail.com",
+    "experience": [
+      {
+        "company": "The Home Depot",
+        "description": [
+          "Developed an Automated Utility: Created a Python script that extracts raw results from the NeoLoad Performance testing tool via the NeoLoad API. This script processes and refines the data into a CSV format.",
+          "Integrated with Google Cloud: Set up a Google Managed Prometheus (GMP) Pushgateway instance on a Kubernetes Engine cluster and a Google BigQuery dataset to receive metrics and data from the Python script.",
+          "Enhanced Visualization: Designed and configured Grafana dashboards to visualize performance metrics, providing a centralized tool for backend performance testing.",
+          "Streamlined CI/CD: Maintained continuous integration and deployment processes using GitHub Actions, ensuring seamless updates and improvements.",
+          "Comprehensive Documentation: Documented the utility and performance engineering processes, facilitating future use and enhancements by other developers.",
+          "Centralized Performance Testing Tool: Created a robust tool enabling software engineers to efficiently test backend performance from a unified platform, replacing the need for multiple disparate tools."
+        ],
+        "end": "2024-07-26",
+        "location": "Atlanta, GA",
+        "ongoing": false,
+        "role": "Software Engineer",
+        "start": "2024-05-13",
+        "type": "Intern"
+      }
+    ],
+    "id": 1,
+    "name": "Michael Y Yim",
+    "phone": "678-***-****",
+    "projects": [
+      {
+        "date": "2024-01",
+        "description": [
+          "Designed and developed an ergonomic keyboard using KiCad, optimizing for user comfort and efficiency. Flashed the firmware with Quantum Mechanical Keyboard (QMK) to enhance customizability and user experience."
+        ],
+        "link": "https://github.com/MyKl-Y/custom-ergo-keyboard",
+        "name": "Ergonomic Orthodox Keyboard",
+        "skills": [
+          "QMK",
+          "KiCAD",
+          "Circuit Design",
+          "Electrical Design"
+        ],
+        "type": "Keyboard"
+      },
+      {
+        "date": "2024-03",
+        "description": [
+          "Engineered a circuit for custom in-ear monitors equipped with a microphone and active noise cancellation, significantly improving audio quality and user immersion."
+        ],
+        "link": "",
+        "name": "In-Ear Monitors",
+        "skills": [
+          "Digital Signal Processing",
+          "Circuit Design",
+          "Electrical Design"
+        ],
+        "type": "Audio Hardware"
+      },
+      {
+        "date": "2024-03",
+        "description": [
+          "Created a high-fidelity sound amplifier circuit featuring a detachable digital-to-analog converter (DAC), providing exceptional audio performance and versatility for audiophiles."
+        ],
+        "link": "",
+        "name": "Headphone Amplifier with DAC",
+        "skills": [
+          "Digital Signal Processing",
+          "Circuit Design",
+          "Electrical Design"
+        ],
+        "type": "Audio Hardware"
+      },
+      {
+        "date": "Ongoing",
+        "description": [
+          "Designed a high-fidelity audio player circuit, compatible with custom headphone amplifiers and in-ear monitors. Currently developing an embedded system with a bespoke Hi-Fi music application for superior audio playback."
+        ],
+        "link": "",
+        "name": "High-Fidelity Audio Player",
+        "skills": [
+          "KiCAD",
+          "Digital Signal Processing",
+          "Circuit Design",
+          "Electrical Design",
+          "Systems Engineering"
+        ],
+        "type": "Mobile Hardware"
+      },
+      {
+        "date": "Ongoing",
+        "description": [
+          "Developing a high-resolution, lossless audio music playing operating system tailored for a custom audio player, aimed at delivering audiophile-grade sound quality and user satisfaction."
+        ],
+        "link": "",
+        "name": "High-Fidelity Lossless Music System",
+        "skills": [
+          "Systems Engineering",
+          "Software Engineering",
+          "C++"
+        ],
+        "type": "Embedded System"
+      },
+      {
+        "date": "2023-05",
+        "description": [
+          "Integrated Spotify, LastFM, and iTunes APIs using Java and JavaFX to create a comprehensive music exploration tool, enabling seamless discovery and exploration of new music tracks and artists."
+        ],
+        "link": "https://github.com/MyKl-Y/cs1302-api",
+        "name": "Music Explorer Application",
+        "skills": [
+          "Java",
+          "JavaFX",
+          "Software Engineering"
+        ],
+        "type": "Desktop Application"
+      },
+      {
+        "date": "2024-04",
+        "description": [
+          "Developed an Android application leveraging the Spotify API, OpenAI API, and Firebase to provide year-round Spotify wrapped summaries. This tool allows users to track, share, and compare their top music with friends throughout the year."
+        ],
+        "link": "https://sites.google.com/view/2340wrapitup/wrap-it-up",
+        "name": "Wrap it Up",
+        "skills": [
+          "Java",
+          "Android Studio",
+          "Software Engineering"
+        ],
+        "type": "Mobile Application"
+      },
+      {
+        "date": "2023-09",
+        "description": [
+          "Created a Java and JavaFX desktop application for tracking daily nutrition intake, enhancing user adherence to dietary goals with intuitive tracking features and personalized recommendations."
+        ],
+        "link": "https://github.com/alexpbb/NutritionTracker",
+        "name": "Nutrition Tracker",
+        "skills": [
+          "Java",
+          "JavaFX",
+          "Software Engineering"
+        ],
+        "type": "Desktop Application"
+      },
+      {
+        "date": "2024-07",
+        "description": [
+          "Built a centralized academic tracking platform using MongoDB, Express.js, Node.js, React.js, and Bootstrap. This tool has improved students organizational efficiency by providing a comprehensive overview of their academic progress and deadlines."
+        ],
+        "link": "https://github.com/MyKl-Y/MyKl-Y.github.io/tree/main/Student-Dashboard-V2",
+        "name": "Student Dashboard",
+        "skills": [
+          "JavaScript",
+          "MongoDB",
+          "Express",
+          "Node",
+          "React",
+          "Material UI",
+          "Software Engineering",
+          "Data Science",
+          "Framer Motion",
+          "Styled Components",
+          "Python",
+          "BeautifulSoup",
+          "Flask"
+        ],
+        "type": "Web Application"
+      },
+      {
+        "date": "2023-05",
+        "description": [
+          "Designed and programmed a graphical adventure game in C++ with SDL, demonstrating advanced skills in game development, including game logic, graphics rendering, and user interaction."
+        ],
+        "link": "",
+        "name": "Adventure Game",
+        "skills": [
+          "C++",
+          "SDL",
+          "OpenGL"
+        ],
+        "type": "Video Game"
+      },
+      {
+        "date": "2024-01",
+        "description": [
+          "Developed an ASCII styled roguelike game in Python, showcasing proficiency in advanced programming techniques, basic artificial intelligence, and creative problem-solving abilities in game design."
+        ],
+        "link": "https://github.com/MyKl-Y/RogueLikeGame",
+        "name": "Rogue-Like Game",
+        "skills": [
+          "Python",
+          "TCOD"
+        ],
+        "type": "Video Game"
+      },
+      {
+        "date": "2024-05",
+        "description": [
+          "Created a clone of the classic Asteroids arcade game for the GameBoy Advanced, utilizing advanced C programming skills and a deep understanding of ARM processor architecture to replicate the games mechanics and performance."
+        ],
+        "link": "",
+        "name": "Asteroids Game",
+        "skills": [
+          "C"
+        ],
+        "type": "Game Boy Advance Video Game"
+      }
+    ],
+    "skills": {
+      "hard_skills": {
+        "cloud": [
+          {
+            "name": "AWS",
+            "proficiency": 80
+          },
+          {
+            "name": "GCP",
+            "proficiency": 85
+          },
+          {
+            "name": "Azure",
+            "proficiency": 75
+          }
+        ],
+        "database": [
+          {
+            "name": "SQLite",
+            "proficiency": 75
+          },
+          {
+            "name": "MySQL",
+            "proficiency": 80
+          },
+          {
+            "name": "BigQuery",
+            "proficiency": 85
+          },
+          {
+            "name": "MongoDB",
+            "proficiency": 80
+          },
+          {
+            "name": "Prometheus",
+            "proficiency": 70
+          },
+          {
+            "name": "Firebase",
+            "proficiency": 75
+          }
+        ],
+        "frameworks": [
+          {
+            "name": "Flask",
+            "proficiency": 80
+          },
+          {
+            "name": "Django",
+            "proficiency": 75
+          },
+          {
+            "name": "PyTorch",
+            "proficiency": 70
+          },
+          {
+            "name": "TensorFlow",
+            "proficiency": 70
+          },
+          {
+            "name": "Spring Boot",
+            "proficiency": 75
+          },
+          {
+            "name": "React",
+            "proficiency": 80
+          },
+          {
+            "name": "Vue",
+            "proficiency": 70
+          },
+          {
+            "name": "Express",
+            "proficiency": 80
+          },
+          {
+            "name": "Angular",
+            "proficiency": 65
+          },
+          {
+            "name": "Node",
+            "proficiency": 80
+          },
+          {
+            "name": "Bootstrap",
+            "proficiency": 75
+          },
+          {
+            "name": "Tailwind",
+            "proficiency": 70
+          },
+          {
+            "name": "Sass",
+            "proficiency": 70
+          }
+        ],
+        "languages": [
+          {
+            "name": "Java",
+            "proficiency": 90
+          },
+          {
+            "name": "C",
+            "proficiency": 85
+          },
+          {
+            "name": "C++",
+            "proficiency": 85
+          },
+          {
+            "name": "R",
+            "proficiency": 70
+          },
+          {
+            "name": "Python",
+            "proficiency": 95
+          },
+          {
+            "name": "JavaScript",
+            "proficiency": 80
+          },
+          {
+            "name": "TypeScript",
+            "proficiency": 75
+          },
+          {
+            "name": "HTML",
+            "proficiency": 80
+          },
+          {
+            "name": "CSS",
+            "proficiency": 75
+          },
+          {
+            "name": "Kotlin",
+            "proficiency": 65
+          },
+          {
+            "name": "Go",
+            "proficiency": 60
+          },
+          {
+            "name": "SQL",
+            "proficiency": 85
+          },
+          {
+            "name": "GraphQL",
+            "proficiency": 70
+          },
+          {
+            "name": "Bash",
+            "proficiency": 80
+          },
+          {
+            "name": "MATLAB",
+            "proficiency": 65
+          }
+        ],
+        "libraries": [
+          {
+            "name": "JavaFX",
+            "proficiency": 70
+          },
+          {
+            "name": "OpenGL",
+            "proficiency": 65
+          },
+          {
+            "name": "Pandas",
+            "proficiency": 85
+          },
+          {
+            "name": "NumPy",
+            "proficiency": 85
+          },
+          {
+            "name": "Matplotlib",
+            "proficiency": 80
+          },
+          {
+            "name": "BeautifulSoup",
+            "proficiency": 75
+          },
+          {
+            "name": "OpenCV",
+            "proficiency": 70
+          },
+          {
+            "name": "jQuery",
+            "proficiency": 70
+          },
+          {
+            "name": "Framer Motion",
+            "proficiency": 65
+          },
+          {
+            "name": "Styled Components",
+            "proficiency": 100
+          },
+          {
+            "name": "Material UI",
+            "proficiency": 85
+          }
+        ],
+        "operating_systems": [
+          {
+            "name": "Linux",
+            "proficiency": 85
+          },
+          {
+            "name": "Windows",
+            "proficiency": 80
+          },
+          {
+            "name": "Mac",
+            "proficiency": 75
+          }
+        ],
+        "software": [
+          {
+            "name": "Microsoft Office Suite",
+            "proficiency": 90
+          },
+          {
+            "name": "Adobe Suite",
+            "proficiency": 75
+          },
+          {
+            "name": "VS Code",
+            "proficiency": 95
+          },
+          {
+            "name": "Jupyter Notebooks",
+            "proficiency": 75
+          },
+          {
+            "name": "JetBrains",
+            "proficiency": 85
+          },
+          {
+            "name": "Android Studio",
+            "proficiency": 90
+          },
+          {
+            "name": "Emacs",
+            "proficiency": 65
+          },
+          {
+            "name": "Vim",
+            "proficiency": 70
+          },
+          {
+            "name": "AutoCAD",
+            "proficiency": 60
+          },
+          {
+            "name": "KiCAD",
+            "proficiency": 70
+          },
+          {
+            "name": "QMK",
+            "proficiency": 70
+          },
+          {
+            "name": "Unreal Engine",
+            "proficiency": 60
+          },
+          {
+            "name": "Unity",
+            "proficiency": 65
+          },
+          {
+            "name": "Figma",
+            "proficiency": 80
+          }
+        ],
+        "techniques": [
+          {
+            "name": "Circuit Design",
+            "proficiency": 60
+          },
+          {
+            "name": "Electrical Design",
+            "proficiency": 55
+          },
+          {
+            "name": "Automation",
+            "proficiency": 70
+          },
+          {
+            "name": "Test Engineering",
+            "proficiency": 70
+          },
+          {
+            "name": "Performance Engineering",
+            "proficiency": 75
+          },
+          {
+            "name": "Cloud Computing",
+            "proficiency": 55
+          },
+          {
+            "name": "Software Engineering",
+            "proficiency": 80
+          },
+          {
+            "name": "Data Science",
+            "proficiency": 60
+          },
+          {
+            "name": "System Engineering",
+            "proficiency": 45
+          },
+          {
+            "name": "Distributed Computing",
+            "proficiency": 50
+          },
+          {
+            "name": "Digital Signal Processing",
+            "proficiency": 45
+          }
+        ],
+        "tools": [
+          {
+            "name": "Git",
+            "proficiency": 85
+          },
+          {
+            "name": "Docker",
+            "proficiency": 80
+          },
+          {
+            "name": "Kubernetes",
+            "proficiency": 75
+          },
+          {
+            "name": "Tableau",
+            "proficiency": 70
+          },
+          {
+            "name": "PowerBI",
+            "proficiency": 70
+          },
+          {
+            "name": "Grafana",
+            "proficiency": 75
+          },
+          {
+            "name": "NeoLoad",
+            "proficiency": 70
+          },
+          {
+            "name": "Postman",
+            "proficiency": 80
+          },
+          {
+            "name": "3D-Printing",
+            "proficiency": 60
+          },
+          {
+            "name": "Oscilloscope",
+            "proficiency": 50
+          },
+          {
+            "name": "Multimeter",
+            "proficiency": 55
+          },
+          {
+            "name": "Soldering Iron",
+            "proficiency": 75
+          }
+        ]
+      },
+      "soft_skills": [
+        "Communication",
+        "Teamwork",
+        "Problem-solving",
+        "Project Planning",
+        "Project Management",
+        "Time Management",
+        "Adaptability"
+      ]
+    },
+    "summary": "N/A"
+  }
+];
   }
 }
 

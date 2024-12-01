@@ -13,6 +13,7 @@ export interface Skills {
         libraries: Skill[];
         operating_systems: Skill[];
         software: Skill[];
+        techniques: Skill[];
     };
     soft_skills: string[];
 }
